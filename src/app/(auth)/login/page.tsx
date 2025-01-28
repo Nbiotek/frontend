@@ -10,7 +10,6 @@ import { FormInput } from "@/components/ui/form-input"
 import { GoogleIcon, FacebookIcon, AppleIcon } from "@/lib/utils/svg"
 
 
-
 // importing ui components
 import {
   Card,
@@ -139,7 +138,6 @@ export default function LoginPage() {
           <Text variant="small" color="warning_cr" weight="light" align="center" className="w-full mt-5 text-gray_light"> Don’t want to sign in yet? <span className="text-blue-300 font-normal">Explore</span></Text>
         </CardFooter>
       </Card>
-
     </>
 
   )
