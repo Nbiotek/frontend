@@ -30,6 +30,21 @@ class Routes {
     'Create Account page for Nbiotek'
   );
   LOGIN = new Route('/auth/login', 'Login', 'Login page');
+  PATIENT_REG_INFO = new Route(
+    '/auth/register/p',
+    'Patient Personal Info Reg.',
+    'Personal Info Page'
+  );
+  PATIENT_REG_CONTACT = new Route(
+    '/auth/register/p/c',
+    'Patient Contact Info Reg.',
+    'Contact Info Page'
+  );
+  PATIENT_REG_INSURANCE = new Route(
+    '/auth/register/p/i',
+    'Patient Insurance Info Reg.',
+    'Insurance Info Page'
+  );
 
   // patient
   PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');

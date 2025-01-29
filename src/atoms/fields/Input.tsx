@@ -53,7 +53,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
               {note && (
                 <small className="text-xs text-typeGray transition-all duration-300">{note}</small>
               )}
-              {!note && <div className="invisible text-xs"></div>}
+              {!note && <div className="invisible text-xs">error</div>}
               {child && child}
             </>
           )}
