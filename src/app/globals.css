@@ -8,7 +8,7 @@ body {
 
 @layer components {
   .button {
-    @apply font-grotesk flex cursor-pointer items-center justify-center text-sm;
+    @apply flex cursor-pointer items-center justify-center font-roboto text-sm;
     @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
   }
   .button-filled {
@@ -16,11 +16,11 @@ body {
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-transparent {
-    @apply bg-bgGray hover:bg-bgGray/50 border-none text-black;
+    @apply border-none bg-bgGray text-black hover:bg-bgGray/50;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-outlined {
-    @apply border-borderLine border bg-white text-black hover:border-blue-500 hover:shadow;
+    @apply border border-borderLine bg-white text-black hover:border-blue-500 hover:shadow;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-light {

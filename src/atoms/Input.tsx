@@ -33,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div
-        className={`font-grotesk flex flex-col ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
+        className={`flex flex-col font-roboto ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
       >
         {label && (
           <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
@@ -45,9 +45,9 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
             {...{ ref, required, placeholder, id: props.id ?? props.name }}
             type={type === 'password' ? (showPass ? 'text' : 'password') : type}
             placeholder={placeholder}
-            className={`border-borderLine h-[45px] rounded-lg border-[1px] pl-4 text-sm outline-none transition-all duration-300 placeholder:text-sm hover:border-black focus:border-black ${
+            className={`h-[45px] rounded-lg border-[1px] border-borderLine pl-4 text-sm outline-none transition-all duration-300 placeholder:text-sm hover:border-black focus:border-black ${
               error ? 'border-error bg-errorBg' : ''
-            } disabled:focus:border-neutral-borderLine disabled:hover:border-borderLine disabled:cursor-not-allowed disabled:text-neutral-300`}
+            } disabled:focus:border-neutral-borderLine disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:border-borderLine`}
             {...props}
           />
 
