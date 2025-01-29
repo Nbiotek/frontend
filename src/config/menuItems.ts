@@ -18,38 +18,51 @@ import {
   Microscope,
   FileCog
 } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
+import { EnumRole } from '@/constants/mangle';
+import ROUTES from '@/constants/routes';
 
-import { MenuItem, UserRole } from '@/types/navigation';
+export type UserRole = 'patient';
 
-export const menuConfig: Record<UserRole, MenuItem[]> = {
-  patient: [
+export interface MenuItem {
+  title: string;
+  url?: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  submenu?: Array<{
+    title: string;
+    url: string;
+  }>;
+}
+
+export const menuConfig: Record<string, MenuItem[]> = {
+  [EnumRole.PATIENT]: [
     {
-      title: 'Dashboard',
-      url: '/patient/dashboard',
+      title: ROUTES.PATIENT.title,
+      url: ROUTES.PATIENT.path,
       isActive: true,
       icon: Home
     },
     {
-      title: 'Personal Info',
-      url: '/patient/appointments',
+      title: ROUTES.PATIENT_INFO.title,
+      url: ROUTES.PATIENT_INFO.path,
       icon: User
     },
     {
-      title: 'Appointment',
-      url: '/patient/appointments',
+      title: 'Appointments',
       icon: CalendarClock,
       submenu: [
         {
-          title: 'Upcoming Appointment',
-          url: '/patient/upcoming-appointments'
+          title: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.path
         },
         {
-          title: 'Book Appointmentt',
-          url: '/patient/book-appointments'
+          title: ROUTES.PATIENT_BOOK_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_BOOK_APPOINTMENTS.path
         },
         {
-          title: 'Past Appointmentt',
-          url: '/patient/past-appointments'
+          title: ROUTES.PATIENT_PAST_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
         }
       ]
     },
@@ -59,17 +72,17 @@ export const menuConfig: Record<UserRole, MenuItem[]> = {
       submenu: [
         {
           title: 'Available Test',
-          url: '/patient/upcoming-appointments'
+          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
         },
         {
           title: 'Pending Test',
-          url: '/patient/book-appointments'
+          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
         }
       ]
     },
     {
       title: 'Test Results',
-      url: '/patient/result',
+      url: ROUTES.PATIENT_PAST_APPOINTMENTS.path,
       icon: NotepadText
     }
   ]

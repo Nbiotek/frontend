@@ -19,7 +19,7 @@ export function NavMain({ items }: { items: MenuItem[] }) {
   return (
     <SidebarGroup className="">
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
-      <SidebarMenu className="gap-3">
+      <SidebarMenu className="">
         {items.map((item, index) =>
           !item.submenu ? (
             <>
