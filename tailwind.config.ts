@@ -18,11 +18,11 @@ export default {
       typeGray: '#747F86',
       borderLine: '#DEE2E9',
       blue: {
+        50: '#78B2FF',
         100: '#78B2FF',
         200: '#358BFF',
         300: '#0067F0',
-        400: '#004AAD',
-        500: '#78B2FF'
+        400: '#004AAD'
       },
       green: {
         100: '#C3E5C4',
