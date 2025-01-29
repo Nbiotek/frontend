@@ -23,16 +23,17 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 import { NavMain } from './nav-main';
+import { EnumRole } from '@/constants/mangle';
 
 export function AppSidebar() {
-  const user = 'patient';
-  const menuItems = menuConfig[user];
+  const role = EnumRole.PATIENT;
+  const menuItems = menuConfig[role];
 
   return (
     <>
       {/* <SidebarTrigger /> */}
-      <Sidebar className="mt-[20px] border-none shadow-xl">
-        <SidebarHeader className="mt-6">
+      <Sidebar className="border-none shadow-xl">
+        <SidebarHeader>
           <Image src="/logo.svg" alt="Logo" width={164} height={69} />
         </SidebarHeader>
         <SidebarContent className=" ">
