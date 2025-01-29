@@ -6,54 +6,37 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-:root{
- --primary-100: #78B2FF;
- --primary-200: #358BFF;
- --primary-300: #0067F0;
- --primary-400: #004AAD;
- --primary-500: #78B2FF;
+@layer components {
+  .button {
+    @apply font-roboto flex cursor-pointer items-center justify-center text-sm;
+    @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
+  }
+  .button-filled {
+    @apply border-none bg-blue-400 text-white hover:opacity-80;
+    @apply h-[45px] w-full rounded-lg border font-medium;
+  }
+  .button-transparent {
+    @apply bg-bgGray hover:bg-bgGray/50 border-none text-black;
+    @apply h-[45px] w-full rounded-lg border font-medium;
+  }
+  .button-outlined {
+    @apply border-borderLine border bg-white text-black hover:border-blue-400 hover:shadow;
+    @apply h-[45px] w-full rounded-lg border font-medium;
+  }
+  .button-light {
+    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400/50 hover:text-white;
+    @apply h-[45px] w-full rounded-lg border font-medium;
+  }
+  .button-underlined {
+    @apply flex w-fit items-center justify-start space-x-1 border-b border-blue-400 px-2 py-1 ease-in-out;
+    @apply text-sm text-blue-400 transition-all duration-300 hover:bg-blue-400 hover:text-white;
+  }
 
-
- --secondary-100: #C3E5C4;
- --secondary-200: #87CB89;
- --secondary-300: #4CAF50;
- --secondary-400: #3B883E;
- --secondary-500: #2A602C;
-
-
- --accent-100: #FFB7B0;
- --accent-200: #FF6F61;
- --accent-300: #FF3320;
- --accent-400: #DD1400;
- --accent-500: #DD1400;
-
-
- --error-100: #FDB2BF;
- --error-200: #FA657E;
- --error-300: #F8183E;
- --error-400: #CC0628;
- --error-500: #90041C;
- --error-alpha: rgba(248, 24, 62, 0.10);
- 
- --neutral-100: #E8E8E8;
- --neutral-200: #D1D1D1;
- --neutral-300: #B9B9B9;
- --neutral-400: #B9B9B9;
- --neutral-500: #8B8B8B;
- --neutral-600: #747474;
- --neutral-700: #464646;
- --neutral-1000: #171717;
-
- --input: #f0f0f0;
-
- --gray-light: #666666;
-
-
-
- --white: #ffff;
-
+  .button-danger {
+    @apply border-none bg-error-500 text-white hover:opacity-80;
+    @apply h-[45px] w-full rounded-lg border font-medium;
+  }
 }
-
 
 @layer base {
   :root {
