@@ -9,26 +9,11 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
   error?: string;
   note?: string;
-  loading?: boolean;
-  loading_checks?: string;
+  child?: ReactNode;
 }
 
 const Input = forwardRef<HTMLInputElement, IInputProps>(
-  (
-    {
-      placeholder,
-      label,
-      error,
-      required,
-      className,
-      type,
-      loading,
-      loading_checks,
-      note,
-      ...props
-    },
-    ref
-  ) => {
+  ({ placeholder, label, error, required, className, type, child, note, ...props }, ref) => {
     const [showPass, setShowPass] = useState(false);
 
     return (
@@ -40,54 +25,36 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
             {label}
           </label>
         )}
-        <div className="relative mb-1 flex w-full flex-col">
+        <div className="relative flex w-full flex-col">
           <input
             {...{ ref, required, placeholder, id: props.id ?? props.name }}
             type={type === 'password' ? (showPass ? 'text' : 'password') : type}
             placeholder={placeholder}
-            className={`h-[45px] rounded-lg border-[1px] border-borderLine pl-4 text-sm outline-none transition-all duration-300 placeholder:text-sm hover:border-black focus:border-black ${
-              error ? 'border-error bg-errorBg' : ''
-            } disabled:focus:border-neutral-borderLine disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:border-borderLine`}
+            className={`peer h-[45px] rounded-lg bg-neutral-50 pl-4 text-sm outline-none ring-1 ring-transparent transition-all duration-300 placeholder:text-sm focus:ring-blue-400 ${
+              error ? 'bg-red-100/50 ring-red-200' : ''
+            } disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:ring-borderLine disabled:focus:ring-borderLine`}
             {...props}
           />
 
-          <div className="absolute right-1 -translate-x-1/2 translate-y-1/2">
+          <div className="absolute right-1 -translate-x-1/2 translate-y-1/2 text-neutral-200 peer-focus:text-black">
             {type === 'password' && (
               <div onClick={() => setShowPass(!showPass)} className="cursor-pointer">
                 {showPass ? <PiEyeLight className="text-xl" /> : <PiEyeSlash className="text-xl" />}
               </div>
             )}
-
-            {loading ? (
-              <ClipLoader
-                color="#E83289"
-                size={10}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            ) : (
-              <>
-                {loading_checks === 'available' && (
-                  <GoCheckCircleFill className="text-progressGreen rounded-full bg-white text-xl" />
-                )}
-
-                {loading_checks === 'unavailable' && (
-                  <RiErrorWarningFill className="text-error rounded-full bg-white text-xl" />
-                )}
-              </>
-            )}
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex h-auto min-h-[10px] items-center justify-between">
           {error ? (
-            <small className="text-error text-xs transition-all duration-300">{error}</small>
+            <small className="text-xs text-red-200 transition-all duration-300">{error}</small>
           ) : (
             <>
               {note && (
                 <small className="text-xs text-typeGray transition-all duration-300">{note}</small>
               )}
-              {!note && <div className="invisible text-xs">error</div>}
+              {!note && <div className="invisible text-xs"></div>}
+              {child && child}
             </>
           )}
         </div>
