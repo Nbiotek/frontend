@@ -8,7 +8,7 @@ interface CardProps {
 
 const CardMetrics = ({ title, value, icon }: CardProps) => {
   return (
-    <div className="flex w-[239px] items-center justify-between rounded-lg bg-white p-4 shadow-lg">
+    <div className="flex w-full items-center justify-between rounded-lg bg-white p-4 shadow-lg lg:w-[239px]">
       <div className="space-y-2">
         <Text variant="body" weight="light">
           {title}
