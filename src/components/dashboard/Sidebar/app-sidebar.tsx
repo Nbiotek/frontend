@@ -31,7 +31,6 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* <SidebarTrigger /> */}
       <Sidebar className="border-none shadow-xl">
         <SidebarHeader>
           <Image src="/logo.svg" alt="Logo" width={164} height={69} />
