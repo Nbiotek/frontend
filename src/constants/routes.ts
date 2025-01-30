@@ -45,21 +45,21 @@ class Routes {
   );
 
   // patient
-  PATIENT = new Route('/patient', 'Nbiotek | Patient Dashboard', 'Patient Dashboard Page');
-  PATIENT_INFO = new Route('/patient/info', 'Nbiotek | Patient Info', 'Patient Info Page');
+  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');
+  PATIENT_INFO = new Route('/patient/info', 'Info', 'Patient Info Page');
   PATIENT_UPCOMING_APPOINTMENTS = new Route(
     '/patient/appointment/upcoming',
-    'Nbiotek | Upcoming Appointment',
+    'Upcoming',
     'Patient appointment upcoming page'
   );
   PATIENT_BOOK_APPOINTMENTS = new Route(
     '/patient/appointment/booking',
-    'Nbiotek | Book Appointment',
+    'Book',
     'Patient appointment booking page'
   );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
-    'Nbiotek | Past Appointment',
+    'Past',
     'Patient appointment past page'
   );
   PATIENT_TEST = new Route(
@@ -69,12 +69,12 @@ class Routes {
   );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
-    'Nbiotek | Available test',
+    'Available',
     'Patient test available'
   );
   PATIENT_PENDING_TEST = new Route(
     '/patient/test/pending',
-    'Nbiotek | Pending Test',
+    'Pending',
     'Patient test available page'
   );
 }

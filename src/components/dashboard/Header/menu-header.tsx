@@ -34,8 +34,8 @@ const MenuHeader = () => {
   console.log('Is collapsed:', isCollapsed);
 
   return (
-    <div className="mx-1 w-full bg-white p-2 shadow-lg  ">
-      <div className="flexBetween w-full max-w-[1400px]">
+    <div className="w-full border border-r bg-white p-2 shadow-lg">
+      <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
           {isCollapsed ? (
             <button onClick={toggleSidebar}>
@@ -53,7 +53,7 @@ const MenuHeader = () => {
             </Text>
           </div>
         </div>
-        <div className="mr-20 hidden w-[261px] items-center justify-between md:flex">
+        <div className="hidden w-[261px] items-center justify-between md:flex">
           <Bell size={32} color="#4044A7" />
           <Settings size={32} color="#4044A7" />
           <div className="flex items-center gap-2">
