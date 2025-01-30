@@ -71,11 +71,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: TestTubeDiagonal,
       submenu: [
         {
-          title: 'Available Test',
+          title: 'Available',
           url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
         },
         {
-          title: 'Pending Test',
+          title: 'Pending',
           url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
         }
       ]

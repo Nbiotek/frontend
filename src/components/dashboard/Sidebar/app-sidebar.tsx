@@ -30,15 +30,13 @@ export function AppSidebar() {
   const menuItems = menuConfig[role];
 
   return (
-    <>
-      <Sidebar className="border-none shadow-xl">
-        <SidebarHeader>
-          <Image src="/logo.svg" alt="Logo" width={164} height={69} />
-        </SidebarHeader>
-        <SidebarContent className=" ">
-          <NavMain items={menuItems} />
-        </SidebarContent>
-      </Sidebar>
-    </>
+    <Sidebar className="border-none shadow-xl">
+      <SidebarHeader>
+        <Image src="/logo.svg" alt="Logo" width={164} height={69} />
+      </SidebarHeader>
+      <SidebarContent className=" ">
+        <NavMain items={menuItems} />
+      </SidebarContent>
+    </Sidebar>
   );
 }
