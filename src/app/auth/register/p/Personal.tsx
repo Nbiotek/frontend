@@ -5,6 +5,8 @@ import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
+import InputSelect from '@/atoms/fields/InputSelect';
+import { gender, maritalStatus } from '@/constants/data';
 
 export default function PersonalForm() {
   const router = useRouter();
@@ -45,24 +47,17 @@ export default function PersonalForm() {
               label="Phone Number"
               placeholder="08123456789"
             />
-            <Input
-              className="md:mb-0 md:w-[50%]"
-              type="text"
+            <InputSelect
+              className="md:w-[50%]"
               id="marital_status"
               label="Marital status"
-              placeholder="Single"
+              items={maritalStatus}
             />
           </div>
 
           <div className="">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="gender"
-                label="Gender"
-                placeholder="Male"
-              />
+              <InputSelect className="md:w-[50%]" id="gender" label="Gender" items={gender} />
               <Input
                 className="md:mb-0 md:w-[50%]"
                 type="text"

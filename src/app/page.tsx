@@ -1,5 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+import ROUTES from '@/constants/routes';
+
+const { title, description } = ROUTES.HOME;
+
+export const metadata: Metadata = { title, description };
 
 export default function Home() {
   return (

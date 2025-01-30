@@ -15,7 +15,6 @@ export default function ContactForm() {
 
         <fieldset className="">
           <Input
-            className="mb-1"
             type="email"
             id="emailAddress"
             label="Home address"

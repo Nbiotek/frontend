@@ -14,65 +14,67 @@ class Route {
 
 class Routes {
   // landing
-  HOME = new Route('/', 'Home', 'Home page - Nbiotek');
-  ABOUT = new Route('/about', 'About - Nbiotek', 'About page of Nbiotek.');
-  FAQS = new Route('/faqs', 'FAQs - Nbiotek', 'Nbiotek frequently asked questions');
+  HOME = new Route('/', 'Nbiotek | Home', 'Home');
+  ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
+  FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');
   PRIVACY_POLICY = new Route(
     '/privacy-policy',
-    'Privacy Policy - Nbiotek',
-    'Nbiotek Privacy Policy'
+    'Nbiotek Privacy Policy',
+    'Privacy Policy - Nbiotek'
   );
 
   // auth
-  REGISTER = new Route(
-    '/auth/register',
-    'Create Account - Nbiotek',
-    'Create Account page for Nbiotek'
-  );
-  LOGIN = new Route('/auth/login', 'Login', 'Login page');
+  REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
+  LOGIN = new Route('/auth/login', 'NbioTek | Login page', 'Login');
+  OTP = new Route('/auth/otp', 'NbioTek | One Time Password (OTP)', 'One Time Password (OTP)');
+
   PATIENT_REG_INFO = new Route(
     '/auth/register/p',
-    'Patient Personal Info Reg.',
-    'Personal Info Page'
+    'NbioTek | Personal Info',
+    'Patient Personal Info Reg.'
   );
   PATIENT_REG_CONTACT = new Route(
     '/auth/register/p/c',
     'Patient Contact Info Reg.',
-    'Contact Info Page'
+    'NbioTek | Contact Info'
   );
   PATIENT_REG_INSURANCE = new Route(
     '/auth/register/p/i',
-    'Patient Insurance Info Reg.',
-    'Insurance Info Page'
+    'NbioTek | Insurance Info',
+    'Patient Insurance Info Reg.'
   );
 
   // patient
-  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');
-  PATIENT_INFO = new Route('/patient/info', 'Patient Info', 'Patient Info Page');
+  PATIENT = new Route('/patient', 'Nbiotek | Patient Dashboard', 'Patient Dashboard Page');
+  PATIENT_INFO = new Route('/patient/info', 'Nbiotek | Patient Info', 'Patient Info Page');
   PATIENT_UPCOMING_APPOINTMENTS = new Route(
     '/patient/appointment/upcoming',
-    'Upcoming Appointment',
+    'Nbiotek | Upcoming Appointment',
     'Patient appointment upcoming page'
   );
   PATIENT_BOOK_APPOINTMENTS = new Route(
     '/patient/appointment/booking',
-    'Book Appointment',
+    'Nbiotek | Book Appointment',
     'Patient appointment booking page'
   );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
-    'PatienPast Appointment',
+    'Nbiotek | Past Appointment',
     'Patient appointment past page'
   );
-  PATIENT_TEST = new Route('/patient/test', 'Test request', 'Patient appointment past page');
+  PATIENT_TEST = new Route(
+    '/patient/test',
+    'Nbiotek | Test request',
+    'Patient appointment past page'
+  );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
-    'Available test',
-    'Patient test available page'
+    'Nbiotek | Available test',
+    'Patient test available'
   );
   PATIENT_PENDING_TEST = new Route(
     '/patient/test/pending',
-    'Pending Test',
+    'Nbiotek | Pending Test',
     'Patient test available page'
   );
 }
