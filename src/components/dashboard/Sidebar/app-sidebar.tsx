@@ -26,16 +26,13 @@ import { NavMain } from './nav-main';
 import { EnumRole } from '@/constants/mangle';
 
 export function AppSidebar() {
-  const role = EnumRole.PATIENT;
-  const menuItems = menuConfig[role];
-
   return (
     <Sidebar className="border-none shadow-xl">
       <SidebarHeader>
         <Image src="/logo.svg" alt="Logo" width={164} height={69} />
       </SidebarHeader>
       <SidebarContent className=" ">
-        <NavMain items={menuItems} />
+        <NavMain />
       </SidebarContent>
     </Sidebar>
   );

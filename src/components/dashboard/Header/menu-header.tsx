@@ -1,10 +1,9 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { Text } from '@/lib/utils/Text';
-import { Bell, Settings, Menu } from 'lucide-react';
-import { PiHandbag } from 'react-icons/pi';
+import { Bell, Settings, Menu, ShoppingCart } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
+import { Paragraph, SubTitle } from '@/atoms/typographys';
 
 const MenuHeader = () => {
   const { state, toggleSidebar } = useSidebar();
@@ -30,45 +29,30 @@ const MenuHeader = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  console.log('Sidebar state:', state);
-  console.log('Is collapsed:', isCollapsed);
-
   return (
-    <div className="w-full border border-r bg-white p-2 shadow-lg">
+    <div className="sticky top-0 w-full border border-r bg-white p-2 shadow-lg">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
           {isCollapsed ? (
             <button onClick={toggleSidebar}>
-              <Menu size={32} />
+              <Menu size={25} />
             </button>
           ) : (
             ' '
           )}
           <div className="flex flex-col">
-            <Text variant="h3" className="text-blue-400 ">
-              Hello Charles
-            </Text>
-            <Text variant="body" weight="normal" className="text-blue-400">
-              Welcome to your dashboard
-            </Text>
+            <SubTitle className="text-blue-400" text="Hello Charles" />
+            <Paragraph className="text-blue-400" text="Welcome to your dashboard" />
           </div>
         </div>
-        <div className="hidden w-[261px] items-center justify-between md:flex">
-          <Bell size={32} color="#4044A7" />
-          <Settings size={32} color="#4044A7" />
-          <div className="flex items-center gap-2">
-            <PiHandbag size={32} color="#000" />
-            <div>
-              <Text variant="body" weight="thin">
-                Shopping cart:
-              </Text>
-              <Text variant="body" weight="bold">
-                $57.00
-              </Text>
-            </div>
+        <div className="hidden items-center justify-between space-x-4 md:flex">
+          <Bell color="#4044A7" />
+          <Settings color="#4044A7" />
+          <div className="flex items-center space-x-2">
+            <ShoppingCart color="#000" />
+            <Paragraph className="!font-bold" text="$57.00" />
           </div>
         </div>
-        <Menu size={32} className="md:hidden" />
       </div>
     </div>
   );

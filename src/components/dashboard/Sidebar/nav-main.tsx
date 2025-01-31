@@ -1,7 +1,5 @@
-// "use client"
-
-import { ChevronRight, type LucideIcon } from 'lucide-react';
-import { MenuItem } from '@/types/navigation';
+'use client';
+import { ChevronRight } from 'lucide-react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
@@ -14,36 +12,40 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem
 } from '@/components/ui/sidebar';
+import { usePathname } from 'next/navigation';
+import { EnumRole } from '@/constants/mangle';
+import { menuConfig } from '@/config/menuItems';
+import Link from 'next/link';
 
-export function NavMain({ items }: { items: MenuItem[] }) {
+export function NavMain() {
+  // user auth profile will handle the dashboard items displayed based on role.
+  const role = EnumRole.LAB_TECHNICIAN;
+  const items = menuConfig[role];
+  const pathname = usePathname();
+
   return (
     <SidebarGroup className="">
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu className="">
         {items.map((item, index) =>
           !item.submenu ? (
-            <>
+            <Link key={item.title} href={item.url ?? ''}>
               <SidebarMenuItem
                 key={index}
-                className={`${item.isActive ? 'rounded-md bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                className={`${pathname === item.url ? 'rounded-md bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
               >
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon size="33px" />}
+                  <item.icon />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </>
+            </Link>
           ) : (
-            <Collapsible
-              key={item.title}
-              asChild
-              defaultOpen={item.isActive}
-              className="group/collapsible"
-            >
+            <Collapsible key={item.title} asChild className="group/collapsible">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
+                    <item.icon />
                     <span>{item.title}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
@@ -53,9 +55,7 @@ export function NavMain({ items }: { items: MenuItem[] }) {
                     {item.submenu?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
-                            <span>{subItem.title}</span>
-                          </a>
+                          <Link href={subItem.url}>{subItem.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}

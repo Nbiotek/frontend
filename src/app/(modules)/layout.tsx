@@ -5,11 +5,11 @@ import MenuHeader from '@/components/dashboard/Header/menu-header';
 const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full bg-blue-50/10">
         <AppSidebar />
-        <main className="w-full flex-1 bg-[#EEF5FF]">
+        <main className="w-full bg-blue-50/10">
           <MenuHeader />
-          {children}
+          <section className="h-screen w-full overflow-y-scroll px-2">{children}</section>
         </main>
       </div>
     </SidebarProvider>
