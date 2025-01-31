@@ -7,7 +7,7 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-blue-50/10">
         <AppSidebar />
-        <main className="w-full bg-blue-50/10">
+        <main className="flex w-full flex-col space-y-4 bg-blue-50/10">
           <MenuHeader />
           <section className="h-screen w-full overflow-y-scroll px-2">{children}</section>
         </main>
