@@ -24,9 +24,9 @@ export function NavMain() {
   const pathname = usePathname();
 
   return (
-    <SidebarGroup className="">
+    <SidebarGroup>
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
-      <SidebarMenu className="">
+      <SidebarMenu>
         {items.map((item, index) =>
           !item.submenu ? (
             <Link key={item.title} href={item.url ?? ''}>

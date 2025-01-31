@@ -67,6 +67,8 @@ class Routes {
     'Nbiotek | Test request',
     'Patient appointment past page'
   );
+
+  
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
     'Available',
@@ -114,6 +116,37 @@ class Routes {
   LAB_TECH_SUPPORT_CONTACT = new Route('/lab-tech/sh/contact', 'Contact', 'Lab Technician contact');
   LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs');
   LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings');
+
+  BILLING = new Route('/patient/billing', 'Billing & Payments', 'Patient Billing nad payment page');
+
+  BILLING_TRANSACTION_HISTORY = new Route(
+    '/patient/billing/history',
+    'Transaction History',
+    ' Transaction History Page'
+  );
+
+  BILLING_PENDING_PAYMENTS = new Route(
+    '/patient/billing/pending-payments',
+    'Pending Payment',
+    ' Pending Payment Page'
+  );
+
+  BILLING_INSURANCE = new Route('/patient/billing/insurance', 'insurance', 'Insurance Page');
+
+  SUPPORT = new Route('/patient/support', 'Support & Help', 'Help  Desk Page');
+
+  SUPPORT_CONTACT = new Route('/patient/support/contact', 'Contact Us', 'Contact Us');
+
+  SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions');
+
+  SETTINGs = new Route('/patient/settings', 'Settings', 'Settings Page');
+
+  SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page');
+  SETTING_NOTIFICATION = new Route(
+    '/patient/settings/NOTIFICATION',
+    'Notification',
+    'Notification Page'
+  );
 }
 
 const ROUTES = new Routes();

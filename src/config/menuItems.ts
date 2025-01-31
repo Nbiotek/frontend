@@ -5,6 +5,8 @@ import {
   CalendarClock,
   TestTubeDiagonal,
   NotepadText,
+  CreditCard,
+  Phone,
   ClipboardList,
   UserCircle,
   FileText,
@@ -87,6 +89,52 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: 'Test Results',
       url: ROUTES.PATIENT_PAST_APPOINTMENTS.path,
       icon: NotepadText
+    },
+    {
+      title: 'Biling & Payment',
+      icon: CreditCard,
+      submenu: [
+        {
+          title: 'Transaction History',
+          url: ROUTES.BILLING_TRANSACTION_HISTORY.path
+        },
+        {
+          title: 'Pending Payments',
+          url: ROUTES.BILLING_PENDING_PAYMENTS.path
+        },
+        {
+          title: 'Insurance',
+          url: ROUTES.BILLING_INSURANCE.path
+        }
+      ]
+    },
+    {
+      title: 'Support & Help',
+      icon: Phone,
+      submenu: [
+        {
+          title: 'Contact Us',
+          url: ROUTES.SUPPORT_CONTACT.path
+        },
+        {
+          title: 'FAQ',
+          url: ROUTES.SUPPORT_FAQ.path
+        }
+      ]
+    },
+    {
+      title: 'Settings',
+      icon: Settings,
+      submenu: [
+        {
+          title: 'Settings',
+          url: ROUTES.SETTINGS_SETTINGS.path
+        },
+        {
+          title: 'Notifications',
+          url: ROUTES.SETTING_NOTIFICATION.path
+        }
+      ]
     }
   ],
 

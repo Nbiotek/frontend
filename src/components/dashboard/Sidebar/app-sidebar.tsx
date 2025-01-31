@@ -17,13 +17,15 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarGroupAction
+  SidebarGroupAction,
+  SidebarFooter
 } from '@/components/ui/sidebar';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 import { NavMain } from './nav-main';
 import { EnumRole } from '@/constants/mangle';
+import ProfileSide from './nav-profile';
 
 export function AppSidebar() {
   return (
