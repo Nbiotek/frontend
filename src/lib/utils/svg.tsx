@@ -172,3 +172,31 @@ export const MessagesIcon = () => {
     </svg>
   );
 };
+
+export const LeftIcon = () => {
+  return (
+    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.166 6.46159L7.99935 10.6283L12.166 14.7949"
+        stroke="#191D23"
+        strokeWidth="2"
+        strokeLinecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8 10.6279L18 10.6279"
+        stroke="#191D23"
+        strokeWidth="2"
+        strokeLinecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8 18.1279H4.66667C4.22464 18.1279 3.80072 17.9523 3.48816 17.6398C3.1756 17.3272 3 16.9033 3 16.4613L3 4.7946C3 4.35257 3.1756 3.92865 3.48816 3.61609C3.80072 3.30353 4.22464 3.12793 4.66667 3.12793H8"
+        stroke="#191D23"
+        strokeWidth="2"
+        strokeLinecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};

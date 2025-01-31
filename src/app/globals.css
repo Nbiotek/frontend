@@ -65,6 +65,11 @@ body {
     @apply border-none bg-error-500 text-white hover:opacity-80;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
+
+  .button-secondary {
+    @apply border-none bg-neutral-60 text-neutral-800 hover:bg-neutral-200/50;
+    @apply h-[45px] w-full rounded-md border font-medium;
+  }
 }
 
 @layer base {
@@ -146,4 +151,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.custom-sidebar {
+  --sidebar-width: 20rem;
+
+  --sidebar-width-mobile: 20rem;
 }

@@ -41,6 +41,7 @@ export default {
       neutral: {
         0: '#FFFFFF',
         50: '#F6F6F6',
+        60: '#F7F8F9',
         75: '#BDC5DB',
         100: '#E7E7E7',
         200: '#D1D1D1',
