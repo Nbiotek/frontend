@@ -44,7 +44,7 @@ export function AppSidebar() {
         <SidebarHeader>
           <Image src="/logo.svg" alt="Logo" width={164} height={69} />
         </SidebarHeader>
-        <SidebarContent className="bg-white ">
+        <SidebarContent>
           <NavMain items={menuItems} />
         </SidebarContent>
         <SidebarFooter>

@@ -34,7 +34,7 @@ const MenuHeader = () => {
   console.log('Is collapsed:', isCollapsed);
 
   return (
-    <div className="mx-5 w-full bg-white p-2 shadow-lg  ">
+    <div className="w-full bg-white px-7 py-3 shadow-lg  ">
       <div className="flexBetween w-full max-w-[1400px]">
         <div className="flex items-center gap-2">
           {isCollapsed ? (
