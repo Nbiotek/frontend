@@ -68,7 +68,6 @@ class Routes {
     'Patient appointment past page'
   );
 
-  
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
     'Available',
