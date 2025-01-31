@@ -80,6 +80,43 @@ class Routes {
     'Patient test available page'
   );
 
+  // Lab Tech
+  LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page');
+  LAB_TECH_TEST = new Route('/lab-tech/test', 'Test Queue', 'Lab Technician All Test');
+  LAB_TECH_RESULT_UPLOAD = new Route(
+    '/lab-tech/ru',
+    'Result Upload',
+    'Lab Technician Result Upload'
+  );
+  LAB_TECH_QUALITY_CONTROL_PENDING = new Route(
+    '/lab-tech/qc/pending',
+    'Pending',
+    'Lab Technician Quality Control Pending'
+  );
+  LAB_TECH_QUALITY_CONTROL_HISTORY = new Route(
+    '/lab-tech/qc/history',
+    'History',
+    'Lab Technician Quality Control'
+  );
+  LAB_TECH_RESULT_HISTORY_RECENT = new Route(
+    '/lab-tech/rh/recent',
+    'Recent',
+    'Lab Technician Recent Result'
+  );
+  LAB_TECH_RESULT_HISTORY_ARCHIVED = new Route(
+    '/lab-tech/rh/archived',
+    'Archived',
+    'Lab Technician Archived Result'
+  );
+  LAB_TECH_NOTIFICATION = new Route(
+    '/lab-tech/notification',
+    'Notifications',
+    'Lab Technician Notifications'
+  );
+  LAB_TECH_SUPPORT_CONTACT = new Route('/lab-tech/sh/contact', 'Contact', 'Lab Technician contact');
+  LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs');
+  LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings');
+
   BILLING = new Route('/patient/billing', 'Billing & Payments', 'Patient Billing nad payment page');
 
   BILLING_TRANSACTION_HISTORY = new Route(
