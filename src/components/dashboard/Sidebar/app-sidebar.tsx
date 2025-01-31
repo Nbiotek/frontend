@@ -36,6 +36,9 @@ export function AppSidebar() {
       <SidebarContent className=" ">
         <NavMain />
       </SidebarContent>
+        <SidebarFooter>
+          <ProfileSide />
+        </SidebarFooter>
     </Sidebar>
   );
 }
