@@ -11,7 +11,7 @@ import Button from '@/atoms/Buttons';
 
 const PatientView = () => {
   return (
-    <div className="container flex flex-col gap-10 px-[12px]">
+    <div className="container flex flex-col space-y-8">
       <div className="flex w-full flex-wrap gap-[25px]">
         <CardMetrics title="My Appointments" value="46,000" icon={<AppointmentsIcon />} />
         <CardMetrics title="Test Results" value="46,000" icon={<ResultIcon />} />

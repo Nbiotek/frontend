@@ -18,7 +18,11 @@ import {
   Building2,
   Activity,
   Microscope,
-  FileCog
+  FileCog,
+  ShieldCheck,
+  Upload,
+  Book,
+  BellDot
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -29,8 +33,7 @@ export type UserRole = 'patient';
 export interface MenuItem {
   title: string;
   url?: string;
-  icon?: LucideIcon;
-  isActive?: boolean;
+  icon: LucideIcon;
   submenu?: Array<{
     title: string;
     url: string;
@@ -42,7 +45,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.PATIENT.title,
       url: ROUTES.PATIENT.path,
-      isActive: true,
       icon: Home
     },
     {
@@ -93,15 +95,15 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Transaction History',
-          url: ROUTES.BILLING_TRANSACTION_HISTORY.path
+          url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
         },
         {
           title: 'Pending Payments',
-          url: ROUTES.BILLING_PENDING_PAYMENTS.path
+          url: ROUTES.PATIENT_BILLING_PENDING_PAYMENTS.path
         },
         {
           title: 'Insurance',
-          url: ROUTES.BILLING_INSURANCE.path
+          url: ROUTES.PATIENT_BILLING_INSURANCE.path
         }
       ]
     },
@@ -111,11 +113,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Contact Us',
-          url: ROUTES.SUPPORT_CONTACT.path
+          url: ROUTES.PATIENT_SUPPORT_CONTACT.path
         },
         {
           title: 'FAQ',
-          url: ROUTES.SUPPORT_FAQ.path
+          url: ROUTES.PATIENT_SUPPORT_FAQ.path
         }
       ]
     },
@@ -125,13 +127,83 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Settings',
-          url: ROUTES.SETTINGS_SETTINGS.path
+          url: ROUTES.PATIENT_SETTINGS_SETTINGS.path
         },
         {
           title: 'Notifications',
-          url: ROUTES.SETTING_NOTIFICATION.path
+          url: ROUTES.PATIENT_SETTING_NOTIFICATION.path
         }
       ]
+    }
+  ],
+
+  [EnumRole.LAB_TECHNICIAN]: [
+    {
+      title: ROUTES.LAB_TECH.title,
+      url: ROUTES.LAB_TECH.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.LAB_TECH_TEST.title,
+      url: ROUTES.LAB_TECH_TEST.path,
+      icon: TestTubeDiagonal
+    },
+    {
+      title: ROUTES.LAB_TECH_RESULT_UPLOAD.title,
+      url: ROUTES.LAB_TECH_RESULT_UPLOAD.path,
+      icon: Upload
+    },
+    {
+      title: 'Result History',
+      icon: Book,
+      submenu: [
+        {
+          title: ROUTES.LAB_TECH_RESULT_HISTORY_RECENT.title,
+          url: ROUTES.LAB_TECH_RESULT_HISTORY_RECENT.path
+        },
+        {
+          title: ROUTES.LAB_TECH_RESULT_HISTORY_ARCHIVED.title,
+          url: ROUTES.LAB_TECH_RESULT_HISTORY_ARCHIVED.path
+        }
+      ]
+    },
+    {
+      title: 'Quality Control',
+      icon: ShieldCheck,
+      submenu: [
+        {
+          title: ROUTES.LAB_TECH_QUALITY_CONTROL_PENDING.title,
+          url: ROUTES.LAB_TECH_QUALITY_CONTROL_PENDING.path
+        },
+        {
+          title: ROUTES.LAB_TECH_QUALITY_CONTROL_HISTORY.title,
+          url: ROUTES.LAB_TECH_QUALITY_CONTROL_HISTORY.path
+        }
+      ]
+    },
+    {
+      title: ROUTES.LAB_TECH_NOTIFICATION.title,
+      url: ROUTES.LAB_TECH_NOTIFICATION.path,
+      icon: BellDot
+    },
+    {
+      title: 'Support & help',
+      icon: Phone,
+      submenu: [
+        {
+          title: ROUTES.LAB_TECH_SUPPORT_CONTACT.title,
+          url: ROUTES.LAB_TECH_SUPPORT_CONTACT.path
+        },
+        {
+          title: ROUTES.LAB_TECH_SUPPORT_FAQ.title,
+          url: ROUTES.LAB_TECH_SUPPORT_FAQ.path
+        }
+      ]
+    },
+    {
+      title: ROUTES.LAB_TECH_SETTINGS.title,
+      url: ROUTES.LAB_TECH_SETTINGS.path,
+      icon: Settings
     }
   ]
 };
