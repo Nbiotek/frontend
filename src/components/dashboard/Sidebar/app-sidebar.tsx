@@ -1,30 +1,6 @@
 import Image from 'next/image';
-import { Calendar, Home, Inbox, Plus, Search, Settings, ChevronRight } from 'lucide-react';
-
-import { menuConfig } from '@/config/menuItems';
-import {
-  SidebarHeader,
-  Sidebar,
-  SidebarTrigger,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuAction,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarGroupAction,
-  SidebarFooter
-} from '@/components/ui/sidebar';
-
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-
+import { SidebarHeader, Sidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 import { NavMain } from './nav-main';
-import { EnumRole } from '@/constants/mangle';
 import ProfileSide from './nav-profile';
 
 export function AppSidebar() {
@@ -36,9 +12,9 @@ export function AppSidebar() {
       <SidebarContent className=" ">
         <NavMain />
       </SidebarContent>
-        <SidebarFooter>
-          <ProfileSide />
-        </SidebarFooter>
+      <SidebarFooter>
+        <ProfileSide />
+      </SidebarFooter>
     </Sidebar>
   );
 }

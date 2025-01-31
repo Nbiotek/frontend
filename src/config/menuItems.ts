@@ -22,7 +22,6 @@ import {
   ShieldCheck,
   Upload,
   Book,
-  PhoneCall,
   BellDot
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
@@ -96,15 +95,15 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Transaction History',
-          url: ROUTES.BILLING_TRANSACTION_HISTORY.path
+          url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
         },
         {
           title: 'Pending Payments',
-          url: ROUTES.BILLING_PENDING_PAYMENTS.path
+          url: ROUTES.PATIENT_BILLING_PENDING_PAYMENTS.path
         },
         {
           title: 'Insurance',
-          url: ROUTES.BILLING_INSURANCE.path
+          url: ROUTES.PATIENT_BILLING_INSURANCE.path
         }
       ]
     },
@@ -114,11 +113,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Contact Us',
-          url: ROUTES.SUPPORT_CONTACT.path
+          url: ROUTES.PATIENT_SUPPORT_CONTACT.path
         },
         {
           title: 'FAQ',
-          url: ROUTES.SUPPORT_FAQ.path
+          url: ROUTES.PATIENT_SUPPORT_FAQ.path
         }
       ]
     },
@@ -128,11 +127,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Settings',
-          url: ROUTES.SETTINGS_SETTINGS.path
+          url: ROUTES.PATIENT_SETTINGS_SETTINGS.path
         },
         {
           title: 'Notifications',
-          url: ROUTES.SETTING_NOTIFICATION.path
+          url: ROUTES.PATIENT_SETTING_NOTIFICATION.path
         }
       ]
     }
@@ -189,7 +188,7 @@ export const menuConfig: Record<string, MenuItem[]> = {
     },
     {
       title: 'Support & help',
-      icon: PhoneCall,
+      icon: Phone,
       submenu: [
         {
           title: ROUTES.LAB_TECH_SUPPORT_CONTACT.title,
