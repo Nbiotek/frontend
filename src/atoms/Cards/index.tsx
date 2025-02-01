@@ -9,7 +9,9 @@ interface CardProp extends HTMLAttributes<HTMLDivElement> {
 const Cards = ({ title, children, className, ...rest }: CardProp) => {
   return (
     <div className={`rounded-lg ${className}`} {...rest}>
-      <Text>{title}</Text>
+      <Text variant="h4" className="text-neutral-950">
+        {title}
+      </Text>
       {children}
     </div>
   );
