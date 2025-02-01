@@ -18,7 +18,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div
-        className={`flex flex-col font-roboto ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
+        className={`flex w-full flex-col font-roboto ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
       >
         {label && (
           <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
