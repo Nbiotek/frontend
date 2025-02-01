@@ -13,7 +13,7 @@ export const Title = ({ text, className }: ITypographyProps<HTMLHeadingElement>)
 };
 
 export const SubTitle = ({ text, className }: ITypographyProps<HTMLHeadingElement>) => {
-  return <h3 className={`font-roboto text-lg font-medium md:text-xl ${className}`}>{text}</h3>;
+  return <h3 className={`font-roboto text-lg font-medium ${className}`}>{text}</h3>;
 };
 
 export const Paragraph = ({ text, className }: ITypographyProps<HTMLParagraphElement>) => {
