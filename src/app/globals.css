@@ -71,6 +71,21 @@ body {
     @apply h-[45px] w-full rounded-md border font-medium;
   }
 
+  .test-btn-badge {
+    @apply flex w-full items-center justify-center rounded-lg px-2 py-1 text-center font-roboto;
+  }
+
+  .test-btn-high {
+    @apply bg-darkRed/20 text-darkRed;
+  }
+
+  .test-btn-medium {
+    @apply bg-amber/20 text-amber;
+  }
+
+  .test-btn-low {
+    @apply bg-teal/20 text-teal;
+  }
 }
 
 @layer base {
@@ -160,9 +175,8 @@ body {
   --sidebar-width-mobile: 20rem;
 }
 
-.custom-table{
-
+.custom-table {
   border-radius: 14px 14px 0px 0px;
-  border: 0.3px solid #D5D5D5;
-  background: #FCFDFD;
+  border: 0.3px solid #d5d5d5;
+  background: #fcfdfd;
 }

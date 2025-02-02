@@ -19,7 +19,7 @@ import Link from 'next/link';
 
 export function NavMain() {
   // user auth profile will handle the dashboard items displayed based on role.
-  const role = EnumRole.PATIENT;
+  const role = EnumRole.LAB_TECHNICIAN;
   const items = menuConfig[role];
   const pathname = usePathname();
 

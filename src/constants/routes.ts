@@ -110,7 +110,7 @@ class Routes {
 
   // Lab Tech
   LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page');
-  LAB_TECH_TEST = new Route('/lab-tech/test', 'Test Queue', 'Lab Technician All Test');
+  LAB_TECH_TEST = new Route('/lab-tech/tests', 'Test Queue', 'Lab Technician All Test');
   LAB_TECH_RESULT_UPLOAD = new Route(
     '/lab-tech/ru',
     'Result Upload',

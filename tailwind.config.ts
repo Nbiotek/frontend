@@ -63,6 +63,9 @@ export default {
         500: '#90041c',
         600: '#f8183e'
       },
+      darkRed: '#D32F2F',
+      amber: '#FFA000',
+      teal: '#00897B',
       input_bg: 'var(--input)',
       gray_light: 'var(--gray-light)',
       background: 'hsl(var(--background))',
@@ -151,6 +154,9 @@ export default {
         '5xl': '2.5rem',
         '6xl': '3.4rem',
         '7xl': '4rem'
+      },
+      gridTemplateColumns: {
+        response: 'repeat(auto-fit, minmax(220px, 1fr))'
       }
     },
 
