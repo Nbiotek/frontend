@@ -12,7 +12,7 @@ const QuickAction = ({ quickLink }: QuickActionComponentProps) => {
   return (
     <>
       {quickLink.map((item, index) => (
-        <div className="flexBetween border-t pb-4 pt-4 " key={index}>
+        <div className="flexBetween mt-4 border-t pb-4 pt-4 " key={index}>
           <div className="flex items-center space-x-3">
             <div className="w-fit rounded-full bg-[#F0F2F5] p-[10px]">{item.icon}</div>
             <div className="">
