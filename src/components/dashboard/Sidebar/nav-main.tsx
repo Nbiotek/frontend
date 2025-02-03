@@ -32,7 +32,7 @@ export function NavMain() {
             <Link key={item.title} href={item.url ?? ''}>
               <SidebarMenuItem
                 key={index}
-                className={`${pathname === item.url ? 'rounded-md bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                className={`${pathname === item.url ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
               >
                 <SidebarMenuButton tooltip={item.title}>
                   <item.icon />
@@ -44,17 +44,21 @@ export function NavMain() {
             <Collapsible key={item.title} asChild className="group/collapsible">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
+                  <SidebarMenuItem
+                    className={`${item.submenu.some((sub) => sub.url === pathname) ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                  >
+                    <SidebarMenuButton tooltip={item.title}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
                     {item.submenu?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
+                        <SidebarMenuSubButton isActive={pathname === subItem.url} asChild>
                           <Link href={subItem.url}>{subItem.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>

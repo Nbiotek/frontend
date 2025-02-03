@@ -1,4 +1,4 @@
-import { CircleX, EllipsisVertical, Upload } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -17,29 +17,35 @@ import {
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
 
-const TestsTable = () => {
+interface IQCTableProps {
+  resultsData: Array<TTestResultData>;
+}
+
+const ResultsTable = ({ resultsData }: IQCTableProps) => {
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
+            <TableHead>Patient Name</TableHead>
             <TableHead>Test type</TableHead>
             <TableHead>Requested Date</TableHead>
             <TableHead>Deadline</TableHead>
-            <TableHead className="w-[80px]">Priority</TableHead>
+            <TableHead>Completed Date</TableHead>
+            <TableHead className="w-[80px]">Status</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tests.map((test) => (
-            <TableRow key={test.name}>
-              <TableCell className="font-medium">{test.name}</TableCell>
-              <TableCell>{test.type}</TableCell>
-              <TableCell>{test.req_date}</TableCell>
-              <TableCell>{test.due_date}</TableCell>
+          {resultsData.map((resultDatum) => (
+            <TableRow key={resultDatum.name}>
+              <TableCell className="font-medium">{resultDatum.name}</TableCell>
+              <TableCell>{resultDatum.type}</TableCell>
+              <TableCell>{resultDatum.req_date}</TableCell>
+              <TableCell>{resultDatum.due_date}</TableCell>
+              <TableCell>{resultDatum?.submitted_date ?? ''}</TableCell>
               <TableCell>
-                <Status variant={test.level} />
+                <Status variant={resultDatum.level} />
               </TableCell>
               <TableCell>
                 <DropdownMenu>
@@ -49,14 +55,9 @@ const TestsTable = () => {
 
                   <DropdownMenuContent className="">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        <Upload />
-                        <p>Upload result</p>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-400">
-                        <CircleX />
-                        <p>Cancel test</p>
-                      </DropdownMenuItem>
+                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
+                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
+                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -69,4 +70,4 @@ const TestsTable = () => {
   );
 };
 
-export default TestsTable;
+export default ResultsTable;

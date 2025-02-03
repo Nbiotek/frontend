@@ -71,20 +71,36 @@ body {
     @apply h-[45px] w-full rounded-md border font-medium;
   }
 
-  .test-btn-badge {
-    @apply flex w-full items-center justify-center rounded-lg px-2 py-1 text-center font-roboto;
+  .status-badge {
+    @apply flex w-full items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
   }
 
-  .test-btn-high {
+  .status-high {
     @apply bg-darkRed/20 text-darkRed;
   }
 
-  .test-btn-medium {
+  .status-medium {
     @apply bg-amber/20 text-amber;
   }
 
-  .test-btn-low {
+  .status-low {
     @apply bg-teal/20 text-teal;
+  }
+
+  .status-passed {
+    @apply bg-green-300/20 text-green-300;
+  }
+
+  .status-failed {
+    @apply bg-darkRed/20 text-darkRed;
+  }
+
+  .status-pending {
+    @apply bg-violet-500/20 text-violet-500;
+  }
+
+  .status-submitted {
+    @apply bg-green-300/20 text-green-300;
   }
 }
 

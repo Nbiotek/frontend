@@ -41,12 +41,6 @@ const actions = [
     url: ROUTES.LAB_TECH_TEST.path
   },
   {
-    icon: File,
-    title: 'Upload Results',
-    description: 'Upload Test Results',
-    url: ROUTES.LAB_TECH_RESULT_UPLOAD.path
-  },
-  {
     icon: ShieldCheck,
     title: 'Quality Check',
     description: 'Quality control check',
@@ -69,7 +63,7 @@ const DashboardView = () => {
         ))}
       </OverviewContainer>
 
-      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-3 lg:space-y-0">
+      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
         <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
           <Recent />
         </div>
