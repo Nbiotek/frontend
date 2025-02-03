@@ -6,12 +6,10 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="overflow-auto">
-        <main className="flex min-h-full w-full flex-col space-y-4 bg-blue-50/10">
-          <MenuHeader />
-          <section className="min-h-full w-full  px-2">{children}</section>
-        </main>
-      </SidebarInset>
+      <main className="flex min-h-full w-full flex-col space-y-4 overflow-auto bg-blue-50/10">
+        <MenuHeader />
+        <section className="min-h-full w-full px-2">{children}</section>
+      </main>
     </SidebarProvider>
   );
 };
