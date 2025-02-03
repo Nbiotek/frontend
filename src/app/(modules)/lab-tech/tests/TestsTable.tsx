@@ -1,3 +1,4 @@
+'use client';
 import { CircleX, EllipsisVertical, Upload } from 'lucide-react';
 import {
   Table,
@@ -16,8 +17,14 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
+import { useStore } from '@/store';
+import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { observer } from 'mobx-react-lite';
 
 const TestsTable = () => {
+  const {
+    AppConfigStore: { toggleModals }
+  } = useStore();
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -49,7 +56,15 @@ const TestsTable = () => {
 
                   <DropdownMenuContent className="">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          toggleModals({
+                            open: true,
+                            name: AppModals.RESULT_UPLOAD_MODAL,
+                            test_uuid: ''
+                          })
+                        }
+                      >
                         <Upload />
                         <p>Upload result</p>
                       </DropdownMenuItem>
@@ -69,4 +84,4 @@ const TestsTable = () => {
   );
 };
 
-export default TestsTable;
+export default observer(TestsTable);
