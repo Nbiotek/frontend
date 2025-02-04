@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Security = () => {
-  return <div>Security</div>;
+  return <div className="w-full">Security</div>;
 };
 
 export default Security;

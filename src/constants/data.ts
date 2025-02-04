@@ -22,6 +22,18 @@ export const gender = [
   }
 ];
 
+export const theme = [
+  {
+    label: 'Light',
+    value: 'light'
+  },
+
+  {
+    label: 'Dark',
+    value: 'dark'
+  }
+];
+
 export const tests = [
   {
     name: 'Adebayo Samuel',
