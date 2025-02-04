@@ -20,7 +20,7 @@ import { PatientQuickLinks } from '@/config/quickActionItems';
 const PatientView = () => {
   return (
     <div className="mb-[20rem] flex w-[100%] flex-col space-y-8">
-      <div className="space-y-4 sm:flex md:flex-wrap md:justify-between md:gap-4 md:space-y-0 ">
+      <div className="space-y-4 sm:flex sm:flex-col md:flex-row md:flex-wrap md:justify-between md:gap-4 md:space-y-0 ">
         <CardMetrics title="My Appointments" value="46,000" icon={<AppointmentsIcon />} />
         <CardMetrics title="Test Results" value="46,000" icon={<ResultIcon />} />
         <CardMetrics title="Health Profile" value="46,000" icon={<HealthProfileIcon />} />
