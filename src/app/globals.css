@@ -37,7 +37,7 @@ body {
 
 @layer components {
   .button {
-    @apply flex cursor-pointer items-center justify-center font-roboto text-sm;
+    @apply flex cursor-pointer items-center justify-center px-2 font-roboto text-sm;
     @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
   }
   .button-filled {
