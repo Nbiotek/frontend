@@ -8,8 +8,8 @@ const Profile = () => {
       <div className="relative h-[94px] rounded-lg bg-blue-400 ">
         <div className="absolute left-1/2 top-[6rem] h-[163px] w-[163px] -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-neutral-100 " />
       </div>
-      <div className="mt-[7rem] bg-white p-[24px]">
-        <Text variant="title" weight="semibold" align="center">
+      <div className="mt-[7rem] bg-transparent sm:bg-white sm:p-[10px]  md:p-[16px] lg:p-[24px]">
+        <Text variant="title" weight="semibold" align="center" className="mb-4">
           {' '}
           Personal Information{' '}
         </Text>
