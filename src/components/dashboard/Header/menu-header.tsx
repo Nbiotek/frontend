@@ -28,7 +28,7 @@ const MenuHeader = () => {
 
     // Cleanup event listener
     return () => window.removeEventListener('resize', handleResize);
-  }, [window.innerWidth]);
+  }, []);
 
   return (
     <div className="sticky top-0 z-40 w-full border border-r bg-white p-2 shadow-lg">
