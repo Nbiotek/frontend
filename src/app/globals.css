@@ -70,7 +70,6 @@ body {
     @apply border-none bg-neutral-60 text-neutral-800 hover:bg-neutral-200/50;
     @apply h-[45px] w-full rounded-md border font-medium;
   }
-
 }
 
 @layer base {
@@ -160,9 +159,8 @@ body {
   --sidebar-width-mobile: 20rem;
 }
 
-.custom-table{
-
+.custom-table {
   border-radius: 14px 14px 0px 0px;
-  border: 0.3px solid #D5D5D5;
-  background: #FCFDFD;
+  border: 0.3px solid #d5d5d5;
+  background: #fcfdfd;
 }
