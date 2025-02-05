@@ -3,11 +3,11 @@ import { Text } from '@/lib/utils/Text';
 import InputSearch from '@/atoms/fields/InputSearch';
 import AppointmentItem from '@/components/common/appointmentItems';
 
-const UpcomingAppointment = () => {
+const PastAppointment = () => {
   return (
     <Cards className="bg-white px-[24px]">
       <div className="flex items-center justify-between py-4">
-        <Text variant="title">All Upcoming Appointment</Text>
+        <Text variant="title">All Past Appointment</Text>
         <InputSearch />
       </div>
       <div className="flex flex-col space-y-5">
@@ -19,4 +19,4 @@ const UpcomingAppointment = () => {
   );
 };
 
-export default UpcomingAppointment;
+export default PastAppointment;

@@ -30,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
             {...{ ref, required, placeholder, id: props.id ?? props.name }}
             type={type === 'password' ? (showPass ? 'text' : 'password') : type}
             placeholder={placeholder}
-            className={`peer h-[45px] rounded-lg bg-neutral-50 pl-4 text-sm outline-none ring-1 ring-transparent transition-all duration-300 placeholder:text-sm focus:ring-blue-400 ${
+            className={`peer h-[45px] rounded-lg bg-white pl-4 text-sm outline-none ring-1 ring-transparent transition-all duration-300 placeholder:text-sm focus:ring-blue-400 sm:bg-neutral-50 ${
               error ? 'bg-red-100/50 ring-red-200' : ''
             } disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:ring-borderLine disabled:focus:ring-borderLine`}
             {...props}
