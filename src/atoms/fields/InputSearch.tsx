@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 
 const InputSearch = () => {
   return (
-    <div className="relative mt-4 w-full min-w-[200px] max-w-sm">
+    <div className="relative w-full min-w-[200px] max-w-sm">
       <div className="relative w-[314px]">
         <input
           type="email"
