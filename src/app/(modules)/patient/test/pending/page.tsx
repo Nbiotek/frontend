@@ -1,5 +1,7 @@
+import PendingTest from './PendingTestView';
+
 const PendingTests = () => {
-  return <div></div>;
+  return <PendingTest />;
 };
 
 export default PendingTests;
