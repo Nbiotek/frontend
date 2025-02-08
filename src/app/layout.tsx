@@ -1,5 +1,6 @@
 import { Roboto } from 'next/font/google';
 import './globals.css';
+import AppProvider from './Provider';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${roboto.className} antialiased`} suppressHydrationWarning>
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

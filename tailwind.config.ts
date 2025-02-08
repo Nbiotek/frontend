@@ -63,6 +63,21 @@ export default {
         500: '#90041c',
         600: '#f8183e'
       },
+      violet: {
+        50: '#f5f3ff',
+        100: '#ede9fe',
+        200: '#ddd6fe',
+        300: '#c4b5fd',
+        400: '#a78bfa',
+        500: '#8b5cf6',
+        600: '#7c3aed',
+        700: '#6d28d9',
+        800: '#5b21b6',
+        900: '#4c1d95'
+      },
+      darkRed: '#D32F2F',
+      amber: '#FFA000',
+      teal: '#00897B',
       input_bg: 'var(--input)',
       gray_light: 'var(--gray-light)',
       background: 'hsl(var(--background))',
@@ -151,6 +166,9 @@ export default {
         '5xl': '2.5rem',
         '6xl': '3.4rem',
         '7xl': '4rem'
+      },
+      gridTemplateColumns: {
+        response: 'repeat(auto-fit, minmax(220px, 1fr))'
       }
     },
 

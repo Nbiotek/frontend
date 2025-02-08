@@ -149,11 +149,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: TestTubeDiagonal
     },
     {
-      title: ROUTES.LAB_TECH_RESULT_UPLOAD.title,
-      url: ROUTES.LAB_TECH_RESULT_UPLOAD.path,
-      icon: Upload
-    },
-    {
       title: 'Result History',
       icon: Book,
       submenu: [
