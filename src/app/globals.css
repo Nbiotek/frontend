@@ -37,7 +37,7 @@ body {
 
 @layer components {
   .button {
-    @apply flex cursor-pointer items-center justify-center font-roboto text-sm;
+    @apply flex cursor-pointer items-center justify-center px-2 font-roboto text-sm;
     @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
   }
   .button-filled {
@@ -73,6 +73,38 @@ body {
   .button-secondary {
     @apply border-none bg-neutral-60 text-neutral-800 hover:bg-neutral-200/50;
     @apply h-[45px] w-full rounded-md border font-medium;
+  }
+
+  .status-badge {
+    @apply flex w-full items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
+  }
+
+  .status-high {
+    @apply bg-darkRed/20 text-darkRed;
+  }
+
+  .status-medium {
+    @apply bg-amber/20 text-amber;
+  }
+
+  .status-low {
+    @apply bg-teal/20 text-teal;
+  }
+
+  .status-passed {
+    @apply bg-green-300/20 text-green-300;
+  }
+
+  .status-failed {
+    @apply bg-darkRed/20 text-darkRed;
+  }
+
+  .status-pending {
+    @apply bg-violet-500/20 text-violet-500;
+  }
+
+  .status-submitted {
+    @apply bg-green-300/20 text-green-300;
   }
 }
 

@@ -19,7 +19,7 @@ import Link from 'next/link';
 
 export function NavMain() {
   // user auth profile will handle the dashboard items displayed based on role.
-  const role = EnumRole.PATIENT;
+  const role = EnumRole.LAB_TECHNICIAN;
   const items = menuConfig[role];
   const pathname = usePathname();
 
@@ -36,7 +36,7 @@ export function NavMain() {
             <Link key={item.title} href={item.url ?? ''}>
               <SidebarMenuItem
                 key={index}
-                className={`${pathname === item.url ? 'rounded-md bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                className={`${pathname === item.url ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
               >
                 <SidebarMenuButton tooltip={item.title}>
                   <item.icon />
