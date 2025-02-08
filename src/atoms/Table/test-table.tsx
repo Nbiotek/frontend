@@ -61,8 +61,9 @@ const ActivityTable: React.FC<ActivityTableProps> = ({
   ]
 }) => {
   return (
-    <div className="rounded-lg bg-white p-6">
+    <div className="rounded-lg bg-white sm:p-2">
       <h2 className="mb-4 text-xl font-semibold">Recent Activity</h2>
+      <div className="mt-3 border-t pt-3" />
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="custom-table">

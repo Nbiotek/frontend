@@ -6,7 +6,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 
 const MenuHeader = () => {
-  const { state, toggleSidebar } = useSidebar();
+  const { state, toggleSidebar, setOpen, open } = useSidebar();
   const [isCollapsed, setIsCollapsed] = useState(state === 'collapsed');
 
   // Listen for screen resize events and update sidebar state
@@ -22,6 +22,7 @@ const MenuHeader = () => {
     // Run on mount
     handleResize();
 
+    console.log(open);
     // Add event listener
     window.addEventListener('resize', handleResize);
 
@@ -30,16 +31,12 @@ const MenuHeader = () => {
   }, []);
 
   return (
-    <div className="sticky top-0 w-full border border-r bg-white p-2 shadow-lg">
+    <div className="sticky top-0 z-40 w-full border border-r bg-white p-2 shadow-lg">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
-          {isCollapsed ? (
-            <button onClick={toggleSidebar}>
-              <Menu size={25} />
-            </button>
-          ) : (
-            ' '
-          )}
+          <button onClick={toggleSidebar}>
+            <Menu size={25} />
+          </button>
           <div className="flex flex-col">
             <SubTitle className="text-blue-400" text="Hello Charles" />
             <Paragraph className="text-blue-400" text="Welcome to your dashboard" />

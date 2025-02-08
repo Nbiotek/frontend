@@ -23,6 +23,10 @@ export function NavMain() {
   const items = menuConfig[role];
   const pathname = usePathname();
 
+  const isActive = (url: string) => pathname === url || pathname.startsWith(`${url}/`);
+
+  const isSubmenuActive = (submenu: { url: string }[]) =>
+    submenu.some((item) => isActive(item.url));
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
@@ -41,24 +45,35 @@ export function NavMain() {
               </SidebarMenuItem>
             </Link>
           ) : (
-            <Collapsible key={item.title} asChild className="group/collapsible">
+            <Collapsible
+              key={item.title}
+              asChild
+              className="group/collapsible"
+              defaultOpen={isSubmenuActive(item.submenu)}
+            >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuItem
-                    className={`${item.submenu.some((sub) => sub.url === pathname) ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className={
+                      isSubmenuActive(item.submenu)
+                        ? 'bg-blue-400 text-white hover:text-white'
+                        : 'hover:text-white'
+                    }
                   >
-                    <SidebarMenuButton tooltip={item.title}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                    <item.icon />
+                    <span>{item.title}</span>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
                     {item.submenu?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton isActive={pathname === subItem.url} asChild>
+                      <SidebarMenuSubItem
+                        key={subItem.title}
+                        className={`${pathname === subItem.url ? 'bg-blue-50/20 text-blue-400' : ' '}`}
+                      >
+                        <SidebarMenuSubButton asChild>
                           <Link href={subItem.url}>{subItem.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
