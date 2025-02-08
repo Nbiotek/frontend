@@ -76,17 +76,17 @@ export const menuConfig: Record<string, MenuItem[]> = {
       submenu: [
         {
           title: 'Available',
-          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
+          url: ROUTES.PATIENT_AVAILABLE_TEST.path
         },
         {
           title: 'Pending',
-          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
+          url: ROUTES.PATIENT_PENDING_TEST.path
         }
       ]
     },
     {
       title: 'Test Results',
-      url: ROUTES.PATIENT_PAST_APPOINTMENTS.path,
+      url: ROUTES.PATIENT_TEST.path,
       icon: NotepadText
     },
     {
