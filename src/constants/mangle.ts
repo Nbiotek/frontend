@@ -1,3 +1,7 @@
+export enum Mangle {
+  SESSION_TOKEN = '_nbst'
+}
+
 export enum EnumRole {
   SUPER_ADMIN = 'SUPER_ADMIN',
   DOCTOR = 'DOCTOR',

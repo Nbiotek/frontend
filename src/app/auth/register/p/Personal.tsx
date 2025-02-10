@@ -47,17 +47,17 @@ export default function PersonalForm() {
               label="Phone Number"
               placeholder="08123456789"
             />
-            <InputSelect
+            {/* <InputSelect
               className="md:w-[50%]"
               id="marital_status"
               label="Marital status"
               items={maritalStatus}
-            />
+            /> */}
           </div>
 
           <div className="">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <InputSelect className="md:w-[50%]" id="gender" label="Gender" items={gender} />
+              {/* <InputSelect className="md:w-[50%]" id="gender" label="Gender" items={gender} /> */}
               <Input
                 className="md:mb-0 md:w-[50%]"
                 type="text"

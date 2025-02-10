@@ -1,0 +1,31 @@
+/*====================== Error ===================================*/
+interface INBTApiError {
+  errors: string;
+  message: string;
+  statusCode: number;
+}
+
+interface INBTServerResp<T> {
+  data: T;
+  message: string;
+  statusCode: number;
+}
+
+type TProfileInfo = {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  other_name?: string;
+  email: string;
+  phone?: string;
+  email_verified: bolean;
+  profile_pics?: string;
+  uuid: string;
+  created_at: string;
+  role: string;
+};
+
+interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {
+  token: string;
+  exp?: number;
+}

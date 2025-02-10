@@ -2,6 +2,7 @@
 import { createContext, useContext } from 'react';
 import { configure } from 'mobx';
 import { AppConfigStore } from './AppConfigStore';
+import { AuthStore } from './AuthStore';
 
 configure({
   enforceActions: 'observed',
@@ -14,8 +15,10 @@ interface StoreProviderProps {
 
 export class RootStore {
   AppConfigStore: AppConfigStore;
+  AuthStore: AuthStore;
   constructor() {
     this.AppConfigStore = new AppConfigStore(this);
+    this.AuthStore = new AuthStore(this);
   }
 }
 
