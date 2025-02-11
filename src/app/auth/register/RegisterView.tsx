@@ -42,7 +42,7 @@ export default function RegisterView() {
       </CardHeader>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-4 rounded-2xl bg-white p-4 shadow-lg"
+        className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
       >
         {/* <div className="flex flex-col space-y-2">
           <GoogleBtn />

@@ -1,3 +1,5 @@
+import { EnumRole } from './mangle';
+
 class Route {
   path: string;
 
@@ -139,6 +141,17 @@ class Routes {
   LAB_TECH_SUPPORT_CONTACT = new Route('/lab-tech/sh/contact', 'Contact', 'Lab Technician contact');
   LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs');
   LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings');
+
+  redirectByRole(_role: EnumRole) {
+    switch (_role) {
+      case EnumRole.LAB_TECHNICIAN:
+        return this.LAB_TECH.path;
+      case EnumRole.PATIENT:
+        return this.PATIENT.path;
+      default:
+        return this.PATIENT.path;
+    }
+  }
 }
 
 const ROUTES = new Routes();

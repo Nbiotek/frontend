@@ -19,6 +19,7 @@ type TProfileInfo = {
   email: string;
   phone?: string;
   email_verified: bolean;
+  phone_verified: boolean;
   profile_pics?: string;
   uuid: string;
   created_at: string;

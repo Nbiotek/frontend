@@ -1,5 +1,5 @@
 'use client';
-import { Bell, Settings, ShoppingCart, PanelRightOpen } from 'lucide-react';
+import { Bell, Settings, ShoppingCart, PanelRightClose } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 
@@ -14,7 +14,7 @@ const MenuHeader = () => {
             className={`${state === 'collapsed' ? 'block' : 'block md:hidden'}`}
             onClick={toggleSidebar}
           >
-            <PanelRightOpen size={24} className="text-neutral-400" />
+            <PanelRightClose size={24} className="text-neutral-400" />
           </button>
           <div className="flex flex-col">
             <SubTitle className="text-blue-400" text="Hello Charles" />

@@ -7,20 +7,29 @@ import { ISSERVER } from '@/utils';
 import { Nullable } from 'vitest';
 import logger from '@/utils/logger';
 import { deleteSession, getSession, setSession } from '@/app/auth/action';
+import { Toast } from '@/atoms/Toast';
+import { parseError } from '@/utils/errorHandler';
+import ROUTES from '@/constants/routes';
+import { TAuthLoginResponse, TCreateAccount, TLogin } from '@/app/auth/validation';
+import { postRegister, postLogin, getNewAccessToken, postVerifyOTP } from '@/requests/auth';
+import { AppModals } from '../AppConfigStore/appModalTypes';
+import { EnumRole, Mangle } from '@/constants/mangle';
 
 interface IJwtPayloadExt extends jwt.JwtPayload {
   authorization: boolean;
   /** in milisec */
   exp: number;
-  userID: number;
+  id: number;
+  first_name: string;
+  last_name: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  pics: string;
-  user_uuid: string;
+  email_verified: boolean;
+  profile_pics: string;
+  uuid: string;
+  role: string;
 }
 
-enum EnumResendToken {
+export enum EnumResendToken {
   IDLE = 'IDLE',
   RESENDING = 'RESENDING',
   SENT = 'SENT',
@@ -28,8 +37,11 @@ enum EnumResendToken {
 }
 
 const INIT_IS_LOADING = {
+  logout: false,
   login: false,
-  refresh: false
+  register: false,
+  refresh: false,
+  verifyOTP: false
 };
 
 export function decodeJWT(token: string) {
@@ -58,6 +70,7 @@ export class AuthStore {
   accessToken = get('token');
   user = get<Partial<TProfileInfo>>('user', {});
   tokenExpiresAt = 0;
+  otpTimer = 30;
   resendingToken: EnumResendToken = EnumResendToken.IDLE;
   decodedToken: Nullable<IJwtPayloadExt> = null;
   loggedOut = true;
@@ -72,6 +85,7 @@ export class AuthStore {
       accessToken: observable,
       user: observable,
       tokenExpiresAt: observable,
+      otpTimer: observable,
       resendingToken: observable,
       decodedToken: observable,
       loggedOut: observable,
@@ -84,6 +98,7 @@ export class AuthStore {
       setAccessToken: action.bound,
       setResendingToken: action.bound,
       isAuthenticated: action.bound,
+      fetchNewToken: action.bound,
 
       getTokenFromCookie: flow.bound,
       logout: flow.bound,
@@ -150,7 +165,22 @@ export class AuthStore {
     return { ttl: authenticatedTTL, token, email: this.decodedToken?.email };
   }
 
-  fetchNewToken() {}
+  fetchNewToken() {
+    this.isLoading.refresh = true;
+    getNewAccessToken()
+      .then((res) => {
+        runInAction(() => {
+          this.accessToken = res.data.data.access_token;
+          this.isAuthenticated(res.data.data.access_token);
+        });
+      })
+      .catch((error) => {
+        this.errors.refresh = parseError(error);
+      })
+      .finally(() => {
+        this.isLoading.refresh = false;
+      });
+  }
 
   *getTokenFromCookie() {
     try {
@@ -170,11 +200,127 @@ export class AuthStore {
     }
   }
 
-  *logout() {}
+  *logout(cb?: () => void) {
+    this.isLoading.login = true;
+    try {
+      this.sessionCleanup();
+      yield deleteSession();
+      this.resetStores();
 
-  *login() {}
+      Toast.success('You have been sucessfully logged out!');
+      cb ? cb() : (window.location.href = ROUTES.LOGIN.path);
+    } catch (error) {
+      Toast.error(parseError(error));
+      this.errors.logout = parseError(error);
+      setTimeout(() => {
+        this.errors.logout = '';
+      }, 5000);
+    }
+    this.isLoading.login = false;
+  }
 
-  *register() {}
+  *login(payload: TLogin, cb?: (url: string) => void) {
+    this.isLoading.login = true;
+    this.errors.login = '';
 
-  *verifyAcctOTP() {}
+    try {
+      const {
+        data: { data }
+      } = (yield postLogin(payload)) as { data: TAuthLoginResponse };
+
+      if (!data) throw new Error('Login failed with 40201');
+
+      this.accessToken = persist('token', data.access_token);
+      const decodedToken = decodeJWT(data.access_token);
+      this.isAuthenticated(data.access_token);
+      this.user = persist('user', {
+        first_name: decodedToken.firstName,
+        last_name: decodedToken.lastName,
+        email: decodedToken.email,
+        email_verified: decodedToken.email_verified,
+        role: decodedToken.role,
+        profile_pics: decodedToken.profile_pics,
+        uuid: decodedToken.uuid,
+        id: decodedToken.id
+      });
+
+      if (!data?.email_verified) {
+        Toast.info('Check your inbox to verify your account.');
+        // do a session storage of the email
+        persist('_um', payload.email);
+        this.isLoading.login = false;
+        this.errors.login = '';
+        cb && cb(ROUTES.OTP.path);
+        return;
+      }
+
+      yield setSession({
+        token: data.access_token,
+        id: this.user.id ?? 0,
+        email: this.user.email ?? '',
+        role: this.user.role ?? '',
+        uuid: decodedToken.uuid.toString()
+      });
+
+      cb && cb(ROUTES.redirectByRole(this.user?.role as EnumRole));
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.login = false;
+    }
+  }
+
+  *register(payload: TCreateAccount, cb?: () => void) {
+    this.isLoading.register = true;
+    this.errors.register = '';
+
+    try {
+      const {
+        data: { data }
+      } = (yield postRegister(payload)) as { data: TAuthLoginResponse };
+
+      fetch('/api/access', {
+        headers: {
+          Authorization: `Bearer ${data?.access_token}`
+        }
+      });
+
+      this.accessToken = persist('token', data?.access_token as string);
+      this.isAuthenticated(data?.access_token);
+
+      cb && cb();
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.register = false;
+    }
+  }
+
+  *verifyAcctOTP(otp: string, cb: () => void) {
+    this.isLoading.verifyOTP = true;
+    this.errors.verifyOTP = '';
+
+    try {
+      const payload: TVerifyOTPPayload = {
+        email: get('_um'),
+        phoneNumber: '',
+        otp
+      };
+      const {
+        data: { data }
+      } = (yield postVerifyOTP(payload)) as { data: TAuthLoginResponse };
+
+      if (!data.email_verified) {
+        Toast.error('Unable to verify account!');
+        return;
+      }
+
+      del('_um');
+      cb();
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.verifyOTP = false;
+    }
+  }
 }

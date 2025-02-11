@@ -16,6 +16,11 @@ const password = z
   .refine((value) => lowerCaseRegex.test(value), 'Password must contain atleast a lowercase.');
 const confirm_password = z.string().trim().min(1, { message: 'Confirm password is required.' });
 
+export const AuthLoginResponseSchema = z.object({
+  access_token: z.string(),
+  email_verified: z.boolean()
+});
+
 export const LoginValidationSchema = z.object({
   email,
   password
@@ -43,5 +48,34 @@ export const CreateAccountValidationSchema = z
     path: ['confirm_password']
   });
 
+export const PwdSchema = z
+  .object({
+    password,
+    new_password: password,
+    confirm_password
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: 'Passwords do not match.',
+    path: ['confirm_password']
+  });
+
+export const NewPwdSchema = z
+  .object({
+    password,
+    confirm_password
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: 'Passwords do not match.',
+    path: ['confirm_password']
+  });
+
+export const ForgotPwdSchema = z.object({
+  email
+});
+
+export type TAuthLoginResponse = INBTServerResp<z.infer<typeof AuthLoginResponseSchema>>;
 export type TLogin = z.infer<typeof LoginValidationSchema>;
 export type TCreateAccount = z.infer<typeof CreateAccountValidationSchema>;
+export type TPwdSchema = z.infer<typeof PwdSchema>;
+export type TNewPwdSchema = z.infer<typeof NewPwdSchema>;
+export type TForgotPwd = z.infer<typeof ForgotPwdSchema>;
