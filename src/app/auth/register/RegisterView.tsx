@@ -12,8 +12,13 @@ import { role } from '@/constants/data';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateAccountValidationSchema, TCreateAccount } from '../validation';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '@/store';
 
-export default function RegisterView() {
+function RegisterView() {
+  const {
+    AuthStore: { register: registerAcct, isLoading }
+  } = useStore();
   const {
     register,
     handleSubmit,
@@ -27,7 +32,7 @@ export default function RegisterView() {
   });
 
   const onSubmit: SubmitHandler<TCreateAccount> = async (formData) => {
-    console.log(formData);
+    registerAcct(formData);
   };
 
   const handleSetValue = (key: string, value: string) => {
@@ -40,87 +45,94 @@ export default function RegisterView() {
       <CardHeader className="text-center">
         <CardTitle>Create your account</CardTitle>
       </CardHeader>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
-      >
-        {/* <div className="flex flex-col space-y-2">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset
+          disabled={isLoading.register}
+          className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
+        >
+          {/* <div className="flex flex-col space-y-2">
           <GoogleBtn />
           <FacebookBtn />
         </div> */}
 
-        {/* <div className="flex items-center justify-between text-neutral-200">
+          {/* <div className="flex items-center justify-between text-neutral-200">
           <div className="h-[1px] w-[45%] bg-neutral-100"></div>
           <p>or</p>
           <div className="h-[1px] w-[45%] bg-neutral-100"></div>
         </div> */}
 
-        <div className="">
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-            <Input
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="fname"
-              label="First Name"
-              placeholder="Adeolu"
-              {...register('first_name')}
-              error={errors.first_name?.message}
-            />
-            <Input
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="lname"
-              label="Last Name"
-              placeholder="John"
-              {...register('last_name')}
-              error={errors.last_name?.message}
-            />
-          </div>
+          <div className="">
+            <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+              <Input
+                className="md:mb-0 md:w-[50%]"
+                type="text"
+                id="fname"
+                label="First Name"
+                placeholder="Adeolu"
+                {...register('first_name')}
+                error={errors.first_name?.message}
+              />
+              <Input
+                className="md:mb-0 md:w-[50%]"
+                type="text"
+                id="lname"
+                label="Last Name"
+                placeholder="John"
+                {...register('last_name')}
+                error={errors.last_name?.message}
+              />
+            </div>
 
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+            <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+              <Input
+                className="md:mb-0 md:w-[50%]"
+                type="email"
+                label="Email Address"
+                placeholder="adeolu@gmail.com"
+                {...register('email')}
+                error={errors.email?.message}
+              />
+              <InputSelect
+                className="md:w-[50%]"
+                id="role"
+                label="Role"
+                name="role"
+                items={role}
+                placeholder="Select a role"
+                handleSetValue={handleSetValue}
+                error={errors.role?.message}
+              />
+            </div>
             <Input
-              className="md:mb-0 md:w-[50%]"
-              type="email"
-              label="Email Address"
-              placeholder="adeolu@gmail.com"
-              {...register('email')}
-              error={errors.email?.message}
+              type="password"
+              label="Password"
+              {...register('password')}
+              error={errors.password?.message}
             />
-            <InputSelect
-              className="md:w-[50%]"
-              id="role"
-              label="Role"
-              name="role"
-              items={role}
-              placeholder="Select a role"
-              handleSetValue={handleSetValue}
-              error={errors.role?.message}
+            <Input
+              type="password"
+              label="Confirm Password"
+              {...register('confirm_password')}
+              error={errors.confirm_password?.message}
             />
           </div>
-          <Input
-            type="password"
-            label="Password"
-            {...register('password')}
-            error={errors.password?.message}
-          />
-          <Input
-            type="password"
-            label="Confirm Password"
-            {...register('confirm_password')}
-            error={errors.confirm_password?.message}
-          />
-        </div>
-        <Button type="submit" variant="filled">
-          Continue
-        </Button>
-        <div className="flex flex-col items-center justify-center">
-          <HyperLink
-            className="my-2 !w-full justify-end"
-            info="Already have an account ?"
-            hrefText="Log in"
-            href={ROUTES.LOGIN.path}
-          />
-        </div>
+          <Button
+            type="submit"
+            variant="filled"
+            isLoading={isLoading.register}
+            disabled={isLoading.register}
+          >
+            Continue
+          </Button>
+          <div className="flex flex-col items-center justify-center">
+            <HyperLink
+              className="my-2 !w-full justify-end"
+              info="Already have an account ?"
+              hrefText="Log in"
+              href={ROUTES.LOGIN.path}
+            />
+          </div>
+        </fieldset>
       </form>
 
       <div className="my-6 flex flex-col items-center justify-center">
@@ -132,3 +144,5 @@ export default function RegisterView() {
     </Card>
   );
 }
+
+export default observer(RegisterView);
