@@ -1,4 +1,10 @@
-import { TAuthLoginResponse, TCreateAccount, TLogin, TPwdSchema } from '@/app/auth/validation';
+import {
+  TAuthLoginResponse,
+  TCreateAccount,
+  TForgotPwd,
+  TLogin,
+  TPwdSchema
+} from '@/app/auth/validation';
 import server, { serverwithoutInterceptor } from '.';
 import { AUTH } from '@/constants/api';
 
@@ -9,7 +15,7 @@ export const postLogin = async (payload: TLogin) =>
 export const postRegister = async (payload: TCreateAccount) =>
   server.post<TAuthLoginResponse>(AUTH.REGISTER, payload);
 
-export const postForgotPwd = async (payload: { email: string }) =>
+export const postForgotPwd = async (payload: TForgotPwd) =>
   server.post<INBTServerResp<string>>(AUTH.FORGOT_PWD, payload);
 
 export const postNewPwd = async (payload: TNewPwdPayload) =>
@@ -26,3 +32,5 @@ export const getProfile = async () => server.get<TGetProfile>(AUTH.GET_PROFILE);
 
 export const getNewAccessToken = async () =>
   serverwithoutInterceptor.get<INBTServerResp<{ access_token: string }>>(AUTH.NEW_ACCESS_TOKEN);
+
+export const getResendOTP = () => server.get<INBTServerResp<string>>(AUTH.RESEND_VERIFICATION_OTP);

@@ -31,6 +31,8 @@ class Routes {
   REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
   LOGIN = new Route('/auth/login', 'NbioTek | Login page', 'Login');
   OTP = new Route('/auth/otp', 'NbioTek | One Time Password (OTP)', 'One Time Password (OTP)');
+  FORGOT_PWD = new Route('/auth/forgot-pwd', 'NbioTek | Forgot Password', 'Forgot password');
+  PWD_RESET = new Route('/auth/pwd-reset', 'NbioTek | Password Reset', 'Password reset');
 
   PATIENT_REG_INFO = new Route(
     '/auth/register/p',

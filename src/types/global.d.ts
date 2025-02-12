@@ -1,6 +1,6 @@
 type TNewPwdPayload = {
   token: string;
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 };
 

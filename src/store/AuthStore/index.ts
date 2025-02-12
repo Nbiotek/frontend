@@ -10,13 +10,15 @@ import { deleteSession, getSession, setSession } from '@/app/auth/action';
 import { Toast } from '@/atoms/Toast';
 import { parseError } from '@/utils/errorHandler';
 import ROUTES from '@/constants/routes';
-import { TAuthLoginResponse, TCreateAccount, TLogin } from '@/app/auth/validation';
+import { TAuthLoginResponse, TCreateAccount, TForgotPwd, TLogin } from '@/app/auth/validation';
 import {
   postRegister,
   postLogin,
   getNewAccessToken,
   postVerifyOTP,
-  postNewPwd
+  postNewPwd,
+  getResendOTP,
+  postForgotPwd
 } from '@/requests/auth';
 import { EnumRole } from '@/constants/mangle';
 
@@ -46,7 +48,7 @@ const INIT_IS_LOADING = {
   login: false,
   register: false,
   refresh: false,
-  verifyOTP: false,
+  OTP: false,
   newPwd: false
 };
 
@@ -111,7 +113,9 @@ export class AuthStore {
       login: flow.bound,
       register: flow.bound,
       verifyAcctOTP: flow.bound,
-      newPwd: flow.bound
+      resendAcctOTP: flow.bound,
+      newPwd: flow.bound,
+      forgotPwd: flow.bound
     });
   }
 
@@ -312,8 +316,8 @@ export class AuthStore {
   }
 
   *verifyAcctOTP(otp: string, cb: () => void) {
-    this.isLoading.verifyOTP = true;
-    this.errors.verifyOTP = '';
+    this.isLoading.OTP = true;
+    this.errors.OTP = '';
 
     try {
       const payload: TVerifyOTPPayload = {
@@ -335,7 +339,22 @@ export class AuthStore {
     } catch (error) {
       Toast.error(parseError(error));
     } finally {
-      this.isLoading.verifyOTP = false;
+      this.isLoading.OTP = false;
+    }
+  }
+
+  *resendAcctOTP(cb: () => void) {
+    this.isLoading.OTP = true;
+
+    try {
+      yield getResendOTP();
+
+      Toast.success('Verification code sent to your mail!');
+      cb();
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.OTP = false;
     }
   }
 
@@ -345,6 +364,21 @@ export class AuthStore {
     try {
       yield postNewPwd(payload);
       Toast.success('New password set!');
+      cb();
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.newPwd = false;
+    }
+  }
+
+  *forgotPwd(payload: TForgotPwd, cb: () => void) {
+    this.isLoading.newPwd = true;
+
+    try {
+      yield postForgotPwd(payload);
+      Toast.success('Reset password link sent!');
+
       cb();
     } catch (error) {
       Toast.error(parseError(error));

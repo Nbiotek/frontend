@@ -6,7 +6,8 @@ export const AUTH = {
   NEW_ACCESS_TOKEN: '/users/refresh-token',
   FORGOT_PWD: '/users/forgot-password',
   NEW_PWD: '/users/reset-password',
-  CHANGE_PWD: ''
+  CHANGE_PWD: '',
+  RESEND_VERIFICATION_OTP: '/users/resent-otp'
 } as const;
 
 export const PATIENT = {

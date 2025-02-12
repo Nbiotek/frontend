@@ -12,13 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { EnumRole } from '@/constants/mangle';
 
 function LoginView() {
   const router = useRouter();
   const {
-    AuthStore: { login, isLoading, isAuthenticated }
+    AuthStore: { login, isLoading }
   } = useStore();
   const {
     formState: { errors },
@@ -33,14 +31,6 @@ function LoginView() {
   const onSubmit: SubmitHandler<TLogin> = async (formData) => {
     login(formData, (url) => router.replace(url));
   };
-
-  useEffect(() => {
-    if (isAuthenticated().token) {
-      if (isAuthenticated().role) {
-        router.push(ROUTES.getRedirectPathByRole(isAuthenticated().role as EnumRole));
-      }
-    }
-  }, [isAuthenticated, router]);
 
   return (
     <Card className="w-full border-none bg-transparent shadow-none">
@@ -81,7 +71,7 @@ function LoginView() {
                   className="!w-full justify-end"
                   info="Forgot password ?"
                   hrefText="Reset"
-                  href="/"
+                  href={ROUTES.FORGOT_PWD.path}
                 />
               }
             />

@@ -5,44 +5,36 @@ import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NewPwdSchema, TNewPwdSchema } from '../validation';
+import { ForgotPwdSchema, TForgotPwd } from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
 
-interface IPwdResetViewProps {
-  token: string;
-}
-
-function PwdResetVew({ token }: IPwdResetViewProps) {
+function ForgotPwdView() {
   const router = useRouter();
   const {
-    AuthStore: { newPwd, isLoading }
+    AuthStore: { forgotPwd, isLoading }
   } = useStore();
   const {
     formState: { errors },
     register,
     handleSubmit
-  } = useForm<TNewPwdSchema>({
+  } = useForm<TForgotPwd>({
     mode: 'onSubmit',
-    resolver: zodResolver(NewPwdSchema),
+    resolver: zodResolver(ForgotPwdSchema),
     reValidateMode: 'onSubmit'
   });
 
-  const onSubmit: SubmitHandler<TNewPwdSchema> = async (formData) => {
-    const newPwdPayload: TNewPwdPayload = {
-      ...formData,
-      token
-    };
-    newPwd(newPwdPayload, () => {
+  const onSubmit: SubmitHandler<TForgotPwd> = async (formData) => {
+    forgotPwd(formData, () => {
       router.replace(ROUTES.LOGIN.path);
     });
   };
   return (
     <Card className="w-full border-none bg-transparent shadow-none">
       <CardHeader className="text-center">
-        <CardTitle>Password Reset</CardTitle>
+        <CardTitle>Forgot Password</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset
@@ -51,24 +43,10 @@ function PwdResetVew({ token }: IPwdResetViewProps) {
         >
           <div className="">
             <Input
-              type="password"
-              label="Password"
-              {...register('newPassword')}
-              error={errors.newPassword?.message}
-            />
-            <Input
-              type="password"
-              label="Confirm Password"
-              {...register('confirmPassword')}
-              error={errors.confirmPassword?.message}
-              child={
-                <HyperLink
-                  className="!w-full justify-end"
-                  info="Remember password ?"
-                  hrefText="Login"
-                  href={ROUTES.LOGIN.path}
-                />
-              }
+              type="email"
+              label="Email"
+              {...register('email')}
+              error={errors.email?.message}
             />
           </div>
           <Button
@@ -93,4 +71,4 @@ function PwdResetVew({ token }: IPwdResetViewProps) {
   );
 }
 
-export default observer(PwdResetVew);
+export default observer(ForgotPwdView);

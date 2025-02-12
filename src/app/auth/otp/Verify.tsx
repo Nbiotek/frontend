@@ -17,7 +17,14 @@ import ROUTES from '@/constants/routes';
 function OTPVerificationView() {
   const router = useRouter();
   const {
-    AuthStore: { otpTimer, resendingToken, setResendingToken, verifyAcctOTP, isLoading }
+    AuthStore: {
+      otpTimer,
+      resendingToken,
+      setResendingToken,
+      verifyAcctOTP,
+      resendAcctOTP,
+      isLoading
+    }
   } = useStore();
 
   const { timeToCodeResend, resendCodeActive, setCounter } = useCountdown(otpTimer);
@@ -59,7 +66,10 @@ function OTPVerificationView() {
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="flex flex-col items-center gap-3 rounded-2xl bg-white px-4 py-8  shadow-lg">
+        <fieldset
+          disabled={isLoading.OTP}
+          className="flex flex-col items-center gap-3 rounded-2xl bg-white px-4 py-8  shadow-lg"
+        >
           <OtpInputs register={register} errors={errors} />
 
           <div className="mt-4">
@@ -70,7 +80,7 @@ function OTPVerificationView() {
                 info="Didn’t receive code?"
                 hrefText="Resend"
                 onClick={() => {
-                  handleStartCounter();
+                  resendAcctOTP(() => handleStartCounter());
                 }}
               />
             ) : null}
@@ -78,8 +88,8 @@ function OTPVerificationView() {
           <Button
             variant="filled"
             text="Continue"
-            isLoading={isLoading.verifyOTP}
-            disabled={isLoading.verifyOTP}
+            isLoading={isLoading.OTP}
+            disabled={isLoading.OTP}
           />
         </fieldset>
       </form>
