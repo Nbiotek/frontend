@@ -5,18 +5,43 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  useSidebar
+  useSidebar,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem
 } from '@/components/ui/sidebar';
-import { NavMain } from './nav-main';
 import ProfileSide from './nav-profile';
 import { PanelRightOpen } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import { EnumRole } from '@/constants/mangle';
+import { menuConfig } from '@/config/menuItems';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
 export function AppSidebar() {
+  const { data } = useFetchProfile();
   const { state, toggleSidebar } = useSidebar();
-  const [isCollapsed, setIsCollapsed] = useState(state === 'collapsed');
+  const [_, setIsCollapsed] = useState(state === 'collapsed');
 
-  // Listen for screen resize events and update sidebar state
+  const pathname = usePathname();
+
+  const roleMenu = useMemo(() => {
+    return menuConfig[data?.role as EnumRole];
+  }, [data?.role]);
+
+  const isActive = (url: string) => pathname === url || pathname.startsWith(`${url}/`);
+
+  const isSubmenuActive = (submenu: { url: string }[]) =>
+    submenu.some((item) => isActive(item.url));
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -26,14 +51,9 @@ export function AppSidebar() {
       }
     };
 
-    // Run on mount
     handleResize();
-
-    console.log(open);
-    // Add event listener
     window.addEventListener('resize', handleResize);
 
-    // Cleanup event listener
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -44,7 +64,64 @@ export function AppSidebar() {
         <PanelRightOpen onClick={toggleSidebar} size={24} className="text-neutral-400" />
       </SidebarHeader>
       <SidebarContent className="bg-white">
-        <NavMain />
+        <SidebarGroup>
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarMenu>
+            {roleMenu.map((item, index) =>
+              !item.submenu ? (
+                <Link key={item.url} href={item.url ?? ''}>
+                  <SidebarMenuItem
+                    key={index}
+                    className={`${pathname === item.url ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                  >
+                    <SidebarMenuButton tooltip={item.title}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              ) : (
+                <Collapsible
+                  key={item.title}
+                  asChild
+                  className="group/collapsible"
+                  defaultOpen={isSubmenuActive(item.submenu)}
+                >
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        tooltip={item.title}
+                        className={
+                          isSubmenuActive(item.submenu)
+                            ? 'bg-blue-400 text-white hover:text-white'
+                            : 'hover:text-white'
+                        }
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {item.submenu?.map((subItem) => (
+                          <SidebarMenuSubItem
+                            key={subItem.url}
+                            className={`${pathname === subItem.url ? 'rounded-md bg-blue-50/20 text-blue-400' : ' '}`}
+                          >
+                            <SidebarMenuSubButton asChild>
+                              <Link href={subItem.url}>{subItem.title}</Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
+              )
+            )}
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="bg-white">
         <ProfileSide />

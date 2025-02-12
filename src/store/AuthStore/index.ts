@@ -11,9 +11,14 @@ import { Toast } from '@/atoms/Toast';
 import { parseError } from '@/utils/errorHandler';
 import ROUTES from '@/constants/routes';
 import { TAuthLoginResponse, TCreateAccount, TLogin } from '@/app/auth/validation';
-import { postRegister, postLogin, getNewAccessToken, postVerifyOTP } from '@/requests/auth';
-import { AppModals } from '../AppConfigStore/appModalTypes';
-import { EnumRole, Mangle } from '@/constants/mangle';
+import {
+  postRegister,
+  postLogin,
+  getNewAccessToken,
+  postVerifyOTP,
+  postNewPwd
+} from '@/requests/auth';
+import { EnumRole } from '@/constants/mangle';
 
 interface IJwtPayloadExt extends jwt.JwtPayload {
   authorization: boolean;
@@ -41,7 +46,8 @@ const INIT_IS_LOADING = {
   login: false,
   register: false,
   refresh: false,
-  verifyOTP: false
+  verifyOTP: false,
+  newPwd: false
 };
 
 export function decodeJWT(token: string) {
@@ -61,7 +67,7 @@ const del = (key: string) => {
   return store.namespace('auth').session.remove(key);
 };
 
-type TIsAuthenticated = { ttl: number; token?: string; email?: string };
+type TIsAuthenticated = { ttl: number; token?: string; email?: string; role?: string };
 
 export class AuthStore {
   rootStore: RootStore;
@@ -104,7 +110,8 @@ export class AuthStore {
       logout: flow.bound,
       login: flow.bound,
       register: flow.bound,
-      verifyAcctOTP: flow.bound
+      verifyAcctOTP: flow.bound,
+      newPwd: flow.bound
     });
   }
 
@@ -162,7 +169,12 @@ export class AuthStore {
     this.tokenExpiresAt = tokenExpires;
     this.loggedOut = false;
 
-    return { ttl: authenticatedTTL, token, email: this.decodedToken?.email };
+    return {
+      ttl: authenticatedTTL,
+      token,
+      email: this.decodedToken?.email,
+      role: this.decodedToken?.role
+    };
   }
 
   fetchNewToken() {
@@ -262,7 +274,7 @@ export class AuthStore {
         uuid: decodedToken.uuid.toString()
       });
 
-      cb && cb(ROUTES.redirectByRole(this.user?.role as EnumRole));
+      cb && cb(ROUTES.getRedirectPathByRole(this.user?.role as EnumRole));
     } catch (error) {
       Toast.error(parseError(error));
     } finally {
@@ -287,7 +299,10 @@ export class AuthStore {
 
       this.accessToken = persist('token', data?.access_token as string);
       this.isAuthenticated(data?.access_token);
+      persist('_um', payload.email);
 
+      Toast.success('Registration successful!');
+      Toast.info('Verify your account now!');
       cb && cb();
     } catch (error) {
       Toast.error(parseError(error));
@@ -321,6 +336,20 @@ export class AuthStore {
       Toast.error(parseError(error));
     } finally {
       this.isLoading.verifyOTP = false;
+    }
+  }
+
+  *newPwd(payload: TNewPwdPayload, cb: () => void) {
+    this.isLoading.newPwd = true;
+
+    try {
+      yield postNewPwd(payload);
+      Toast.success('New password set!');
+      cb();
+    } catch (error) {
+      Toast.error(parseError(error));
+    } finally {
+      this.isLoading.newPwd = false;
     }
   }
 }

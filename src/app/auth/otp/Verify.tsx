@@ -11,10 +11,13 @@ import { useStore } from '@/store';
 import { useCountdown } from '@/hooks/useCountdown';
 import { EnumResendToken } from '@/store/AuthStore';
 import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
 
 function OTPVerificationView() {
+  const router = useRouter();
   const {
-    AuthStore: { otpTimer, resendingToken, setResendingToken }
+    AuthStore: { otpTimer, resendingToken, setResendingToken, verifyAcctOTP, isLoading }
   } = useStore();
 
   const { timeToCodeResend, resendCodeActive, setCounter } = useCountdown(otpTimer);
@@ -34,7 +37,8 @@ function OTPVerificationView() {
   });
 
   const onSubmit: SubmitHandler<TOTP> = async (formData) => {
-    console.log(formData);
+    const code = Object.values(formData).join('');
+    verifyAcctOTP(code, () => router.replace(ROUTES.LOGIN.path));
   };
 
   useEffect(() => {
@@ -54,26 +58,30 @@ function OTPVerificationView() {
           Please enter the One Time Password(OTP) sent to your phone or Email
         </CardDescription>
       </CardHeader>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-3 rounded-2xl bg-white px-4 py-8  shadow-lg"
-      >
-        <OtpInputs register={register} errors={errors} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className="flex flex-col items-center gap-3 rounded-2xl bg-white px-4 py-8  shadow-lg">
+          <OtpInputs register={register} errors={errors} />
 
-        <div className="mt-4">
-          {resendingToken === EnumResendToken.SENT && <small>{timeToCodeResend}</small>}
-          {resendingToken !== EnumResendToken.SENT ? (
-            <HyperLink
-              href=""
-              info="Didn’t receive code?"
-              hrefText="Resend"
-              onClick={() => {
-                handleStartCounter();
-              }}
-            />
-          ) : null}
-        </div>
-        <Button variant="filled" text="Continue" />
+          <div className="mt-4">
+            {resendingToken === EnumResendToken.SENT && <small>{timeToCodeResend}</small>}
+            {resendingToken !== EnumResendToken.SENT ? (
+              <HyperLink
+                href=""
+                info="Didn’t receive code?"
+                hrefText="Resend"
+                onClick={() => {
+                  handleStartCounter();
+                }}
+              />
+            ) : null}
+          </div>
+          <Button
+            variant="filled"
+            text="Continue"
+            isLoading={isLoading.verifyOTP}
+            disabled={isLoading.verifyOTP}
+          />
+        </fieldset>
       </form>
     </Card>
   );

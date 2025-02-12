@@ -14,8 +14,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateAccountValidationSchema, TCreateAccount } from '../validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
+import { useRouter } from 'next/navigation';
 
 function RegisterView() {
+  const router = useRouter();
   const {
     AuthStore: { register: registerAcct, isLoading }
   } = useStore();
@@ -32,7 +34,7 @@ function RegisterView() {
   });
 
   const onSubmit: SubmitHandler<TCreateAccount> = async (formData) => {
-    registerAcct(formData);
+    registerAcct(formData, () => router.replace(ROUTES.OTP.path));
   };
 
   const handleSetValue = (key: string, value: string) => {
@@ -69,8 +71,8 @@ function RegisterView() {
                 id="fname"
                 label="First Name"
                 placeholder="Adeolu"
-                {...register('first_name')}
-                error={errors.first_name?.message}
+                {...register('firstName')}
+                error={errors.firstName?.message}
               />
               <Input
                 className="md:mb-0 md:w-[50%]"
@@ -78,8 +80,8 @@ function RegisterView() {
                 id="lname"
                 label="Last Name"
                 placeholder="John"
-                {...register('last_name')}
-                error={errors.last_name?.message}
+                {...register('lastName')}
+                error={errors.lastName?.message}
               />
             </div>
 
@@ -112,8 +114,8 @@ function RegisterView() {
             <Input
               type="password"
               label="Confirm Password"
-              {...register('confirm_password')}
-              error={errors.confirm_password?.message}
+              {...register('confirmPassword')}
+              error={errors.confirmPassword?.message}
             />
           </div>
           <Button

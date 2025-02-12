@@ -8,7 +8,8 @@ import { useMemo } from 'react';
 const ModalsMap = {
   [AppModals.RESULT_UPLOAD_MODAL]: dynamic(
     () => import('@/app/(modules)/lab-tech/tests/components/ResultUploadModal')
-  )
+  ),
+  [AppModals.LOG_OUT_MODAL]: dynamic(() => import('@/components/dashboard/Sidebar/LogoutModal'))
 };
 
 const ModalsBank = () => {

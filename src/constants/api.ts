@@ -2,7 +2,7 @@ export const AUTH = {
   LOGIN: '/users/login',
   REGISTER: '/users/register',
   OTP: '/users/verify-otp',
-  PROFILE: '/users/profile',
+  GET_PROFILE: '/users/profile',
   NEW_ACCESS_TOKEN: '/users/refresh-token',
   FORGOT_PWD: '/users/forgot-password',
   NEW_PWD: '/users/reset-password',

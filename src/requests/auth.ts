@@ -12,7 +12,7 @@ export const postRegister = async (payload: TCreateAccount) =>
 export const postForgotPwd = async (payload: { email: string }) =>
   server.post<INBTServerResp<string>>(AUTH.FORGOT_PWD, payload);
 
-export const postNewPwd = async (payload: string) =>
+export const postNewPwd = async (payload: TNewPwdPayload) =>
   server.post<INBTServerResp<string>>(AUTH.NEW_PWD, payload);
 
 export const postVerifyOTP = async (payload: TVerifyOTPPayload) =>
@@ -22,7 +22,7 @@ export const postChangePwd = (payload: TPwdSchema) =>
   server.post<INBTServerResp<string>>(AUTH.CHANGE_PWD, payload);
 
 // get requests
-export const getProfile = async () => server.get<TGetProfile>(AUTH.PROFILE);
+export const getProfile = async () => server.get<TGetProfile>(AUTH.GET_PROFILE);
 
 export const getNewAccessToken = async () =>
   serverwithoutInterceptor.get<INBTServerResp<{ access_token: string }>>(AUTH.NEW_ACCESS_TOKEN);

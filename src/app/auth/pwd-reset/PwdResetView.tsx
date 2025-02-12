@@ -1,87 +1,72 @@
 'use client';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
-import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
-import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
 import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LoginValidationSchema, TLogin } from '../validation';
+import { NewPwdSchema, TNewPwdSchema } from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { EnumRole } from '@/constants/mangle';
 
-function LoginView() {
+interface IPwdResetViewProps {
+  token: string;
+}
+
+function PwdResetVew({ token }: IPwdResetViewProps) {
   const router = useRouter();
   const {
-    AuthStore: { login, isLoading, isAuthenticated }
+    AuthStore: { newPwd, isLoading }
   } = useStore();
   const {
     formState: { errors },
     register,
     handleSubmit
-  } = useForm<TLogin>({
+  } = useForm<TNewPwdSchema>({
     mode: 'onSubmit',
-    resolver: zodResolver(LoginValidationSchema),
+    resolver: zodResolver(NewPwdSchema),
     reValidateMode: 'onSubmit'
   });
 
-  const onSubmit: SubmitHandler<TLogin> = async (formData) => {
-    login(formData, (url) => router.replace(url));
+  const onSubmit: SubmitHandler<TNewPwdSchema> = async (formData) => {
+    const newPwdPayload: TNewPwdPayload = {
+      ...formData,
+      token
+    };
+    newPwd(newPwdPayload, () => {
+      router.replace(ROUTES.LOGIN.path);
+    });
   };
-
-  useEffect(() => {
-    if (isAuthenticated().token) {
-      if (isAuthenticated().role) {
-        router.push(ROUTES.getRedirectPathByRole(isAuthenticated().role as EnumRole));
-      }
-    }
-  }, [isAuthenticated, router]);
-
   return (
     <Card className="w-full border-none bg-transparent shadow-none">
       <CardHeader className="text-center">
-        <CardTitle>Sign in to your account</CardTitle>
+        <CardTitle>Password Reset</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset
-          disabled={isLoading.login}
+          disabled={isLoading.newPwd}
           className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
         >
-          {/* <div className="flex flex-col space-y-2">
-          <GoogleBtn />
-          <FacebookBtn />
-        </div>
-
-        <div className="flex items-center justify-between text-neutral-200">
-          <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-          <p>or</p>
-          <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-        </div> */}
-
           <div className="">
-            <Input
-              type="email"
-              label="Email Address"
-              placeholder="adeolu@gmail.com"
-              {...register('email')}
-              error={errors.email?.message}
-            />
             <Input
               type="password"
               label="Password"
               {...register('password')}
               error={errors.password?.message}
+            />
+            <Input
+              type="password"
+              label="Confirm Password"
+              {...register('confirmPassword')}
+              error={errors.confirmPassword?.message}
               child={
                 <HyperLink
                   className="!w-full justify-end"
-                  info="Forgot password ?"
-                  hrefText="Reset"
-                  href="/"
+                  info="Remember password ?"
+                  hrefText="Login"
+                  href={ROUTES.LOGIN.path}
                 />
               }
             />
@@ -89,8 +74,8 @@ function LoginView() {
           <Button
             type="submit"
             variant="filled"
-            isLoading={isLoading.login}
-            disabled={isLoading.login}
+            isLoading={isLoading.newPwd}
+            disabled={isLoading.newPwd}
           >
             Continue
           </Button>
@@ -108,4 +93,4 @@ function LoginView() {
   );
 }
 
-export default observer(LoginView);
+export default observer(PwdResetVew);

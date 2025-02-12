@@ -14,7 +14,7 @@ const password = z
     'Password must contain at least a special character.'
   )
   .refine((value) => lowerCaseRegex.test(value), 'Password must contain atleast a lowercase.');
-const confirm_password = z.string().trim().min(1, { message: 'Confirm password is required.' });
+const confirmPassword = z.string().trim().min(1, { message: 'Confirm password is required.' });
 
 export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),
@@ -28,12 +28,12 @@ export const LoginValidationSchema = z.object({
 
 export const CreateAccountValidationSchema = z
   .object({
-    first_name: z
+    firstName: z
       .string()
       .trim()
       .min(3, { message: 'First Name is required.' })
       .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.'),
-    last_name: z
+    lastName: z
       .string()
       .trim()
       .min(3, { message: 'Last Name is required.' })
@@ -41,32 +41,32 @@ export const CreateAccountValidationSchema = z
     email,
     role: z.string({ required_error: 'Select a role' }).trim().min(1, { message: 'Select role.' }),
     password,
-    confirm_password
+    confirmPassword
   })
-  .refine((data) => data.password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match.',
-    path: ['confirm_password']
+    path: ['confirmPassword']
   });
 
 export const PwdSchema = z
   .object({
     password,
     new_password: password,
-    confirm_password
+    confirmPassword
   })
-  .refine((data) => data.new_password === data.confirm_password, {
+  .refine((data) => data.new_password === data.confirmPassword, {
     message: 'Passwords do not match.',
-    path: ['confirm_password']
+    path: ['confirmPassword']
   });
 
 export const NewPwdSchema = z
   .object({
     password,
-    confirm_password
+    confirmPassword
   })
-  .refine((data) => data.password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match.',
-    path: ['confirm_password']
+    path: ['confirmPassword']
   });
 
 export const ForgotPwdSchema = z.object({

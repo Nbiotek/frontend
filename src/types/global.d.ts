@@ -1,4 +1,9 @@
-/*====================== Error ===================================*/
+type TNewPwdPayload = {
+  token: string;
+  password: string;
+  confirmPassword: string;
+};
+
 interface INBTApiError {
   errors: string;
   message: string;
@@ -29,4 +34,11 @@ type TProfileInfo = {
 interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {
   token: string;
   exp?: number;
+}
+
+interface IQueryHookResponse<T> {
+  data: T;
+  isLoading: boolean;
+  error: unknown;
+  status: 'error' | 'success' | 'pending';
 }

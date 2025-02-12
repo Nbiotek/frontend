@@ -2,15 +2,16 @@ import { EnumRole } from './mangle';
 
 class Route {
   path: string;
-
   title: string;
-
   description: string;
+  roles: Array<EnumRole> = [EnumRole.DEFAULT];
 
-  constructor(path: string, title: string, description: string) {
-    this.path = path;
-    this.title = title;
-    this.description = description;
+  constructor(_path: string, _title: string, _description: string, _roles?: EnumRole[]) {
+    this.path = _path;
+    this.description = _description;
+    this.title = _title;
+
+    if (_roles) this.roles = _roles;
   }
 }
 
@@ -24,6 +25,7 @@ class Routes {
     'Nbiotek Privacy Policy',
     'Privacy Policy - Nbiotek'
   );
+  UNAUTHORIZED = new Route('/unathorized', '', '');
 
   // auth
   REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
@@ -111,38 +113,56 @@ class Routes {
   );
 
   // Lab Tech
-  LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page');
-  LAB_TECH_TEST = new Route('/lab-tech/tests', 'Test Queue', 'Lab Technician All Test');
+  LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+  LAB_TECH_TEST = new Route('/lab-tech/tests', 'Test Queue', 'Lab Technician All Test', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
   LAB_TECH_QUALITY_CONTROL_PENDING = new Route(
     '/lab-tech/qc/pending',
     'Pending',
-    'Lab Technician Quality Control Pending'
+    'Lab Technician Quality Control Pending',
+    [EnumRole.LAB_TECHNICIAN]
   );
   LAB_TECH_QUALITY_CONTROL_HISTORY = new Route(
     '/lab-tech/qc/history',
     'History',
-    'Lab Technician Quality Control'
+    'Lab Technician Quality Control',
+    [EnumRole.LAB_TECHNICIAN]
   );
   LAB_TECH_RESULT_HISTORY_RECENT = new Route(
     '/lab-tech/results/recent',
     'Recent',
-    'Lab Technician Recent Result'
+    'Lab Technician Recent Result',
+    [EnumRole.LAB_TECHNICIAN]
   );
   LAB_TECH_RESULT_HISTORY_ARCHIVED = new Route(
     '/lab-tech/results/archived',
     'Archived',
-    'Lab Technician Archived Result'
+    'Lab Technician Archived Result',
+    [EnumRole.LAB_TECHNICIAN]
   );
   LAB_TECH_NOTIFICATION = new Route(
     '/lab-tech/notification',
     'Notifications',
-    'Lab Technician Notifications'
+    'Lab Technician Notifications',
+    [EnumRole.LAB_TECHNICIAN]
   );
-  LAB_TECH_SUPPORT_CONTACT = new Route('/lab-tech/sh/contact', 'Contact', 'Lab Technician contact');
-  LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs');
-  LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings');
+  LAB_TECH_SUPPORT_CONTACT = new Route(
+    '/lab-tech/sh/contact',
+    'Contact',
+    'Lab Technician contact',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+  LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+  LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
 
-  redirectByRole(_role: EnumRole) {
+  getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
       case EnumRole.LAB_TECHNICIAN:
         return this.LAB_TECH.path;
@@ -152,8 +172,22 @@ class Routes {
         return this.PATIENT.path;
     }
   }
+
+  getAllProtectedRoutes() {
+    const routes = new Map<string, Array<EnumRole>>();
+
+    routes.set(this.PATIENT.path, [EnumRole.PATIENT]);
+    routes.set(this.LAB_TECH.path, [EnumRole.LAB_TECHNICIAN]);
+
+    return routes;
+  }
 }
 
 const ROUTES = new Routes();
+
+export const roleAccessRules = {
+  '/patient': [EnumRole.PATIENT],
+  '/lab-tech': [EnumRole.LAB_TECHNICIAN]
+};
 
 export default ROUTES;

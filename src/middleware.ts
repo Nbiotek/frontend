@@ -1,32 +1,103 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import logger from './utils/logger';
-import { Mangle } from '@/constants/mangle';
+import { EnumRole, Mangle } from '@/constants/mangle';
 import { cookies } from 'next/headers';
-import Routes from './constants/routes';
+import Routes, { roleAccessRules } from './constants/routes';
 import * as jwt from 'jsonwebtoken';
+import ROUTES from './constants/routes';
+
+const PUBLIC_PATHS = [
+  Routes.HOME.path,
+  Routes.ABOUT.path,
+  Routes.FAQS.path,
+  Routes.PRIVACY_POLICY.path,
+  '/auth'
+];
+
+const PROTECTED_PATHS = [Routes.PATIENT.path, Routes.LAB_TECH.path];
+
+const AUTH_REDIRECT_PATHS = [Routes.LOGIN.path, Routes.REGISTER.path, Routes.OTP.path];
+
+function isTokenExpired(exp?: number): boolean {
+  if (!exp) return true;
+  return Date.now() > exp * 1000;
+}
+
+function redirectToLogin(request: NextRequest): NextResponse {
+  return NextResponse.redirect(new URL(Routes.LOGIN.path, request.url));
+}
+
+function redirectToUnauthorized(request: NextRequest): NextResponse {
+  return NextResponse.redirect(new URL(Routes.UNAUTHORIZED.path, request.url));
+}
 
 export default async function middleware(request: NextRequest) {
   const pathname = new URL(request.url).pathname;
 
-  //   const token = (await cookies()).get(Mangle.SESSION_TOKEN)?.value;
-  //   if (!token) {
-  //     logger.debug('Terminating Page Req', 'NO_SESSION');
-  //     return NextResponse.redirect(new URL(Routes.LOGIN.path, request.url));
-  //   }
+  if (PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(path))) {
+    return NextResponse.next();
+  }
 
-  //   const payload = jwt.decode(token) as SessionPayload;
-  //   if (!payload?.token) {
-  //     logger.debug('Terminating Page Req', 'NO_ACCESS_TOKEN');
+  const isReqProtectedRoute = PROTECTED_PATHS.some((route) => pathname.startsWith(route));
 
-  //     return NextResponse.redirect(new URL(Routes.LOGIN.path, request.url));
-  //   }
+  try {
+    const token = (await cookies()).get(Mangle.SESSION_TOKEN)?.value;
 
-  //   if (Date.now() > (payload.exp ?? 0) * 1000) {
-  //     logger.debug('Terminating Page Req', 'SESSION_EXPIRED');
-  //     return NextResponse.redirect(new URL(Routes.LOGIN.path, request.url));
-  //   }
+    if (token && AUTH_REDIRECT_PATHS.some((path) => pathname.startsWith(path))) {
+      const payload = jwt.decode(token) as SessionPayload;
+      if (payload?.token && !isTokenExpired(payload.exp)) {
+        logger.debug('Redirecting authenticated user from auth page to dashboard', { pathname });
+        return NextResponse.redirect(
+          new URL(Routes.getRedirectPathByRole(payload.role as EnumRole), request.url)
+        );
+      }
+    }
 
-  // TODO: Exclude the registeration route from dev or prod.
+    if (!token) {
+      logger.debug('No session token found', { pathname });
 
-  return NextResponse.next();
+      if (!PUBLIC_PATHS.some((path) => pathname.startsWith(path))) {
+        return redirectToLogin(request);
+      }
+      return NextResponse.next();
+    }
+
+    const payload = jwt.decode(token) as SessionPayload;
+    console.log(payload, token);
+    if (!payload?.token) {
+      logger.debug('Invalid token payload', { pathname });
+      return redirectToLogin(request);
+    }
+
+    if (isTokenExpired(payload.exp)) {
+      logger.debug('Session token expired', { pathname });
+      return redirectToLogin(request);
+    }
+
+    const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
+    const allProtectedRoutes = allProtectedRoutesObj.keys();
+
+    for (let route of allProtectedRoutes) {
+      if (pathname.startsWith(route)) {
+        console.log(route, allProtectedRoutesObj.get(route));
+
+        const role = allProtectedRoutesObj.get(route);
+
+        if (role && payload.role) {
+          if (!role.includes(payload.role as EnumRole)) {
+            return redirectToUnauthorized(request);
+          }
+        }
+      }
+    }
+
+    return NextResponse.next();
+  } catch (error) {
+    logger.error('Middleware error', { error, pathname });
+    return redirectToLogin(request);
+  }
 }
+
+export const config = {
+  matcher: ['/((?!_next|api|favicon.ico|not-found|.*\\..*).*)']
+};
