@@ -1,7 +1,7 @@
 import { Title, Paragraph } from '@/atoms/typographys';
 import { useStore } from '@/store';
 import { XModal } from '@/atoms/modal';
-import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';

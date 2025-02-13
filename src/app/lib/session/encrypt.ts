@@ -2,7 +2,7 @@ import 'server-only';
 import { sign } from 'jsonwebtoken';
 import { env } from '@/env';
 import { cookies } from 'next/headers';
-import { decodeJWT } from '@/store/AuthStore';
+import { decodeJWT } from '@/store/Auth';
 import { Mangle } from '@/constants/mangle';
 
 const secretKey = env.SESSION_SECRET;

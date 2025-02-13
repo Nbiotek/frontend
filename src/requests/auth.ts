@@ -3,6 +3,7 @@ import {
   TCreateAccount,
   TForgotPwd,
   TLogin,
+  TPatientPersonalSchema,
   TPwdSchema
 } from '@/app/auth/validation';
 import server, { serverwithoutInterceptor } from '.';
@@ -27,10 +28,11 @@ export const postVerifyOTP = async (payload: TVerifyOTPPayload) =>
 export const postChangePwd = (payload: TPwdSchema) =>
   server.post<INBTServerResp<string>>(AUTH.CHANGE_PWD, payload);
 
+export const postResendOTP = () =>
+  server.post<INBTServerResp<string>>(AUTH.RESEND_EMAIL_VERIFICATION);
+
 // get requests
 export const getProfile = async () => server.get<TGetProfile>(AUTH.GET_PROFILE);
 
 export const getNewAccessToken = async () =>
   serverwithoutInterceptor.get<INBTServerResp<{ access_token: string }>>(AUTH.NEW_ACCESS_TOKEN);
-
-export const getResendOTP = () => server.get<INBTServerResp<string>>(AUTH.RESEND_VERIFICATION_OTP);

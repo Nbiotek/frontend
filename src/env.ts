@@ -17,7 +17,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_API_BASE_URL: z.string().url()
+    NEXT_PUBLIC_API_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_BASE_ASSET_URL: z.string().url()
   },
 
   /**
@@ -30,6 +31,7 @@ export const env = createEnv({
         ? process.env.NEXT_PUBLIC_VERCEL_ENV
         : process.env.NODE_ENV,
     NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    NEXT_PUBLIC_BASE_ASSET_URL: process.env.NEXT_PUBLIC_BASE_ASSET_URL,
     SESSION_SECRET: process.env.SESSION_SECRET
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

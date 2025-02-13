@@ -20,8 +20,6 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const checkAuthorization = useMemo(() => {
     for (let route of allProtectedRoutes) {
       if (pathname.startsWith(route)) {
-        console.log(route, allProtectedRoutesObj.get(route));
-
         const role = allProtectedRoutesObj.get(route);
 
         if (role && data) {

@@ -1,8 +1,9 @@
 'use client';
 import { createContext, useContext } from 'react';
 import { configure } from 'mobx';
-import { AppConfigStore } from './AppConfigStore';
-import { AuthStore } from './AuthStore';
+import { AppConfigStore } from './AppConfig';
+import { AuthStore } from './Auth';
+import { PatientStore } from './Patient';
 
 configure({
   enforceActions: 'observed',
@@ -16,9 +17,12 @@ interface StoreProviderProps {
 export class RootStore {
   AppConfigStore: AppConfigStore;
   AuthStore: AuthStore;
+  PatientStore: PatientStore;
+
   constructor() {
     this.AppConfigStore = new AppConfigStore(this);
     this.AuthStore = new AuthStore(this);
+    this.PatientStore = new PatientStore(this);
   }
 }
 

@@ -5,8 +5,9 @@ import { LeftIcon } from '@/lib/utils/svg';
 import { observer } from 'mobx-react-lite';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
+import { env } from '@/env';
 
 const ProfileSide = () => {
   const { data } = useFetchProfile();
@@ -20,7 +21,15 @@ const ProfileSide = () => {
         Profile
       </Text>
       <div className="flex items-center gap-2">
-        <Image src={'/Avatar.png'} alt="Profile image" width={50} height={40} />
+        <figure className="h-[50px] w-[50px] overflow-clip rounded-full">
+          <Image
+            src={`${data?.profile_pics ? `${env.NEXT_PUBLIC_BASE_ASSET_URL}${data?.profile_pics}` : '/Avatar.png'}`}
+            alt="Profile image"
+            width={50}
+            height={40}
+          />
+        </figure>
+
         <div className="space-y-1">
           <SubTitle
             className="!-mb-2 !text-neutral-800"

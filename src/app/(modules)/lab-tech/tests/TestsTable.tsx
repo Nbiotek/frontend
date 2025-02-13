@@ -18,7 +18,7 @@ import {
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
 import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
 
 const TestsTable = () => {

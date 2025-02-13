@@ -17,7 +17,7 @@ import {
   getNewAccessToken,
   postVerifyOTP,
   postNewPwd,
-  getResendOTP,
+  postResendOTP,
   postForgotPwd
 } from '@/requests/auth';
 import { EnumRole } from '@/constants/mangle';
@@ -326,7 +326,7 @@ export class AuthStore {
         otp
       };
       const {
-        data: { data }
+        data: { data, message }
       } = (yield postVerifyOTP(payload)) as { data: TAuthLoginResponse };
 
       if (!data.email_verified) {
@@ -335,6 +335,7 @@ export class AuthStore {
       }
 
       del('_um');
+      Toast.success(message);
       cb();
     } catch (error) {
       Toast.error(parseError(error));
@@ -347,9 +348,11 @@ export class AuthStore {
     this.isLoading.OTP = true;
 
     try {
-      yield getResendOTP();
+      const {
+        data: { message }
+      } = (yield postResendOTP()) as { data: INBTServerResp<string> };
 
-      Toast.success('Verification code sent to your mail!');
+      Toast.success(message);
       cb();
     } catch (error) {
       Toast.error(parseError(error));

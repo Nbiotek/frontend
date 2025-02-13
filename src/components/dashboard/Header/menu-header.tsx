@@ -2,9 +2,11 @@
 import { Bell, Settings, ShoppingCart, PanelRightClose } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
+import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
 const MenuHeader = () => {
   const { state, toggleSidebar } = useSidebar();
+  const { data } = useFetchProfile();
 
   return (
     <div className="sticky top-0 z-40 w-full border border-r bg-white p-2 shadow-lg">
@@ -17,7 +19,7 @@ const MenuHeader = () => {
             <PanelRightClose size={24} className="text-neutral-400" />
           </button>
           <div className="flex flex-col">
-            <SubTitle className="text-blue-400" text="Hello Charles" />
+            <SubTitle className="text-blue-400" text={`Hello ${data?.first_name}`} />
             <Paragraph className="text-blue-400" text="Welcome to your dashboard" />
           </div>
         </div>
