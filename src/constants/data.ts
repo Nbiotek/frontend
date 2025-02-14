@@ -1,3 +1,5 @@
+import { EnumRole } from './mangle';
+
 export const maritalStatus = [
   {
     label: 'Single',
@@ -19,6 +21,38 @@ export const gender = [
   {
     label: 'Female',
     value: 'female'
+  }
+];
+
+export const role = [
+  {
+    label: 'Lab Tech.',
+    value: EnumRole.LAB_TECHNICIAN
+  },
+
+  {
+    label: 'Lab Coord.',
+    value: EnumRole.LAB_CORDINATOR
+  },
+
+  {
+    label: 'Recept.',
+    value: EnumRole.RECEPTIONIST
+  },
+
+  {
+    label: 'Marketer',
+    value: EnumRole.MARKETER
+  },
+
+  {
+    label: 'Doctor',
+    value: EnumRole.DOCTOR
+  },
+
+  {
+    label: 'Technical Coord.',
+    value: EnumRole.TECHNICAL_COORDINATOR
   }
 ];
 

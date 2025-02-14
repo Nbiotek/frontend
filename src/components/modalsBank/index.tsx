@@ -1,6 +1,6 @@
 'use client';
 import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
@@ -8,7 +8,8 @@ import { useMemo } from 'react';
 const ModalsMap = {
   [AppModals.RESULT_UPLOAD_MODAL]: dynamic(
     () => import('@/app/(modules)/lab-tech/tests/components/ResultUploadModal')
-  )
+  ),
+  [AppModals.LOG_OUT_MODAL]: dynamic(() => import('@/components/dashboard/Sidebar/LogoutModal'))
 };
 
 const ModalsBank = () => {

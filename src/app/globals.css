@@ -200,3 +200,8 @@ body {
   border: 0.3px solid #d5d5d5;
   background: #fcfdfd;
 }
+
+/* react-date-range custom style */
+.rdrMonth {
+  width: 100% !important;
+}

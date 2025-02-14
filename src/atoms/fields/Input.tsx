@@ -21,16 +21,20 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
         className={`flex w-full flex-col font-roboto ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
       >
         {label && (
-          <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
-            {label}
-          </label>
+          <div className="flex items-center justify-start space-x-1">
+            <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
+              {label}
+            </label>
+
+            {required && <span className="text-red-300">*</span>}
+          </div>
         )}
         <div className="relative flex w-full flex-col">
           <input
             {...{ ref, required, placeholder, id: props.id ?? props.name }}
             type={type === 'password' ? (showPass ? 'text' : 'password') : type}
             placeholder={placeholder}
-            className={`peer h-[45px] rounded-lg bg-white pl-4 text-sm outline-none ring-1 ring-transparent transition-all duration-300 placeholder:text-sm focus:ring-blue-400 sm:bg-neutral-50 ${
+            className={`peer h-[45px] rounded-lg bg-neutral-50 pl-4 text-sm outline-none ring-1 ring-transparent transition-all duration-300 placeholder:text-sm focus:ring-blue-400 ${
               error ? 'bg-red-100/50 ring-red-200' : ''
             } disabled:cursor-not-allowed disabled:text-neutral-300 disabled:hover:ring-borderLine disabled:focus:ring-borderLine`}
             {...props}

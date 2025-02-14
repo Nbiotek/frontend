@@ -1,6 +1,6 @@
 import PatientView from './PatientView';
 
-const PatientDashboard = () => {
+const PatientDashboard: React.FC = () => {
   return <PatientView />;
 };
 

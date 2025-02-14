@@ -1,44 +1,25 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Text } from '@/lib/utils/Text';
-import { Bell, Settings, Menu, ShoppingCart } from 'lucide-react';
+import { Bell, Settings, ShoppingCart, PanelRightClose } from 'lucide-react';
 import { useSidebar } from '@/components/ui/sidebar';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
+import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
 const MenuHeader = () => {
-  const { state, toggleSidebar, setOpen, open } = useSidebar();
-  const [isCollapsed, setIsCollapsed] = useState(state === 'collapsed');
-
-  // Listen for screen resize events and update sidebar state
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-    };
-
-    // Run on mount
-    handleResize();
-
-    console.log(open);
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const { state, toggleSidebar } = useSidebar();
+  const { data } = useFetchProfile();
 
   return (
     <div className="sticky top-0 z-40 w-full border border-r bg-white p-2 shadow-lg">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
-          <button onClick={toggleSidebar}>
-            <Menu size={25} />
+          <button
+            className={`${state === 'collapsed' ? 'block' : 'block md:hidden'}`}
+            onClick={toggleSidebar}
+          >
+            <PanelRightClose size={24} className="text-neutral-400" />
           </button>
           <div className="flex flex-col">
-            <SubTitle className="text-blue-400" text="Hello Charles" />
+            <SubTitle className="text-blue-400" text={`Hello ${data?.first_name}`} />
             <Paragraph className="text-blue-400" text="Welcome to your dashboard" />
           </div>
         </div>
