@@ -4,7 +4,7 @@ import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PatientContactSchema, TPatientContactSchema } from '../../../validation';
+import { PatientContactSchema, TPatientContactSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useEffect } from 'react';
@@ -41,6 +41,7 @@ function ContactForm() {
 
         <fieldset className="">
           <Input
+            required={true}
             type="text"
             id="emailAddress"
             label="Home address"
@@ -50,6 +51,7 @@ function ContactForm() {
           />
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="fname"
@@ -59,6 +61,7 @@ function ContactForm() {
               error={errors.city?.message}
             />
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="lname"
@@ -79,6 +82,7 @@ function ContactForm() {
               error={errors.landMark?.message}
             />
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="lname"
@@ -89,11 +93,17 @@ function ContactForm() {
             />
           </div>
 
-          <label className="mb-3 font-medium">Emergency Contact</label>
+          <label className="mb-3 font-medium">
+            <div className="flex items-center justify-start space-x-1">
+              <label className="">Emergency Contact</label>
+              <span className="text-red-300">*</span>
+            </div>
+          </label>
 
           <div className="mt-3">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
               <Input
+                required={true}
                 className="md:mb-0 md:w-[50%]"
                 type="text"
                 id="fname"
@@ -102,6 +112,7 @@ function ContactForm() {
                 error={errors.emergencyContact?.firstName?.message}
               />
               <Input
+                required={true}
                 className="md:mb-0 md:w-[50%]"
                 type="text"
                 id="lname"
@@ -113,6 +124,7 @@ function ContactForm() {
 
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
               <Input
+                required={true}
                 className="md:mb-0 md:w-[50%]"
                 type="text"
                 id="fname"
@@ -121,6 +133,7 @@ function ContactForm() {
                 error={errors.emergencyContact?.address?.message}
               />
               <Input
+                required={true}
                 className="md:mb-0 md:w-[50%]"
                 type="text"
                 id="lname"

@@ -6,7 +6,7 @@ import Input from '@/atoms/fields/Input';
 import InputSelect from '@/atoms/fields/InputSelect';
 import { gender, maritalStatus } from '@/constants/data';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PatientPersonalSchema, TPatientPersonalSchema } from '../../../validation';
+import { PatientPersonalSchema, TPatientPersonalSchema } from '../../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import CustomDate from '@/atoms/fields/CustomDate';
 import { observer } from 'mobx-react-lite';
@@ -42,12 +42,19 @@ function PersonalForm() {
   };
 
   const handleSetDate = (val: Date) => {
-    setValue('dob', val.toISOString());
-    clearErrors('dob');
+    setValue('dateOfBirth', val.toISOString());
+    clearErrors('dateOfBirth');
   };
 
   useEffect(() => {
     reset(personalInfo);
+    if (personalInfo.height) {
+      setValue('height', String(personalInfo.height));
+    }
+
+    if (personalInfo.weight) {
+      setValue('weight', String(personalInfo.weight));
+    }
   }, []);
 
   return (
@@ -58,6 +65,7 @@ function PersonalForm() {
         <fieldset className="">
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="fname"
@@ -67,6 +75,7 @@ function PersonalForm() {
               error={errors.firstName?.message}
             />
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="lname"
@@ -77,6 +86,7 @@ function PersonalForm() {
             />
           </div>
           <Input
+            required={true}
             className="mb-1"
             type="email"
             id="emailAddress"
@@ -87,6 +97,7 @@ function PersonalForm() {
           />
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
+              required={true}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="phone_number"
@@ -97,11 +108,12 @@ function PersonalForm() {
             />
 
             <CustomDate
+              required={true}
               className="md:w-[50%]"
-              id="dob"
+              id="dateOfBirth"
               label="Date of Birth"
               showTime={false}
-              error={errors.dob?.message}
+              error={errors.dateOfBirth?.message}
               placeholder="Jan 1, 2000"
               handleSetDate={handleSetDate}
             />
@@ -110,6 +122,7 @@ function PersonalForm() {
           <div className="">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
               <InputSelect
+                required={true}
                 className="md:w-[50%]"
                 id="gender"
                 label="Gender"
@@ -120,6 +133,7 @@ function PersonalForm() {
               />
 
               <InputSelect
+                required={true}
                 className="md:w-[50%]"
                 id="marital_status"
                 label="Marital status"

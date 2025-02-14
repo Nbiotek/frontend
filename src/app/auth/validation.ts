@@ -39,13 +39,6 @@ const phoneNumber = z
       });
     }
 
-    if (!val.startsWith('0')) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone number must start with 0.'
-      });
-    }
-
     if (lowerCaseRegex.test(val)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -59,10 +52,10 @@ const phoneNumber = z
       });
     }
 
-    if (val.length > 11) {
+    if (val.length > 15) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Phone number can not be more than 10 digits.'
+        message: 'Phone number can not be more than 15 digits.'
       });
     }
   });
@@ -123,7 +116,7 @@ export const PatientPersonalSchema = z.object({
   phoneNumber,
   maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
   gender: z.string({ required_error: 'Gender is required.' }).trim(),
-  dob: z.string({ required_error: 'Date of birth is required.' }).trim(),
+  dateOfBirth: z.string({ required_error: 'Date of birth is required.' }).trim(),
   weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
   height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
   primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
@@ -159,24 +152,113 @@ export const PatientContactSchema = z.object({
   })
 });
 
-export const PatientInsuranceSchema = z.object({
-  primaryInsuranceProvider: z
-    .string({ required_error: 'Primary insurance is required.' })
-    .trim()
-    .optional(),
-  insurancePlanName: z
-    .string({ required_error: 'Insurance plan name is required.' })
-    .trim()
-    .optional(),
-  policyNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
-  groupNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
-  insurancePhoneNumber: z.string({ required_error: 'Phone number is required.' }).trim(),
-  policyHolder: z.object({
-    firstName: z.string({ required_error: 'First name is required.' }).trim().optional(),
-    lastName: z.string({ required_error: 'Last name is required.' }).trim().optional(),
-    phoneNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional()
+export const PatientInsuranceSchema = z
+  .object({
+    primaryInsuranceProvider: z
+      .string({ required_error: 'Primary insurance is required.' })
+      .trim()
+      .optional(),
+    insurancePlanName: z
+      .string({ required_error: 'Insurance plan name is required.' })
+      .trim()
+      .optional(),
+    policyNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
+    groupNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
+    insurancePhoneNumber: z.string({ required_error: 'Phone number is required.' }).trim(),
+    policyHolder: z.object({
+      firstName: z.string({ required_error: 'First name is required.' }).trim().optional(),
+      lastName: z.string({ required_error: 'Last name is required.' }).trim().optional(),
+      phoneNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional()
+    })
   })
-});
+  .superRefine((data, ctx) => {
+    const { primaryInsuranceProvider } = data;
+
+    if (primaryInsuranceProvider) {
+      // Check insurance plan name
+      if (!data.insurancePlanName) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Insurance plan name is required when primary insurance is provided',
+          path: ['insurancePlanName']
+        });
+      }
+
+      // Check policy number
+      if (!data.policyNumber) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Policy number is required when primary insurance is provided',
+          path: ['policyNumber']
+        });
+      }
+
+      // Check group number
+      if (!data.groupNumber) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Group number is required when primary insurance is provided',
+          path: ['groupNumber']
+        });
+      }
+
+      // Check policy holder information
+      if (!data.policyHolder.firstName) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Policy holder first name is required when primary insurance is provided',
+          path: ['policyHolder', 'firstName']
+        });
+      }
+
+      if (!data.policyHolder.lastName) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Policy holder last name is required when primary insurance is provided',
+          path: ['policyHolder', 'lastName']
+        });
+      }
+
+      if (!data.policyHolder.phoneNumber) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Policy holder phone number is required when primary insurance is provided',
+          path: ['policyHolder', 'phoneNumber']
+        });
+      } else {
+        if (upperCaseRegex.test(data.policyHolder.phoneNumber)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Phone Number can not contain uppercase letters.',
+            path: ['policyHolder', 'phoneNumber']
+          });
+        }
+
+        if (lowerCaseRegex.test(data.policyHolder.phoneNumber)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Phone Number can not contain lowercase letters.',
+            path: ['policyHolder', 'phoneNumber']
+          });
+        }
+        if (specialCharcterRegex.test(data.policyHolder.phoneNumber)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Phone Number can not contain special letters.',
+            path: ['policyHolder', 'phoneNumber']
+          });
+        }
+
+        if (data.policyHolder.phoneNumber.length > 15) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Phone number can not be more than 15 digits.',
+            path: ['policyHolder', 'phoneNumber']
+          });
+        }
+      }
+    }
+  });
 
 export type TAuthLoginResponse = INBTServerResp<z.infer<typeof AuthLoginResponseSchema>>;
 export type TLogin = z.infer<typeof LoginValidationSchema>;

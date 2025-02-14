@@ -21,9 +21,13 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
         className={`flex w-full flex-col font-roboto ${props.disabled ? 'text-neutral-300' : 'text-black'} ${className}`}
       >
         {label && (
-          <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
-            {label}
-          </label>
+          <div className="flex items-center justify-start space-x-1">
+            <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
+              {label}
+            </label>
+
+            {required && <span className="text-red-300">*</span>}
+          </div>
         )}
         <div className="relative flex w-full flex-col">
           <input

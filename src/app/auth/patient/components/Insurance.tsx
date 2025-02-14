@@ -4,23 +4,24 @@ import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../../../validation';
+import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EnumPatientForm } from '@/constants/mangle';
+import { useRouter } from 'next/navigation';
 
 function InsuranceForm() {
+  const router = useRouter();
   const {
-    PatientStore: { insuranceInfo, setInsuranceInfo, setCurrentForm }
+    PatientStore: { isLoading, insuranceInfo, setInsuranceInfo, setCurrentForm, registerPatient }
   } = useStore();
   const {
     register,
     handleSubmit,
-    setValue,
-    clearErrors,
     reset,
+    watch,
     formState: { errors }
   } = useForm<TPatientInsuranceSchema>({
     defaultValues: insuranceInfo,
@@ -29,25 +30,22 @@ function InsuranceForm() {
     reValidateMode: 'onSubmit'
   });
 
-  const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => {});
-  };
+  const provider = watch('primaryInsuranceProvider');
 
-  const handleSetValue = (key: string, value: string) => {
-    const _typeKey = key as keyof TPatientInsuranceSchema;
-    setValue(_typeKey, value);
-    clearErrors(_typeKey);
+  const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
+    setInsuranceInfo(formData, () => registerPatient((url) => router.replace(url)));
   };
 
   useEffect(() => {
     reset(insuranceInfo);
   }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
       <CardContent className="flex flex-col space-y-4 rounded-2xl bg-white py-6 shadow-lg">
         <SubTitle className="!text-center" text="Insurance Information" />
 
-        <fieldset className="">
+        <fieldset disabled={isLoading.regPatient} className="">
           <Input
             type="text"
             id="emailAddress"
@@ -60,6 +58,7 @@ function InsuranceForm() {
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
               className="md:mb-0 md:w-[50%]"
+              disabled={Boolean(!provider)}
               type="text"
               id="fname"
               label="Insurance plan"
@@ -68,6 +67,7 @@ function InsuranceForm() {
               error={errors.insurancePlanName?.message}
             />
             <Input
+              disabled={Boolean(!provider)}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="lname"
@@ -79,6 +79,7 @@ function InsuranceForm() {
           </div>
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
+              disabled={Boolean(!provider)}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="fname"
@@ -88,6 +89,7 @@ function InsuranceForm() {
               error={errors.policyNumber?.message}
             />
             <Input
+              disabled={Boolean(!provider)}
               className="md:mb-0 md:w-[50%]"
               type="text"
               id="lname"
@@ -97,34 +99,40 @@ function InsuranceForm() {
               error={errors.groupNumber?.message}
             />
           </div>
-          <label className="mb-3 font-medium">Policy Holder</label>
 
-          <div className="mt-3">
-            <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+          <fieldset disabled={Boolean(!provider)}>
+            <label className="mb-3 font-medium">Policy Holder</label>
+
+            <div className="mt-3">
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <Input
+                  disabled={Boolean(!provider)}
+                  className="md:mb-0 md:w-[50%]"
+                  type="text"
+                  id="fname"
+                  placeholder="First name"
+                  {...register('policyHolder.firstName')}
+                  error={errors.policyHolder?.firstName?.message}
+                />
+                <Input
+                  disabled={Boolean(!provider)}
+                  className="md:mb-0 md:w-[50%]"
+                  type="text"
+                  id="lname"
+                  placeholder="Last Name"
+                  {...register('policyHolder.lastName')}
+                  error={errors.policyHolder?.lastName?.message}
+                />
+              </div>
               <Input
-                className="md:mb-0 md:w-[50%]"
+                disabled={Boolean(!provider)}
                 type="text"
-                id="fname"
-                placeholder="First name"
-                {...register('policyHolder.firstName')}
-                error={errors.policyHolder?.firstName?.message}
-              />
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                placeholder="Last Name"
-                {...register('policyHolder.lastName')}
-                error={errors.policyHolder?.lastName?.message}
+                placeholder="Phone number"
+                {...register('policyHolder.phoneNumber')}
+                error={errors.policyHolder?.phoneNumber?.message}
               />
             </div>
-            <Input
-              type="text"
-              placeholder="Phone number"
-              {...register('policyHolder.phoneNumber')}
-              error={errors.policyHolder?.phoneNumber?.message}
-            />
-          </div>
+          </fieldset>
         </fieldset>
       </CardContent>
 
@@ -133,9 +141,16 @@ function InsuranceForm() {
           type="button"
           variant="transparent"
           text="Prev"
+          disabled={isLoading.regPatient}
           onClick={() => setCurrentForm(EnumPatientForm.CONTACT)}
         />
-        <Button type="submit" variant="filled" text="Submit" />
+        <Button
+          type="submit"
+          variant="filled"
+          text="Submit"
+          isLoading={isLoading.regPatient}
+          disabled={isLoading.regPatient}
+        />
       </div>
     </form>
   );

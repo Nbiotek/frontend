@@ -7,10 +7,11 @@ import {
 } from '@/app/auth/validation';
 import store from 'store2';
 import initializer from '@/utils/initializer';
-import { EnumPatientForm, Mangle } from '@/constants/mangle';
+import { EnumPatientForm, EnumRole, Mangle } from '@/constants/mangle';
 import { parseError } from '@/utils/errorHandler';
 import { Toast } from '@/atoms/Toast';
 import { postRegPatient, TPatientRegPayload } from '@/requests/patient';
+import ROUTES from '@/constants/routes';
 
 const persist = <T = string>(key: string, value: T) => {
   store.namespace('pat').session.set(key, value);
@@ -88,9 +89,11 @@ export class PatientStore {
     this.insuranceInfo = payload;
     persist(Mangle.PATIENT_INSURANCE_INFO, payload);
     persist(Mangle.PATIENT_CURRENT_FORM, EnumPatientForm.INSURANCE);
+
+    cb();
   }
 
-  *registerPatient() {
+  *registerPatient(cb: (url: string) => void) {
     this.isLoading.regPatient = true;
     try {
       const payload: TPatientRegPayload = {
@@ -98,7 +101,17 @@ export class PatientStore {
         contact: this.contactInfo as TPatientContactSchema,
         insurance: this.insuranceInfo as TPatientInsuranceSchema
       };
-      const { data } = yield postRegPatient(payload);
+      const {
+        data: { message }
+      } = (yield postRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
+
+      Toast.success(message);
+
+      if (this.rootStore.AuthStore.user?.role) {
+        cb(ROUTES.getRedirectPathByRole(this.rootStore.AuthStore.user?.role as EnumRole));
+      } else {
+        cb(ROUTES.LOGIN.path);
+      }
     } catch (error) {
       Toast.error(parseError(error));
     } finally {

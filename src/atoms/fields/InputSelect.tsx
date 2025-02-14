@@ -21,13 +21,20 @@ interface IInputSelectProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputSelect = forwardRef<HTMLInputElement, IInputSelectProps>(
-  ({ label, hideError, error, note, child, items, className, handleSetValue, ...props }, ref) => {
+  (
+    { label, hideError, error, note, required, child, items, className, handleSetValue, ...props },
+    ref
+  ) => {
     return (
       <div className={`flex w-full flex-col space-y-1 ${className}`}>
         {label && (
-          <label htmlFor={props.id ?? props.name} className="text-sm">
-            {label}
-          </label>
+          <div className="flex items-center justify-start space-x-1">
+            <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
+              {label}
+            </label>
+
+            {required && <span className="text-red-300">*</span>}
+          </div>
         )}
         <Select onValueChange={(value) => handleSetValue(props.name || '', value)}>
           <SelectTrigger className={`w-full ${error ? 'bg-red-100/50 ring-red-200' : ''}`}>

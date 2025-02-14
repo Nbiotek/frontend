@@ -5,7 +5,7 @@ import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ForgotPwdSchema, TForgotPwd } from '../validation';
+import { ForgotPwdSchema, TForgotPwd } from '../../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';

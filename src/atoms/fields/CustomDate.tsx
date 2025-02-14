@@ -30,6 +30,7 @@ const CustomDate = forwardRef<HTMLInputElement, IInputDateProps>(
       showTime,
       placeholder,
       minDate,
+      required,
       handleSetDate,
       initialValue,
       callBackFn,
@@ -56,9 +57,15 @@ const CustomDate = forwardRef<HTMLInputElement, IInputDateProps>(
       <div
         className={`relative ${props.disabled ? ' text-neutral-300' : 'text-black'} font-grotesk left-0 top-0 flex w-full flex-col ${className}`}
       >
-        <label htmlFor={props.id || ''} className="mb-1 text-sm">
-          {label}
-        </label>
+        {label && (
+          <div className="flex items-center justify-start space-x-1">
+            <label htmlFor={props.id ?? props.name} className="mb-1 text-sm">
+              {label}
+            </label>
+
+            {required && <span className="text-red-300">*</span>}
+          </div>
+        )}
         <div
           className={`flex h-fit w-full items-center justify-between overflow-hidden rounded-lg bg-neutral-50 px-2 ring-1 ring-transparent focus-within:ring-blue-400 ${
             error ? 'bg-red-100/50 ring-red-200' : ''
