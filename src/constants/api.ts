@@ -11,7 +11,5 @@ export const AUTH = {
 } as const;
 
 export const PATIENT = {
-  PERSONAL: '/patients/step1',
-  CONTACT: '/patients/step2',
-  INSURANCE: '/patients/step3'
+  PERSONAL_REG: '/patients/register'
 } as const;

@@ -3,32 +3,36 @@ import { CardContent } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
-import { useRouter } from 'next/navigation';
-import ROUTES from '@/constants/routes';
 import InputSelect from '@/atoms/fields/InputSelect';
 import { gender, maritalStatus } from '@/constants/data';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PatientPersonalSchema, TPatientPersonalSchema } from '../../validation';
+import { PatientPersonalSchema, TPatientPersonalSchema } from '../../../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import CustomDate from '@/atoms/fields/CustomDate';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '@/store';
+import { useEffect } from 'react';
 
-export default function PersonalForm() {
+function PersonalForm() {
+  const {
+    PatientStore: { personalInfo, setPersonalInfo }
+  } = useStore();
   const {
     register,
     handleSubmit,
     setValue,
     clearErrors,
+    reset,
     formState: { errors }
   } = useForm<TPatientPersonalSchema>({
+    defaultValues: personalInfo,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
   });
-  const router = useRouter();
 
   const onSubmit: SubmitHandler<TPatientPersonalSchema> = async (formData) => {
-    console.log(formData);
-    router.push(ROUTES.PATIENT_REG_CONTACT.path);
+    setPersonalInfo(formData);
   };
 
   const handleSetValue = (key: string, value: string) => {
@@ -41,6 +45,11 @@ export default function PersonalForm() {
     setValue('dob', val.toISOString());
     clearErrors('dob');
   };
+
+  useEffect(() => {
+    reset(personalInfo);
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
       <CardContent className="flex flex-col space-y-4 rounded-2xl bg-white py-6 shadow-lg">
@@ -150,3 +159,5 @@ export default function PersonalForm() {
     </form>
   );
 }
+
+export default observer(PersonalForm);

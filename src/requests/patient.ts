@@ -1,17 +1,17 @@
 import {
-  TPatientContactSChema,
+  TPatientContactSchema,
   TPatientInsuranceSchema,
   TPatientPersonalSchema
 } from '@/app/auth/validation';
 import server from '.';
 import { PATIENT } from '@/constants/api';
 
+export type TPatientRegPayload = {
+  personal: TPatientPersonalSchema;
+  contact: TPatientContactSchema;
+  insurance: TPatientInsuranceSchema;
+};
+
 // post
-export const postPatientPersonal = (payload: TPatientPersonalSchema) =>
-  server.post(PATIENT.PERSONAL, payload);
-
-export const postPatientContact = (payload: TPatientContactSChema) =>
-  server.post(PATIENT.CONTACT, payload);
-
-export const postPatientInsurance = (payload: TPatientInsuranceSchema) =>
-  server.post(PATIENT.INSURANCE, payload);
+export const postRegPatient = (payload: TPatientRegPayload) =>
+  server.post(PATIENT.PERSONAL_REG, payload);

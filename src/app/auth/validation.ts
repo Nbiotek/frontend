@@ -129,17 +129,32 @@ export const PatientPersonalSchema = z.object({
   primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
 });
 
-export const PatientContactSChema = z.object({
-  homeAddress: z.string({ required_error: 'Address is required.' }).trim(),
-  city: z.string({ required_error: 'City is required.' }).trim(),
-  state: z.string({ required_error: 'State is required.' }).trim(),
+export const PatientContactSchema = z.object({
+  homeAddress: z
+    .string({ required_error: 'Address is required.' })
+    .trim()
+    .refine((value) => value !== '', 'Address is required.'),
+  city: z
+    .string({ required_error: 'City is required.' })
+    .trim()
+    .refine((value) => value !== '', 'City is required.'),
+  state: z
+    .string({ required_error: 'State is required.' })
+    .trim()
+    .refine((value) => value !== '', 'State is required.'),
   landMark: z.string({ required_error: 'Address is required.' }).trim().optional(),
-  zipCode: z.string({ required_error: 'Zip code is required.' }).trim(),
+  zipCode: z
+    .string({ required_error: 'Zip code is required.' })
+    .trim()
+    .refine((value) => value !== '', 'zip code is required.'),
 
   emergencyContact: z.object({
     firstName,
     lastName,
-    address: z.string({ required_error: 'Address is required.' }).trim(),
+    address: z
+      .string({ required_error: 'Address is required.' })
+      .trim()
+      .refine((value) => value !== '', 'Address is required.'),
     phoneNumber
   })
 });
@@ -154,11 +169,12 @@ export const PatientInsuranceSchema = z.object({
     .trim()
     .optional(),
   policyNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
+  groupNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
   insurancePhoneNumber: z.string({ required_error: 'Phone number is required.' }).trim(),
   policyHolder: z.object({
-    firstName,
-    lastName,
-    phoneNumber
+    firstName: z.string({ required_error: 'First name is required.' }).trim().optional(),
+    lastName: z.string({ required_error: 'Last name is required.' }).trim().optional(),
+    phoneNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional()
   })
 });
 
@@ -169,5 +185,5 @@ export type TPwdSchema = z.infer<typeof PwdSchema>;
 export type TNewPwdSchema = z.infer<typeof NewPwdSchema>;
 export type TForgotPwd = z.infer<typeof ForgotPwdSchema>;
 export type TPatientPersonalSchema = z.infer<typeof PatientPersonalSchema>;
-export type TPatientContactSChema = z.infer<typeof PatientContactSChema>;
+export type TPatientContactSchema = z.infer<typeof PatientContactSchema>;
 export type TPatientInsuranceSchema = z.infer<typeof PatientInsuranceSchema>;

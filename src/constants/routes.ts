@@ -34,21 +34,7 @@ class Routes {
   FORGOT_PWD = new Route('/auth/forgot-pwd', 'NbioTek | Forgot Password', 'Forgot password');
   PWD_RESET = new Route('/auth/pwd-reset', 'NbioTek | Password Reset', 'Password reset');
 
-  PATIENT_REG_INFO = new Route(
-    '/auth/register/p',
-    'NbioTek | Personal Info',
-    'Patient Personal Info Reg.'
-  );
-  PATIENT_REG_CONTACT = new Route(
-    '/auth/register/p/c',
-    'Patient Contact Info Reg.',
-    'NbioTek | Contact Info'
-  );
-  PATIENT_REG_INSURANCE = new Route(
-    '/auth/register/p/i',
-    'NbioTek | Insurance Info',
-    'Patient Insurance Info Reg.'
-  );
+  PATIENT_REG_INFO = new Route('/auth/register/p', 'NbioTek | Patient Info', 'Patient Info Reg.');
 
   // patient
   PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');
