@@ -1,4 +1,19 @@
+export enum Mangle {
+  SESSION_TOKEN = '_nbst',
+  PATIENT_PERSONAL_INFO = '_ppi',
+  PATIENT_CONTACT_INFO = '_pci',
+  PATIENT_INSURANCE_INFO = '_pii',
+  PATIENT_CURRENT_FORM = '_pcf'
+}
+
+export enum EnumPatientForm {
+  PEROSNAL = Mangle.PATIENT_PERSONAL_INFO,
+  CONTACT = Mangle.PATIENT_CONTACT_INFO,
+  INSURANCE = Mangle.PATIENT_INSURANCE_INFO
+}
+
 export enum EnumRole {
+  DEFAULT = 'DEFAULT',
   SUPER_ADMIN = 'SUPER_ADMIN',
   DOCTOR = 'DOCTOR',
   REFERRAL_DOCTOR = 'REFERRAL_DOCTOR',

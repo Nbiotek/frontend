@@ -3,7 +3,7 @@ import Input from '@/atoms/fields/Input';
 import { XModal } from '@/atoms/modal';
 import { Paragraph } from '@/atoms/typographys';
 import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfigStore/appModalTypes';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
 import {
   Table,

@@ -13,7 +13,7 @@ const Others = () => {
           <Paragraph text="Switch between dark and light mode" />
         </div>
 
-        <InputSelect hideError={true} className="!w-[100px]" id="appearance" items={theme} />
+        {/* <InputSelect hideError={true} className="!w-[100px]" id="appearance" items={theme} /> */}
       </div>
 
       <div className="flex w-full items-center justify-between space-x-4 pt-4">
