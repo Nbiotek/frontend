@@ -1,0 +1,123 @@
+import { makeAutoObservable, runInAction } from 'mobx';
+import { SingleTest, PackageTest } from '@/types/test';
+import { run } from 'node:test';
+
+export type CartItemType = 'SingleTest' | 'PackageTest';
+
+export interface CartItem {
+  id: string;
+  type: CartItemType;
+  item: SingleTest | PackageTest;
+  quantity: number;
+}
+
+class CartStore {
+  items: CartItem[] = [];
+  isLoading: boolean = false;
+
+  constructor() {
+    makeAutoObservable(this);
+
+    // Load cart from local storage on initialization
+    this.loadCart();
+  }
+
+  // Add item to cart
+  addItem = (item: SingleTest | PackageTest, type: CartItemType) => {
+    const existingItem = this.items.find(
+      (cartItem) => cartItem.id === item.id && cartItem.type === type
+    );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      this.items.push({
+        id: item.id,
+        type,
+        item,
+        quantity: 1
+      });
+    }
+
+    this.saveCart();
+  };
+
+  // remove item from cart
+  removeItem = (id: string) => {
+    this.items.filter((item) => item.id !== id);
+
+    this.saveCart();
+  };
+
+  // Update quantity
+  updateQuantity = (id: string, quantity: number) => {
+    const item = this.items.find((item) => item.id === id);
+
+    if (item) {
+      item.quantity = Math.max(0, quantity);
+      if (item.quantity === 0) {
+        this.removeItem(id);
+      }
+
+      this.saveCart();
+    }
+  };
+
+  // Clear cart
+  clearCart = () => {
+    this.items = [];
+    this.saveeCart();
+  };
+
+  get total(): number {
+    return this.items.reduce((sum, item) => {
+      const price =
+        'discountedPrice' in item.item
+          ? (item.item as PackageTest).discountedPrice || item.item.price
+          : item.item.price;
+
+      return sum + price * item.quantity;
+    }, 0);
+  }
+
+  // Get total number of items
+  get itemCount(): number {
+    return this.items.reduce((sum, item) => sum + item.quantity, 0);
+  }
+
+  // check if an item is in cart
+  isInCart = (id: string): boolean => {
+    return this.items.some((item) => item.id === id);
+  };
+
+  // Get quantity of specific item
+  getItemQuantity = (id: string): number => {
+    const item = this.items.find((item) => item.id === id);
+    return item ? item.quantity : 0;
+  };
+
+  // private methos for persistence
+
+  private saveCart = () => {
+    try {
+      localStorage.setItem('cart', JSON.stringify(this.items));
+    } catch (error) {
+      console.error('failed to save cart', error);
+    }
+  };
+
+  private loadCart = () => {
+    try {
+      const saveCart = localStorage.getItem('cart');
+      if (saveCart) {
+        runInAction(() => {
+          this.items = JSON.parse(saveCart);
+        });
+      }
+    } catch (error) {
+      console.error('failed to load cart', error);
+    }
+  };
+
+  //  create and export a single instance
+}
