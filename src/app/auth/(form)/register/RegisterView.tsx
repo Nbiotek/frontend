@@ -11,7 +11,7 @@ import InputSelect from '@/atoms/fields/InputSelect';
 import { role } from '@/constants/data';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateAccountValidationSchema, TCreateAccount } from '../validation';
+import { CreateAccountValidationSchema, TCreateAccount } from '@/app/auth/validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
