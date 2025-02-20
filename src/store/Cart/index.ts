@@ -1,8 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { SingleTest, PackageTest } from '@/types/test';
-import { run } from 'node:test';
 
-export type CartItemType = 'SingleTest' | 'PackageTest';
+export type CartItemType = 'single' | 'package';
 
 export interface CartItem {
   id: string;
@@ -44,8 +43,7 @@ class CartStore {
 
   // remove item from cart
   removeItem = (id: string) => {
-    this.items.filter((item) => item.id !== id);
-
+    this.items = this.items.filter((item) => item.id !== id);
     this.saveCart();
   };
 
@@ -66,7 +64,7 @@ class CartStore {
   // Clear cart
   clearCart = () => {
     this.items = [];
-    this.saveeCart();
+    this.saveCart();
   };
 
   get total(): number {
@@ -118,6 +116,8 @@ class CartStore {
       console.error('failed to load cart', error);
     }
   };
-
-  //  create and export a single instance
 }
+
+//  create and export a single instance
+
+export const cartStore = new CartStore();
