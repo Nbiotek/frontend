@@ -1,5 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import TestTabs from '../available/components/tabs';
 import InputSearch from '@/atoms/fields/InputSearch';
 import PendingTestItem from './components/TestItemCard';
 
@@ -9,7 +8,10 @@ const PendingTest = () => {
       <div className="">
         <Tabs defaultValue="single" className="w-full ">
           <div className="flex items-center justify-between rounded-lg bg-white p-3 shadow-xl">
-            <TestTabs />
+            <TabsList>
+              <TabsTrigger value="single">Single Tests</TabsTrigger>
+              <TabsTrigger value="package">Package Tests</TabsTrigger>
+            </TabsList>
             <InputSearch />
           </div>
           <div className="">

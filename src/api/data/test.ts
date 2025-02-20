@@ -8,7 +8,6 @@ export const individualTests: SingleTest[] = [
       'Measures different components of blood including red cells, white cells, and platelets. Helps evaluate overall health and screen for various disorders.',
     price: 150,
     category: 'Blood Test',
-    // duration: "1-2 hours",
     requirements: [
       'Fasting not required',
       'Avoid strenuous exercise 24 hours before test',

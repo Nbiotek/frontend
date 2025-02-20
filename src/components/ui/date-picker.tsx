@@ -18,7 +18,7 @@ export function DatePickerDemo() {
         <Button
           variant={'outline'}
           className={cn(
-            'w-full justify-start text-left font-normal',
+            'h-11  w-full justify-start bg-neutral-50 text-left font-normal',
             !date && 'text-muted-foreground'
           )}
         >
@@ -32,3 +32,4 @@ export function DatePickerDemo() {
     </Popover>
   );
 }
+// flex-col gap-1 sm:flex-row md:gap-4

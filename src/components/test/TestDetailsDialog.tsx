@@ -14,10 +14,10 @@ interface SingleTestDialogProps {
   test: SingleTest | null;
   open: boolean;
   onClose: () => void;
-  onAddToCart: (test: SingleTest) => void;
+  // onAddToCart: (test: SingleTest) => void;
 }
 
-const SingleTestDialog = ({ test, open, onClose, onAddToCart }: SingleTestDialogProps) => {
+const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
   if (!test) return null;
   return (
     <Dialog open={open} onOpenChange={onClose}>
