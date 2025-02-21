@@ -11,5 +11,18 @@ export const AUTH = {
 } as const;
 
 export const PATIENT = {
-  PERSONAL_REG: '/patients/register'
+  PERSONAL_REG: '/patients/register',
+
+  APPOINTMENTS: {
+    LIST: '/appointments',
+    CREATE: '/appointments',
+    DETAILS: (id: string) => `/appointments/${id}`,
+    CANCEL: (id: string) => `/appointments/${id}/cancel`,
+    RESCHEDULE: (id: string) => `/appointments/${id}/reschedule`
+  },
+  TESTS: {
+    LIST: '/tests',
+    DETAILS: (id: string) => `/tests/${id}`,
+    PACKAGES: '/tests/packages'
+  }
 } as const;

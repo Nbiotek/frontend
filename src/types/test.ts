@@ -6,6 +6,7 @@ export type SingleTest = {
   requirements?: string[];
   category: string;
   discountedPrice?: number;
+  type?: string;
 };
 
 export type PackageTest = {
@@ -17,4 +18,5 @@ export type PackageTest = {
   category?: string;
   discountedPrice?: number;
   tests: SingleTest[];
+  type?: string;
 };

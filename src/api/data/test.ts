@@ -6,14 +6,15 @@ export const individualTests: SingleTest[] = [
     name: 'Complete Blood Count (CBC)',
     description:
       'Measures different components of blood including red cells, white cells, and platelets. Helps evaluate overall health and screen for various disorders.',
-    price: 15000,
+    price: 150,
     category: 'Blood Test',
-    // duration: "1-2 hours",
     requirements: [
       'Fasting not required',
       'Avoid strenuous exercise 24 hours before test',
       'Inform lab about any medications'
-    ]
+    ],
+    type: 'single'
+
     // imageUrl: "/images/tests/cbc.png"
   },
   {
@@ -21,28 +22,30 @@ export const individualTests: SingleTest[] = [
     name: 'Liver Function Test',
     description:
       'Measures various proteins, enzymes, and substances in blood to evaluate liver health and function.',
-    price: 22000,
+    price: 200,
     category: 'Liver Test',
     // duration: "2-3 hours",
     requirements: [
       '8-12 hours fasting required',
       'No alcohol 24 hours before test',
       'Morning appointment recommended'
-    ]
+    ],
+    type: 'single'
   },
   {
     id: 'TH003',
     name: 'Thyroid Profile',
     description:
       'Evaluates thyroid function by measuring various hormone levels. Helps diagnose thyroid disorders.',
-    price: 25000,
+    price: 300,
     // duration: "3-4 hours",
     category: 'Kidney',
     requirements: [
       'Morning appointment recommended',
       'Fasting not required',
       'Inform about thyroid medications'
-    ]
+    ],
+    type: 'single'
   },
   {
     id: 'LIP004',
@@ -56,7 +59,8 @@ export const individualTests: SingleTest[] = [
       '12 hours fasting required',
       'Avoid fatty foods 24 hours before',
       'Morning appointment recommended'
-    ]
+    ],
+    type: 'single'
   },
   {
     id: 'KFT005',
@@ -68,7 +72,8 @@ export const individualTests: SingleTest[] = [
       '12 hours fasting recommended',
       'Normal water intake',
       'Avoid high-protein meals before test'
-    ]
+    ],
+    type: 'single'
   },
   {
     id: 'GLU006',
@@ -80,7 +85,8 @@ export const individualTests: SingleTest[] = [
       '8 hours fasting required for FBS',
       'Bring your glucometer if you have one',
       'Regular medications as advised by doctor'
-    ]
+    ],
+    type: 'single'
   }
 ];
 
@@ -96,7 +102,8 @@ export const testPackages: PackageTest[] = [
       individualTests[4] // Kidney Function
     ],
     price: 65000,
-    discountedPrice: 55000
+    discountedPrice: 55000,
+    type: 'package'
   },
   {
     id: 'COMP002',
@@ -124,7 +131,8 @@ export const testPackages: PackageTest[] = [
       individualTests[4] // Kidney Function
     ],
     price: 50000,
-    discountedPrice: 42000
+    discountedPrice: 42000,
+    type: 'package'
   },
   {
     id: 'CARD004',
@@ -136,6 +144,7 @@ export const testPackages: PackageTest[] = [
       individualTests[5] // Blood Glucose
     ],
     price: 45000,
-    discountedPrice: 38000
+    discountedPrice: 38000,
+    type: 'package'
   }
 ];

@@ -14,7 +14,8 @@ const TestItems = () => {
       <Checkbox />
       <div className="">
         <Text variant="body" weight="semibold">
-          Comprehensive health screening (for elderly)
+          {title}
+          <span>$1.5</span>
         </Text>
         <Text variant="body" weight="normal" className="">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio soluta cum, eaque modi

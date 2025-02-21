@@ -8,14 +8,16 @@ import {
 import Button from '@/atoms/Buttons';
 import { SingleTest } from '@/types/test';
 
+import { CartButton } from '../cart/CartButton';
+
 interface SingleTestDialogProps {
   test: SingleTest | null;
   open: boolean;
   onClose: () => void;
-  onAddToCart: (test: SingleTest) => void;
+  // onAddToCart: (test: SingleTest) => void;
 }
 
-const SingleTestDialog = ({ test, open, onClose, onAddToCart }: SingleTestDialogProps) => {
+const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
   if (!test) return null;
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -46,22 +48,13 @@ const SingleTestDialog = ({ test, open, onClose, onAddToCart }: SingleTestDialog
               </ul>
             </div>
           )}
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="font-semibold">Price</h4>
-              <p className="font-bold text-primary">₦{test.price}</p>
-            </div>
-            <div>
-              <h4 className="font-semibold">Duration</h4>
-              {/* <p>{test.duration}</p> */}
-            </div>
+          <div className="flex w-[450px] gap-4">
+            <CartButton item={test} type={'single'} />
+            <Button variant="filled" className="bg-green-400">
+              {' '}
+              Request Test
+            </Button>
           </div>
-          <Button
-            className=""
-            onClick={() => onAddToCart(test)}
-            variant="filled"
-            text="Add to cart"
-          />
         </div>
       </DialogContent>
     </Dialog>
