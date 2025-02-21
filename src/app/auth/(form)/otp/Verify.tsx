@@ -45,7 +45,7 @@ function OTPVerificationView() {
 
   const onSubmit: SubmitHandler<TOTP> = async (formData) => {
     const code = Object.values(formData).join('');
-    verifyAcctOTP(code, () => router.replace(ROUTES.LOGIN.path));
+    verifyAcctOTP(code);
   };
 
   useEffect(() => {

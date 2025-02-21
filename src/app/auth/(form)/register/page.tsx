@@ -1,6 +1,6 @@
 import ROUTES from '@/constants/routes';
-import RegisterView from './RegisterView';
 import { Metadata } from 'next';
+import RegView from './RegView';
 
 const { title, description } = ROUTES.REGISTER;
 
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Register() {
-  return <RegisterView />;
+  return <RegView />;
 }
