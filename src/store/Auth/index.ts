@@ -326,7 +326,7 @@ export class AuthStore {
     }
   }
 
-  *verifyAcctOTP(otp: string) {
+  *verifyAcctOTP(otp: string, cb: (url: string) => void) {
     this.isLoading.OTP = true;
     this.errors.OTP = '';
 
@@ -346,7 +346,7 @@ export class AuthStore {
       }
 
       Toast.success(message);
-      this.login({ email: get('_um'), password: this._pd });
+      this.login({ email: get('_um'), password: this._pd }, cb);
     } catch (error) {
       Toast.error(parseError(error));
     } finally {
