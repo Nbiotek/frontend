@@ -107,11 +107,7 @@ export class PatientStore {
 
       Toast.success(message);
 
-      if (this.rootStore.AuthStore.user?.role) {
-        cb(ROUTES.getRedirectPathByRole(this.rootStore.AuthStore.user?.role as EnumRole));
-      } else {
-        cb(ROUTES.LOGIN.path);
-      }
+      cb(ROUTES.PATIENT.path);
     } catch (error) {
       Toast.error(parseError(error));
     } finally {

@@ -12,12 +12,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 function LoginView() {
   const router = useRouter();
   const {
     AuthStore: { login, isLoading }
   } = useStore();
+  const queryClient = useQueryClient();
+
   const {
     formState: { errors },
     register,
@@ -29,7 +32,10 @@ function LoginView() {
   });
 
   const onSubmit: SubmitHandler<TLogin> = async (formData) => {
-    login(formData, (url) => router.replace(url));
+    login(formData, (url) => {
+      queryClient.resetQueries();
+      router.replace(url);
+    });
   };
 
   return (

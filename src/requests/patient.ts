@@ -11,7 +11,6 @@ export type TPatientRegPayload = {
   personal: {
     firstName: string;
     lastName: string;
-    email: string;
     phoneNumber: string;
     maritalStatus: string;
     gender: string;

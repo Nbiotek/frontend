@@ -84,6 +84,17 @@ export const CreateAccountValidationSchema = z
     path: ['confirmPassword']
   });
 
+export const CreatePatientAcctValidationSchema = z
+  .object({
+    email,
+    password,
+    confirmPassword
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match.',
+    path: ['confirmPassword']
+  });
+
 export const PwdSchema = z
   .object({
     password,
@@ -112,7 +123,6 @@ export const ForgotPwdSchema = z.object({
 export const PatientPersonalSchema = z.object({
   firstName,
   lastName,
-  email,
   phoneNumber,
   maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
   gender: z.string({ required_error: 'Gender is required.' }).trim(),
@@ -263,6 +273,7 @@ export const PatientInsuranceSchema = z
 export type TAuthLoginResponse = INBTServerResp<z.infer<typeof AuthLoginResponseSchema>>;
 export type TLogin = z.infer<typeof LoginValidationSchema>;
 export type TCreateAccount = z.infer<typeof CreateAccountValidationSchema>;
+export type TCreatePatientAcct = z.infer<typeof CreatePatientAcctValidationSchema>;
 export type TPwdSchema = z.infer<typeof PwdSchema>;
 export type TNewPwdSchema = z.infer<typeof NewPwdSchema>;
 export type TForgotPwd = z.infer<typeof ForgotPwdSchema>;

@@ -85,16 +85,6 @@ function PersonalForm() {
               error={errors.lastName?.message}
             />
           </div>
-          <Input
-            required={true}
-            className="mb-1"
-            type="email"
-            id="emailAddress"
-            label="Email Address"
-            placeholder="adeolujohn@gmail.com"
-            {...register('email')}
-            error={errors.email?.message}
-          />
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
               required={true}

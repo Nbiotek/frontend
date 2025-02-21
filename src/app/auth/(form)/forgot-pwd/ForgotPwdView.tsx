@@ -27,9 +27,7 @@ function ForgotPwdView() {
   });
 
   const onSubmit: SubmitHandler<TForgotPwd> = async (formData) => {
-    forgotPwd(formData, () => {
-      router.replace(ROUTES.LOGIN.path);
-    });
+    forgotPwd(formData);
   };
   return (
     <Card className="w-full border-none bg-transparent shadow-none">

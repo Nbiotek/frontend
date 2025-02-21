@@ -15,7 +15,7 @@ export default function FormLayout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     if (isAuthenticated().token) {
       if (isAuthenticated().role) {
-        router.push(ROUTES.getRedirectPathByRole(isAuthenticated().role as EnumRole));
+        router.replace(ROUTES.getRedirectPathByRole(isAuthenticated().role as EnumRole));
       }
     }
   }, [isAuthenticated, router]);
