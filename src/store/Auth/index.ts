@@ -2,7 +2,7 @@ import initializer from '@/utils/initializer';
 import jwt from 'jsonwebtoken';
 import store from 'store2';
 import { RootStore } from '..';
-import { action, flow, makeObservable, observable, runInAction } from 'mobx';
+import { action, flow, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { ISSERVER } from '@/utils';
 import { Nullable } from 'vitest';
 import logger from '@/utils/logger';
@@ -72,6 +72,8 @@ const del = (key: string) => {
 type TIsAuthenticated = { ttl: number; token?: string; email?: string; role?: string };
 
 export class AuthStore {
+  _pd = '';
+
   rootStore: RootStore;
   isLoading = { ...INIT_IS_LOADING };
   errors = initializer(this.isLoading, '');
@@ -97,6 +99,7 @@ export class AuthStore {
       resendingToken: observable,
       decodedToken: observable,
       loggedOut: observable,
+      _pd: observable,
 
       removeFromStore: action.bound,
       reset: action.bound,
@@ -111,7 +114,7 @@ export class AuthStore {
       getTokenFromCookie: flow.bound,
       logout: flow.bound,
       login: flow.bound,
-      register: flow.bound,
+      createAcct: flow.bound,
       verifyAcctOTP: flow.bound,
       resendAcctOTP: flow.bound,
       newPwd: flow.bound,
@@ -250,8 +253,8 @@ export class AuthStore {
       const decodedToken = decodeJWT(data.access_token);
       this.isAuthenticated(data.access_token);
       this.user = persist('user', {
-        first_name: decodedToken.firstName,
-        last_name: decodedToken.lastName,
+        first_name: decodedToken.first_name,
+        last_name: decodedToken.last_name,
         email: decodedToken.email,
         email_verified: decodedToken.email_verified,
         role: decodedToken.role,
@@ -278,7 +281,14 @@ export class AuthStore {
         uuid: decodedToken.uuid.toString()
       });
 
-      cb && cb(ROUTES.getRedirectPathByRole(this.user?.role as EnumRole));
+      del('_um');
+      this._pd = '';
+
+      if (this.user?.role === EnumRole.PATIENT && this.user.first_name === 'patient') {
+        cb && cb(ROUTES.PATIENT_REG_INFO.path);
+      } else {
+        cb && cb(ROUTES.getRedirectPathByRole(this.user?.role as EnumRole));
+      }
     } catch (error) {
       Toast.error(parseError(error));
     } finally {
@@ -286,7 +296,7 @@ export class AuthStore {
     }
   }
 
-  *register(payload: TCreateAccount, cb?: () => void) {
+  *createAcct(payload: TCreateAccount, cb?: () => void) {
     this.isLoading.register = true;
     this.errors.register = '';
 
@@ -304,6 +314,7 @@ export class AuthStore {
       this.accessToken = persist('token', data?.access_token as string);
       this.isAuthenticated(data?.access_token);
       persist('_um', payload.email);
+      this._pd = payload.password;
 
       Toast.success('Registration successful!');
       Toast.info('Verify your account now!');
@@ -315,7 +326,7 @@ export class AuthStore {
     }
   }
 
-  *verifyAcctOTP(otp: string, cb: () => void) {
+  *verifyAcctOTP(otp: string, cb: (url: string) => void) {
     this.isLoading.OTP = true;
     this.errors.OTP = '';
 
@@ -334,9 +345,8 @@ export class AuthStore {
         return;
       }
 
-      del('_um');
       Toast.success(message);
-      cb();
+      this.login({ email: get('_um'), password: this._pd }, cb);
     } catch (error) {
       Toast.error(parseError(error));
     } finally {
@@ -375,14 +385,12 @@ export class AuthStore {
     }
   }
 
-  *forgotPwd(payload: TForgotPwd, cb: () => void) {
+  *forgotPwd(payload: TForgotPwd) {
     this.isLoading.newPwd = true;
 
     try {
       yield postForgotPwd(payload);
       Toast.success('Reset password link sent!');
-
-      cb();
     } catch (error) {
       Toast.error(parseError(error));
     } finally {

@@ -13,9 +13,11 @@ import { EnumResendToken } from '@/store/Auth';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
+import { useQueryClient } from '@tanstack/react-query';
 
 function OTPVerificationView() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     AuthStore: {
       otpTimer,
@@ -45,7 +47,10 @@ function OTPVerificationView() {
 
   const onSubmit: SubmitHandler<TOTP> = async (formData) => {
     const code = Object.values(formData).join('');
-    verifyAcctOTP(code, () => router.replace(ROUTES.LOGIN.path));
+    verifyAcctOTP(code, (url) => {
+      queryClient.resetQueries();
+      router.replace(url);
+    });
   };
 
   useEffect(() => {
