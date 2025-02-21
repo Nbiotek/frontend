@@ -7,17 +7,104 @@ import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
 import { CircleX } from 'lucide-react';
 
+import { toJS } from 'mobx';
+
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
 
 import TestModalDialog from './components/TestModal';
+import { CartItem, cartStore } from '@/store/Cart';
+
+import BonkingConfirmationDialog from './components/BookingConfirmation';
+import { BookingForm, BookingSummaryProps } from '@/types/patient';
+
+type LocationType = 'Lab' | 'Custom';
 
 const BookAppointmentView = () => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
+
+  const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
 
   const handleTestModal = () => {
     setIsTestModalOpen(true);
+  };
+
+  const [formData, setFormData] = useState<BookingForm>({
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    location: {
+      type: 'Lab' as LocationType,
+      address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
+    },
+    appointmentDate: undefined as Date | undefined,
+    selectedTests: [] as CartItem[]
+  });
+
+  const validateForm = () => {
+    const newErrors: Partial<Record<keyof BookingForm, string>> = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email';
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
+    }
+
+    if (!formData.appointmentDate) {
+      newErrors.appointmentDate = 'Please select a date';
+    }
+
+    if (cartStore.items.length === 0) {
+      newErrors.selectedTests = 'Please select at least one test';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleBookingConfirmation = () => {
+    if (validateForm()) {
+      setFormData((prev) => ({
+        ...prev,
+        selectedTests: toJS(cartStore.items)
+      }));
+      setIsBookingConfirmationDialogOpen(true);
+    }
+  };
+  const handleLocationChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      location: {
+        type: value as LocationType,
+        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : 'Select location'
+      }
+    }));
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    setFormData((prev) => ({
+      ...prev,
+      appointmentDate: date
+    }));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
@@ -27,17 +114,41 @@ const BookAppointmentView = () => {
         <Text variant="body" className="mb-4">
           So our team can reach out to you on time
         </Text>
-        <form action="">
+        <form action="" id="bookingForm">
           <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
-            <Input type="text" label="Full Name" />
+            <Input
+              type="text"
+              label="Full Name"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleInputChange}
+              error={errors.fullName}
+            />
             <div className="w-[100%]">
               <Label className="pb-10 font-normal">Available Date</Label>
-              <DatePickerDemo />
+              <DatePickerDemo onChange={handleDateSelect} />
+              {errors.appointmentDate && (
+                <span className="mt-1 text-sm text-red-500">{errors.appointmentDate}</span>
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
-            <Input type="text" label="Email" />
-            <Input type="text" label="Phone Number" />
+            <Input
+              type="text"
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              error={errors.email}
+            />
+            <Input
+              type="text"
+              label="Phone Number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              error={errors.phoneNumber}
+            />
           </div>
           <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
             <div className="flex w-full flex-col ">
@@ -51,30 +162,50 @@ const BookAppointmentView = () => {
                 Select Test
               </Button>
 
-              <div className="over-flow-y-scroll mt-3 flex h-[200px] flex-col border-2">
-                <div className="flexBetween items-center p-3">
-                  <p>
-                    Complete Blood Count (CBC) <span className="ml-5 text-red-200"> ₦2000</span>
-                  </p>
-                  <Button variant="secondary" className="bg h-6 w-6 rounded-full p-0">
-                    {' '}
-                    <CircleX color="#ff6f61" />
-                  </Button>
-                </div>
-              </div>
+              {cartStore.items.length === 0 ? (
+                <></>
+              ) : (
+                <>
+                  <div className="mt-3 flex h-[200px] flex-col overflow-auto border-2">
+                    {cartStore.items.map((item) => (
+                      <div className="flexBetween items-center p-3" key={item.id}>
+                        <p>
+                          {item.item.name}{' '}
+                          <span className="ml-5 text-red-200">
+                            {' '}
+                            ₦{item.item.price.toLocaleString()}
+                          </span>
+                        </p>
+                        <Button
+                          variant="secondary"
+                          type="button"
+                          className="bg h-6 w-6 rounded-full p-0"
+                          onClick={() => cartStore.removeItem(item.id)}
+                        >
+                          {' '}
+                          <CircleX color="#ff6f61" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+              {errors.selectedTests && (
+                <div className="mt-1 text-sm text-red-500">{errors.selectedTests}</div>
+              )}
             </div>
             <div className="flex w-full flex-col">
               <Label className="mb-3">Location</Label>
-              <RadioGroup defaultValue="comfortable">
+              <RadioGroup value={formData.location.type} onValueChange={handleLocationChange}>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="default" id="r1" />
+                  <RadioGroupItem value="Lab" id="r1" />
                   <Label htmlFor="r1">Lab</Label>
                   <div className="rounded-md bg-neutral-300/30 p-3">
                     Medicare Hospital, 18 Iwaya Rd, Lagos
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="comfortable" id="r2" />
+                  <RadioGroupItem value="Custom" id="r2" />
                   <Label htmlFor="r2">Custom</Label>
                   <div className="rounded-md bg-neutral-300/30 p-3">Select location</div>
                 </div>
@@ -82,11 +213,25 @@ const BookAppointmentView = () => {
             </div>
           </div>
           <div className="mt-5">
-            <Button variant="filled" text="Confirm" />
+            <Button
+              variant="filled"
+              type="button"
+              text="Confirm"
+              onClick={handleBookingConfirmation}
+              form="bookingForm"
+            />
           </div>
         </form>
       </Cards>
       <TestModalDialog open={isTestModalOpen} onClose={() => setIsTestModalOpen(false)} />
+      {isBookingConfirmationDialogOpen && (
+        <BonkingConfirmationDialog
+          open={isBookingConfirmationDialogOpen}
+          onClose={() => setIsBookingConfirmationDialogOpen(false)}
+          bookingData={formData}
+          // onConfirm={handleFinalBooking}
+        />
+      )}
     </>
   );
 };
