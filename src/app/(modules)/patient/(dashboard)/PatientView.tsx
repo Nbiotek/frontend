@@ -21,10 +21,10 @@ const PatientView = () => {
   return (
     <div className="mb-[20rem] flex w-[100%] flex-col space-y-8">
       <div className="space-y-4 sm:flex sm:flex-col md:flex-row md:flex-wrap md:justify-between md:gap-4 md:space-y-0 ">
-        <CardMetrics title="My Appointments" value="46,000" icon={<AppointmentsIcon />} />
-        <CardMetrics title="Test Results" value="46,000" icon={<ResultIcon />} />
-        <CardMetrics title="Health Profile" value="46,000" icon={<HealthProfileIcon />} />
-        <CardMetrics title="Messages" value="46,000" icon={<MessagesIcon />} />
+        <CardMetrics title="My Appointments" value="2" icon={<AppointmentsIcon />} />
+        <CardMetrics title="Test Results" value="3" icon={<ResultIcon />} />
+        {/* <CardMetrics title="Health Profile" value="46,000" icon={<HealthProfileIcon />} /> */}
+        <CardMetrics title="Messages" value="5" icon={<MessagesIcon />} />
       </div>
       <div className="flex w-[100%] flex-col items-center space-y-5 lg:flex-row lg:space-x-8 ">
         <Cards className=" w-full bg-white px-[8px] py-[20px] sm:h-[235px] lg:w-[65%] lg:px-[27px]">

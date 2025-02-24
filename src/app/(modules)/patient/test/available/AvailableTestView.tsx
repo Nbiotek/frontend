@@ -10,25 +10,37 @@ import { useState } from 'react';
 import SingleTestDialog from '@/components/test/TestDetailsDialog';
 import TestTabs from '../../component/TestTab';
 
+import { useTestsSingle } from '@/hooks/patient/useTest';
+
 const AvailableTestView = () => {
   const [selectedTest, setSelectedTest] = useState<SingleTest | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  const { data, isLoading, error } = useTestsSingle();
+
+  console.log(data);
 
   const handleViewDetails = (test: SingleTest) => {
     setSelectedTest(test);
     setIsDetailsOpen(true);
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading tests</div>;
+  if (!data) return null;
+
   return (
     <div className="space-y-4">
       <div className="">
-        <TestTabs Test={individualTests} viewTestDetails={(test) => handleViewDetails(test)} />
+        <TestTabs
+          Test={data.data.availableTests}
+          viewTestDetails={(test) => handleViewDetails(test)}
+        />
       </div>
       <SingleTestDialog
         test={selectedTest}
         open={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
-        // onAddToCart={handleAddToCart}
       />
     </div>
   );

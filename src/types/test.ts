@@ -20,3 +20,9 @@ export type PackageTest = {
   tests: SingleTest[];
   type?: string;
 };
+
+export type AllTestResponse = {
+  data: {
+    availableTests: SingleTest[];
+  };
+};

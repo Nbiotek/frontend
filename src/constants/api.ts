@@ -20,9 +20,11 @@ export const PATIENT = {
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
     RESCHEDULE: (id: string) => `/appointments/${id}/reschedule`
   },
+
   TESTS: {
-    LIST: '/tests',
+    ALl: '/patients/tests',
+    PACKAGES: '/tests/package-tests',
     DETAILS: (id: string) => `/tests/${id}`,
-    PACKAGES: '/tests/packages'
+    SINGLE: '/test/single'
   }
 } as const;
