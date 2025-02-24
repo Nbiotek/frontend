@@ -6,7 +6,7 @@ import {
   DialogDescription
 } from '@/components/ui/dialog';
 import Button from '@/atoms/Buttons';
-import { SingleTest, AllTestSingle } from '@/types/test';
+import { SingleTest } from '@/types/test';
 
 import { CartButton } from '../cart/CartButton';
 
