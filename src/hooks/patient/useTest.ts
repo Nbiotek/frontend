@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { TestService } from '@/requests/test';
-import { AllTestResponse } from '@/types/test';
+import { AllTestResponse, AllPackageTestResponse } from '@/types/test';
 
 export const useTestsSingle = () => {
   return useQuery<AllTestResponse>({
@@ -10,7 +10,7 @@ export const useTestsSingle = () => {
 };
 
 export const useTestPackages = () => {
-  return useQuery({
+  return useQuery<AllPackageTestResponse>({
     queryKey: ['test-packages'],
     queryFn: TestService.getPackageTest
   });

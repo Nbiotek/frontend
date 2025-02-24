@@ -1,6 +1,6 @@
 import server, { serverwithoutInterceptor } from '.';
 import { PATIENT } from '@/constants/api';
-import { SingleTest, PackageTest, AllTestResponse } from '@/types/test';
+import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 
 export const TestService = {
   // Get all tests
@@ -10,7 +10,7 @@ export const TestService = {
   },
 
   getPackageTest: async () => {
-    const { data } = await server.get<PackageTest[]>(PATIENT.TESTS.PACKAGES);
+    const { data } = await server.get<AllPackageTestResponse>(PATIENT.TESTS.PACKAGES);
     return data;
   }
 

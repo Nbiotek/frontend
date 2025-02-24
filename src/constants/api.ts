@@ -23,7 +23,7 @@ export const PATIENT = {
 
   TESTS: {
     ALl: '/patients/tests',
-    PACKAGES: '/tests/package-tests',
+    PACKAGES: '/patients/package-tests',
     DETAILS: (id: string) => `/tests/${id}`,
     SINGLE: '/test/single'
   }

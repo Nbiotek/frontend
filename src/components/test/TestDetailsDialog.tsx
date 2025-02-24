@@ -6,12 +6,12 @@ import {
   DialogDescription
 } from '@/components/ui/dialog';
 import Button from '@/atoms/Buttons';
-import { SingleTest } from '@/types/test';
+import { PackageTest, SingleTest } from '@/types/test';
 
 import { CartButton } from '../cart/CartButton';
 
 interface SingleTestDialogProps {
-  test: SingleTest | null;
+  test: SingleTest | PackageTest | null;
   open: boolean;
   onClose: () => void;
   // onAddToCart: (test: SingleTest) => void;

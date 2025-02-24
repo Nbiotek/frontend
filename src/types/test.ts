@@ -26,3 +26,7 @@ export type AllTestResponse = {
     availableTests: SingleTest[];
   };
 };
+
+export type AllPackageTestResponse = {
+  data: PackageTest[];
+};
