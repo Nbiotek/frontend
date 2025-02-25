@@ -11,7 +11,7 @@ const TestView = () => {
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </div>
-      <TestsTable />
+      <TestsTable isLoading={false} tests={[]} />
     </div>
   );
 };

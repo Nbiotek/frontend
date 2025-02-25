@@ -9,7 +9,6 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Status from '@/atoms/Buttons/Status';
-import { tests } from '@/constants/data';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -20,8 +19,15 @@ import {
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import EmptyState from '@/components/EmptyState';
 
-const TestsTable = () => {
+interface ITestTableProps {
+  isLoading: boolean;
+  tests: Array<TTestType>;
+}
+
+const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
@@ -38,48 +44,58 @@ const TestsTable = () => {
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {tests.map((test) => (
-            <TableRow key={test.name}>
-              <TableCell className="font-medium">{test.name}</TableCell>
-              <TableCell>{test.type}</TableCell>
-              <TableCell>{test.req_date}</TableCell>
-              <TableCell>{test.due_date}</TableCell>
-              <TableCell>
-                <Status variant={test.level} />
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
-                  </DropdownMenuTrigger>
+        {isLoading ? (
+          <TableLoader rows={20} columns={6} />
+        ) : (
+          tests.length !== 0 && (
+            <TableBody>
+              {tests.map((test) => (
+                <TableRow key={test.patientName}>
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {test.patientName}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">{test.testType}</TableCell>
+                  <TableCell className="whitespace-nowrap">{test.requestDate}</TableCell>
+                  <TableCell className="whitespace-nowrap">{test.deadline}</TableCell>
+                  <TableCell>
+                    <Status variant={test.priority} />
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                      </DropdownMenuTrigger>
 
-                  <DropdownMenuContent className="">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        onClick={() =>
-                          toggleModals({
-                            open: true,
-                            name: AppModals.RESULT_UPLOAD_MODAL,
-                            test_uuid: ''
-                          })
-                        }
-                      >
-                        <Upload />
-                        <p>Upload result</p>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-400">
-                        <CircleX />
-                        <p>Cancel test</p>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+                      <DropdownMenuContent className="">
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              toggleModals({
+                                open: true,
+                                name: AppModals.RESULT_UPLOAD_MODAL,
+                                test_uuid: ''
+                              })
+                            }
+                          >
+                            <Upload />
+                            <p>Upload result</p>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-400">
+                            <CircleX />
+                            <p>Cancel test</p>
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
       </Table>
+
+      {tests.length === 0 && <EmptyState title="No Test data" />}
     </div>
   );
 };
