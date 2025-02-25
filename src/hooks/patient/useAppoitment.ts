@@ -13,14 +13,14 @@ export const useBookAppointment = () => {
   });
 };
 
-export const getAllUpcomingAppointment = () => {
+export const useAllUpcomingAppointment = () => {
   return useQuery<BookAppointmentDTO>({
     queryKey: ['upcoming-appointment'],
     queryFn: AppointmentService.getAppointments
   });
 };
 
-export const getAllPastAppointment = () => {
+export const useAllPastAppointment = () => {
   return useQuery<BookAppointmentDTO>({
     queryKey: ['past-appointment'],
     queryFn: AppointmentService.getPastAppointments

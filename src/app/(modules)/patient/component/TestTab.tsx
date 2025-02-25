@@ -5,12 +5,12 @@ import SingleTestDialog from '@/components/test/TestDetailsDialog';
 import { useState } from 'react';
 
 import { PackageTest, SingleTest } from '@/types/test';
-import { getTestPackages, getTestsSingle } from '@/hooks/patient/useTest';
+import { useTestPackages, useTestsSingle } from '@/hooks/patient/useTest';
 import PackageTestCard from '@/components/test/packageTestCard';
 
 const TestTabs = () => {
-  const { data, isLoading, error } = getTestsSingle();
-  const { data: packageData, isLoading: pkgLoading, error: pkgError } = getTestPackages();
+  const { data, isLoading, error } = useTestsSingle();
+  const { data: packageData, isLoading: pkgLoading, error: pkgError } = useTestPackages();
 
   // Combined state for selected test (either single or package)
   const [selectedTest, setSelectedTest] = useState<SingleTest | PackageTest | null>(null);

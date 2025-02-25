@@ -11,14 +11,7 @@ interface AppointmentItemProps {
   // items: Array
 }
 
-const AppointmentItem = ({
-  fullName,
-  email,
-  phoneNumber,
-  location,
-  appointmentDate,
-  selectedTests
-}: BookingForm) => {
+const AppointmentItem = ({ fullName, email, phoneNumber, location }: BookingForm) => {
   return (
     <>
       <div className="pb-3">
