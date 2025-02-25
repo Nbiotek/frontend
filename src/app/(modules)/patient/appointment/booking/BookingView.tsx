@@ -17,7 +17,7 @@ import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
 
 import BonkingConfirmationDialog from './components/BookingConfirmation';
-import { BookingForm, BookingSummaryProps } from '@/types/patient';
+import { BookingForm } from '@/types/patient';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -39,8 +39,11 @@ const BookAppointmentView = () => {
       type: 'Lab' as LocationType,
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
-    appointmentDate: undefined as Date | undefined,
-    selectedTests: [] as CartItem[]
+    availableDate: undefined as Date | undefined,
+    testRequests: cartStore.items.map((item) => ({
+      entityType: item.type.toUpperCase(),
+      testId: item.id
+    }))
   });
 
   const validateForm = () => {
@@ -60,12 +63,12 @@ const BookAppointmentView = () => {
       newErrors.phoneNumber = 'Phone number is required';
     }
 
-    if (!formData.appointmentDate) {
-      newErrors.appointmentDate = 'Please select a date';
+    if (!formData.availableDate) {
+      newErrors.availableDate = 'Please select a date';
     }
 
     if (cartStore.items.length === 0) {
-      newErrors.selectedTests = 'Please select at least one test';
+      newErrors.testRequests = 'Please select at least one test';
     }
 
     setErrors(newErrors);
@@ -74,13 +77,11 @@ const BookAppointmentView = () => {
 
   const handleBookingConfirmation = () => {
     if (validateForm()) {
-      setFormData((prev) => ({
-        ...prev,
-        selectedTests: toJS(cartStore.items)
-      }));
+      console.log(formData);
       setIsBookingConfirmationDialogOpen(true);
     }
   };
+
   const handleLocationChange = (value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -94,7 +95,7 @@ const BookAppointmentView = () => {
   const handleDateSelect = (date: Date | undefined) => {
     setFormData((prev) => ({
       ...prev,
-      appointmentDate: date
+      availableDate: date ? date.toISOString() : undefined
     }));
   };
 
@@ -105,6 +106,10 @@ const BookAppointmentView = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -127,8 +132,8 @@ const BookAppointmentView = () => {
             <div className="w-[100%]">
               <Label className="pb-10 font-normal">Available Date</Label>
               <DatePickerDemo onChange={handleDateSelect} />
-              {errors.appointmentDate && (
-                <span className="mt-1 text-sm text-red-500">{errors.appointmentDate}</span>
+              {errors.availableDate && (
+                <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
               )}
             </div>
           </div>
@@ -190,8 +195,8 @@ const BookAppointmentView = () => {
                   </div>
                 </>
               )}
-              {errors.selectedTests && (
-                <div className="mt-1 text-sm text-red-500">{errors.selectedTests}</div>
+              {errors.testRequests && (
+                <div className="mt-1 text-sm text-red-500">{errors.testRequests}</div>
               )}
             </div>
             <div className="flex w-full flex-col">

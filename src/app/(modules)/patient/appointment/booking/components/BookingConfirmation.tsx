@@ -12,20 +12,17 @@ import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide
 import Button from '@/atoms/Buttons';
 import { CartItem, cartStore } from '@/store/Cart';
 
+import { useBookAppointment } from '@/hooks/patient/useAppoitment';
+import toast from 'react-hot-toast';
+import { error } from 'console';
+import { BookingForm } from '@/types/patient';
+import { useState } from 'react';
+import PaymentProcessingDialog from './PaymentProcessingDialog';
+
 interface BookingSummaryDialogProps {
   open: boolean;
   onClose: () => void;
-  bookingData: {
-    fullName: string;
-    email: string;
-    phoneNumber: string;
-    appointmentDate: Date | undefined;
-    selectedTests: CartItem[];
-    location: {
-      type: 'Lab' | 'Custom';
-      address: string;
-    };
-  };
+  bookingData: BookingForm;
   onConfirm?: () => void;
 }
 
@@ -35,94 +32,139 @@ const BonkingConfirmationDialog = ({
   bookingData,
   onConfirm
 }: BookingSummaryDialogProps) => {
-  console.log(bookingData);
+  const [paymentLink, setPaymentLink] = useState<string | null>(null);
+
+  const { mutate: bookAppointment, isPending } = useBookAppointment();
+
+  const handleBookingSubmission = async () => {
+    try {
+      bookAppointment(bookingData, {
+        onSuccess: (response) => {
+          toast.success('Booking confirmed');
+          if (response?.data?.paymentLink) {
+            setPaymentLink(response.data.paymentLink);
+          }
+        },
+        onError: (error) => {
+          toast.error('Booking failed');
+        }
+      });
+    } catch (error) {
+      console.error('Error during booking submission:', error);
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
+    <>
+      <Dialog
+        open={open && !paymentLink}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) onClose();
+        }}
+      >
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>Booking Summary</DialogTitle>
+            <DialogHeader>
+              <DialogTitle>Booking Summary</DialogTitle>
+            </DialogHeader>
+
+            <div className="divide-y">
+              {/* Personal Information */}
+              <div className="py-4">
+                <h2 className="mb-3 text-sm font-medium">Personal Information</h2>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <User2Icon className="text-gray-400 h-4 w-4" />
+                    <span className="text-sm">{bookingData.fullName}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MailIcon className="text-gray-400 h-4 w-4" />
+                    <span className="text-sm">{bookingData.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <PhoneIcon className="text-gray-400 h-4 w-4" />
+                    <span className="text-sm">{bookingData.phoneNumber}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Appointment Details */}
+              <div className="py-4">
+                <h2 className="mb-3 text-sm font-medium">Appointment Details</h2>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CalendarIcon className="text-gray-400 h-4 w-4" />
+                    <span className="text-sm">
+                      {bookingData.availableDate
+                        ? new Date(bookingData.availableDate).toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })
+                        : undefined}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPinIcon className="text-gray-400 h-4 w-4" />
+                    <div className="text-sm">
+                      <span className="font-medium">{bookingData.location.type}: </span>
+                      <span>{bookingData.location.address}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Selected Tests */}
+              <div className="py-4">
+                <h2 className="mb-3 text-sm font-medium">Selected Tests</h2>
+                <div className="space-y-2">
+                  {cartStore.items.map((test) => (
+                    <div key={test.id} className="flex justify-between text-sm">
+                      <span>{test.item.name}</span>
+                      <span>₦{test.item.price.toLocaleString()}</span>
+                    </div>
+                  ))}
+                  <div className="mt-3 border-t pt-3">
+                    <div className="flex justify-between font-medium">
+                      <span>Total Amount</span>
+                      <span>₦{cartStore.total.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-4 flex gap-3">
+              <Button variant="outlined" className="flex-1" onClick={onClose}>
+                Edit
+              </Button>
+              <Button
+                variant="filled"
+                type="button"
+                className="flex-1"
+                onClick={handleBookingSubmission}
+                isLoading={isPending}
+                disabled={isPending}
+              >
+                Confirm Booking
+              </Button>
+            </div>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
 
-          <div className="divide-y">
-            {/* Personal Information */}
-            <div className="py-4">
-              <h2 className="mb-3 text-sm font-medium">Personal Information</h2>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <User2Icon className="text-gray-400 h-4 w-4" />
-                  <span className="text-sm">{bookingData.fullName}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MailIcon className="text-gray-400 h-4 w-4" />
-                  <span className="text-sm">{bookingData.email}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <PhoneIcon className="text-gray-400 h-4 w-4" />
-                  <span className="text-sm">{bookingData.phoneNumber}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Appointment Details */}
-            <div className="py-4">
-              <h2 className="mb-3 text-sm font-medium">Appointment Details</h2>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <CalendarIcon className="text-gray-400 h-4 w-4" />
-                  <span className="text-sm">
-                    {bookingData.appointmentDate
-                      ? bookingData.appointmentDate.toLocaleDateString('en-US', {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })
-                      : undefined}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPinIcon className="text-gray-400 h-4 w-4" />
-                  <div className="text-sm">
-                    <span className="font-medium">{bookingData.location.type}: </span>
-                    <span>{bookingData.location.address}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Selected Tests */}
-            <div className="py-4">
-              <h2 className="mb-3 text-sm font-medium">Selected Tests</h2>
-              <div className="space-y-2">
-                {bookingData.selectedTests.map((test) => (
-                  <div key={test.id} className="flex justify-between text-sm">
-                    <span>{test.item.name}</span>
-                    <span>₦{test.item.price.toLocaleString()}</span>
-                  </div>
-                ))}
-                <div className="mt-3 border-t pt-3">
-                  <div className="flex justify-between font-medium">
-                    <span>Total Amount</span>
-                    <span>₦{cartStore.total.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="mt-4 flex gap-3">
-            <Button variant="outlined" className="flex-1" onClick={onClose}>
-              Edit
-            </Button>
-            <Button variant="filled" className="flex-1" onClick={onConfirm}>
-              Confirm Booking
-            </Button>
-          </div>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      {paymentLink && (
+        <PaymentProcessingDialog
+          paymentLink={paymentLink}
+          onComplete={() => {
+            setPaymentLink(null);
+            onClose();
+          }}
+        />
+      )}
+    </>
   );
 };
 

@@ -3,11 +3,15 @@ import { PATIENT } from '@/constants/api';
 import { Appointment, BookAppointmentDTO } from '@/types/patient';
 
 export const AppointmentService = {
-  // Get all appointments
-  getAppointments: async (status?: 'upcoming' | 'completed') => {
-    const { data } = await server.get<Appointment[]>(PATIENT.APPOINTMENTS.LIST, {
-      params: { status }
-    });
+  // Get all upcoming appointments
+  getAppointments: async () => {
+    const { data } = await server.get<BookAppointmentDTO>(PATIENT.APPOINTMENTS.UPCOMING);
+    return data;
+  },
+
+  // Get all past appointment
+  getPastAppointments: async () => {
+    const { data } = await server.get<BookAppointmentDTO>(PATIENT.APPOINTMENTS.PAST);
     return data;
   },
 
@@ -19,6 +23,8 @@ export const AppointmentService = {
 
   // Create appointment
   createAppointment: async (appointmentData: BookAppointmentDTO) => {
+    console.log('this is  creating an appointment');
+    console.log(appointmentData);
     const { data } = await server.post<Appointment>(PATIENT.APPOINTMENTS.CREATE, appointmentData);
     return data;
   },

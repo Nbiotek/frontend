@@ -25,38 +25,39 @@ export interface BookingForm {
     type: LocationType;
     address: string;
   };
-  appointmentDate: Date | undefined;
-  selectedTests: CartItem[]; // Specify the type here
+  availableDate: Date | undefined | string;
+
+  testRequests: Array<{
+    testId: string;
+    entityType: string;
+  }>;
 }
 
 export interface Appointment {
   id: string;
-  patientName: string;
-  appointmentDate: Date;
-  tests: Array<{
-    id: string;
-    name: string;
-    price: number;
-  }>;
-  status: 'upcoming' | 'completed' | 'cancelled';
-  location: {
-    type: 'Lab' | 'Custom';
-    address: string;
-  };
   totalAmount: number;
+  data: {
+    paymentLink: string;
+  };
 }
 
 export interface BookAppointmentDTO {
   fullName: string;
   email: string;
   phoneNumber: string;
-  appointmentDate: Date;
-  selectedTests: Array<{
-    id: string;
-    quantity: number;
-  }>;
+  availableDate: Date | undefined | string;
+  phoneNumber: string;
   location: {
-    type: 'Lab' | 'Custom';
+    type: LocationType;
     address: string;
   };
+
+  testRequests: Array<{
+    testId: string;
+    entityType: string;
+  }>;
 }
+
+export interface UpcomingAppointmentResponse {}
+
+export interface CreateAppointmentResponse {}

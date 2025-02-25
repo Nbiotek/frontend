@@ -1,0 +1,28 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { AppointmentService } from '@/requests/appointments';
+import { BookAppointmentDTO } from '@/types/patient';
+
+export const useBookAppointment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: AppointmentService.createAppointment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    }
+  });
+};
+
+export const getAllUpcomingAppointment = () => {
+  return useQuery<BookAppointmentDTO>({
+    queryKey: ['upcoming-appointment'],
+    queryFn: AppointmentService.getAppointments
+  });
+};
+
+export const getAllPastAppointment = () => {
+  return useQuery<BookAppointmentDTO>({
+    queryKey: ['past-appointment'],
+    queryFn: AppointmentService.getPastAppointments
+  });
+};

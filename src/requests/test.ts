@@ -13,18 +13,4 @@ export const TestService = {
     const { data } = await server.get<AllPackageTestResponse>(PATIENT.TESTS.PACKAGES);
     return data;
   }
-
-  // Get test details
-  //   getTestById: async (id: string) => {
-  //     const { data } = await server.get<SingleTest>(
-  //       PATIENT.DETAILS(id)
-  //     );
-  //     return data;
-  //   },
-
-  // Get test packages
-  //   getTestPackages: async () => {
-  //     const { data } = await server.get<PackageTest[]>(PATIENT.PACKAGES);
-  //     return data;
-  //   }
 };
