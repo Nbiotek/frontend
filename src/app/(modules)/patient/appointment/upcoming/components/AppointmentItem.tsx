@@ -1,7 +1,6 @@
 import { Text } from '@/lib/utils/Text';
 import { MapPin } from 'lucide-react';
 import DropDownAction from '@/components/common/dropdownActions';
-import { BookingForm } from '@/types/patient';
 
 interface AppointmentItemProps {
   fullName: string;

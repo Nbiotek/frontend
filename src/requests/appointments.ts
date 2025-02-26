@@ -1,6 +1,5 @@
 import server, { serverwithoutInterceptor } from '.';
 import { PATIENT } from '@/constants/api';
-import { Appointment, BookAppointmentDTO } from '@/types/patient';
 
 export const AppointmentService = {
   // Get all upcoming appointments

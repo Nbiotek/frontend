@@ -1,4 +1,4 @@
-export interface BookingSummaryProps {
+interface BookingSummaryProps {
   bookingData: {
     fullName: string;
     email: string;
@@ -17,7 +17,7 @@ export interface BookingSummaryProps {
   onConfirm: () => void;
 }
 
-export interface BookingForm {
+interface BookingForm {
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -33,7 +33,7 @@ export interface BookingForm {
   }>;
 }
 
-export interface Appointment {
+interface Appointment {
   id: string;
   totalAmount: number;
   data: {
@@ -41,7 +41,7 @@ export interface Appointment {
   };
 }
 
-export interface BookAppointmentDTO {
+interface BookAppointmentDTO {
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -58,6 +58,30 @@ export interface BookAppointmentDTO {
   }>;
 }
 
-export interface UpcomingAppointmentResponse {}
+interface TPatientDashboard {
+  totalAppointments: number;
+  totalResult: number;
+  totalMessages: number;
+  upcomingAppointment: number;
+  recentAppointments: Array<{
+    id: string;
+    location: {
+      type: LocationType;
+      address: string;
+    };
+    appointmentDate: string;
+  }>;
+}
 
-export interface CreateAppointmentResponse {}
+interface UpcomingAppointmentResponse {
+  uppcommingAppointment: Array<{
+    id: string;
+    location: {
+      type: LocationType;
+      address: string;
+    };
+    appointmentDate: Date;
+  }>;
+}
+
+interface CreateAppointmentResponse {}

@@ -7,15 +7,13 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 
-import { Card } from '@/components/ui/card';
 import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide-react';
 import Button from '@/atoms/Buttons';
-import { CartItem, cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/Cart';
 
 import { useBookAppointment } from '@/hooks/patient/useAppoitment';
 import toast from 'react-hot-toast';
-import { error } from 'console';
-import { BookingForm } from '@/types/patient';
+
 import { useState } from 'react';
 import PaymentProcessingDialog from './PaymentProcessingDialog';
 
