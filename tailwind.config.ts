@@ -145,10 +145,19 @@ export default {
           '20%,50%': {
             opacity: '0'
           }
+        },
+        spin: {
+          from: {
+            transform: 'rotate(0deg)'
+          },
+          to: {
+            transform: 'rotate(360deg)'
+          }
         }
       },
       animation: {
-        'caret-blink': 'caret-blink 1.25s ease-out infinite'
+        'caret-blink': 'caret-blink 1.25s ease-out infinite',
+        spin: 'spin 1s linear infinite'
       },
 
       fontFamily: {
