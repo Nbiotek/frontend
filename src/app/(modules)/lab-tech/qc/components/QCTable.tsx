@@ -8,7 +8,6 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Status from '@/atoms/Buttons/Status';
-import { tests } from '@/constants/data';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -16,12 +15,15 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import EmptyState from '@/components/EmptyState';
 
 interface IQCTableProps {
-  qcData: Array<TQCData>;
+  isLoading: boolean;
+  resultsData: TQCTestResp;
 }
 
-const QCTable = ({ qcData }: IQCTableProps) => {
+const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -35,35 +37,44 @@ const QCTable = ({ qcData }: IQCTableProps) => {
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {qcData.map((qcDatum) => (
-            <TableRow key={qcDatum.name}>
-              <TableCell className="font-medium">{qcDatum.name}</TableCell>
-              <TableCell>{qcDatum.type}</TableCell>
-              <TableCell>{qcDatum.req_date}</TableCell>
-              <TableCell>{qcDatum.due_date}</TableCell>
-              <TableCell>
-                <Status variant={qcDatum.level} />
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
-                  </DropdownMenuTrigger>
 
-                  <DropdownMenuContent className="">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                      <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {isLoading ? (
+          <TableLoader rows={20} columns={6} />
+        ) : (
+          resultsData.requests.length !== 0 && (
+            <TableBody>
+              {resultsData.requests.map((qcDatum) => (
+                <TableRow key={qcDatum.id}>
+                  <TableCell className="font-medium">{qcDatum.patientName}</TableCell>
+                  <TableCell>{qcDatum.testType}</TableCell>
+                  <TableCell>{qcDatum.preferredAt}</TableCell>
+                  <TableCell>{qcDatum.deadlineAt}</TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.status} />
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                      </DropdownMenuTrigger>
+
+                      <DropdownMenuContent className="">
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
+                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
+                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
       </Table>
+
+      {resultsData.requests.length === 0 && <EmptyState title="No Test data" />}
     </div>
   );
 };

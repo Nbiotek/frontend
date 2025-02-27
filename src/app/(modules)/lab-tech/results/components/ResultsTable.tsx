@@ -44,7 +44,7 @@ const ResultsTable = ({ isLoading, resultsData }: IQCTableProps) => {
           resultsData.results.length !== 0 && (
             <TableBody>
               {resultsData.results.map((resultDatum) => (
-                <TableRow key={resultDatum.patientName}>
+                <TableRow key={resultDatum.id}>
                   <TableCell className="font-medium">{resultDatum.patientName}</TableCell>
                   <TableCell>{resultDatum.testType}</TableCell>
                   <TableCell>{resultDatum.requestedDate}</TableCell>

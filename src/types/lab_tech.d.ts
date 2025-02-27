@@ -44,3 +44,26 @@ type TRecentTestResults = {
   results: Array<TTestResults>;
   pagination: TPaginationResponse;
 };
+
+// ============ Quality Control ==================
+type TQCTest = {
+  id: string;
+  patientName: string;
+  testName: string;
+  testType: string;
+  type: string;
+  status: string; // e.g PASSED, FAILED, PENDING
+  priority: string; // e.g., High, Low, Medium
+  preferredAt: string;
+  deadlineAt: string;
+  completedAt: string;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+  turnaroundTime: number;
+};
+
+type TQCTestResp = {
+  requests: Array<TQCTest>;
+  pagination: TPaginationResponse;
+};

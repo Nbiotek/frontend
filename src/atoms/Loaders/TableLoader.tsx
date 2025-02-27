@@ -9,10 +9,10 @@ interface ITableLoaderProps {
 const TableLoader = ({ rows, columns }: ITableLoaderProps) => {
   return (
     <TableBody className="w-full">
-      {Array.from({ length: rows }).map((_, rowIndex) => (
-        <TableRow key={rowIndex} className="hover:bg-gray-50 w-full">
-          {Array.from({ length: columns }).map((_, colIndex) => (
-            <TableCell key={colIndex} className="">
+      {Array.from({ length: rows }).map((row, rowIndex) => (
+        <TableRow key={`${row}-${rowIndex}`} className="hover:bg-gray-50 w-full">
+          {Array.from({ length: columns }).map((col, colIndex) => (
+            <TableCell key={`${col}-${colIndex}`} className="">
               <div className="h-4 animate-pulse rounded bg-neutral-50"></div>
             </TableCell>
           ))}

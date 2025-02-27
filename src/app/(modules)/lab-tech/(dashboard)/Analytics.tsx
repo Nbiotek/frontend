@@ -52,7 +52,7 @@ const Analytics = () => {
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
-      setOverviewData(data.data);
+      setOverviewData(data.data.data);
     }
   }, [data, isLoading]);
 

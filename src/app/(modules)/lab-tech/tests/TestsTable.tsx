@@ -50,7 +50,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
           tests.length !== 0 && (
             <TableBody>
               {tests.map((test) => (
-                <TableRow key={test.patientName}>
+                <TableRow key={test.id}>
                   <TableCell className="whitespace-nowrap font-medium">
                     {test.patientName}
                   </TableCell>
