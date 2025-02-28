@@ -17,7 +17,6 @@ import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
 
 import BonkingConfirmationDialog from './components/BookingConfirmation';
-import { BookingForm } from '@/types/patient';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -83,7 +82,7 @@ const BookAppointmentView = () => {
   };
 
   const handleLocationChange = (value: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       location: {
         type: value as LocationType,
@@ -93,7 +92,7 @@ const BookAppointmentView = () => {
   };
 
   const handleDateSelect = (date: Date | undefined) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       availableDate: date ? date.toISOString() : undefined
     }));
@@ -102,7 +101,7 @@ const BookAppointmentView = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value
     }));
