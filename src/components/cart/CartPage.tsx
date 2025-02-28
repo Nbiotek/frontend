@@ -13,6 +13,7 @@ interface CartProduct {
 import Image from 'next/image';
 import { Minus, Plus, X } from 'lucide-react';
 import Button from '@/atoms/Buttons';
+import Link from 'next/link';
 
 export const CartPage = () => {
   return (
@@ -156,9 +157,12 @@ export const CartPage = () => {
                 <span>Total:</span>
                 <span>$114.00</span>
               </div>
-              <button className="mt-4 w-full rounded-lg bg-[#1e56b0] py-3 text-white">
+              <Link
+                href="/patient/appointment/booking"
+                className="mt-4 w-full rounded-lg bg-[#1e56b0] py-3 text-white"
+              >
                 Proceed to checkout
-              </button>
+              </Link>
             </div>
           </div>
         </div>

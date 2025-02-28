@@ -10,6 +10,7 @@ import {
 import { cartStore } from '@/store/Cart';
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
+import Link from 'next/link';
 import { X } from 'lucide-react';
 
 const CartTable = observer(() => {
@@ -20,28 +21,37 @@ const CartTable = observer(() => {
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-      <div className="flex-1 overflow-hidden rounded-lg bg-white">
-        <Table>
+      <div className="flex-1 rounded-lg bg-white">
+        <Table className="overflow-x-auto">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[300px]">Product</TableHead>
-              <TableHead>Test Type</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead></TableHead> {/* For remove button */}
+              {/* <TableHead>Product</TableHead> */}
+              <TableHead>TEST NAME</TableHead>
+              <TableHead>PRICE</TableHead>
+              <TableHead>QUANTITY</TableHead>
+              <TableHead>SUBTOTAL</TableHead>
+              <TableHead className="text-right"></TableHead> {/* For remove button */}
             </TableRow>
           </TableHeader>
           <TableBody>
             {cartStore.items.map((cartItem) => (
               <TableRow key={cartItem.id}>
                 <TableCell className="font-medium">{cartItem.item.name}</TableCell>
-                <TableCell>{cartItem.type}</TableCell>
+                <TableCell>
+                  ₦
+                  {calculateItemTotal(
+                    cartItem.item.discountedPrice && cartItem.item.discountedPrice !== 0
+                      ? cartItem.item.discountedPrice
+                      : cartItem.item.price,
+                    cartItem.quantity
+                  ).toLocaleString()}
+                </TableCell>
                 <TableCell>{cartItem.quantity}</TableCell>
                 <TableCell>
                   ₦
                   {calculateItemTotal(
-                    'discountedPrice' in cartItem.item
-                      ? cartItem.item.discountedPrice || cartItem.item.price
+                    cartItem.item.discountedPrice && cartItem.item.discountedPrice !== 0
+                      ? cartItem.item.discountedPrice
                       : cartItem.item.price,
                     cartItem.quantity
                   ).toLocaleString()}
@@ -59,8 +69,18 @@ const CartTable = observer(() => {
             ))}
           </TableBody>
         </Table>
+        <div className="border-t">
+          <div className="flex justify-end space-x-6 p-3">
+            <span className="w-[200px] rounded-lg border-2 border-blue-400 px-4 py-3 text-center text-base">
+              Total
+            </span>
+            <span className="w-[200px] rounded-lg border-2 border-blue-400 px-4 py-3 text-center text-base">
+              ₦{cartStore.total.toLocaleString()}
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="w-full lg:w-96">
+      {/* <div className="w-full lg:w-96">
         <div className="rounded-lg bg-white">
           <h2 className="mb-6 rounded-lg bg-blue-400 p-3 text-xl font-semibold text-white">
             Cart Total
@@ -78,12 +98,12 @@ const CartTable = observer(() => {
               <span>Total:</span>
               <span>₦{cartStore.total.toLocaleString()}</span>
             </div>
-            <button className="mt-4 w-full rounded-lg bg-[#1e56b0] py-3 text-white">
+            <Link href='/booking/appointment' className="mt-4 w-full rounded-lg bg-[#1e56b0] py-3 text-white">
               Proceed to checkout
-            </button>
+            </Link>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 });
