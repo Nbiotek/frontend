@@ -1,20 +1,23 @@
+import { Skeleton } from '@/components/ui/skeleton';
+import Spinner from '@/lib/utils/spinner';
 import { Text } from '@/lib/utils/Text';
 
 interface CardProps {
   title: string;
-  value: string;
+  value: number;
   icon: React.ReactNode;
+  isLoading: boolean;
 }
 
-const CardMetrics = ({ title, value, icon }: CardProps) => {
+const CardMetrics = ({ title, value, icon, isLoading }: CardProps) => {
   return (
-    <div className="sm-:w-[48%] flex w-full items-center justify-between rounded-lg bg-white p-4 shadow-lg lg:w-[48%] xl:w-[23.5%]">
+    <div className="flex items-center justify-between rounded-lg bg-white p-4 shadow-lg ">
       <div className="space-y-2">
         <Text variant="body" weight="light">
           {title}
         </Text>
         <Text weight="bold" className="text-[26px]">
-          {value}
+          {isLoading ? <Spinner /> : <span>{value ?? 0}</span>}
         </Text>
       </div>
       {icon}
