@@ -3,8 +3,8 @@ import { PATIENT } from '@/constants/api';
 
 export const AppointmentService = {
   // Get all upcoming appointments
-  getAppointments: async () => {
-    const { data } = await server.get<BookAppointmentDTO>(PATIENT.APPOINTMENTS.UPCOMING);
+  getUpcomingAppointments: async () => {
+    const { data } = await server.get<UpcomingAppointment>(PATIENT.APPOINTMENTS.UPCOMING);
     return data;
   },
 

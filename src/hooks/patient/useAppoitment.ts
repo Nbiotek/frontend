@@ -13,9 +13,9 @@ export const useBookAppointment = () => {
 };
 
 export const useAllUpcomingAppointment = () => {
-  return useQuery<BookAppointmentDTO>({
+  return useQuery<UpcomingAppointment>({
     queryKey: ['upcoming-appointment'],
-    queryFn: AppointmentService.getAppointments
+    queryFn: AppointmentService.getUpcomingAppointments
   });
 };
 
