@@ -28,6 +28,8 @@ const TestTabs = () => {
     setIsDetailsOpen(true);
   };
 
+  console.log(data);
+
   if (isLoading || pkgLoading) return <div>Loading...</div>;
   if (error || pkgError) return <div>Error loading tests</div>;
   if (!data || !packageData) return null;

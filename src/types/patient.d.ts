@@ -73,15 +73,30 @@ interface TPatientDashboard {
   }>;
 }
 
-interface UpcomingAppointmentResponse {
-  uppcommingAppointment: Array<{
-    id: string;
-    location: {
-      type: LocationType;
-      address: string;
-    };
-    appointmentDate: Date;
+interface AppointmentItem {
+  id: string;
+  title: string;
+  description: string;
+  tests: Array<{
+    name: string;
+    description: string;
+    type: string;
+    status: string;
   }>;
+  patientName: string;
+  location: {
+    type: string;
+    address: string;
+  };
+  appointmentDate: string;
+  status: string;
+  paymentStatus: string;
+}
+
+interface UpcomingAppointment {
+  data: {
+    upcomingAppointments: AppointmentItem[];
+  };
 }
 
 interface CreateAppointmentResponse {}
