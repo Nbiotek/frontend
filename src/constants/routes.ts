@@ -49,6 +49,11 @@ class Routes {
     'Book',
     'Patient appointment booking page'
   );
+  PATIENT_PENDING_APPOINTMENTS = new Route(
+    '/patient/appointment/pending',
+    'Pending',
+    'Patient appointment booking page'
+  );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
     'Past',

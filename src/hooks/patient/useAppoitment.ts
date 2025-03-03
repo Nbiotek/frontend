@@ -19,6 +19,13 @@ export const useAllUpcomingAppointment = () => {
   });
 };
 
+export const usePendingAppointment = () => {
+  return useQuery<PendingAppointment>({
+    queryKey: ['pending-appointment'],
+    queryFn: AppointmentService.getPendingAppointments
+  });
+};
+
 export const useAllPastAppointment = () => {
   return useQuery<BookAppointmentDTO>({
     queryKey: ['past-appointment'],

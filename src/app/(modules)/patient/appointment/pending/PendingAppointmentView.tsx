@@ -3,12 +3,12 @@ import Cards from '@/atoms/Cards';
 import { Text } from '@/lib/utils/Text';
 import InputSearch from '@/atoms/fields/InputSearch';
 
-import { useAllUpcomingAppointment } from '@/hooks/patient/useAppoitment';
+import { usePendingAppointment } from '@/hooks/patient/useAppoitment';
 import AppointmentItem from '../component/AppointmentItem';
 import Spinner from '@/lib/utils/spinner';
 
-const UpcomingAppointmentView = () => {
-  const { data, isLoading } = useAllUpcomingAppointment();
+const PendingAppointmentView = () => {
+  const { data, isLoading } = usePendingAppointment();
 
   console.log(data);
 
@@ -18,7 +18,7 @@ const UpcomingAppointmentView = () => {
         <Spinner />
       ) : data ? (
         <div className="flex flex-col space-y-[20px] bg-white p-5">
-          <AppointmentItem type="upcoming" data={data.data} />
+          <AppointmentItem type="pending" data={data.data} />
         </div>
       ) : (
         <div className="flex justify-center">No appointment data found</div>
@@ -27,4 +27,4 @@ const UpcomingAppointmentView = () => {
   );
 };
 
-export default UpcomingAppointmentView;
+export default PendingAppointmentView;

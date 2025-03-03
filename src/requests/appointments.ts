@@ -8,6 +8,11 @@ export const AppointmentService = {
     return data;
   },
 
+  getPendingAppointments: async () => {
+    const { data } = await server.get<PendingAppointment>(PATIENT.APPOINTMENTS.PENDING);
+    return data;
+  },
+
   // Get all past appointment
   getPastAppointments: async () => {
     const { data } = await server.get<BookAppointmentDTO>(PATIENT.APPOINTMENTS.PAST);
