@@ -27,6 +27,8 @@ const QCPendingView = () => {
     }
   }, [isLoading, data]);
 
+  console.log(result);
+
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">

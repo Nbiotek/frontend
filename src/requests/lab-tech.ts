@@ -10,11 +10,9 @@ export const postUploadResult = async (id: string) =>
 export const getLabTechDashboard = async () =>
   server.get<INBTServerResp<TLabTechDashboardRes>>(LAB_TECH.DASHBOARD);
 
-export const getRecentActivities = async () =>
-  server.get<TLabTechRecentActivitesRes>(LAB_TECH.RECENT_ACTIVITIES);
+export const getRecentActivities = async () => server.get<TTestQuesRes>(LAB_TECH.RECENT_ACTIVITIES);
 
-export const getTest = async (id: string) => server.get(LAB_TECH.GET_TEST.replaceAll(':id', id));
-
+// Results
 export const getRecentResult = async ({
   search,
   status,
@@ -45,6 +43,7 @@ export const getArchivedResult = async ({
   return server.get<INBTServerResp<TRecentTestResults>>(LAB_TECH.ARCHIVED_RESULTS, { params });
 };
 
+// Quality control
 export const getPendingQC = async ({
   search,
   status,
@@ -57,7 +56,7 @@ export const getPendingQC = async ({
 }: Partial<TRecentResultQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
-  return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.ARCHIVED_RESULTS, { params });
+  return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.PENDING_QC, { params });
 };
 
 export const getHistoryQC = async ({

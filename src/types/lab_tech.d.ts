@@ -1,3 +1,8 @@
+interface INBTPaginatedData<T> {
+  requests: Array<T>;
+  pagination: TPaginationResponse;
+}
+
 type TLabTechDashboardRes = {
   totalPendingTests: number;
   totalCompletedTests: number;
@@ -15,8 +20,86 @@ type TTestType = {
   priority: string;
 };
 
-type TLabTechRecentActivitesRes = {
-  data: Array<TTestType>;
+// =========== Tests ===============
+type TTestQueue = {
+  id: string;
+  patientName: string;
+  testName: string;
+  testType: string;
+  type: string;
+  status: string;
+  priority: string;
+  preferredAt: string;
+  deadlineAt: string;
+  completedAt?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+  resultStatus: string;
+};
+
+type TTestQuesRes = INBTPaginatedData<TTestQueue>;
+
+type TTestDetailsPatient = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  gender: string;
+  dateOfBirth: string;
+  age: number;
+};
+
+type TTestDetails = {
+  id: string;
+  patient: TTestDetailsPatient;
+  test: {
+    id: string;
+    name: string;
+    category: string;
+    description: string;
+  };
+  package?: string;
+  type: string;
+  status: string;
+  priority: string;
+  preferredAt: string;
+  deadlineAt: string;
+  completedAt?: string;
+  notes: string;
+  technician?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TSingleTestDetail = {
+  id: string;
+  patient: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    gender: string;
+    dateOfBirth: string;
+    age: number;
+  };
+  test: {
+    id: string;
+    name: string;
+    category: string;
+    description: string;
+  };
+  package?: string;
+  type: string;
+  status: string;
+  priority: string;
+  preferredAt: string;
+  deadlineAt: string;
+  completedAt?: string;
+  notes?: string;
+  technician?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 // ============ Results ========================
@@ -27,6 +110,7 @@ type TRecentResultQuery = {
   toDate: string;
   sortBy: string;
   sortOrder: string;
+  priority: string;
   page: number;
   limit: number;
 };
@@ -63,7 +147,4 @@ type TQCTest = {
   turnaroundTime: number;
 };
 
-type TQCTestResp = {
-  requests: Array<TQCTest>;
-  pagination: TPaginationResponse;
-};
+type TQCTestResp = INBTPaginatedData<TQCTest>;

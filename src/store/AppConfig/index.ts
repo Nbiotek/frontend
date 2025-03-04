@@ -11,7 +11,7 @@ export class AppConfigStore {
   isOpen = { ...INIT_IS_OPEN };
   nonce = 0;
 
-  resultUpload = {
+  testDetails = {
     test_uid: ''
   };
 
@@ -19,7 +19,7 @@ export class AppConfigStore {
     makeObservable(this, {
       isOpen: observable,
       nonce: observable,
-      resultUpload: observable,
+      testDetails: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound
@@ -35,10 +35,9 @@ export class AppConfigStore {
     switch (modal.name) {
       case '':
         break;
-
       case AppModals.RESULT_UPLOAD_MODAL:
         if (modal.open) {
-          this.resultUpload = {
+          this.testDetails = {
             test_uid: modal.test_uuid
           };
         }

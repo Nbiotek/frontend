@@ -38,3 +38,7 @@ export const LAB_TECH = {
   PENDING_QC: '/lab-technicians/test-quality-control',
   HISTORY_QC: '/lab-technicians/quality-control-history'
 };
+
+export const TEST = {
+  GET_TEST: '/lab-technicians/test-requests/:id'
+};

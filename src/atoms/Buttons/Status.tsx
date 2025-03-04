@@ -1,32 +1,53 @@
+import { toTitleCase } from '@/utils';
 import { HTMLAttributes, useMemo } from 'react';
 
 interface IButtonProps extends HTMLAttributes<HTMLDivElement> {
   variant: string;
 }
 
+export enum EnumTestStatus {
+  SUBMITTED = 'SUBMITTED',
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS'
+}
+
+export enum EnumTestPriority {
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW'
+}
+
+export enum EnumResultStatus {
+  ACCEPTED = 'ACCEPTED',
+  PROCESSING = 'PROCESSING',
+  REJECTED = 'REJECTED'
+}
+
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
-      // Test status
-      case 'High':
+      // Test priority
+      case EnumTestPriority.HIGH:
         return 'status-high';
-      case 'Medium':
+      case EnumTestPriority.MEDIUM:
         return 'status-medium';
-      case 'Low':
+      case EnumTestPriority.LOW:
         return 'status-low';
 
-      // QC status
-      case 'Failed':
+      // Result status
+      case EnumResultStatus.ACCEPTED:
         return 'status-failed';
-      case 'Pending':
+      case EnumResultStatus.PROCESSING:
         return 'status-pending';
-      case 'Passed':
+      case EnumResultStatus.REJECTED:
         return 'status-passed';
 
-      // Results status
-      case 'Submitted':
+      // Test status
+      case EnumTestStatus.SUBMITTED:
         return 'status-submitted';
-      case 'Not Submitted':
+      case EnumTestStatus.PENDING:
+        return 'status-pending';
+      case EnumTestStatus.IN_PROGRESS:
         return 'status-pending';
       default:
         break;
@@ -35,7 +56,7 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
 
   return (
     <div className={`status-badge group ${style} ${className}`} {...rest}>
-      {variant}
+      {toTitleCase(variant)}
     </div>
   );
 };
