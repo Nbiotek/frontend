@@ -64,6 +64,11 @@ class Routes {
     'Nbiotek | Test request',
     'Patient appointment past page'
   );
+  PATIENT_TEST_RESULT = new Route(
+    '/patient/result',
+    'Nbiotek | Test result',
+    'Patient Test Result'
+  );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
     'Available',
