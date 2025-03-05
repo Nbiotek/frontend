@@ -13,6 +13,7 @@ export const AUTH = {
 export const PATIENT = {
   PERSONAL_REG: '/patients/register',
   DASHBOARD: '/patients/dashboard',
+  PROFILE: '/patients/profile',
 
   APPOINTMENTS: {
     UPCOMING: '/patients/appointments/upcoming',

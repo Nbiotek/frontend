@@ -45,3 +45,8 @@ export const PatientDashboardService = async () => {
   const { data } = await server.get<TPatientDashboard>(PATIENT.DASHBOARD);
   return data;
 };
+
+export const PatientInfoService = async () => {
+  const { data } = await server.get<InfoApiResponse>(PATIENT.PROFILE);
+  return data;
+};
