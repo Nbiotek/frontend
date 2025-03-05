@@ -15,7 +15,10 @@ const PendingAppointmentView = () => {
   return (
     <>
       {isLoading ? (
-        <Spinner />
+        <div className="flex flex-col items-center justify-center py-12">
+          <Spinner />
+          <p className="text-gray-500 mt-4">Loading your appointments...</p>
+        </div>
       ) : data ? (
         <div className="flex flex-col space-y-[20px] bg-white p-5">
           <AppointmentItem type="pending" data={data.data} />

@@ -15,13 +15,13 @@ export const AppointmentService = {
 
   // Get all past appointment
   getPastAppointments: async () => {
-    const { data } = await server.get<BookAppointmentDTO>(PATIENT.APPOINTMENTS.PAST);
+    const { data } = await server.get<PastAppointment>(PATIENT.APPOINTMENTS.PAST);
     return data;
   },
 
   // Get single appointment
   getAppointmentById: async (id: string) => {
-    const { data } = await server.get<Appointment>(PATIENT.APPOINTMENTS.DETAILS(id));
+    const { data } = await server.get<TShowAppointment>(PATIENT.APPOINTMENTS.DETAILS(id));
     return data;
   },
 

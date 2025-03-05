@@ -9,7 +9,6 @@ import {
 
 import AvailableTestView from '../../../test/available/AvailableTestView';
 import TestTabs from '../../../component/TestTab';
-import { individualTests } from '@/api/data/test';
 
 interface DialogProp {
   open: boolean;

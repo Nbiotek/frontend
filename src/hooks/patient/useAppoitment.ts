@@ -26,9 +26,19 @@ export const usePendingAppointment = () => {
   });
 };
 
-export const useAllPastAppointment = () => {
-  return useQuery<BookAppointmentDTO>({
+export const usePastAppointment = () => {
+  return useQuery<PastAppointment>({
     queryKey: ['past-appointment'],
     queryFn: AppointmentService.getPastAppointments
+  });
+};
+
+export const useGetAppointmentById = (id: string) => {
+  return useQuery<TShowAppointment>({
+    queryKey: ['getAppointmentItem-details', id],
+    queryFn: () => AppointmentService.getAppointmentById(id),
+
+    // Only run the query if we have an ID
+    enabled: !!id
   });
 };

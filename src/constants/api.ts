@@ -19,7 +19,7 @@ export const PATIENT = {
     PENDING: '/patients/appointments/pending',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',
-    DETAILS: (id: string) => `/appointments/${id}`,
+    DETAILS: (id: string) => `patients/appointments/${id}/show`,
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
     RESCHEDULE: (id: string) => `/appointments/${id}/reschedule`
   },

@@ -3,6 +3,10 @@ import { MapPin } from 'lucide-react';
 import DropDownAction from '@/components/common/dropdownActions';
 import { dateTimeUTC } from '@/utils/date';
 import Button from '@/atoms/Buttons';
+import { Calendar } from 'lucide-react';
+import Link from 'next/link';
+
+import ViewDetailsDropDown from './ViewDetailsDropDown';
 
 const AppointmentItem = (props: AppointmentItemProps) => {
   function getStatus(status: string) {
@@ -16,10 +20,31 @@ const AppointmentItem = (props: AppointmentItemProps) => {
     }
   }
   const appointments =
-    props.type === 'upcoming' ? props.data?.upcomingAppointments : props.data?.pendingAppointments;
+    props.type === 'upcoming'
+      ? props.data?.upcomingAppointments
+      : props.type === 'pending'
+        ? props.data?.pendingAppointments
+        : props.data?.pastAppointments;
 
   if (!appointments || appointments.length === 0) {
-    return <div>No appointments found</div>;
+    return (
+      <div className="flex flex-col items-center justify-center rounded-lg bg-white py-16 shadow-sm">
+        <div className="bg-gray-100 mb-4 flex h-20 w-20 items-center justify-center rounded-full">
+          <Calendar className="text-gray-400 h-10 w-10" />
+        </div>
+        <h3 className="mb- text-center text-lg font-medium">No appointments found</h3>
+        <p className="text-gray-500 mb-6 max-w-sm text-center">
+          You don&apos;t have any past appointments. When you book appointments, they will appear
+          here.
+        </p>
+        <Link
+          className="w-full rounded-lg bg-blue-400 py-3 text-center text-base font-semibold text-white hover:bg-blue-400/60"
+          href="/patient/appointment/booking"
+        >
+          Book an Appointment
+        </Link>
+      </div>
+    );
   }
 
   const IsDateToday = (date: string) => {
@@ -37,7 +62,6 @@ const AppointmentItem = (props: AppointmentItemProps) => {
       {appointments.map((appointment) => (
         <div className="pb-3" key={appointment.id}>
           <Text variant="h4" weight="semibold" className="mb-3 mt-2 border-b pb-3">
-            {' '}
             {IsDateToday(appointment.appointmentDate)}
             {/* {dateTimeUTC(appointment.appointmentDate)} */}
           </Text>
@@ -61,7 +85,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
                     )}
                   </div>
                 </div>
-                <DropDownAction />
+                <ViewDetailsDropDown id={appointment.id} />
               </div>
 
               <div className="sm:flexBetween  w-full pt-4">
