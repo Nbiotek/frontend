@@ -53,7 +53,7 @@ body {
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-light {
-    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400/50 hover:text-white;
+    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400 hover:text-white;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-underlined {

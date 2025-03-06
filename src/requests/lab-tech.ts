@@ -3,10 +3,6 @@ import server from '.';
 import { getAllParams } from '@/utils';
 import { EnumTestStatus } from '@/atoms/Buttons/Status';
 
-// post requests
-export const postUploadResult = async (id: string) =>
-  server.post(LAB_TECH.RESULT_UPLOAD.replaceAll(':id', id));
-
 // put requests
 export type TTestStatusMutateParams = {
   id: string;

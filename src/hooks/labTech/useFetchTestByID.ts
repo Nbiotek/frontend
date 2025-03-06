@@ -11,7 +11,7 @@ export function useFetchTestByID(id: string): IQueryHookResponse<TSingleTestDeta
   const { data, isLoading, status, error } = useQuery({
     queryKey: meta.keys(),
     meta,
-    enabled: !!id,
+    enabled: Boolean(id),
     select: memoizedSelect
   });
 
