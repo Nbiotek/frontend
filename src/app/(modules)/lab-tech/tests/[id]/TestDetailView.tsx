@@ -4,11 +4,13 @@ import Status, { EnumTestStatus } from '@/atoms/Buttons/Status';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Paragraph } from '@/atoms/typographys';
 import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
+import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { format } from 'date-fns';
-import { ChevronLeft, Eye, Play, Upload } from 'lucide-react';
+import { ChevronLeft, Eye, Pause, Play, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import TestDetailsInfo from './TestDetailsInfo';
 
 interface ITestDetailModalProps {
   id: string;
@@ -21,6 +23,7 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
   } = useStore();
 
   const { data, status } = useFetchTestByID(id);
+  const { mutateTestStatus, isPending } = useUpdateTestStatus();
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -39,68 +42,55 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
             <ChevronLeft />
             <Paragraph text="Back" />
           </button>
-          <div className="flex w-full flex-col space-y-2 rounded-lg bg-white p-4">
-            <Paragraph className="text-lg !font-medium" text="Patient Information" />
 
-            <div className="flex w-full flex-col space-y-1 ">
-              <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                <FieldSet legend="Name" text={data?.patient.name} />
-                <FieldSet legend="Email" text={data?.patient.email || 'Nill'} />
-                <FieldSet legend="Gender" text={data?.patient.gender || 'Nill'} />
-              </div>
-
-              <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                <FieldSet legend="Date of Birth" text={data?.patient.dateOfBirth || 'Nill'} />
-                <FieldSet legend="Age" text={data?.patient.age.toString() || 'Nill'} />
-              </div>
-            </div>
-          </div>
-          <div className="flex w-full flex-col space-y-2 rounded-lg bg-white p-4">
-            <Paragraph className="text-lg !font-medium" text="Test Information" />
-
-            <div className="flex w-full flex-col space-y-1 ">
-              <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                <FieldSet legend="Name" text={data?.test.name} />
-                <FieldSet legend="Type" text={data?.type} />
-                <FieldSet legend="Status">
-                  <Status variant={data?.status || ''} />
-                </FieldSet>
-              </div>
-
-              <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                <FieldSet
-                  legend="Requested Date"
-                  text={format(new Date(data?.createdAt || ''), 'dd MMM, yyyy')}
-                />
-                <FieldSet
-                  legend="Deadline"
-                  text={format(new Date(data?.deadlineAt || ''), 'dd MMM, yyyy')}
-                />
-                <FieldSet legend="Note" text={data?.notes || ''} />
-              </div>
-
-              <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-                <FieldSet legend="Description" text={data?.test.description || ''} />
-              </div>
-            </div>
-          </div>
+          <TestDetailsInfo data={data} />
 
           <div className="flex w-fit items-center justify-start space-x-2">
             {data?.status === EnumTestStatus.PENDING && (
-              <Button className="w-32" variant="filled" leftIcon={<Play />} text="Start Test" />
+              <Button
+                className="w-32"
+                disabled={isPending}
+                isLoading={isPending}
+                variant="filled"
+                leftIcon={<Play />}
+                text="Start Test"
+                onClick={() =>
+                  mutateTestStatus({
+                    id: data.id,
+                    payload: { status: EnumTestStatus.IN_PROGRESS }
+                  })
+                }
+              />
             )}
 
             {data?.status === EnumTestStatus.IN_PROGRESS && (
               <Button
                 className="w-32"
+                disabled={isPending}
+                isLoading={isPending}
                 variant="filled"
+                leftIcon={<Pause />}
+                text="Pause Test"
+                onClick={() =>
+                  mutateTestStatus({
+                    id: data.id,
+                    payload: { status: EnumTestStatus.PENDING }
+                  })
+                }
+              />
+            )}
+
+            {data?.status === EnumTestStatus.IN_PROGRESS && (
+              <Button
+                className="w-32"
+                variant="light"
                 leftIcon={<Upload />}
                 text="Upload Result"
                 onClick={() =>
                   toggleModals({
                     open: true,
                     name: AppModals.RESULT_UPLOAD_MODAL,
-                    test_uuid: data.test.id
+                    testId: data.id
                   })
                 }
               />

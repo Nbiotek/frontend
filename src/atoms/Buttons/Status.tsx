@@ -48,7 +48,7 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
       case EnumTestStatus.PENDING:
         return 'status-pending';
       case EnumTestStatus.IN_PROGRESS:
-        return 'status-pending';
+        return 'status-medium';
       default:
         break;
     }

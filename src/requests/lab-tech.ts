@@ -1,16 +1,28 @@
 import { LAB_TECH } from '@/constants/api';
 import server from '.';
 import { getAllParams } from '@/utils';
+import { EnumTestStatus } from '@/atoms/Buttons/Status';
 
 // post requests
 export const postUploadResult = async (id: string) =>
   server.post(LAB_TECH.RESULT_UPLOAD.replaceAll(':id', id));
 
+// put requests
+export type TTestStatusMutateParams = {
+  id: string;
+  payload: {
+    status: EnumTestStatus;
+  };
+};
+
+export const putUpdateTestStatus = async (args: TTestStatusMutateParams) => {
+  const { id, payload } = args;
+  server.put(LAB_TECH.UPDATE_TEST_STATUS.replace(':id', id), payload);
+};
+
 // get requests
 export const getLabTechDashboard = async () =>
   server.get<INBTServerResp<TLabTechDashboardRes>>(LAB_TECH.DASHBOARD);
-
-export const getRecentActivities = async () => server.get<TTestQuesRes>(LAB_TECH.RECENT_ACTIVITIES);
 
 // Results
 export const getRecentResult = async ({

@@ -1,5 +1,5 @@
 'use client';
-import { CircleX, EllipsisVertical, Eye, Play, Upload } from 'lucide-react';
+import { CircleX, EllipsisVertical, Eye, Pause, Play, Upload } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -25,6 +25,7 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
+import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -36,6 +37,8 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
+  const { mutateTestStatus, isPending } = useUpdateTestStatus();
+
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -43,10 +46,10 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
           <TableRow>
             <TableHead className="w-[280px]">Name</TableHead>
             <TableHead className="w-[280px]">Test Name</TableHead>
+            <TableHead className="w-[80px]">Priority</TableHead>
             <TableHead className="w-[150px]">Date created</TableHead>
             <TableHead className="w-[150px]">Requested Date</TableHead>
             <TableHead className="w-[150px]">Deadline</TableHead>
-            <TableHead className="w-[80px]">Priority</TableHead>
             <TableHead className="w-[80px]">Status</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
@@ -62,6 +65,9 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     {test.patientName}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
+                  <TableCell>
+                    <Status variant={test.priority} />
+                  </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {format(new Date(test.createdAt), 'dd MMM, yyyy')}
                   </TableCell>
@@ -70,9 +76,6 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {format(new Date(test.deadlineAt), 'dd MMM, yyyy')}
-                  </TableCell>
-                  <TableCell>
-                    <Status variant={test.priority} />
                   </TableCell>
                   <TableCell>
                     <Status variant={test.status} />
@@ -95,32 +98,51 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                             <Eye />
                             <p>View Test</p>
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => {
-                              if (test.status === EnumTestStatus.PENDING) {
-                                // TODO: Set Test status to IN_PROGRESS
-                                return;
+
+                          {test.status === EnumTestStatus.PENDING && (
+                            <DropdownMenuItem
+                              disabled={isPending}
+                              onClick={() =>
+                                mutateTestStatus({
+                                  id: test.id,
+                                  payload: { status: EnumTestStatus.IN_PROGRESS }
+                                })
                               }
-                              toggleModals({
-                                open: true,
-                                name: AppModals.RESULT_UPLOAD_MODAL,
-                                test_uuid: ''
-                              });
-                            }}
-                          >
-                            {test.status === EnumTestStatus.PENDING && (
-                              <>
-                                <Play />
-                                <p>Start test</p>
-                              </>
-                            )}
-                            {test.status === EnumTestStatus.IN_PROGRESS && (
-                              <>
-                                <Upload />
-                                <p>Upload result</p>
-                              </>
-                            )}
-                          </DropdownMenuItem>
+                            >
+                              <Play />
+                              <p>Start test</p>
+                            </DropdownMenuItem>
+                          )}
+
+                          {test.status === EnumTestStatus.IN_PROGRESS && (
+                            <DropdownMenuItem
+                              disabled={isPending}
+                              onClick={() =>
+                                mutateTestStatus({
+                                  id: test.id,
+                                  payload: { status: EnumTestStatus.PENDING }
+                                })
+                              }
+                            >
+                              <Pause />
+                              <p>Pause test</p>
+                            </DropdownMenuItem>
+                          )}
+
+                          {test.status === EnumTestStatus.IN_PROGRESS && (
+                            <DropdownMenuItem
+                              onClick={() => {
+                                toggleModals({
+                                  open: true,
+                                  name: AppModals.RESULT_UPLOAD_MODAL,
+                                  testId: test.id
+                                });
+                              }}
+                            >
+                              <Upload />
+                              <p>Upload result</p>
+                            </DropdownMenuItem>
+                          )}
                         </DropdownMenuGroup>
                       </DropdownMenuContent>
                     </DropdownMenu>

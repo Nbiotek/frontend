@@ -1,7 +1,7 @@
-import FieldSet from '@/atoms/fields/FieldSet';
+'use client';
 import Input from '@/atoms/fields/Input';
 import { XModal } from '@/atoms/modal';
-import { Paragraph } from '@/atoms/typographys';
+import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
@@ -9,21 +9,27 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { testResultsSchema, TTestResultsTypeSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
-import { Trash } from 'lucide-react';
+import { ChevronsDown, ChevronsUpDown, Trash } from 'lucide-react';
+import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
+import TestDetailsInfo from '../[id]/TestDetailsInfo';
 
 const ResultUploadModal = () => {
   const {
-    AppConfigStore: { isOpen, toggleModals }
+    AppConfigStore: { isOpen, toggleModals, testDetails }
   } = useStore();
+
+  const { data, status } = useFetchTestByID(testDetails.testId);
+
+  console.log(data, status), testDetails.testId;
 
   const {
     control,
@@ -57,21 +63,27 @@ const ResultUploadModal = () => {
       title="Result Upload"
     >
       <div className="flex w-full flex-col space-y-8">
-        <div className="flex w-full flex-col space-y-1">
-          <Paragraph className="text-lg !font-medium" text="Test Information" />
+        <div className="flex w-full flex-col space-y-3">
+          {status === 'pending' && (
+            <>
+              <div className="flex h-24 w-full animate-pulse flex-col space-y-1 rounded-lg bg-neutral-75 p-4"></div>
+              <div className="flex h-80 w-full animate-pulse flex-col space-y-1 rounded-lg bg-neutral-75 p-4"></div>
+            </>
+          )}
 
-          <div className="flex w-full flex-col space-y-1">
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-              <FieldSet className="md:w-[60%]" legend="Patient Name" text="Ahmed Musa Zola" />
-              <FieldSet className="md:w-[20%]" legend="Test type" text="CBC" />
-              <FieldSet className="md:w-[20%]" legend="Test Date" text="2nd Sept. 2024" />
-            </div>
-
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-              <FieldSet className="md:w-[80%]" legend="Clinician Name" text="Lawrence Afolabi" />
-              <FieldSet className="md:w-[20%]" legend="Signature" text="Lawrence" />
-            </div>
-          </div>
+          {status === 'success' && (
+            <Collapsible className="w-full">
+              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                <div className="flex w-full items-center justify-between">
+                  <Paragraph className="text-lg !font-medium" text="Test" />
+                  <ChevronsDown />
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <TestDetailsInfo data={data} />
+              </CollapsibleContent>
+            </Collapsible>
+          )}
         </div>
 
         <div className="flex w-full flex-col space-y-1">

@@ -36,9 +36,6 @@ export const LAB_TECH = {
   RECENT_RESULTS: '/lab-technicians/recent-test-results',
   ARCHIVED_RESULTS: '/lab-technicians/archived-test-results',
   PENDING_QC: '/lab-technicians/test-quality-control',
-  HISTORY_QC: '/lab-technicians/quality-control-history'
-};
-
-export const TEST = {
-  GET_TEST: '/lab-technicians/test-requests/:id'
+  HISTORY_QC: '/lab-technicians/quality-control-history',
+  UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status'
 };

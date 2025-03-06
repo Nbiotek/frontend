@@ -12,7 +12,7 @@ export class AppConfigStore {
   nonce = 0;
 
   testDetails = {
-    test_uid: ''
+    testId: ''
   };
 
   constructor(_rootStore: RootStore) {
@@ -38,7 +38,7 @@ export class AppConfigStore {
       case AppModals.RESULT_UPLOAD_MODAL:
         if (modal.open) {
           this.testDetails = {
-            test_uid: modal.test_uuid
+            testId: modal.testId
           };
         }
         break;

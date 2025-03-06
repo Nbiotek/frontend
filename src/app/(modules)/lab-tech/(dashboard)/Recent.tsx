@@ -1,28 +1,35 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import HyperLink from '@/atoms/Hyperlink';
 import { SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
 import TestsTable from '../tests/TestsTable';
 import { useQuery } from '@tanstack/react-query';
-import { LAB_TECH } from '@/constants/api';
-import { getRecentActivities } from '@/requests/lab-tech';
 import { pagination } from '@/constants/data';
+import { labTech } from '@/hooks/labTech/FetchKeyFactory';
 
 const Recent = () => {
   const [activity, setActivity] = useState<TTestQuesRes>({
     requests: [],
     pagination
   });
+
+  function select(res: INBTServerResp<Array<TTestQueue>>) {
+    return res.data;
+  }
+
+  const meta = labTech.getRecentActivities();
+  const memoizedSelect = useCallback(select, []);
+
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.RECENT_ACTIVITIES],
-    queryFn: getRecentActivities,
-    select: (data) => data.data
+    queryKey: meta.keys(),
+    meta,
+    select: memoizedSelect
   });
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
-      setActivity(data);
+      setActivity((prev) => ({ ...prev, requests: data }));
     }
   }, [data, isLoading]);
 
@@ -33,7 +40,7 @@ const Recent = () => {
         <HyperLink href={ROUTES.LAB_TECH_TEST.path} hrefText="All tests" />
       </div>
 
-      {/* <TestsTable isLoading={isLoading} tests={activity} /> */}
+      <TestsTable isLoading={isLoading} tests={activity} />
     </div>
   );
 };
