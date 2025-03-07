@@ -107,6 +107,12 @@ class Routes {
   LAB_TECH_TEST = new Route('/lab-tech/tests', 'Test Queue', 'Lab Technician All Test', [
     EnumRole.LAB_TECHNICIAN
   ]);
+  LAB_TECH_TEST_DETAILS = new Route(
+    '/lab-tech/tests/:id',
+    'Test Details',
+    'Lab Technician Single Test',
+    [EnumRole.LAB_TECHNICIAN]
+  );
   LAB_TECH_QUALITY_CONTROL_PENDING = new Route(
     '/lab-tech/qc/pending',
     'Pending',

@@ -15,7 +15,7 @@ export type TAppModalsAction =
   | ({ name: AppModals.RESULT_UPLOAD_MODAL } & (
       | {
           open: true;
-          test_uuid: string;
+          testId: string;
         }
       | { open?: false }
     ));

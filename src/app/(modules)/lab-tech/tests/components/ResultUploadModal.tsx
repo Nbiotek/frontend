@@ -1,7 +1,7 @@
-import FieldSet from '@/atoms/fields/FieldSet';
+'use client';
 import Input from '@/atoms/fields/Input';
 import { XModal } from '@/atoms/modal';
-import { Paragraph } from '@/atoms/typographys';
+import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
@@ -9,44 +9,68 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { testResultsSchema, TTestResultsTypeSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
-import { Trash } from 'lucide-react';
+import { ChevronsDown, Plus, Trash } from 'lucide-react';
+import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
+import TestDetailsInfo from '../[id]/TestDetailsInfo';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Toast } from '@/atoms/Toast';
+import { postUploadResult } from '@/requests/test';
+import { labTech } from '@/hooks/labTech/FetchKeyFactory';
 
 const ResultUploadModal = () => {
   const {
-    AppConfigStore: { isOpen, toggleModals }
+    AppConfigStore: { isOpen, toggleModals, testDetails }
   } = useStore();
+
+  const { data, status } = useFetchTestByID(testDetails.testId);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (params: { testRequestId: string; result: TTestResultsTypeSchema }) =>
+      postUploadResult(params.testRequestId, params.result),
+    onError: () => {
+      Toast.error('Result upload failed!');
+    },
+    onSuccess: () => {
+      toggleModals({});
+      queryClient.invalidateQueries({ queryKey: labTech.getRecentActivities().keys() });
+      Toast.success('Result upload successful!');
+    }
+  });
 
   const {
     control,
-    resetField,
     handleSubmit,
     register,
-    formState: { errors },
-    watch,
-    setValue,
-    clearErrors,
-    trigger
+    formState: { errors }
   } = useForm<TTestResultsTypeSchema>({
     defaultValues: {
-      test_parameters: [{ parameter: '', result: '', range: '', unit: '', reference: '' }]
+      data: [{ parameter: '', result: '', range: '', unit: '', reference: '' }]
     },
     mode: 'onChange',
     resolver: zodResolver(testResultsSchema),
     reValidateMode: 'onChange'
   });
 
+  const onSubmit: SubmitHandler<TTestResultsTypeSchema> = async (formData) => {
+    // TODO: Never upload an empty row.s
+    if (data?.id) {
+      mutate({ testRequestId: data.id, result: formData });
+    }
+  };
+
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'test_parameters'
+    name: 'data'
   });
   return (
     <XModal
@@ -57,27 +81,26 @@ const ResultUploadModal = () => {
       title="Result Upload"
     >
       <div className="flex w-full flex-col space-y-8">
-        <div className="flex w-full flex-col space-y-1">
-          <Paragraph className="text-lg !font-medium" text="Test Information" />
-
-          <div className="flex w-full flex-col space-y-1">
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-              <FieldSet className="md:w-[60%]" legend="Patient Name" text="Ahmed Musa Zola" />
-              <FieldSet className="md:w-[20%]" legend="Test type" text="CBC" />
-              <FieldSet className="md:w-[20%]" legend="Test Date" text="2nd Sept. 2024" />
-            </div>
-
-            <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
-              <FieldSet className="md:w-[80%]" legend="Clinician Name" text="Lawrence Afolabi" />
-              <FieldSet className="md:w-[20%]" legend="Signature" text="Lawrence" />
-            </div>
-          </div>
+        <div className="flex w-full flex-col space-y-3">
+          {status === 'success' && (
+            <Collapsible className="w-full">
+              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                <div className="flex w-full items-center justify-between">
+                  <Paragraph className="text-lg !font-medium" text="Test" />
+                  <ChevronsDown />
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <TestDetailsInfo data={data} />
+              </CollapsibleContent>
+            </Collapsible>
+          )}
         </div>
 
-        <div className="flex w-full flex-col space-y-1">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col space-y-1">
           <Paragraph className="text-lg !font-medium" text="Test Result" />
 
-          <div className="flex w-full flex-col space-y-1">
+          <fieldset disabled={isPending} className="flex w-full flex-col space-y-1">
             <div className="h-auto max-h-[450px] w-full overflow-y-scroll">
               <Table className="relative">
                 <TableHeader className="sticky top-0 z-30">
@@ -102,19 +125,19 @@ const ResultUploadModal = () => {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Input {...register(`test_parameters.${index}.parameter`)} />
+                          <Input {...register(`data.${index}.parameter`)} />
                         </TableCell>
                         <TableCell>
-                          <Input {...register(`test_parameters.${index}.result`)} />
+                          <Input {...register(`data.${index}.result`)} />
                         </TableCell>
                         <TableCell className="w-[10px]">
-                          <Input {...register(`test_parameters.${index}.unit`)} />
+                          <Input {...register(`data.${index}.unit`)} />
                         </TableCell>
                         <TableCell className="w-[10px]">
-                          <Input {...register(`test_parameters.${index}.range`)} />
+                          <Input {...register(`data.${index}.range`)} />
                         </TableCell>
                         <TableCell>
-                          <Input {...register(`test_parameters.${index}.reference`)} />
+                          <Input {...register(`data.${index}.reference`)} />
                         </TableCell>
                         <TableCell className="w-[20px]">
                           <div
@@ -132,18 +155,29 @@ const ResultUploadModal = () => {
               </Table>
             </div>
 
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-between space-x-2">
               <Button
                 className="!h-[35px] !w-auto !text-xs"
-                variant={'filled'}
+                variant="filled"
+                text="Submit Result"
+                type="submit"
+                disabled={isPending}
+                isLoading={isPending}
+              />
+              <Button
+                disabled={isPending}
+                type="button"
+                className="!h-[35px] !w-auto !text-xs"
+                variant="light"
                 text="Add Parameter"
+                leftIcon={<Plus />}
                 onClick={() =>
                   append({ parameter: '', result: '', range: '', unit: '', reference: '' })
                 }
               />
             </div>
-          </div>
-        </div>
+          </fieldset>
+        </form>
       </div>
     </XModal>
   );

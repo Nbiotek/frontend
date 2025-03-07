@@ -53,7 +53,7 @@ body {
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-light {
-    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400/50 hover:text-white;
+    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400 hover:text-white;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-underlined {
@@ -76,35 +76,35 @@ body {
   }
 
   .status-badge {
-    @apply flex w-full items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
+    @apply flex w-fit items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
   }
 
   .status-high {
-    @apply bg-darkRed/20 text-darkRed;
+    @apply bg-darkRed/10 text-darkRed;
   }
 
   .status-medium {
-    @apply bg-amber/20 text-amber;
+    @apply bg-amber/10 text-amber;
   }
 
   .status-low {
-    @apply bg-teal/20 text-teal;
+    @apply bg-teal/10 text-teal;
   }
 
   .status-passed {
-    @apply bg-green-300/20 text-green-300;
+    @apply bg-green-300/10 text-green-300;
   }
 
   .status-failed {
-    @apply bg-darkRed/20 text-darkRed;
+    @apply bg-darkRed/10 text-darkRed;
   }
 
   .status-pending {
-    @apply bg-violet-500/20 text-violet-500;
+    @apply bg-violet-500/10 text-violet-500;
   }
 
   .status-submitted {
-    @apply bg-green-300/20 text-green-300;
+    @apply bg-green-300/10 text-green-300;
   }
 }
 

@@ -42,3 +42,10 @@ interface IQueryHookResponse<T> {
   error: unknown;
   status: 'error' | 'success' | 'pending';
 }
+
+type TPaginationResponse = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};

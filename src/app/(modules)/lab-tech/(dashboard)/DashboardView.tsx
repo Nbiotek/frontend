@@ -1,37 +1,10 @@
-import OverviewCard, { EnumOverviewIcon } from '@/components/dashboard/metric/OverviewCard';
-import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 import React from 'react';
 import Recent from './Recent';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
-import { ChevronRight, File, ShieldAlert, ShieldCheck, TestTube2 } from 'lucide-react';
+import { ChevronRight, ShieldAlert, ShieldCheck, TestTube2 } from 'lucide-react';
 import ROUTES from '@/constants/routes';
 import Link from 'next/link';
-
-const card = [
-  {
-    stat: '120',
-    title: 'Pending Tests',
-    type: EnumOverviewIcon.PEOPLE
-  },
-
-  {
-    stat: '1,500',
-    title: 'Tests Completed',
-    type: EnumOverviewIcon.CUBE
-  },
-
-  {
-    stat: '2hrs/test',
-    title: 'Turnaround Time',
-    type: EnumOverviewIcon.CHART
-  },
-
-  {
-    stat: '2040',
-    title: 'Messages',
-    type: EnumOverviewIcon.TIMER
-  }
-];
+import Analytics from './Analytics';
 
 const actions = [
   {
@@ -57,11 +30,7 @@ const actions = [
 const DashboardView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
-      <OverviewContainer>
-        {card.map((el, idx) => (
-          <OverviewCard key={idx} type={el.type} stat={el.stat} title={el.title} />
-        ))}
-      </OverviewContainer>
+      <Analytics />
 
       <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
         <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
