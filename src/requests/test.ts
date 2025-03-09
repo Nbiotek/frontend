@@ -1,6 +1,7 @@
 import server, { serverwithoutInterceptor } from '.';
-import { PATIENT } from '@/constants/api';
+import { PATIENT,  LAB_TECH  } from '@/constants/api';
 import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
+import { TTestResultsTypeSchema } from '@/app/(modules)/lab-tech/tests/components/validation';
 
 export const TestService = {
   // Get all tests
@@ -14,3 +15,11 @@ export const TestService = {
     return data;
   }
 };
+
+
+// post requests
+export const postUploadResult = async (testRequestId: string, result: TTestResultsTypeSchema) =>
+  server.post(LAB_TECH.RESULT_UPLOAD.replaceAll(':id', testRequestId), {
+    testRequestId,
+    data: result.data
+  });

@@ -4,7 +4,7 @@ import NBPeopleImg from '@/app/assets/svgs/people.svg';
 import NBCubeImg from '@/app/assets/svgs/cube.svg';
 import NBChartImg from '@/app/assets/svgs/line_chart.svg';
 import NBTimer from '@/app/assets/svgs/timer.svg';
-import { Paragraph, SubTitle, Title } from '@/atoms/typographys';
+import { Paragraph, Title } from '@/atoms/typographys';
 
 export enum EnumOverviewIcon {
   PEOPLE = 'PEOPLE',
@@ -15,7 +15,7 @@ export enum EnumOverviewIcon {
 
 interface IOverviewCardProps extends HTMLAttributes<HTMLDivElement> {
   type: EnumOverviewIcon;
-  stat: string;
+  stat: number;
   title: string;
 }
 
@@ -33,7 +33,10 @@ const OverviewCard = forwardRef<HTMLDivElement, IOverviewCardProps>(
         <div className="mx-auto flex h-full w-[90%] items-center justify-between space-y-1">
           <div className="flex flex-col">
             <Paragraph className="!font-medium !text-neutral-400" text={title} />
-            <Title className="!font-bold" text={stat} />
+            <div className="flex items-center justify-start space-x-1">
+              <Title className="!font-bold" text={stat.toString()} />
+              {type === EnumOverviewIcon.TIMER ? <p>hrs/test</p> : null}
+            </div>
           </div>
 
           <figure className="flex items-center justify-start space-x-2">

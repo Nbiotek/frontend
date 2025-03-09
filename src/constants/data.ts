@@ -1,5 +1,12 @@
 import { EnumRole } from './mangle';
 
+export const pagination = {
+  total: 0,
+  page: 1,
+  limit: 10,
+  totalPages: 0
+};
+
 export const maritalStatus = [
   {
     label: 'Single',

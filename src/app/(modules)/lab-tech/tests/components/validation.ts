@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const testResultsSchema = z.object({
-  test_parameters: z
+  data: z
     .object({
       parameter: z.string(),
       result: z.string(),
