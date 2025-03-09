@@ -4,6 +4,7 @@ import Button from '.';
 interface ScheduleProp {
   title: string;
   className: string;
+  onClick?: () => void;
 }
 
 const ScheduleBtn = ({ title, className }: ScheduleProp) => {

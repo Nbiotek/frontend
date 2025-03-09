@@ -16,9 +16,7 @@ const DropDownAction = () => {
         <EllipsisVertical />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>Set Remainder</DropdownMenuItem>
-        <DropdownMenuItem>Reschedule</DropdownMenuItem>
-        <DropdownMenuItem>Cancel</DropdownMenuItem>
+        <DropdownMenuItem>View Details</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

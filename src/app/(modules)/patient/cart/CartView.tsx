@@ -1,15 +1,3 @@
-// types/cart.ts
-interface CartProduct {
-  id: string;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  quantity: number;
-  image: string;
-  status?: 'in_stock' | 'out_of_stock' | 'sold_out';
-}
-
-// components/cart/CartPage.tsx
 import Image from 'next/image';
 import { Minus, Plus, X } from 'lucide-react';
 import Button from '@/atoms/Buttons';

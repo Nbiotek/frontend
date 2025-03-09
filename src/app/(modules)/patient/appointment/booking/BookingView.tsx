@@ -7,8 +7,6 @@ import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
 import { CircleX } from 'lucide-react';
 
-import { toJS } from 'mobx';
-
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
@@ -17,19 +15,30 @@ import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
 
 import BonkingConfirmationDialog from './components/BookingConfirmation';
-import { BookingForm, BookingSummaryProps } from '@/types/patient';
+
+import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
+import { useEffect } from 'react';
+import BookingForSelfModal from './components/BookingSelfDialog';
 
 type LocationType = 'Lab' | 'Custom';
 
 const BookAppointmentView = () => {
+  const { data } = usePatientInfo();
+
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
+  const [isBookingForSelfModalOpen, setIsBookingForSelfModalOpen] = useState(false);
+  const [isBookingForSelf, setIsBookingForSelf] = useState(true);
 
   const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
 
   const handleTestModal = () => {
     setIsTestModalOpen(true);
   };
+
+  useEffect(() => {
+    setIsBookingForSelfModalOpen(true);
+  }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
     fullName: '',
@@ -39,9 +48,35 @@ const BookAppointmentView = () => {
       type: 'Lab' as LocationType,
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
-    appointmentDate: undefined as Date | undefined,
-    selectedTests: [] as CartItem[]
+    availableDate: undefined as Date | undefined,
+    testRequests: cartStore.items.map((item) => ({
+      entityType: item.type.toUpperCase(),
+      testId: item.id
+    }))
   });
+
+  useEffect(() => {
+    if (data && isBookingForSelf) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: data?.data?.personal.firstName + ' ' + data?.data.personal.lastName || '',
+        email: data?.data?.personal.email || '',
+        phoneNumber: data?.data?.personal.phoneNumber || ''
+      }));
+    } else if (!isBookingForSelf) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: '',
+        email: '',
+        phoneNumber: ''
+      }));
+    }
+  }, [data, isBookingForSelf]);
+
+  const handleBookingForSelfChoice = (forSelf: boolean) => {
+    setIsBookingForSelf(forSelf);
+    setIsBookingForSelfModalOpen(false);
+  };
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
@@ -60,12 +95,12 @@ const BookAppointmentView = () => {
       newErrors.phoneNumber = 'Phone number is required';
     }
 
-    if (!formData.appointmentDate) {
-      newErrors.appointmentDate = 'Please select a date';
+    if (!formData.availableDate) {
+      newErrors.availableDate = 'Please select a date';
     }
 
     if (cartStore.items.length === 0) {
-      newErrors.selectedTests = 'Please select at least one test';
+      newErrors.testRequests = 'Please select at least one test';
     }
 
     setErrors(newErrors);
@@ -74,15 +109,13 @@ const BookAppointmentView = () => {
 
   const handleBookingConfirmation = () => {
     if (validateForm()) {
-      setFormData((prev) => ({
-        ...prev,
-        selectedTests: toJS(cartStore.items)
-      }));
+      console.log(formData);
       setIsBookingConfirmationDialogOpen(true);
     }
   };
+
   const handleLocationChange = (value: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       location: {
         type: value as LocationType,
@@ -92,23 +125,32 @@ const BookAppointmentView = () => {
   };
 
   const handleDateSelect = (date: Date | undefined) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
-      appointmentDate: date
+      availableDate: date ? date.toISOString() : undefined
     }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value
     }));
   };
 
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
+      <BookingForSelfModal
+        open={isBookingForSelfModalOpen}
+        onOpenChange={setIsBookingForSelfModalOpen}
+        onSelectOption={handleBookingForSelfChoice}
+      />
       <Cards className="p-[5px] sm:bg-white sm:p-[10px] md:p-[45px] ">
         <Title text="Book your appointment now" />
         <Text variant="body" className="mb-4">
@@ -127,8 +169,8 @@ const BookAppointmentView = () => {
             <div className="w-[100%]">
               <Label className="pb-10 font-normal">Available Date</Label>
               <DatePickerDemo onChange={handleDateSelect} />
-              {errors.appointmentDate && (
-                <span className="mt-1 text-sm text-red-500">{errors.appointmentDate}</span>
+              {errors.availableDate && (
+                <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
               )}
             </div>
           </div>
@@ -190,8 +232,8 @@ const BookAppointmentView = () => {
                   </div>
                 </>
               )}
-              {errors.selectedTests && (
-                <div className="mt-1 text-sm text-red-500">{errors.selectedTests}</div>
+              {errors.testRequests && (
+                <div className="mt-1 text-sm text-red-500">{errors.testRequests}</div>
               )}
             </div>
             <div className="flex w-full flex-col">

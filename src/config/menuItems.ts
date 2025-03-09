@@ -57,12 +57,16 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: CalendarClock,
       submenu: [
         {
+          title: ROUTES.PATIENT_BOOK_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_BOOK_APPOINTMENTS.path
+        },
+        {
           title: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.title,
           url: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.path
         },
         {
-          title: ROUTES.PATIENT_BOOK_APPOINTMENTS.title,
-          url: ROUTES.PATIENT_BOOK_APPOINTMENTS.path
+          title: ROUTES.PATIENT_PENDING_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_PENDING_APPOINTMENTS.path
         },
         {
           title: ROUTES.PATIENT_PAST_APPOINTMENTS.title,
@@ -73,20 +77,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: 'Test request',
       icon: TestTubeDiagonal,
-      submenu: [
-        {
-          title: 'Available',
-          url: ROUTES.PATIENT_AVAILABLE_TEST.path
-        },
-        {
-          title: 'Pending',
-          url: ROUTES.PATIENT_PENDING_TEST.path
-        }
-      ]
+      url: ROUTES.PATIENT_AVAILABLE_TEST.path
     },
     {
       title: 'Test Results',
-      url: ROUTES.PATIENT_TEST.path,
+      url: ROUTES.PATIENT_TEST_RESULT.path,
       icon: NotepadText
     },
     {

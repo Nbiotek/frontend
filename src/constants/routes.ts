@@ -49,6 +49,11 @@ class Routes {
     'Book',
     'Patient appointment booking page'
   );
+  PATIENT_PENDING_APPOINTMENTS = new Route(
+    '/patient/appointment/pending',
+    'Pending',
+    'Patient appointment booking page'
+  );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
     'Past',
@@ -58,6 +63,11 @@ class Routes {
     '/patient/test',
     'Nbiotek | Test request',
     'Patient appointment past page'
+  );
+  PATIENT_TEST_RESULT = new Route(
+    '/patient/result',
+    'Nbiotek | Test result',
+    'Patient Test Result'
   );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',

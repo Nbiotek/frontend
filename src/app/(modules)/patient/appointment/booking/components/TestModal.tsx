@@ -9,7 +9,6 @@ import {
 
 import AvailableTestView from '../../../test/available/AvailableTestView';
 import TestTabs from '../../../component/TestTab';
-import { individualTests } from '@/api/data/test';
 
 interface DialogProp {
   open: boolean;
@@ -21,7 +20,7 @@ const TestModalDialog = ({ open, onClose }: DialogProp) => {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="h-[600px] overflow-y-auto bg-neutral-100">
         <div className="pt-4">
-          <TestTabs Test={individualTests} />
+          <TestTabs />
         </div>
       </DialogContent>
     </Dialog>
