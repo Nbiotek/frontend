@@ -7,8 +7,6 @@ import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
 import { CircleX } from 'lucide-react';
 
-import { toJS } from 'mobx';
-
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
@@ -18,17 +16,29 @@ import { CartItem, cartStore } from '@/store/Cart';
 
 import BonkingConfirmationDialog from './components/BookingConfirmation';
 
+import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
+import { useEffect } from 'react';
+import BookingForSelfModal from './components/BookingSelfDialog';
+
 type LocationType = 'Lab' | 'Custom';
 
 const BookAppointmentView = () => {
+  const { data } = usePatientInfo();
+
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
+  const [isBookingForSelfModalOpen, setIsBookingForSelfModalOpen] = useState(false);
+  const [isBookingForSelf, setIsBookingForSelf] = useState(true);
 
   const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
 
   const handleTestModal = () => {
     setIsTestModalOpen(true);
   };
+
+  useEffect(() => {
+    setIsBookingForSelfModalOpen(true);
+  }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
     fullName: '',
@@ -44,6 +54,29 @@ const BookAppointmentView = () => {
       testId: item.id
     }))
   });
+
+  useEffect(() => {
+    if (data && isBookingForSelf) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: data?.data?.personal.firstName + ' ' + data?.data.personal.lastName || '',
+        email: data?.data?.personal.email || '',
+        phoneNumber: data?.data?.personal.phoneNumber || ''
+      }));
+    } else if (!isBookingForSelf) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: '',
+        email: '',
+        phoneNumber: ''
+      }));
+    }
+  }, [data, isBookingForSelf]);
+
+  const handleBookingForSelfChoice = (forSelf: boolean) => {
+    setIsBookingForSelf(forSelf);
+    setIsBookingForSelfModalOpen(false);
+  };
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
@@ -113,6 +146,11 @@ const BookAppointmentView = () => {
 
   return (
     <>
+      <BookingForSelfModal
+        open={isBookingForSelfModalOpen}
+        onOpenChange={setIsBookingForSelfModalOpen}
+        onSelectOption={handleBookingForSelfChoice}
+      />
       <Cards className="p-[5px] sm:bg-white sm:p-[10px] md:p-[45px] ">
         <Title text="Book your appointment now" />
         <Text variant="body" className="mb-4">

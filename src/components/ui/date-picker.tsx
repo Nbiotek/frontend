@@ -1,4 +1,3 @@
-// components/ui/date-picker.tsx
 'use client';
 
 import * as React from 'react';
@@ -16,6 +15,13 @@ interface DatePickerProps {
 
 export function DatePickerDemo({ onChange, value }: DatePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>(value);
+
+  // This effect ensures the component updates when the value prop changes
+  React.useEffect(() => {
+    if (value !== date) {
+      setDate(value);
+    }
+  }, [value]);
 
   const handleSelect = (newDate: Date | undefined) => {
     setDate(newDate);
@@ -38,7 +44,7 @@ export function DatePickerDemo({ onChange, value }: DatePickerProps) {
           {date ? format(date, 'PPP') : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="z-[100] w-auto p-0">
         <Calendar mode="single" selected={date} onSelect={handleSelect} initialFocus />
       </PopoverContent>
     </Popover>

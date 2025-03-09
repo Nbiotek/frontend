@@ -155,6 +155,7 @@ interface AppointmentItem {
   appointmentDate: string;
   status: string;
   paymentStatus: string;
+  totalAmount?: number;
 }
 
 interface UpcomingAppointment {
@@ -184,4 +185,62 @@ interface;
 
 interface TShowAppointment {
   data: AppointmentItem;
+}
+
+// Test Result Interface
+
+interface Patient {
+  name: string;
+  id: string;
+}
+
+interface Technician {
+  name: string;
+  id: string;
+}
+
+interface TestResult {
+  parameter: string | null;
+  result: string | null;
+  unit: string;
+  range: string | null;
+  reference: string | null;
+}
+
+interface Test {
+  id: string;
+  testId: string;
+  testName: string;
+  type: string;
+  conductedAt: string;
+  status: string;
+  resultStatus: string;
+  patient: Patient;
+  technician: Technician;
+  results: TestResult[];
+}
+
+interface Pagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+interface TestResultsData {
+  results: Test[];
+  pagination: Pagination;
+}
+
+interface TestResultResponse {
+  data: TestResultsData;
+  message?: string;
+  statusCode?: number;
+}
+
+// test result details
+interface TestResultDetailsResponse {
+  data: Test;
+  message: string;
+  statusCode: number;
 }

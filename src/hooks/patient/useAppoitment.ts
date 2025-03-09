@@ -42,3 +42,42 @@ export const useGetAppointmentById = (id: string) => {
     enabled: !!id
   });
 };
+
+export const useRescheduleAppointment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ appointmentId, newDate }: { appointmentId: string; newDate: string }) =>
+      AppointmentService.rescheduleAppointment(appointmentId, newDate),
+    onSuccess: () => {
+      // Invalidate and refetch appointments after a successful reschedule
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    }
+  });
+};
+
+export const useProcessPayment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ appointmentId }: { appointmentId: string }) =>
+      AppointmentService.processPayment(appointmentId),
+    onSuccess: () => {
+      // Invalidate and refetch appointments after a successful payment
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    }
+  });
+};
+
+export const useUpdatePaymentStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ appointmentId }: { appointmentId: string }) =>
+      AppointmentService.updatePaymentStatus(appointmentId),
+    onSuccess: () => {
+      // Invalidate and refetch appointments after a successful payment
+      queryClient.invalidateQueries({ queryKey: ['payment-status'] });
+    }
+  });
+};

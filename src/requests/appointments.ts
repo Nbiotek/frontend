@@ -40,10 +40,20 @@ export const AppointmentService = {
   },
 
   // Reschedule appointment
-  rescheduleAppointment: async (id: string, newDate: Date) => {
+  rescheduleAppointment: async (id: string, newDate: Date | string) => {
     const { data } = await server.post(PATIENT.APPOINTMENTS.RESCHEDULE(id), {
       newDate
     });
+    return data;
+  },
+
+  processPayment: async (appointmentId: string) => {
+    const { data } = await server.post(PATIENT.APPOINTMENTS.PENDING_PAYMENT(appointmentId));
+    return data;
+  },
+
+  updatePaymentStatus: async (appointmentId: string) => {
+    const { data } = await server.post(PATIENT.APPOINTMENTS.PAYMENT_STATUS, appointmentId);
     return data;
   }
 };

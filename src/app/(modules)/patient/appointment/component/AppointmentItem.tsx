@@ -1,3 +1,5 @@
+'use client';
+
 import { Text } from '@/lib/utils/Text';
 import { MapPin } from 'lucide-react';
 import DropDownAction from '@/components/common/dropdownActions';
@@ -5,10 +7,40 @@ import { dateTimeUTC } from '@/utils/date';
 import Button from '@/atoms/Buttons';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import ViewDetailsDropDown from './ViewDetailsDropDown';
+import RescheduleDialog from './RescheduleAppointmentDialog';
+import PaymentDialog from '../booking/components/PendingAppointmentPayment';
 
 const AppointmentItem = (props: AppointmentItemProps) => {
+  const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState<string>('');
+  const [selectedAppointmentDate, setSelectedAppointmentDate] = useState<string>('');
+
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState<{
+    id: string;
+    title: string;
+    price: number;
+  }>({ id: '', title: '', price: 0 });
+
+  const handlePayment = (appointment: AppointmentItem) => {
+    console.log(appointment);
+    setPaymentDetails({
+      id: appointment.id,
+      title: appointment.title,
+      price: appointment?.totalAmount || 0 // Make sure price exists in your appointment type
+    });
+    setIsPaymentOpen(true);
+  };
+
+  const handleReschedule = (id: string, date: string) => {
+    setSelectedAppointmentId(id);
+    setSelectedAppointmentDate(date);
+    setIsRescheduleOpen(true);
+  };
+
   function getStatus(status: string) {
     switch (status) {
       case 'CONFIRMED':
@@ -77,11 +109,22 @@ const AppointmentItem = (props: AppointmentItemProps) => {
 
                   <div className=" w-[250px]">
                     {appointment.status === 'PENDING' ? (
-                      <Button variant="outlined" className="bg-green-400 text-white">
+                      <Button
+                        variant="outlined"
+                        className="bg-green-400 text-white"
+                        onClick={() => handlePayment(appointment)}
+                      >
                         Make Payment
                       </Button>
                     ) : (
-                      <Button variant="filled">Reschedule</Button>
+                      <Button
+                        variant="filled"
+                        onClick={() =>
+                          handleReschedule(appointment.id, appointment.appointmentDate)
+                        }
+                      >
+                        Reschedule{' '}
+                      </Button>
                     )}
                   </div>
                 </div>
@@ -98,6 +141,23 @@ const AppointmentItem = (props: AppointmentItemProps) => {
           </div>
         </div>
       ))}
+
+      <RescheduleDialog
+        open={isRescheduleOpen}
+        onClose={() => setIsRescheduleOpen(false)}
+        appointmentId={selectedAppointmentId}
+        currentDate={selectedAppointmentDate}
+      />
+
+      <PaymentDialog
+        open={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        appointmentId={paymentDetails.id}
+        appointmentDetails={{
+          title: paymentDetails.title,
+          price: paymentDetails.price
+        }}
+      />
     </>
   );
 };

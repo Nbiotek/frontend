@@ -10,7 +10,7 @@ export const usePatientDashboard = () => {
 
 export const usePatientInfo = () => {
   return useQuery<InfoApiResponse>({
-    queryKey: ['patient-dashboard'],
+    queryKey: ['patient-info'],
     queryFn: PatientInfoService
   });
 };

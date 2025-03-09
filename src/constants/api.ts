@@ -22,7 +22,9 @@ export const PATIENT = {
     CREATE: 'patients/appointments',
     DETAILS: (id: string) => `patients/appointments/${id}/show`,
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
-    RESCHEDULE: (id: string) => `/appointments/${id}/reschedule`
+    RESCHEDULE: (id: string) => `patients/appointments/${id}/reschedule`,
+    PENDING_PAYMENT: (id: string) => `patients/appointments/${id}/payment/generate`,
+    PAYMENT_STATUS: 'patients/appointments/payment'
   },
 
   TESTS: {
@@ -30,5 +32,10 @@ export const PATIENT = {
     PACKAGES: '/patients/package-tests',
     DETAILS: (id: string) => `/tests/${id}`,
     SINGLE: '/test/single'
+  },
+
+  TEST_RESULTS: {
+    ALL: '/patients/test-results',
+    DETAILS: (id: string) => `/test-results/${id}`
   }
 } as const;

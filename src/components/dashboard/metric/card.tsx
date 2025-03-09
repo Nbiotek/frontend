@@ -16,9 +16,14 @@ const CardMetrics = ({ title, value, icon, isLoading }: CardProps) => {
         <Text variant="body" weight="light">
           {title}
         </Text>
-        <Text weight="bold" className="text-[26px]">
-          {isLoading ? <Spinner /> : <span>{value ?? 0}</span>}
-        </Text>
+
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Text weight="bold" className="text-[26px]">
+            {value ?? 0}
+          </Text>
+        )}
       </div>
       {icon}
     </div>

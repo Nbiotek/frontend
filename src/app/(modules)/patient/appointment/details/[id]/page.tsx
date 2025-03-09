@@ -181,12 +181,15 @@ const AppointmentSummary = ({ data: appointmentData }: AppointmentDetailsProp) =
               Actions
             </Text>
             <div className="space-y-3">
-              <Button variant="filled" className="w-full">
-                Reschedule Appointment
-              </Button>
-              <Button variant="outlined" className="w-full">
-                Cancel Appointment
-              </Button>
+              {appointment.paymentStatus === 'PENDING' ? (
+                <Button variant="light" className="w-full">
+                  Make Payment
+                </Button>
+              ) : (
+                <Button variant="filled" className="w-full">
+                  Reschedule Appointment
+                </Button>
+              )}
               <Button variant="outlined" className="w-full">
                 Contact Support
               </Button>

@@ -8,7 +8,7 @@ import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 
 const PersonalInfoView = () => {
   const { data, isLoading } = usePatientInfo();
-  console.log(data);
+
   if (isLoading) {
     return (
       <div className="animate-pulse">
@@ -105,7 +105,7 @@ const PersonalInfoView = () => {
         <div className="flex flex-col ">
           <Label className="mb-1 text-sm">Full Name</Label>
           <div className="flexBetween flex-col gap-1 sm:flex-row md:gap-4">
-            <Input type="text" placeholder="First name" value={data?.data.personal.firstName} />
+            <Input type="text" placeholder="First name" value={data?.data?.personal.firstName} />
             <Input type="text" placeholder="Last name" value={data?.data.personal.lastName} />
           </div>
         </div>
