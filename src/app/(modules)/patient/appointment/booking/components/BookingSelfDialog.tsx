@@ -21,7 +21,7 @@ const BookingForSelfModal = ({ open, onOpenChange, onSelectOption }: BookingForS
         <DialogHeader>
           <DialogTitle>Who is this appointment for?</DialogTitle>
           <DialogDescription>
-            Please let us know if you're booking this test for yourself or for someone else.
+            Please let us know if you&apos;re booking this test for yourself or for someone else.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">

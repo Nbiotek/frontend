@@ -71,7 +71,7 @@ export default function PaymentResultPage() {
         </div>
 
         <p className="text-gray-500 text-center text-sm">
-          You'll be redirected automatically once the verification is complete.
+          You&apos;ll be redirected automatically once the verification is complete.
         </p>
       </div>
     </div>

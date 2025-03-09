@@ -43,8 +43,8 @@ const TestResultView = () => {
           </div>
           <h3 className="mb-2 text-lg font-medium">No Test Results Found</h3>
           <p className="text-gray-500 mb-6 max-w-sm text-center">
-            You don't have any test results yet. Results will appear here after your lab tests are
-            processed.
+            You don&apos;t have any test results yet. Results will appear here after your lab tests
+            are processed.
           </p>
           <Button variant="filled" className="w-[40%]">
             Book a Test
