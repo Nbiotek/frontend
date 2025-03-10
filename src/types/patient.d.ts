@@ -244,3 +244,18 @@ interface TestResultDetailsResponse {
   message: string;
   statusCode: number;
 }
+
+// Payment Interface
+interface Payment {
+  invoiceNo: string;
+  paymentMethod: string;
+  paymentDate: string;
+  amountPaid: number;
+  paymentStatus: string;
+}
+
+interface BillingHistory {
+  data: {
+    payments: Payment[];
+  };
+}
