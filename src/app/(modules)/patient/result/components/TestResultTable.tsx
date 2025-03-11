@@ -21,11 +21,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const TestResultTable = ({ data }: TestResultResponse) => {
+  console.log(data);
   const router = useRouter();
 
   const handleView = (id: string) => {
     router.push(`/patient/result/${id}`);
   };
+
+  const handleTestSuit = (id: string) => {
+    router.push(`/patient/result/test-suite/${id}`);
+  };
+
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -55,6 +61,11 @@ const TestResultTable = ({ data }: TestResultResponse) => {
                   <DropdownMenuContent>
                     <DropdownMenuGroup>
                       <DropdownMenuItem onClick={() => handleView(test.id)}>View</DropdownMenuItem>
+                      {test.testSuitId && (
+                        <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
+                          View Test Suit
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
