@@ -14,10 +14,11 @@ export const PATIENT = {
   PERSONAL_REG: '/patients/register',
   DASHBOARD: '/patients/dashboard',
   PROFILE: '/patients/profile',
+  BILLING: '/payments',
 
   APPOINTMENTS: {
     UPCOMING: '/patients/appointments/upcoming',
-    PENDING: '/patients/appointments/pending',
+    PENDING: '/patients/appointments/pending?sortOrder=DESC',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',
     DETAILS: (id: string) => `patients/appointments/${id}/show`,
@@ -36,7 +37,8 @@ export const PATIENT = {
 
   TEST_RESULTS: {
     ALL: '/patients/test-results',
-    DETAILS: (id: string) => `/test-results/${id}`
+    DETAILS: (id: string) => `/patients/test-results/${id}`,
+    SUITE_DETAILS: (id: string) => `/patients/APPOINTMENTS/${id}/details`
   }
 } as const;
 

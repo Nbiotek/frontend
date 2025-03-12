@@ -218,6 +218,7 @@ interface Test {
   patient: Patient;
   technician: Technician;
   results: TestResult[];
+  testSuitId: string;
 }
 
 interface Pagination {
@@ -239,8 +240,43 @@ interface TestResultResponse {
 }
 
 // test result details
+
+interface TestSuiteSingle {
+  id: string;
+  testId: string;
+  name: string;
+  results: TestResult[];
+}
+
+interface TestSuiteDetails {
+  data: {
+    id: string;
+    title: string;
+    description: string;
+    patientName: string;
+    appointmentDate: string;
+    doctor: {} | null;
+    tests: TestSuiteSingle[];
+  };
+}
+
 interface TestResultDetailsResponse {
   data: Test;
   message: string;
   statusCode: number;
+}
+
+// Payment Interface
+interface Payment {
+  invoiceNo: string;
+  paymentMethod: string;
+  paymentDate: string;
+  amountPaid: number;
+  paymentStatus: string;
+}
+
+interface BillingHistory {
+  data: {
+    payments: Payment[];
+  };
 }

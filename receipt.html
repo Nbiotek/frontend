@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NBIOTEK Lab Test Receipt</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .receipt-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #0070c0;
+        border-top: 4px solid #0070c0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .receipt-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+      }
+      .logo {
+        max-width: 200px;
+      }
+      .receipt-title {
+        font-size: 32px;
+        font-weight: bold;
+        text-align: right;
+      }
+      .receipt-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+      }
+      .from-section,
+      .bill-to-section {
+        width: 45%;
+      }
+      .bill-to-section {
+        text-align: right;
+      }
+      .receipt-meta {
+        text-align: right;
+        padding: 0 20px;
+      }
+      .receipt-meta-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 5px;
+      }
+      .receipt-meta-label {
+        width: 100px;
+        color: #888;
+        margin-right: 20px;
+      }
+      .receipt-meta-value {
+        width: 120px;
+        text-align: right;
+      }
+      .receipt-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      .receipt-table th {
+        background-color: #0070c0;
+        color: white;
+        text-align: left;
+        padding: 10px;
+      }
+      .receipt-table td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .receipt-table .amount-column {
+        text-align: right;
+      }
+      .payment-section {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+      }
+      .payment-info {
+        width: 45%;
+      }
+      .payment-summary {
+        width: 45%;
+        text-align: right;
+      }
+      .payment-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .total-row {
+        font-weight: bold;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+      }
+      .balance-row {
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+      }
+      .notes-section {
+        padding: 20px;
+        border-top: 1px solid #eee;
+      }
+      .signature {
+        text-align: right;
+        padding: 20px;
+        margin-top: 30px;
+      }
+      .signature img {
+        max-width: 150px;
+      }
+      .green-text {
+        color: #18b450;
+      }
+      @media print {
+        body {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        .receipt-container {
+          border: 1px solid #0070c0;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="receipt-container">
+      <div class="receipt-header">
+        <div class="logo">
+          <img
+            src="https://i.ibb.co/KcTKHmnc/logo.png"
+            alt="NBIOTEK Laboratory Logo"
+            style="width: 100%"
+          />
+        </div>
+        <div class="receipt-title">Receipt</div>
+      </div>
+
+      <div class="receipt-meta">
+        <div class="receipt-meta-row">
+          <div class="receipt-meta-label">Receipt no:</div>
+          <div class="receipt-meta-value">NB-2025-0042</div>
+        </div>
+        <div class="receipt-meta-row">
+          <div class="receipt-meta-label">Receipt date:</div>
+          <div class="receipt-meta-value">Mar 12, 2025</div>
+        </div>
+        <div class="receipt-meta-row">
+          <div class="receipt-meta-label">Appointment ID:</div>
+          <div class="receipt-meta-value">APP-2025-0217</div>
+        </div>
+      </div>
+
+      <div class="receipt-info">
+        <div class="from-section">
+          <h3>From</h3>
+          <p>
+            <strong>NBIOTEK Laboratory</strong><br />
+            Medicare Hospital<br />
+            18 Iwaya Rd, Lagos<br />
+            info@nbioteklabs.com<br />
+            +234 123 456 7890
+          </p>
+        </div>
+
+        <div class="bill-to-section">
+          <h3>Patient</h3>
+          <p>
+            <strong>John Doe</strong><br />
+            johndoe@example.com<br />
+            +234 987 654 3210<br />
+            123 Main Street, Lagos
+          </p>
+        </div>
+      </div>
+
+      <table class="receipt-table">
+        <thead>
+          <tr>
+            <th style="width: 50%">TEST DESCRIPTION</th>
+            <th>TEST TYPE</th>
+            <th class="amount-column">AMOUNT (₦)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Complete Blood Count (CBC)<br />
+              <small
+                >Measures different components of blood including red cells, white cells, and
+                platelets.</small
+              >
+            </td>
+            <td>Single Test</td>
+            <td class="amount-column">15,000.00</td>
+          </tr>
+          <tr>
+            <td>
+              Liver Function Test<br />
+              <small
+                >Measures various proteins, enzymes, and substances in blood to evaluate liver
+                health.</small
+              >
+            </td>
+            <td>Single Test</td>
+            <td class="amount-column">22,000.00</td>
+          </tr>
+          <tr>
+            <td>
+              Thyroid Profile<br />
+              <small>Evaluates thyroid function by measuring hormone levels.</small>
+            </td>
+            <td>Single Test</td>
+            <td class="amount-column">25,000.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="payment-section">
+        <div class="payment-info">
+          <h3>Payment Information</h3>
+          <p>
+            <strong>Payment Method:</strong><br />
+            Credit Card ****4321
+          </p>
+
+          <p>
+            <strong>Transaction ID:</strong><br />
+            TRX-8765432109
+          </p>
+
+          <p>
+            <strong>Payment Date:</strong><br />
+            Mar 12, 2025, 10:45 AM
+          </p>
+        </div>
+
+        <div class="payment-summary">
+          <div class="payment-row">
+            <span>Subtotal:</span>
+            <span>₦62,000.00</span>
+          </div>
+
+          <div class="payment-row total-row">
+            <span>Total:</span>
+            <span>₦57,800.00</span>
+          </div>
+          <div class="payment-row">
+            <span>Amount paid:</span>
+            <span>₦57,800.00</span>
+          </div>
+          <div class="payment-row balance-row">
+            <span>Balance Due:</span>
+            <span>₦0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-section">
+        <h3>Notes</h3>
+        <p>
+          Thank you for choosing NBIOTEK Laboratory. Your test results will be available in your
+          patient portal within 24-48 hours. For any inquiries about your tests or results, please
+          contact our customer support at support@nbioteklabs.com or call +234 123 456 7890.
+        </p>
+      </div>
+
+      <div class="signature">
+        <img src="https://i.ibb.co/cXpsFRq7/images-1.png" alt="Digital Signature" />
+      </div>
+    </div>
+  </body>
+</html>

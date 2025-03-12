@@ -15,3 +15,11 @@ export const useTestResultDetails = (id: string) => {
     enabled: !!id
   });
 };
+
+export const useTestSuiteDetails = (id: string) => {
+  return useQuery<TestSuiteDetails>({
+    queryKey: ['test-suite-details', id],
+    queryFn: () => TestResultService.getTestSuiteDetails(id),
+    enabled: !!id
+  });
+};

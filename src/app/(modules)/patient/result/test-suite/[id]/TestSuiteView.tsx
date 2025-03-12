@@ -1,18 +1,20 @@
-// ResultDetailsView.tsx
+// TestSuiteView.tsx
 'use client';
-import TestResult from '../components/Results';
-import { useTestResultDetails } from '@/hooks/patient/useTestResult';
+
+import TestResult from '../../components/Results';
+import { useTestSuiteDetails } from '@/hooks/patient/useTestResult';
 import { useParams } from 'next/navigation';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Text } from '@/lib/utils/Text';
 import { dateTimeUTC } from '@/utils/date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
+import TestSuiteDetails from './components/TestSuiteDetails';
 
-const ResultDetailsView = () => {
+const TestSuiteView = () => {
   const param = useParams();
   const resultId = param.id as string;
-  const { data, isLoading, error } = useTestResultDetails(resultId as string);
+  const { data, isLoading, error } = useTestSuiteDetails(resultId as string);
 
   // Error state
   if (error) {
@@ -96,7 +98,7 @@ const ResultDetailsView = () => {
   }
 
   // Empty state
-  if (!data || !data.data.results || data.data.results.length === 0) {
+  if (!data?.data) {
     return (
       <div className="flex h-[70vh] w-full flex-col items-center justify-center rounded-lg bg-white p-6">
         <div className="bg-gray-100 mb-6 flex h-20 w-20 items-center justify-center rounded-full">
@@ -126,17 +128,20 @@ const ResultDetailsView = () => {
           Personal Information
         </Text>
         <div className="flex flex-col space-y-[24px]">
+          <FieldSet legend="Test Ordered" text={data?.data.description} />
           <div className="flex gap-[24px]">
-            <FieldSet legend="Name" text={data?.data.patient.name} />
-            <FieldSet legend="Test Ordered" text={data?.data.testName} />
-            <FieldSet legend="Test Date" text={dateTimeUTC(data?.data.conductedAt, false)} />
+            <FieldSet legend="Patient Name" text={data?.data.patientName} />
+            <FieldSet
+              legend="Appointment Date"
+              text={dateTimeUTC(data?.data.appointmentDate, false)}
+            />
           </div>
-          <FieldSet legend="Technician Name" text={data?.data.technician.name} />
+          {/* <FieldSet legend="Technician Name" text={data?.data.technician.name} /> */}
         </div>
       </div>
-      <TestResult data={data?.data?.results} />
+      <TestSuiteDetails tests={data?.data.tests} />
     </div>
   );
 };
 
-export default ResultDetailsView;
+export default TestSuiteView;

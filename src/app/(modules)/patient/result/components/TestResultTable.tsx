@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/table';
 
 import { EllipsisVertical } from 'lucide-react';
+import { dateTimeUTC } from '@/utils/date';
+import Router, { useRouter } from 'next/navigation';
 
 import {
   DropdownMenu,
@@ -17,9 +19,19 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
-import test from 'node:test';
 
 const TestResultTable = ({ data }: TestResultResponse) => {
+  console.log(data);
+  const router = useRouter();
+
+  const handleView = (id: string) => {
+    router.push(`/patient/result/${id}`);
+  };
+
+  const handleTestSuit = (id: string) => {
+    router.push(`/patient/result/test-suite/${id}`);
+  };
+
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -30,7 +42,6 @@ const TestResultTable = ({ data }: TestResultResponse) => {
             <TableHead>Date Conducted</TableHead>
             <TableHead>Result Summary</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Reference Range</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -39,10 +50,9 @@ const TestResultTable = ({ data }: TestResultResponse) => {
             <TableRow key={test.id}>
               <TableCell>{test.testId}</TableCell>
               <TableCell>{test.testName}</TableCell>
-              <TableCell>{test.conductedAt}</TableCell>
+              <TableCell>{dateTimeUTC(test.conductedAt, false)}</TableCell>
               <TableCell>{test.resultStatus}</TableCell>
               <TableCell>{test.status}</TableCell>
-              <TableCell>{test.results[0].range}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger>
@@ -50,8 +60,12 @@ const TestResultTable = ({ data }: TestResultResponse) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleView(test.id)}>View</DropdownMenuItem>
+                      {test.testSuitId && (
+                        <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
+                          View Test Suit
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

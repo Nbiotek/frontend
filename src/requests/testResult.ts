@@ -11,5 +11,10 @@ export const TestResultService = {
   getTestResultDetails: async (id: string) => {
     const { data } = await server.get<TestResultDetailsResponse>(PATIENT.TEST_RESULTS.DETAILS(id));
     return data;
+  },
+
+  getTestSuiteDetails: async (id: string) => {
+    const { data } = await server.get<TestSuiteDetails>(PATIENT.TEST_RESULTS.SUITE_DETAILS(id));
+    return data;
   }
 };
