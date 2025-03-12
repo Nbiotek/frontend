@@ -234,7 +234,31 @@ class Routes {
     EnumRole.LAB_CORDINATOR
   ]);
   LAB_COORD_SETTINGS = new Route('/lab-coord/settings', 'Settings', 'Lab Coordinator Settings', [
-    EnumRole.LAB_CORDINATOR
+    EnumRole.LAB_CORDINATOR])
+
+  DOCTOR = new Route('/doctor', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
+
+  DOCTOR_TEST_REVIEW = new Route('/doctor/review', 'Test Review', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_REFERRALS = new Route('/doctor/referrals', 'Referrals', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_NOTIFICATION = new Route('/doctor/notification', 'Notifications', 'Doctor Notification', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_HELP_SUPPORT = new Route(
+    '/doctor/help_support',
+    'Help & Support',
+    'Doctor Help & Support',
+    [EnumRole.DOCTOR]
+  );
+
+  DOCTOR_SETTINGS = new Route('/doctor/help_support', 'Help & Support', 'Doctor Help & Support', [
+    EnumRole.DOCTOR
   ]);
 
   getRedirectPathByRole(_role: EnumRole) {
