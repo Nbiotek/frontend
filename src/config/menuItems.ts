@@ -87,20 +87,7 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: 'Biling & Payment',
       icon: CreditCard,
-      submenu: [
-        {
-          title: 'Transaction History',
-          url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
-        },
-        {
-          title: 'Pending Payments',
-          url: ROUTES.PATIENT_BILLING_PENDING_PAYMENTS.path
-        },
-        {
-          title: 'Insurance',
-          url: ROUTES.PATIENT_BILLING_INSURANCE.path
-        }
-      ]
+      url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
     },
     {
       title: 'Support & Help',
