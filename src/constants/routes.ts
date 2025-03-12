@@ -166,9 +166,9 @@ class Routes {
     EnumRole.LAB_TECHNICIAN
   ]);
 
-  DOCTOR = new Route('/doctors', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
+  DOCTOR = new Route('/doctor', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
 
-  DOCTOR_TEST_REVIEW = new Route('/doctor/review', 'Test Review', 'Doctor Patient List', [
+  DOCTOR_TEST_REVIEW = new Route('/doctor/review-test', 'Test Review', 'Doctor Patient List', [
     EnumRole.DOCTOR
   ]);
 
