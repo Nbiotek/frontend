@@ -1,4 +1,4 @@
-import { TestTube2, Calendar, MapPin } from 'lucide-react';
+import { TestTube2, Calendar, MapPin, MapPinCheck, Settings2 } from 'lucide-react';
 import { HiOutlineSpeakerphone } from 'react-icons/hi';
 import { MdEmergency } from 'react-icons/md';
 
@@ -34,5 +34,32 @@ export const PatientQuickLinks: QuickActionProps[] = [
     titleLink: 'Emergency',
     subTitle: 'Contact Us',
     href: '/locations'
+  }
+];
+
+export const DoctorsQuickLinks: QuickActionProps[] = [
+  {
+    icon: <TestTube2 />,
+    titleLink: 'Review Test Result',
+    subTitle: 'View All Assigned Test',
+    href: '/'
+  },
+  {
+    icon: <MapPinCheck />,
+    titleLink: 'Refer patient',
+    subTitle: 'Refer patient to our lab',
+    href: '/'
+  },
+  {
+    icon: <HiOutlineSpeakerphone />,
+    titleLink: 'Nottification',
+    subTitle: 'View Notifications',
+    href: '/'
+  },
+  {
+    icon: <Settings2 />,
+    titleLink: 'Settings',
+    subTitle: 'Edit Profile',
+    href: '/'
   }
 ];
