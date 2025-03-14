@@ -24,7 +24,9 @@ import {
   ShieldCheck,
   Upload,
   Book,
-  BellDot
+  BellDot,
+  PhoneCall,
+  Settings2
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -140,6 +142,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.DOCTOR_NOTIFICATION.title,
       url: ROUTES.DOCTOR_NOTIFICATION.path,
       icon: Bell
+    },
+    {
+      title: ROUTES.DOCTOR_HELP_SUPPORT.title,
+      url: ROUTES.DOCTOR_HELP_SUPPORT.path,
+      icon: PhoneCall
     },
     {
       title: ROUTES.DOCTOR_SETTINGS.title,
