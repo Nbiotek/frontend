@@ -187,9 +187,7 @@ class Routes {
     [EnumRole.DOCTOR]
   );
 
-  DOCTOR_SETTINGS = new Route('/doctor/help_support', 'Help & Support', 'Doctor Help & Support', [
-    EnumRole.DOCTOR
-  ]);
+  DOCTOR_SETTINGS = new Route('/doctor/settings', 'Settings', 'Doctor Settings', [EnumRole.DOCTOR]);
 
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
