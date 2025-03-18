@@ -21,7 +21,7 @@ type TTestType = {
 };
 
 // =========== Tests ===============
-type TTestQueue = {
+type TTestData = {
   id: string;
   patientName: string;
   testName: string;
@@ -38,7 +38,7 @@ type TTestQueue = {
   resultStatus: string;
 };
 
-type TTestQuesRes = INBTPaginatedData<TTestQueue>;
+type TTestQuesRes = INBTPaginatedData<TTestData>;
 
 type TTestDetailsPatient = {
   id: string;
@@ -48,28 +48,6 @@ type TTestDetailsPatient = {
   gender: string;
   dateOfBirth: string;
   age: number;
-};
-
-type TTestDetails = {
-  id: string;
-  patient: TTestDetailsPatient;
-  test: {
-    id: string;
-    name: string;
-    category: string;
-    description: string;
-  };
-  package?: string;
-  type: string;
-  status: string;
-  priority: string;
-  preferredAt: string;
-  deadlineAt: string;
-  completedAt?: string;
-  notes: string;
-  technician?: string;
-  createdAt: string;
-  updatedAt: string;
 };
 
 type TSingleTestDetail = {
@@ -103,7 +81,7 @@ type TSingleTestDetail = {
 };
 
 // ============ Results ========================
-type TRecentResultQuery = {
+type TLabTechTestQuery = {
   search: string;
   status: string;
   fromDate: string;
@@ -115,36 +93,10 @@ type TRecentResultQuery = {
   limit: number;
 };
 
-type TTestResults = {
-  id: string;
-  patientName: string;
-  testType: string;
-  requestedDate: string;
-  completedDate: string;
-  status: string;
-};
-
 type TRecentTestResults = {
-  results: Array<TTestResults>;
+  results: Array<TTestData>;
   pagination: TPaginationResponse;
 };
 
 // ============ Quality Control ==================
-type TQCTest = {
-  id: string;
-  patientName: string;
-  testName: string;
-  testType: string;
-  type: string;
-  status: string; // e.g PASSED, FAILED, PENDING
-  priority: string; // e.g., High, Low, Medium
-  preferredAt: string;
-  deadlineAt: string;
-  completedAt: string;
-  notes: string;
-  createdAt: string;
-  updatedAt: string;
-  turnaroundTime: number;
-};
-
-type TQCTestResp = INBTPaginatedData<TQCTest>;
+type TQCTestResp = INBTPaginatedData<TTestData>;

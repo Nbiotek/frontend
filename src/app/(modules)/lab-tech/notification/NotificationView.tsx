@@ -9,7 +9,7 @@ const NotificationView = () => {
       <div className="flex w-full flex-col divide-y">
         <div className="pb-4">
           <SubTitle className="" text="Notifications" />
-          <Paragraph text="Select the kind of notification you get about your activities and recommendations" />
+          <Paragraph text="Select the types of notifications you receive about your activities and recommendations." />
         </div>
 
         <div className="flex flex-col space-y-3 py-4">

@@ -7,7 +7,7 @@ function select(res: INBTServerResp<TTestQuesRes>) {
 }
 
 export function useFetchTests(
-  query: Partial<TRecentResultQuery>
+  query: Partial<TLabTechTestQuery>
 ): IQueryHookResponse<TTestQuesRes | undefined> {
   const meta = labTech.getTestQueue(query);
   const memoizedSelect = useCallback(select, []);

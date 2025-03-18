@@ -79,32 +79,24 @@ body {
     @apply flex w-fit items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
   }
 
-  .status-high {
+  .status-red {
     @apply bg-darkRed/10 text-darkRed;
   }
 
-  .status-medium {
+  .status-amber {
     @apply bg-amber/10 text-amber;
   }
 
-  .status-low {
+  .status-teal {
     @apply bg-teal/10 text-teal;
   }
 
-  .status-passed {
+  .status-green {
     @apply bg-green-300/10 text-green-300;
   }
 
-  .status-failed {
-    @apply bg-darkRed/10 text-darkRed;
-  }
-
-  .status-pending {
+  .status-violet {
     @apply bg-violet-500/10 text-violet-500;
-  }
-
-  .status-submitted {
-    @apply bg-green-300/10 text-green-300;
   }
 }
 

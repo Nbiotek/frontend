@@ -19,13 +19,13 @@ const confirmPassword = z.string().trim().min(1, { message: 'Confirm password is
 const firstName = z
   .string()
   .trim()
-  .min(3, { message: 'First Name is required.' })
+  .min(2, { message: 'First Name is required.' })
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
 const lastName = z
   .string()
   .trim()
-  .min(3, { message: 'Last Name is required.' })
+  .min(2, { message: 'Last Name is required.' })
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
 const phoneNumber = z
