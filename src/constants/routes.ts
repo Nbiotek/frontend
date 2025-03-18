@@ -216,6 +216,7 @@ class Routes {
         return this.PATIENT.path;
       case EnumRole.LAB_CORDINATOR:
         return this.LAB_COORD.path;
+      // TODO: Add more modules authorization routing here.
       default:
         return '';
     }
