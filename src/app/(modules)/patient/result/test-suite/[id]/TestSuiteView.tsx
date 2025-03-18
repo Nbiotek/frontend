@@ -10,6 +10,7 @@ import { dateTimeUTC } from '@/utils/date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
 import TestSuiteDetails from './components/TestSuiteDetails';
+import Button from '@/atoms/Buttons';
 
 const TestSuiteView = () => {
   const param = useParams();
@@ -140,6 +141,7 @@ const TestSuiteView = () => {
         </div>
       </div>
       <TestSuiteDetails tests={data?.data.tests} />
+      <Button variant="danger">Download All Results</Button>
     </div>
   );
 };

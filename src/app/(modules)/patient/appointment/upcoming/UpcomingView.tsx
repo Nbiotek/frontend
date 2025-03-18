@@ -1,7 +1,4 @@
 'use client';
-import Cards from '@/atoms/Cards';
-import { Text } from '@/lib/utils/Text';
-import InputSearch from '@/atoms/fields/InputSearch';
 
 import { useAllUpcomingAppointment } from '@/hooks/patient/useAppoitment';
 import AppointmentItem from '../component/AppointmentItem';

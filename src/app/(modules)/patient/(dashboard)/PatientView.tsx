@@ -31,11 +31,11 @@ const PatientView = () => {
 
   return (
     <div className="mt-[24px] flex w-[100%] flex-col space-y-[24px] pb-20">
-      <MetricsOverview data={data} isLoading={isLoading} />
-      <div className="lg:item-start flex w-full flex-col justify-between space-y-[24px] lg:flex-row lg:space-x-[24px] lg:space-y-0 ">
+      {/* <MetricsOverview data={data} isLoading={isLoading} /> */}
+      <div className=" flex w-full flex-col justify-between space-y-[24px] md:items-start lg:flex-row lg:space-x-[24px] lg:space-y-0 ">
         <RecentAppointment isLoading={isLoading} recentAppointments={recentAppointments} />
-        <Cards title="Daily insights" className=" overflow-y-auto bg-white p-3 lg:w-[30%]">
-          <div className="border-t pt-3" />
+        <Cards title="Daily insights" className="overflow-y-auto bg-white p-3 lg:w-[35%]">
+          <div className="mt-4 border-t p-2" />
           <p className="text-sm font-normal text-black">
             Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
             interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per
@@ -45,11 +45,11 @@ const PatientView = () => {
           </p>
         </Cards>
       </div>
-      <div className="lg:item-start flex w-full flex-col justify-between space-y-[24px] md:space-y-0 lg:flex-row lg:space-x-[24px] ">
+      <div className="lg:item-start flex w-full flex-col justify-between space-y-[24px] md:space-y-0 lg:flex-row lg:space-x-[24px]  ">
         <Cards className="flex-1 bg-white ">
           <ActivityTable />
         </Cards>
-        <Cards title="Quick Actions" className="w-full bg-white px-[12px] py-[23px] lg:w-[30%]">
+        <Cards title="Quick Actions" className="w-full bg-white px-[12px] py-[23px] lg:w-[35%]">
           <QuickAction quickLink={PatientQuickLinks} />
         </Cards>
       </div>
