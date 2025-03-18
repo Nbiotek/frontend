@@ -8,6 +8,8 @@ const INIT_IS_OPEN = initializer(AppModals, false);
 export class AppConfigStore {
   rootStore: RootStore;
 
+  queryLimit: number = 10;
+
   isOpen = { ...INIT_IS_OPEN };
   nonce = 0;
 
@@ -20,6 +22,7 @@ export class AppConfigStore {
       isOpen: observable,
       nonce: observable,
       testDetails: observable,
+      queryLimit: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound

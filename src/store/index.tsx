@@ -4,6 +4,7 @@ import { configure } from 'mobx';
 import { AppConfigStore } from './AppConfig';
 import { AuthStore } from './Auth';
 import { PatientStore } from './Patient';
+import { LabTechStore } from './LabTech';
 
 configure({
   enforceActions: 'observed',
@@ -18,11 +19,13 @@ export class RootStore {
   AppConfigStore: AppConfigStore;
   AuthStore: AuthStore;
   PatientStore: PatientStore;
+  LabtechStore: LabTechStore;
 
   constructor() {
     this.AppConfigStore = new AppConfigStore(this);
     this.AuthStore = new AuthStore(this);
     this.PatientStore = new PatientStore(this);
+    this.LabtechStore = new LabTechStore(this);
   }
 }
 

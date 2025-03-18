@@ -1,4 +1,4 @@
-import { EllipsisVertical } from 'lucide-react';
+import { Archive, ArchiveRestore, EllipsisVertical, Eye } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -17,13 +17,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
+import { formatTestDate } from '@/utils/date';
+import ROUTES from '@/constants/routes';
+import { useRouter } from 'next/navigation';
+import { useStore } from '@/store';
 
 interface IQCTableProps {
+  type: 'recent' | 'archived';
   isLoading: boolean;
   resultsData: TRecentTestResults;
 }
 
-const ResultsTable = ({ isLoading, resultsData }: IQCTableProps) => {
+const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
+  const router = useRouter();
+  const {
+    AppConfigStore: { toggleModals }
+  } = useStore();
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -31,15 +40,17 @@ const ResultsTable = ({ isLoading, resultsData }: IQCTableProps) => {
           <TableRow>
             <TableHead>Patient Name</TableHead>
             <TableHead>Test type</TableHead>
-            <TableHead>Requested Date</TableHead>
-            <TableHead>Completed Date</TableHead>
-            <TableHead className="w-[80px]">Status</TableHead>
+            <TableHead>Priority</TableHead>
+            <TableHead>Date Submitted</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Deadline</TableHead>
+            <TableHead>Result Status</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
 
         {isLoading ? (
-          <TableLoader rows={20} columns={6} />
+          <TableLoader rows={20} columns={8} />
         ) : (
           resultsData.results.length !== 0 && (
             <TableBody>
@@ -47,10 +58,16 @@ const ResultsTable = ({ isLoading, resultsData }: IQCTableProps) => {
                 <TableRow key={resultDatum.id}>
                   <TableCell className="font-medium">{resultDatum.patientName}</TableCell>
                   <TableCell>{resultDatum.testType}</TableCell>
-                  <TableCell>{resultDatum.requestedDate}</TableCell>
-                  <TableCell>{resultDatum.completedDate}</TableCell>
+                  <TableCell>
+                    <Status variant={resultDatum.priority} />
+                  </TableCell>
+                  <TableCell>{formatTestDate(resultDatum.completedAt)}</TableCell>
                   <TableCell>
                     <Status variant={resultDatum.status} />
+                  </TableCell>
+                  <TableCell>{formatTestDate(resultDatum.deadlineAt)}</TableCell>
+                  <TableCell>
+                    <Status variant={resultDatum.resultStatus} />
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -58,12 +75,31 @@ const ResultsTable = ({ isLoading, resultsData }: IQCTableProps) => {
                         <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
                       </DropdownMenuTrigger>
 
-                      <DropdownMenuContent className="">
-                        <DropdownMenuGroup>
-                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                          <DropdownMenuItem>Mark as ready</DropdownMenuItem>
-                        </DropdownMenuGroup>
+                      <DropdownMenuContent className="w-fit">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', resultDatum.id)}`
+                            )
+                          }
+                        >
+                          <Eye />
+                          <p>View</p>
+                        </DropdownMenuItem>
+
+                        {type === 'recent' && (
+                          <DropdownMenuItem onClick={() => {}}>
+                            <Archive />
+                            <p>Archive</p>
+                          </DropdownMenuItem>
+                        )}
+
+                        {type === 'archived' && (
+                          <DropdownMenuItem onClick={() => {}}>
+                            <ArchiveRestore />
+                            <p>Archive Restore</p>
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

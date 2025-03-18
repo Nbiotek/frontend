@@ -1,5 +1,5 @@
 'use client';
-import { CircleX, EllipsisVertical, Eye, Pause, Play, Upload } from 'lucide-react';
+import { EllipsisVertical, Eye, Pause, Play, Upload } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -21,11 +21,10 @@ import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
-import { format } from 'date-fns';
-import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
+import { formatTestDate } from '@/utils/date';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -44,18 +43,18 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[280px]">Name</TableHead>
-            <TableHead className="w-[280px]">Test Name</TableHead>
-            <TableHead className="w-[80px]">Priority</TableHead>
-            <TableHead className="w-[150px]">Date created</TableHead>
-            <TableHead className="w-[150px]">Requested Date</TableHead>
-            <TableHead className="w-[150px]">Deadline</TableHead>
-            <TableHead className="w-[80px]">Status</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Test Name</TableHead>
+            <TableHead>Priority</TableHead>
+            <TableHead>Date created</TableHead>
+            <TableHead>Requested Date</TableHead>
+            <TableHead>Deadline</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
         {isLoading ? (
-          <TableLoader rows={20} columns={6} />
+          <TableLoader rows={20} columns={8} />
         ) : (
           tests.requests.length !== 0 && (
             <TableBody>
@@ -69,13 +68,13 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     <Status variant={test.priority} />
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
-                    {format(new Date(test.createdAt), 'dd MMM, yyyy')}
+                    {formatTestDate(test.createdAt)}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
-                    {format(new Date(test.preferredAt), 'dd MMM, yyyy')}
+                    {formatTestDate(test.preferredAt)}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
-                    {format(new Date(test.deadlineAt), 'dd MMM, yyyy')}
+                    {formatTestDate(test.deadlineAt)}
                   </TableCell>
                   <TableCell>
                     <Status variant={test.status} />

@@ -26,7 +26,7 @@ export const PATIENT = {
     RESCHEDULE: (id: string) => `patients/appointments/${id}/reschedule`,
     PENDING_PAYMENT: (id: string) => `patients/appointments/${id}/payment/generate`,
     PAYMENT_STATUS: 'patients/appointments/payment'
-  },
+  } as const,
 
   TESTS: {
     ALl: '/patients/tests',
@@ -53,4 +53,8 @@ export const LAB_TECH = {
   PENDING_QC: '/lab-technicians/test-quality-control',
   HISTORY_QC: '/lab-technicians/quality-control-history',
   UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status'
+} as const;
+
+export const LAB_COORD = {
+  STAFF_SHIFTS: '/lab-coordinator/staff-shifts'
 };
