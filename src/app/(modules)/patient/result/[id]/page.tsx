@@ -8,6 +8,7 @@ import { Text } from '@/lib/utils/Text';
 import { dateTimeUTC } from '@/utils/date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
+import Button from '@/atoms/Buttons';
 
 const ResultDetailsView = () => {
   const param = useParams();
@@ -135,6 +136,10 @@ const ResultDetailsView = () => {
         </div>
       </div>
       <TestResult data={data?.data?.results} />
+      <Button variant="filled" className="mx-auto w-60">
+        {' '}
+        Download Result
+      </Button>
     </div>
   );
 };
