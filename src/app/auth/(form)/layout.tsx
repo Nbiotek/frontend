@@ -2,6 +2,7 @@
 import { EnumRole } from '@/constants/mangle';
 import ROUTES from '@/constants/routes';
 import { useStore } from '@/store';
+import { toJS } from 'mobx';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -9,16 +10,14 @@ export default function FormLayout({ children }: { children: React.ReactNode }) 
   const router = useRouter();
 
   const {
-    AuthStore: { isAuthenticated }
+    AuthStore: { user }
   } = useStore();
 
   useEffect(() => {
-    if (isAuthenticated().token) {
-      if (isAuthenticated().role) {
-        router.replace(ROUTES.getRedirectPathByRole(isAuthenticated().role as EnumRole));
-      }
+    if (Boolean(user.role)) {
+      router.replace(ROUTES.getRedirectPathByRole(user.role as EnumRole));
     }
-  }, [isAuthenticated, router]);
+  });
 
   return <> {children} </>;
 }

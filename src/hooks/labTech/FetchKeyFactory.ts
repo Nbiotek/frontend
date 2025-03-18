@@ -8,7 +8,7 @@ export const labTech = {
     };
   },
 
-  getTestQueue(query: Partial<TRecentResultQuery>) {
+  getTestQueue(query: Partial<TLabTechTestQuery>) {
     return {
       path: LAB_TECH.ALL_TESTS,
       keys: () => [LAB_TECH.RECENT_ACTIVITIES, LAB_TECH.ALL_TESTS, query] as const,

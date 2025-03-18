@@ -14,8 +14,6 @@ const PUBLIC_PATHS = [
   '/auth'
 ];
 
-const PROTECTED_PATHS = [Routes.PATIENT.path, Routes.LAB_TECH.path];
-
 const AUTH_REDIRECT_PATHS = [Routes.LOGIN.path, Routes.REGISTER.path, Routes.OTP.path];
 
 function isTokenExpired(exp?: number): boolean {
@@ -37,8 +35,6 @@ export default async function middleware(request: NextRequest) {
   if (PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(path))) {
     return NextResponse.next();
   }
-
-  const isReqProtectedRoute = PROTECTED_PATHS.some((route) => pathname.startsWith(route));
 
   try {
     const token = (await cookies()).get(Mangle.SESSION_TOKEN)?.value;

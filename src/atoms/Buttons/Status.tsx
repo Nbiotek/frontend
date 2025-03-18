@@ -19,8 +19,9 @@ export enum EnumTestPriority {
 
 export enum EnumResultStatus {
   ACCEPTED = 'ACCEPTED',
-  PROCESSING = 'PROCESSING',
-  REJECTED = 'REJECTED'
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+  UNDER_REVIEW = 'UNDER_REVIEW'
 }
 
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
@@ -28,27 +29,29 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
     switch (variant) {
       // Test priority
       case EnumTestPriority.HIGH:
-        return 'status-high';
+        return 'status-red';
       case EnumTestPriority.MEDIUM:
-        return 'status-medium';
+        return 'status-amber';
       case EnumTestPriority.LOW:
-        return 'status-low';
+        return 'status-teal';
 
-      // Result status
+      // Result status | Quality Control
       case EnumResultStatus.ACCEPTED:
-        return 'status-failed';
-      case EnumResultStatus.PROCESSING:
-        return 'status-pending';
+        return 'status-green';
+      case EnumResultStatus.PENDING:
+        return 'status-violet';
       case EnumResultStatus.REJECTED:
-        return 'status-passed';
+        return 'status-red';
+      case EnumResultStatus.UNDER_REVIEW:
+        return 'status-teal';
 
       // Test status
       case EnumTestStatus.SUBMITTED:
-        return 'status-submitted';
+        return 'status-green';
       case EnumTestStatus.PENDING:
-        return 'status-pending';
+        return 'status-violet';
       case EnumTestStatus.IN_PROGRESS:
-        return 'status-medium';
+        return 'status-amber';
       default:
         break;
     }

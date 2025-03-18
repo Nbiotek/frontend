@@ -1,3 +1,7 @@
+type Option<V, L> = {
+  label: L;
+  value: V;
+};
 type TNewPwdPayload = {
   token: string;
   newPassword: string;

@@ -1,20 +1,25 @@
 'use client';
 import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
-import ResultTable from '../components/ResultsTable';
+import ResultTable from './ResultsTable';
 import { ArrowUpDown, ListFilter } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import { useQuery } from '@tanstack/react-query';
 import { LAB_TECH } from '@/constants/api';
 import { getArchivedResult } from '@/requests/lab-tech';
+import SearchFilter from '../../components/Filter';
+import { useStore } from '@/store';
 
 const ArchivedView = () => {
-  const params: Partial<TRecentResultQuery> = {};
+  const params: Partial<TLabTechTestQuery> = {};
   const [recentResult, setRecentResult] = useState<TRecentTestResults>({
     results: [],
     pagination
   });
+  const {
+    LabtechStore: { archivedResQuery, applyArchivedResQuery }
+  } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: [LAB_TECH.ARCHIVED_RESULTS, params],
     queryFn: () => getArchivedResult(params),
@@ -28,12 +33,12 @@ const ArchivedView = () => {
   }, [isLoading, data]);
   return (
     <div className="flex w-full flex-col space-y-4">
-      <div className="flex w-full items-center justify-between space-x-2">
-        <IconPod Icon={ListFilter} />
-        <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search tests results..." />
+      <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
+        <SearchFilter type="result" query={archivedResQuery} applyQuery={applyArchivedResQuery} />
+        <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
-      </div>
-      <ResultTable isLoading={false} resultsData={recentResult} />
+      </fieldset>
+      <ResultTable type="archived" isLoading={false} resultsData={recentResult} />
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 const isValidDate = (date: Date) => date instanceof Date && !isNaN(date.getTime());
 
 export const dateTimeUTC = (date_utc: string, showTime: boolean = true) => {
@@ -23,4 +25,9 @@ export const dateTimeUTC = (date_utc: string, showTime: boolean = true) => {
   const dateFormat = Intl.DateTimeFormat('en-US', optionsWithoutTime).format(dateTime).toString();
 
   return showTime ? `${dateFormat}, ${timeFormat}` : dateFormat;
+};
+
+export const formatTestDate = (date?: string) => {
+  if (date) return format(new Date(date), "dd MMM, yy - hh:mm aaaaa'm'");
+  return '';
 };
