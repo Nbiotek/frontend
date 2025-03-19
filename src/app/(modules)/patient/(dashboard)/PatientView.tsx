@@ -30,11 +30,11 @@ const PatientView = () => {
   const recentAppointments = data?.recentAppointments || [];
 
   return (
-    <div className="mt-[24px] flex w-[100%] flex-col space-y-[24px] pb-20">
+    <div className="mt-[24px] flex w-full flex-col space-y-[24px]">
       {/* <MetricsOverview data={data} isLoading={isLoading} /> */}
-      <div className=" flex w-full flex-col justify-between space-y-[24px] md:items-start lg:flex-row lg:space-x-[24px] lg:space-y-0 ">
+      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0 ">
         <RecentAppointment isLoading={isLoading} recentAppointments={recentAppointments} />
-        <Cards title="Daily insights" className="overflow-y-auto bg-white p-3 lg:w-[35%]">
+        <Cards title="Daily insights" className="h-fit overflow-y-auto bg-white p-3 lg:w-[35%]">
           <div className="mt-4 border-t p-2" />
           <p className="text-sm font-normal text-black">
             Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
@@ -45,8 +45,8 @@ const PatientView = () => {
           </p>
         </Cards>
       </div>
-      <div className="lg:item-start flex w-full flex-col justify-between space-y-[24px] md:space-y-0 lg:flex-row lg:space-x-[24px]  ">
-        <Cards className="flex-1 bg-white ">
+      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0  ">
+        <Cards className="bg-white lg:w-[65%] ">
           <ActivityTable />
         </Cards>
         <Cards title="Quick Actions" className="w-full bg-white px-[12px] py-[23px] lg:w-[35%]">

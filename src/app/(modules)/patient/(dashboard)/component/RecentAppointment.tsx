@@ -75,7 +75,7 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
   }, [currentIndex, recentAppointments.length]);
 
   return (
-    <Cards className="flex-1 bg-white px-[8px] py-[20px] lg:px-[27px]">
+    <Cards className="h-fit w-full bg-white px-[8px] py-[20px] lg:w-[65%] lg:px-[27px]">
       <div className="mb-3 flex flex-col sm:flex-row sm:justify-between lg:items-center">
         <Text weight="semibold" variant="title">
           Upcoming Appointment
