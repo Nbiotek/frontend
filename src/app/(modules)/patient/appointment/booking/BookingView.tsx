@@ -80,6 +80,8 @@ const BookAppointmentView = () => {
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
 
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required';
@@ -97,6 +99,14 @@ const BookAppointmentView = () => {
 
     if (!formData.availableDate) {
       newErrors.availableDate = 'Please select a date';
+    } else {
+      // Convert the ISO string back to a Date object for comparison
+      const selectedDate = new Date(formData.availableDate);
+      selectedDate.setHours(0, 0, 0, 0); // Remove time component
+
+      if (selectedDate < currentDate) {
+        newErrors.availableDate = 'Date cannot be in the past';
+      }
     }
 
     if (cartStore.items.length === 0) {
