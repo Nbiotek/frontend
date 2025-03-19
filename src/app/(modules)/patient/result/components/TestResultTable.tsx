@@ -11,6 +11,7 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import { dateTimeUTC } from '@/utils/date';
 import Router, { useRouter } from 'next/navigation';
+import Status, { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 import {
   DropdownMenu,
@@ -51,7 +52,9 @@ const TestResultTable = ({ data }: TestResultResponse) => {
               <TableCell>{test.testId}</TableCell>
               <TableCell>{test.testName}</TableCell>
               <TableCell>{dateTimeUTC(test.conductedAt, false)}</TableCell>
-              <TableCell>{test.resultStatus}</TableCell>
+              <TableCell>
+                <Status variant={test.resultStatus} />
+              </TableCell>
               <TableCell>{test.status}</TableCell>
               <TableCell>
                 <DropdownMenu>
