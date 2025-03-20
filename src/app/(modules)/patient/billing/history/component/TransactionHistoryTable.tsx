@@ -22,6 +22,7 @@ import { DownloadCloudIcon } from 'lucide-react';
 import { dateTimeUTC } from '@/utils/date';
 
 const TransactionHistoryTable = ({ data }: BillingHistory) => {
+  console.log(data);
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
