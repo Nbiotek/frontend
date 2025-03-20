@@ -50,3 +50,8 @@ export const PatientInfoService = async () => {
   const { data } = await server.get<InfoApiResponse>(PATIENT.PROFILE);
   return data;
 };
+
+export const PatientRecentResult = async () => {
+  const { data } = await server.get<TPatientRecentTest>(PATIENT.RECENT_RESULT);
+  return data;
+};

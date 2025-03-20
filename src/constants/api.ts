@@ -14,6 +14,7 @@ export const PATIENT = {
   PERSONAL_REG: '/patients/register',
   DASHBOARD: '/patients/dashboard',
   PROFILE: '/patients/profile',
+  RECENT_RESULT: '/patients/dashboard/recent-activiy',
   BILLING: '/payments',
 
   APPOINTMENTS: {

@@ -137,6 +137,16 @@ interface TPatientDashboard {
   }>;
 }
 
+interface TPatientRecentTest {
+  data: Array<{
+    id: string;
+    name: string;
+    type: string;
+    status: string;
+    date: string | Date | unefined;
+  }>;
+}
+
 interface AppointmentItem {
   id: string;
   title: string;
