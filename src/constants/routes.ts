@@ -102,13 +102,7 @@ class Routes {
   PATIENT_SUPPORT = new Route('/patient/support', 'Support & Help', 'Help  Desk Page');
   PATIENT_SUPPORT_CONTACT = new Route('/patient/support/contact', 'Contact Us', 'Contact Us');
   PATIENT_SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions');
-  PATIENT_SETTINGs = new Route('/patient/settings', 'Settings', 'Settings Page');
-  PATIENT_SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page');
-  PATIENT_SETTING_NOTIFICATION = new Route(
-    '/patient/settings/NOTIFICATION',
-    'Notification',
-    'Notification Page'
-  );
+  PATIENT_SETTINGS = new Route('/patient/settings', 'Settings', 'Settings Page');
 
   // Lab Tech
   LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page', [

@@ -31,10 +31,10 @@ const actions = [
 
 const DashboardView = () => {
   return (
-    <div className="flex w-full flex-col space-y-4">
+    <div className="flex w-full flex-col space-y-4 overflow-hidden">
       <CoordAnalytics />
 
-      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
+      <div className="flex flex-col-reverse space-y-4 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
         <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
           <Inventory />
         </div>
