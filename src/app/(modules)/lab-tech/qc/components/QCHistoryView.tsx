@@ -12,13 +12,13 @@ import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 
 const QCHistoryView = () => {
-  const params: Partial<TLabTechTestQuery> = {};
+  const params: Partial<TTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
   });
   const {
-    LabtechStore: { qcHistoryQuery, applyQcHistoryQuery }
+    LabTechStore: { qcHistoryQuery, applyQcHistoryQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: [LAB_TECH.HISTORY_QC, params],

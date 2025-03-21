@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { labTech } from './FetchKeyFactory';
+import { labCoord } from './FetchKeyFactory';
 import { useCallback } from 'react';
 
 function select(res: INBTServerResp<TTestQuesRes>) {
   return res.data;
 }
 
-export function useFetchTests(
+export function useFetchTestReqs(
   query: Partial<TTestQuery>
 ): IQueryHookResponse<TTestQuesRes | undefined> {
-  const meta = labTech.getTestQueue(query);
+  const meta = labCoord.getAllTests(query);
   const memoizedSelect = useCallback(select, []);
 
   const { data, isLoading, error, status } = useQuery({

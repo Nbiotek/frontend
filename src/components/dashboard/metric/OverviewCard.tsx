@@ -4,13 +4,19 @@ import NBPeopleImg from '@/app/assets/svgs/people.svg';
 import NBCubeImg from '@/app/assets/svgs/cube.svg';
 import NBChartImg from '@/app/assets/svgs/line_chart.svg';
 import NBTimer from '@/app/assets/svgs/timer.svg';
+import NBTTestTube from '@/app/assets/svgs/test_tube.svg';
+import NBTTurn from '@/app/assets/svgs/test_turnaround.svg';
+import NBTShield from '@/app/assets/svgs/shield.svg';
 import { Paragraph, Title } from '@/atoms/typographys';
 
 export enum EnumOverviewIcon {
   PEOPLE = 'PEOPLE',
   CUBE = 'CUBE',
   CHART = 'CHART',
-  TIMER = 'TIMER'
+  TIMER = 'TIMER',
+  TEST = 'TEST',
+  TURN = 'TURN',
+  SHIELD = 'SHIELD'
 }
 
 interface IOverviewCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -23,7 +29,10 @@ const overviewCardIcon: Record<EnumOverviewIcon, string> = {
   [EnumOverviewIcon.PEOPLE]: NBPeopleImg,
   [EnumOverviewIcon.CUBE]: NBCubeImg,
   [EnumOverviewIcon.CHART]: NBChartImg,
-  [EnumOverviewIcon.TIMER]: NBTimer
+  [EnumOverviewIcon.TIMER]: NBTimer,
+  [EnumOverviewIcon.TEST]: NBTTestTube,
+  [EnumOverviewIcon.TURN]: NBTTurn,
+  [EnumOverviewIcon.SHIELD]: NBTShield
 };
 
 const OverviewCard = forwardRef<HTMLDivElement, IOverviewCardProps>(

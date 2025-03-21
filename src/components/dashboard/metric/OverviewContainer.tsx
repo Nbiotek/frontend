@@ -1,7 +1,12 @@
 import React from 'react';
 
-const OverviewContainer = ({ children }: { children: React.ReactNode }) => {
-  return <div className="grid w-full grid-cols-response gap-2">{children}</div>;
+interface IOverviewContainerProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const OverviewContainer = ({ children, className }: IOverviewContainerProps) => {
+  return <div className={`grid w-full grid-cols-response gap-2 ${className}`}>{children}</div>;
 };
 
 export default OverviewContainer;
