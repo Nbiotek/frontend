@@ -1,47 +1,83 @@
-// app/appointment/booking/payment/[id]/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useUpdatePaymentStatus } from '@/hooks/patient/useAppoitment';
+import toast from 'react-hot-toast';
+
+type Params = {
+  id: string;
+} & Record<string, string | string[]>;
 
 export default function PaymentResultPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const status = searchParams.get('status');
-  const appointmentId = searchParams.get('appointmentId');
   const [progress, setProgress] = useState(0);
+  const [navigationPath, setNavigationPath] = useState<string | null>(null);
 
-  console.log(status, appointmentId);
+  const [isUpdatePaymentStatus, setIsUpdatePaymentStatus] = useState<boolean>(false);
+
+  const { mutate: updatePaymentStatus, isPending } = useUpdatePaymentStatus();
+
+  const { id } = useParams<Params>();
+
+  const appointmentId = {
+    appointmentId: id
+  };
 
   useEffect(() => {
-    // Create a loading progress effect
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 200);
+    // Handle navigation based on state
+    if (navigationPath) {
+      router.push(navigationPath);
+    }
+  }, [navigationPath, router]);
 
-    // Check payment status and redirect accordingly
-    const redirectTimer = setTimeout(() => {
-      if (status === 'successful') {
-        router.push('/patient/appointment/booking/success');
-      } else if (status === 'failed') {
-        router.push('/patient/appointment/booking/error');
-      } else if (status === 'cancelled') {
-        router.push('/appointment/booking/cancelled');
+  useEffect(() => {
+    // Only attempt to update if we have an appointmentId and successful status
+    if (status === 'successful' && id) {
+      console.log('working.....');
+      try {
+        updatePaymentStatus(appointmentId, {
+          onSuccess: (response) => {
+            setIsUpdatePaymentStatus(true);
+          },
+          onError: (error) => {
+            toast.error('Could not verify payment');
+            setNavigationPath('/patient/appointment/booking/error');
+          }
+        });
+      } catch (error) {
+        toast.error('An unexpected error occurred');
+        setNavigationPath('/patient/appointment/booking/error');
       }
-    }, 2000); // 2 second delay for better UX
+    } else if (status === 'failed') {
+      setNavigationPath('/patient/appointment/booking/error');
+    } else if (status === 'cancelled') {
+      setNavigationPath('/appointment/booking/cancelled');
+    }
+  }, [status, id, updatePaymentStatus]);
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(redirectTimer);
-    };
-  }, [status, router]);
+  useEffect(() => {
+    // Create a loading progress effect when payment status is being updated
+    if (isUpdatePaymentStatus) {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setNavigationPath('/patient/appointment/booking/success');
+            return 100;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [isUpdatePaymentStatus]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-blue-50/50">
