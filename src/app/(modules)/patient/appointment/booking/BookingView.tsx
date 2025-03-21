@@ -49,6 +49,7 @@ const BookAppointmentView = () => {
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
     availableDate: undefined as Date | undefined,
+    paymentMethod: 'via_card',
     testRequests: cartStore.items.map((item) => ({
       entityType: item.type.toUpperCase(),
       testId: item.id
@@ -134,6 +135,13 @@ const BookAppointmentView = () => {
     }));
   };
 
+  const handlePaymentMethod = (value: string) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      paymentMethod: value
+    }));
+  };
+
   const handleDateSelect = (date: Date | undefined) => {
     setFormData((prev: any) => ({
       ...prev,
@@ -167,7 +175,7 @@ const BookAppointmentView = () => {
           So our team can reach out to you on time
         </Text>
         <form action="" id="bookingForm">
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <Input
               type="text"
               label="Full Name"
@@ -184,7 +192,7 @@ const BookAppointmentView = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <Input
               type="text"
               label="Email"
@@ -202,7 +210,7 @@ const BookAppointmentView = () => {
               error={errors.phoneNumber}
             />
           </div>
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <div className="flex w-full flex-col ">
               <Label className="mb-2">Available Test</Label>
               <Button
@@ -218,7 +226,7 @@ const BookAppointmentView = () => {
                 <></>
               ) : (
                 <>
-                  <div className="mt-3 flex h-[200px] flex-col overflow-auto border-2">
+                  <div className="mt-3 flex h-[100px] flex-col overflow-auto border-2">
                     {cartStore.items.map((item) => (
                       <div className="flexBetween items-center p-3" key={item.id}>
                         <p>
@@ -260,6 +268,25 @@ const BookAppointmentView = () => {
                   <RadioGroupItem value="Custom" id="r2" />
                   <Label htmlFor="r2">Custom</Label>
                   <div className="rounded-md bg-neutral-300/30 p-3">Select location</div>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
+          <div className="mt-3 w-full">
+            <div className="flex w-full flex-col">
+              <Label className="mb-3">Payment Method</Label>
+              <RadioGroup
+                value={formData.paymentMethod}
+                onValueChange={handlePaymentMethod}
+                className="flex"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="via_card" id="r3" />
+                  <Label htmlFor="r3">Online</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="location" id="r4" />
+                  <Label htmlFor="r4">Pay at location</Label>
                 </div>
               </RadioGroup>
             </div>
