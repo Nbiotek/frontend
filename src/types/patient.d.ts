@@ -234,6 +234,7 @@ interface Test {
   technician: Technician;
   results: TestResult[];
   testSuitId: string;
+  resultLink: string;
 }
 
 interface Pagination {
@@ -272,6 +273,7 @@ interface TestSuiteDetails {
     appointmentDate: string;
     doctor: {} | null;
     tests: TestSuiteSingle[];
+    resultLink: string;
   };
 }
 

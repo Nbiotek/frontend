@@ -26,7 +26,7 @@ export const PATIENT = {
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
     RESCHEDULE: (id: string) => `patients/appointments/${id}/reschedule`,
     PENDING_PAYMENT: (id: string) => `patients/appointments/${id}/payment/generate`,
-    PAYMENT_STATUS: 'patients/appointments/payment'
+    PAYMENT_STATUS: '/patients/appointments/payment/status'
   } as const,
 
   TESTS: {

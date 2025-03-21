@@ -64,7 +64,7 @@ export const useProcessPayment = () => {
       AppointmentService.processPayment(appointmentId),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['payment-process'] });
     }
   });
 };
@@ -73,11 +73,11 @@ export const useUpdatePaymentStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ appointmentId }: { appointmentId: string }) =>
+    mutationFn: (appointmentId: TUpdatePaymentStatus) =>
       AppointmentService.updatePaymentStatus(appointmentId),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['payment-status'] });
+      queryClient.invalidateQueries({ queryKey: ['update-paymentstatus'] });
     }
   });
 };
