@@ -120,6 +120,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: NotepadText
     },
     {
+      title: ROUTES.DOCTOR_APPOINTMENT.title,
+      url: ROUTES.DOCTOR_APPOINTMENT.path,
+      icon: CalendarClock
+    },
+    {
       title: ROUTES.DOCTOR_REFERRALS.title,
       url: ROUTES.DOCTOR_REFERRALS.path,
       icon: Hospital
