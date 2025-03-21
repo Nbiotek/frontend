@@ -12,9 +12,6 @@ import Link from 'next/link';
 import { PatientQuickLinks } from '@/config/quickActionItems';
 
 import { usePatientDashboard, usePatientRecentResult } from '@/hooks/patient/usePatientDashboard';
-import Spinner from '@/lib/utils/spinner';
-import { Skeleton } from '@/components/ui/skeleton';
-import { dateTimeUTC } from '@/utils/date';
 import MetricsOverview from './component/MetricOverView';
 import RecentAppointment from './component/RecentAppointment';
 import RecentResultTable from './component/RecentResultTable';
@@ -57,7 +54,7 @@ const PatientView = () => {
             <h4 className="text-lg font-bold">Recent Test Result</h4>
             <Link
               className="text-sm text-blue-50 hover:text-black/20 hover:underline"
-              href="/patients/results"
+              href="/patient/result"
             >
               View all result
             </Link>

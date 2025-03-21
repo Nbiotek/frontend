@@ -125,6 +125,7 @@ interface BookAppointmentDTO {
     testId: string;
     entityType: string;
   }>;
+  paymentMethod: string;
 }
 
 interface TPatientDashboard {

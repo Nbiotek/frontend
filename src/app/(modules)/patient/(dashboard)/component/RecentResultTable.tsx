@@ -43,7 +43,7 @@ const RecentResultTable = ({ data, loading }: RecentResultProps) => {
                   <TableRow key={recentTest.id}>
                     <TableCell>{recentTest.id}</TableCell>
                     <TableCell>{recentTest.name}</TableCell>
-                    <TableCell>{dateTimeUTC(recentTest.date)}</TableCell>
+                    <TableCell>{dateTimeUTC(recentTest.date, false)}</TableCell>
                     <TableCell>{recentTest.type}</TableCell>
                     <TableCell>
                       <Status variant={recentTest.status} />

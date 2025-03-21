@@ -21,6 +21,7 @@ import Cards from '@/atoms/Cards';
 import { useGetAppointmentById } from '@/hooks/patient/useAppoitment';
 import { useParams } from 'next/navigation';
 import Spinner from '@/lib/utils/spinner';
+import Status from '@/atoms/Buttons/Status';
 
 interface AppointmentDetailsProp {
   data: TShowAppointment;

@@ -18,7 +18,7 @@ export const PATIENT = {
   BILLING: '/payments',
 
   APPOINTMENTS: {
-    UPCOMING: '/patients/appointments/upcoming',
+    UPCOMING: '/patients/appointments/upcoming?sortOrder=DESC',
     PENDING: '/patients/appointments/pending?sortOrder=DESC',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',

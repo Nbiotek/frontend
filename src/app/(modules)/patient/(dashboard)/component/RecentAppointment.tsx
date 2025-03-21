@@ -80,7 +80,7 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
         <Text weight="semibold" variant="title">
           Upcoming Appointment
         </Text>
-        <Link href="/patient/appointments" className="text-sm text-[#EC7665] underline">
+        <Link href="/patient/appointment/upcoming" className="text-sm text-[#EC7665] underline">
           View All
         </Link>
       </div>

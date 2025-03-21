@@ -7,7 +7,7 @@ export const useBookAppointment = () => {
   return useMutation({
     mutationFn: AppointmentService.createAppointment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['create-appointments'] });
     }
   });
 };
@@ -51,7 +51,7 @@ export const useRescheduleAppointment = () => {
       AppointmentService.rescheduleAppointment(appointmentId, newDate),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful reschedule
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['reschedule-appointments'] });
     }
   });
 };
