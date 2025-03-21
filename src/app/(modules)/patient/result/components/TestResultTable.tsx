@@ -43,7 +43,7 @@ const TestResultTable = ({ data }: TestResultResponse) => {
             <TableHead>Date Conducted</TableHead>
             <TableHead>Result Summary</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className="w-20"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -57,21 +57,27 @@ const TestResultTable = ({ data }: TestResultResponse) => {
               </TableCell>
               <TableCell>{test.status}</TableCell>
               <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical className="cursor-pointer" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem onClick={() => handleView(test.id)}>View</DropdownMenuItem>
-                      {test.testSuitId && (
-                        <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
-                          View Test Suit
+                {test.resultStatus !== 'IN_PROGRESS' ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <EllipsisVertical className="cursor-pointer" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem onClick={() => handleView(test.id)}>
+                          View
                         </DropdownMenuItem>
-                      )}
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        {test.testSuitId && (
+                          <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
+                            View Test Suit
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Status variant="NOT_AVAILABLE" />
+                )}
               </TableCell>
             </TableRow>
           ))}
