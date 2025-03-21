@@ -1,14 +1,12 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 
-export class LabTechStore {
+export class LabCoordStore {
   rootStore: RootStore;
 
   testQuery: Partial<TTestQuery> = {};
   qcPendingQuery: Partial<TTestQuery> = {};
   qcHistoryQuery: Partial<TTestQuery> = {};
-  resultQuery: Partial<TTestQuery> = {};
-  archivedResQuery: Partial<TTestQuery> = {};
 
   constructor(_rootStore: RootStore) {
     this.rootStore = _rootStore;
@@ -17,12 +15,8 @@ export class LabTechStore {
       testQuery: observable,
       qcPendingQuery: observable,
       qcHistoryQuery: observable,
-      resultQuery: observable,
-      archivedResQuery: observable,
 
       applyTestQuery: action.bound,
-      applyResultQuery: action.bound,
-      applyArchivedResQuery: action.bound,
       applyQcHistoryQuery: action.bound,
       applyQcPendingQuery: action.bound
     });
@@ -30,14 +24,6 @@ export class LabTechStore {
 
   applyTestQuery(_query: Partial<TTestQuery>) {
     this.testQuery = { ...this.testQuery, ..._query };
-  }
-
-  applyResultQuery(_query: Partial<TTestQuery>) {
-    this.resultQuery = { ...this.resultQuery, ..._query };
-  }
-
-  applyArchivedResQuery(_query: Partial<TTestQuery>) {
-    this.archivedResQuery = { ...this.archivedResQuery, ..._query };
   }
 
   applyQcHistoryQuery(_query: Partial<TTestQuery>) {

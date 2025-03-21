@@ -87,63 +87,16 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                       </DropdownMenuTrigger>
 
                       <DropdownMenuContent className="">
-                        <DropdownMenuGroup>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              router.push(
-                                `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', test.id)}`
-                              )
-                            }
-                          >
-                            <Eye />
-                            <p>View Test</p>
-                          </DropdownMenuItem>
-
-                          {test.status === EnumTestStatus.PENDING && (
-                            <DropdownMenuItem
-                              disabled={isPending}
-                              onClick={() =>
-                                mutateTestStatus({
-                                  id: test.id,
-                                  payload: { status: EnumTestStatus.IN_PROGRESS }
-                                })
-                              }
-                            >
-                              <Play />
-                              <p>Start test</p>
-                            </DropdownMenuItem>
-                          )}
-
-                          {test.status === EnumTestStatus.IN_PROGRESS && (
-                            <DropdownMenuItem
-                              disabled={isPending}
-                              onClick={() =>
-                                mutateTestStatus({
-                                  id: test.id,
-                                  payload: { status: EnumTestStatus.PENDING }
-                                })
-                              }
-                            >
-                              <Pause />
-                              <p>Pause test</p>
-                            </DropdownMenuItem>
-                          )}
-
-                          {test.status === EnumTestStatus.IN_PROGRESS && (
-                            <DropdownMenuItem
-                              onClick={() => {
-                                toggleModals({
-                                  open: true,
-                                  name: AppModals.RESULT_UPLOAD_MODAL,
-                                  testId: test.id
-                                });
-                              }}
-                            >
-                              <Upload />
-                              <p>Upload result</p>
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              `${ROUTES.LAB_COORD_TEST_DETAILS.path.replaceAll(':id', test.id)}`
+                            )
+                          }
+                        >
+                          <Eye />
+                          <p>View Test</p>
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

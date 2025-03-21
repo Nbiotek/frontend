@@ -5,7 +5,7 @@ export const specialCharcterRegex = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
 export const ISSERVER = typeof window === 'undefined';
 
-export const getAllParams = (params: Partial<TLabTechTestQuery>) => {
+export const getAllParams = (params: Partial<TTestQuery>) => {
   const { search, status, fromDate, toDate, sortBy, sortOrder, page, priority } = params;
 
   if (search) {

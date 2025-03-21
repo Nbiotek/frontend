@@ -30,7 +30,7 @@ export const getRecentResult = async ({
   sortOrder,
   page,
   limit = 10
-}: Partial<TLabTechTestQuery>) => {
+}: Partial<TTestQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
   return server.get<INBTServerResp<TRecentTestResults>>(LAB_TECH.RECENT_RESULTS, { params });
@@ -45,7 +45,7 @@ export const getArchivedResult = async ({
   sortOrder,
   page,
   limit = 10
-}: Partial<TLabTechTestQuery>) => {
+}: Partial<TTestQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
   return server.get<INBTServerResp<TRecentTestResults>>(LAB_TECH.ARCHIVED_RESULTS, { params });
@@ -61,7 +61,7 @@ export const getPendingQC = async ({
   sortOrder,
   page,
   limit = 10
-}: Partial<TLabTechTestQuery>) => {
+}: Partial<TTestQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
   return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.PENDING_QC, { params });
@@ -76,7 +76,7 @@ export const getHistoryQC = async ({
   sortOrder,
   page,
   limit = 10
-}: Partial<TLabTechTestQuery>) => {
+}: Partial<TTestQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
   return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.HISTORY_QC, { params });

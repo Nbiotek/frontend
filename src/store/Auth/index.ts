@@ -206,18 +206,29 @@ export class AuthStore {
   *getTokenFromCookie() {
     try {
       const res = (yield getSession()) as SessionPayload;
-      this.accessToken = persist('token', res.token);
-      this.user = persist('user', {
-        ...this.user,
-        email: res.email,
-        role: res.role,
-        id: res.id,
-        uuid: res.uuid
-      });
-      this.isAuthenticated(res.token);
-      return res.token;
+      try {
+        this.accessToken = persist('token', res.token);
+        try {
+          this.user = persist('user', {
+            ...this.user,
+            role: res.role,
+            id: res.id,
+            uuid: res.uuid
+          });
+          try {
+            this.isAuthenticated(res.token);
+            return res.token;
+          } catch (e) {
+            logger.error('Error in isAuthenticated', e);
+          }
+        } catch (e) {
+          logger.error('Error persisting user', e);
+        }
+      } catch (e) {
+        logger.error('Error persisting token', e);
+      }
     } catch (error) {
-      logger.error('Error getting token from cookie', error);
+      logger.error('Error getting session', error);
     }
   }
 
@@ -280,7 +291,7 @@ export class AuthStore {
         id: this.user.id ?? 0,
         email: this.user.email ?? '',
         role: this.user.role ?? '',
-        uuid: decodedToken.uuid.toString()
+        uuid: this.user.uuid ?? ''
       });
 
       del('_um');

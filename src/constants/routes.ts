@@ -37,77 +37,100 @@ class Routes {
   PATIENT_REG_INFO = new Route('/auth/patient', 'NbioTek | Patient Info', 'Patient Info Reg.');
 
   // patient
-  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');
-  PATIENT_INFO = new Route('/patient/info', 'Info', 'Patient Info Page');
+  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page', [EnumRole.PATIENT]);
+  PATIENT_INFO = new Route('/patient/info', 'Info', 'Patient Info Page', [EnumRole.PATIENT]);
   PATIENT_UPCOMING_APPOINTMENTS = new Route(
     '/patient/appointment/upcoming',
     'Upcoming',
-    'Patient appointment upcoming page'
+    'Patient appointment upcoming page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BOOK_APPOINTMENTS = new Route(
     '/patient/appointment/booking',
     'Book',
-    'Patient appointment booking page'
+    'Patient appointment booking page',
+    [EnumRole.PATIENT]
   );
   PATIENT_PENDING_APPOINTMENTS = new Route(
     '/patient/appointment/pending',
     'Pending',
-    'Patient appointment booking page'
+    'Patient appointment booking page',
+    [EnumRole.PATIENT]
   );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
     'Past',
-    'Patient appointment past page'
+    'Patient appointment past page',
+    [EnumRole.PATIENT]
   );
   PATIENT_TEST = new Route(
     '/patient/test',
     'Nbiotek | Test request',
-    'Patient appointment past page'
+    'Patient appointment past page',
+    [EnumRole.PATIENT]
   );
   PATIENT_TEST_RESULT = new Route(
     '/patient/result',
     'Nbiotek | Test result',
-    'Patient Test Result'
+    'Patient Test Result',
+    [EnumRole.PATIENT]
   );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
     'Available',
-    'Patient test available'
+    'Patient test available',
+    [EnumRole.PATIENT]
   );
   PATIENT_PENDING_TEST = new Route(
     '/patient/test/pending',
     'Pending',
-    'Patient test available page'
+    'Patient test available page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BILLING = new Route(
     '/patient/billing',
     'Billing & Payments',
-    'Patient Billing nad payment page'
+    'Patient Billing nad payment page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BILLING_TRANSACTION_HISTORY = new Route(
     '/patient/billing/history',
     'Transaction History',
-    ' Transaction History Page'
+    ' Transaction History Page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BILLING_PENDING_PAYMENTS = new Route(
     '/patient/billing/pending-payments',
     'Pending Payment',
-    ' Pending Payment Page'
+    ' Pending Payment Page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BILLING_INSURANCE = new Route(
     '/patient/billing/insurance',
     'insurance',
-    'Insurance Page'
+    'Insurance Page',
+    [EnumRole.PATIENT]
   );
-  PATIENT_SUPPORT = new Route('/patient/support', 'Support & Help', 'Help  Desk Page');
-  PATIENT_SUPPORT_CONTACT = new Route('/patient/support/contact', 'Contact Us', 'Contact Us');
-  PATIENT_SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions');
-  PATIENT_SETTINGs = new Route('/patient/settings', 'Settings', 'Settings Page');
-  PATIENT_SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page');
+  PATIENT_SUPPORT = new Route('/patient/support', 'Support & Help', 'Help  Desk Page', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SUPPORT_CONTACT = new Route('/patient/support/contact', 'Contact Us', 'Contact Us', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SETTINGs = new Route('/patient/settings', 'Settings', 'Settings Page', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page', [
+    EnumRole.PATIENT
+  ]);
   PATIENT_SETTING_NOTIFICATION = new Route(
     '/patient/settings/NOTIFICATION',
     'Notification',
-    'Notification Page'
+    'Notification Page',
+    [EnumRole.PATIENT]
   );
 
   // Lab Tech
@@ -177,6 +200,12 @@ class Routes {
     'Lab Coordinator Test Scheduling',
     [EnumRole.LAB_CORDINATOR]
   );
+  LAB_COORD_TEST_DETAILS = new Route(
+    '/lab-coord/tests/:id',
+    'Test Details',
+    'Lab Coordinator Single Test',
+    [EnumRole.LAB_CORDINATOR]
+  );
   LAB_COORD_INVENTORY_MANAGEMENT = new Route(
     '/lab-coord/inventory',
     'Inventory Management',
@@ -222,12 +251,36 @@ class Routes {
     }
   }
 
+  isPublicPath(path: string): boolean {
+    const publicPaths = [
+      this.HOME.path,
+      this.ABOUT.path,
+      this.FAQS.path,
+      this.PRIVACY_POLICY.path,
+      this.REGISTER.path,
+      this.LOGIN.path,
+      this.OTP.path,
+      this.FORGOT_PWD.path,
+      this.PWD_RESET.path,
+      this.UNAUTHORIZED.path
+    ];
+
+    return publicPaths.includes(path) || path.startsWith('/auth');
+  }
+
   getAllProtectedRoutes() {
     const routes = new Map<string, Array<EnumRole>>();
 
-    routes.set(this.PATIENT.path, [EnumRole.PATIENT]);
-    routes.set(this.LAB_TECH.path, [EnumRole.LAB_TECHNICIAN]);
-    routes.set(this.LAB_COORD.path, [EnumRole.LAB_CORDINATOR]);
+    const properties = Object.getOwnPropertyNames(this);
+
+    for (const prop of properties) {
+      const value = this[prop as keyof Routes];
+      if (value instanceof Route && value.roles.length > 0) {
+        if (!this.isPublicPath(value.path)) {
+          routes.set(value.path, value.roles);
+        }
+      }
+    }
 
     return routes;
   }

@@ -81,7 +81,7 @@ type TSingleTestDetail = {
 };
 
 // ============ Results ========================
-type TLabTechTestQuery = {
+type TTestQuery = {
   search: string;
   status: string;
   fromDate: string;

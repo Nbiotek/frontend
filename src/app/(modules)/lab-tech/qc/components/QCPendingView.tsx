@@ -12,13 +12,13 @@ import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 
 const QCPendingView = () => {
-  const params: Partial<TLabTechTestQuery> = {};
+  const params: Partial<TTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
   });
   const {
-    LabtechStore: { qcPendingQuery, applyQcPendingQuery }
+    LabTechStore: { qcPendingQuery, applyQcPendingQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: [LAB_TECH.PENDING_QC, params],
