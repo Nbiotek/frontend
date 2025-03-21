@@ -120,7 +120,7 @@ class Routes {
   PATIENT_SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions', [
     EnumRole.PATIENT
   ]);
-  PATIENT_SETTINGs = new Route('/patient/settings', 'Settings', 'Settings Page', [
+  PATIENT_SETTINGS = new Route('/patient/settings', 'Settings', 'Settings Page', [
     EnumRole.PATIENT
   ]);
   PATIENT_SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page', [

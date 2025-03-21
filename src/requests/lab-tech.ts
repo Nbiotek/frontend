@@ -81,3 +81,7 @@ export const getHistoryQC = async ({
 
   return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.HISTORY_QC, { params });
 };
+
+// put request
+export const putAvailablity = (payload: { status: string }) =>
+  server.put<INBTServerResp<TAvailabiltyData>>(LAB_TECH.UPADTE_AVAILABILITY, payload);

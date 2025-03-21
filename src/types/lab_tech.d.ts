@@ -100,3 +100,9 @@ type TRecentTestResults = {
 
 // ============ Quality Control ==================
 type TQCTestResp = INBTPaginatedData<TTestData>;
+
+type TAvailabiltyData = {
+  id: string;
+  status: string;
+  lastUpdate: string;
+};
