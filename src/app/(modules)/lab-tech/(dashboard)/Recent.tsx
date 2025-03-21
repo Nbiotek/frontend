@@ -15,8 +15,8 @@ const Recent = () => {
     pagination
   });
 
-  function select(res: TTestQuesRes) {
-    return res;
+  function select(res: INBTServerResp<Array<TTestData>>) {
+    return res.data;
   }
 
   const meta = labTech.getRecentActivities();
@@ -30,9 +30,11 @@ const Recent = () => {
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
-      setActivity(data);
+      setActivity((prev) => ({ ...prev, requests: data }));
     }
   }, [data, isLoading]);
+
+  console.log(activity, data);
 
   return (
     <div className="flex w-full flex-col space-y-4">

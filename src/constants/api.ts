@@ -57,5 +57,9 @@ export const LAB_TECH = {
 } as const;
 
 export const LAB_COORD = {
-  STAFF_SHIFTS: '/lab-coordinator/staff-shifts'
-};
+  ALL_TESTS: '/lab-coordinator/test-requests',
+  GET_TEST: '/lab-coordinator/test-requests/:id',
+  DASHBOARD: '/lab-coordinator/dashboard',
+  STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
+  AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians'
+} as const;

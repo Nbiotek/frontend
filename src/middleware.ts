@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import Routes, { roleAccessRules } from './constants/routes';
 import * as jwt from 'jsonwebtoken';
 import ROUTES from './constants/routes';
+import { env } from './env';
 
 const PUBLIC_PATHS = [
   Routes.HOME.path,
@@ -40,7 +41,7 @@ export default async function middleware(request: NextRequest) {
     const token = (await cookies()).get(Mangle.SESSION_TOKEN)?.value;
 
     if (token && AUTH_REDIRECT_PATHS.some((path) => pathname.startsWith(path))) {
-      const payload = jwt.decode(token) as SessionPayload;
+      const payload = jwt.verify(token, env.SESSION_SECRET) as SessionPayload;
       if (payload?.token && !isTokenExpired(payload.exp)) {
         logger.debug('Redirecting authenticated user from auth page to dashboard', { pathname });
         return NextResponse.redirect(
@@ -58,7 +59,7 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const payload = jwt.decode(token) as SessionPayload;
+    const payload = jwt.verify(token, env.SESSION_SECRET) as SessionPayload;
     console.log(payload, token);
     if (!payload?.token) {
       logger.debug('Invalid token payload', { pathname });

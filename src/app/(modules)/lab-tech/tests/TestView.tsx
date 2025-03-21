@@ -16,7 +16,7 @@ const TestView = () => {
     pagination
   });
   const {
-    LabtechStore: { testQuery, applyTestQuery }
+    LabTechStore: { testQuery, applyTestQuery }
   } = useStore();
   const { data, isLoading } = useFetchTests(testQuery);
 

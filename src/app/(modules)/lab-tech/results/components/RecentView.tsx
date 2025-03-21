@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
 import ResultTable from './ResultsTable';
-import { ArrowUpDown, ListFilter } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
-import { pagination, testResults } from '@/constants/data';
+import { pagination } from '@/constants/data';
 import { useQuery } from '@tanstack/react-query';
 import { LAB_TECH } from '@/constants/api';
 import { getRecentResult } from '@/requests/lab-tech';
@@ -12,13 +12,13 @@ import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 
 const ResultsView = () => {
-  const params: Partial<TLabTechTestQuery> = {};
+  const params: Partial<TTestQuery> = {};
   const [recentResult, setRecentResult] = useState<TRecentTestResults>({
     results: [],
     pagination
   });
   const {
-    LabtechStore: { resultQuery, applyResultQuery }
+    LabTechStore: { resultQuery, applyResultQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: [LAB_TECH.RECENT_RESULTS, params],

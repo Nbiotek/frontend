@@ -15,12 +15,12 @@ import { observer } from 'mobx-react-lite';
 
 interface ISearchFilterProps {
   type: 'test' | 'result';
-  query: Partial<TLabTechTestQuery>;
-  applyQuery: (_query: Partial<TLabTechTestQuery>) => void;
+  query: Partial<TTestQuery>;
+  applyQuery: (_query: Partial<TTestQuery>) => void;
 }
 
 const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
-  const [filter, setFilter] = useState<Partial<TLabTechTestQuery>>(query);
+  const [filter, setFilter] = useState<Partial<TTestQuery>>(query);
   const [reset, setReset] = useState('t');
 
   const handleReset = () => {

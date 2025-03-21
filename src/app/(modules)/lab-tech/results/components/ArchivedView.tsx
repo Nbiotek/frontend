@@ -12,13 +12,13 @@ import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 
 const ArchivedView = () => {
-  const params: Partial<TLabTechTestQuery> = {};
+  const params: Partial<TTestQuery> = {};
   const [recentResult, setRecentResult] = useState<TRecentTestResults>({
     results: [],
     pagination
   });
   const {
-    LabtechStore: { archivedResQuery, applyArchivedResQuery }
+    LabTechStore: { archivedResQuery, applyArchivedResQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: [LAB_TECH.ARCHIVED_RESULTS, params],
