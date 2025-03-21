@@ -14,10 +14,11 @@ export const PATIENT = {
   PERSONAL_REG: '/patients/register',
   DASHBOARD: '/patients/dashboard',
   PROFILE: '/patients/profile',
+  RECENT_RESULT: '/patients/dashboard/recent-activiy',
   BILLING: '/payments',
 
   APPOINTMENTS: {
-    UPCOMING: '/patients/appointments/upcoming',
+    UPCOMING: '/patients/appointments/upcoming?sortOrder=DESC',
     PENDING: '/patients/appointments/pending?sortOrder=DESC',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',
@@ -25,7 +26,7 @@ export const PATIENT = {
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
     RESCHEDULE: (id: string) => `patients/appointments/${id}/reschedule`,
     PENDING_PAYMENT: (id: string) => `patients/appointments/${id}/payment/generate`,
-    PAYMENT_STATUS: 'patients/appointments/payment'
+    PAYMENT_STATUS: '/patients/appointments/payment/status'
   } as const,
 
   TESTS: {

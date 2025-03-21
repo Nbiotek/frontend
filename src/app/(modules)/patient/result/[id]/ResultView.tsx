@@ -1,27 +1,24 @@
-// TestSuiteView.tsx
 'use client';
-
-import TestResult from '../../components/Results';
-import { useTestSuiteDetails } from '@/hooks/patient/useTestResult';
-import { useParams } from 'next/navigation';
+import TestResult from '../components/Results';
+import { useTestResultDetails } from '@/hooks/patient/useTestResult';
+import { useParams, useRouter } from 'next/navigation';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Text } from '@/lib/utils/Text';
 import { dateTimeUTC } from '@/utils/date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
-import TestSuiteDetails from './components/TestSuiteDetails';
 import Button from '@/atoms/Buttons';
 
-const TestSuiteView = () => {
+const ResultView = () => {
   const param = useParams();
   const resultId = param.id as string;
-  const { data, isLoading, error } = useTestSuiteDetails(resultId as string);
+  const { data, isLoading, error } = useTestResultDetails(resultId as string);
 
-  const handleResultSuiteView = (link: string) => {
+  const router = useRouter();
+
+  const handleResultView = (link: string) => {
     window.open(link, '_blank');
   };
-
-  console.log(data);
 
   // Error state
   if (error) {
@@ -105,7 +102,7 @@ const TestSuiteView = () => {
   }
 
   // Empty state
-  if (!data?.data) {
+  if (!data || !data.data.results || data.data.results.length === 0) {
     return (
       <div className="flex h-[70vh] w-full flex-col items-center justify-center rounded-lg bg-white p-6">
         <div className="bg-gray-100 mb-6 flex h-20 w-20 items-center justify-center rounded-full">
@@ -119,8 +116,6 @@ const TestSuiteView = () => {
       </div>
     );
   }
-
-  // Data loaded successfully
   return (
     <div className="flex w-full flex-col space-y-[24px] pb-[30px]">
       <button
@@ -135,23 +130,25 @@ const TestSuiteView = () => {
           Personal Information
         </Text>
         <div className="flex flex-col space-y-[24px]">
-          <FieldSet legend="Test Ordered" text={data?.data.title} />
           <div className="flex gap-[24px]">
-            <FieldSet legend="Patient Name" text={data?.data.patientName} />
-            <FieldSet
-              legend="Appointment Date"
-              text={dateTimeUTC(data?.data.appointmentDate, false)}
-            />
+            <FieldSet legend="Name" text={data?.data.patient.name} />
+            <FieldSet legend="Test Ordered" text={data?.data.testName} />
+            <FieldSet legend="Test Date" text={dateTimeUTC(data?.data.conductedAt, false)} />
           </div>
-          {/* <FieldSet legend="Technician Name" text={data?.data.technician.name} /> */}
+          <FieldSet legend="Technician Name" text={data?.data.technician.name} />
         </div>
       </div>
-      <TestSuiteDetails tests={data?.data.tests} />
-      <Button variant="danger" onClick={() => handleResultSuiteView(data.data.resultLink)}>
-        Download All Results
+      <TestResult data={data?.data?.results} />
+      <Button
+        variant="filled"
+        className="mx-auto w-60"
+        onClick={() => handleResultView(data.data.resultLink)}
+      >
+        {' '}
+        Download Result
       </Button>
     </div>
   );
 };
 
-export default TestSuiteView;
+export default ResultView;

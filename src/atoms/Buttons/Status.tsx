@@ -24,6 +24,17 @@ export enum EnumResultStatus {
   UNDER_REVIEW = 'UNDER_REVIEW'
 }
 
+export enum EnumTPatientResult {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED'
+}
+
+export enum EnumTPatientPayment {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED'
+}
+
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
@@ -54,6 +65,19 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-amber';
       default:
         break;
+
+      // Patient Test Result
+      case EnumTPatientResult.PENDING:
+        return 'status-violet';
+      case EnumTPatientResult.COMPLETED:
+        return 'status-green';
+
+      case EnumTPatientPayment.PENDING:
+        return 'status-violet';
+      case EnumTPatientPayment.COMPLETED:
+        return 'status-green';
+      case EnumTPatientPayment.FAILED:
+        return 'status-red';
     }
   }, [variant]);
 

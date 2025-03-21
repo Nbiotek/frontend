@@ -97,16 +97,7 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: 'Settings',
       icon: Settings,
-      submenu: [
-        {
-          title: 'Settings',
-          url: ROUTES.PATIENT_SETTINGS_SETTINGS.path
-        },
-        {
-          title: 'Notifications',
-          url: ROUTES.PATIENT_SETTING_NOTIFICATION.path
-        }
-      ]
+      url: ROUTES.PATIENT_SETTINGS.path
     }
   ],
 

@@ -52,7 +52,8 @@ export const AppointmentService = {
     return data;
   },
 
-  updatePaymentStatus: async (appointmentId: string) => {
+  updatePaymentStatus: async (appointmentId: TUpdatePaymentStatus) => {
+    console.log(appointmentId);
     const { data } = await server.post(PATIENT.APPOINTMENTS.PAYMENT_STATUS, appointmentId);
     return data;
   }

@@ -24,7 +24,10 @@ const QuickAction = ({ quickLink }: QuickActionComponentProps) => {
               </Text>
             </div>
           </div>
-          <Link href={item.href}>
+          <Link
+            href={item.href}
+            className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 ease-in-out hover:bg-blue-200 hover:text-white"
+          >
             <ChevronRight width={30} />
           </Link>
         </div>

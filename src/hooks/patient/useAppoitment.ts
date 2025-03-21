@@ -7,7 +7,7 @@ export const useBookAppointment = () => {
   return useMutation({
     mutationFn: AppointmentService.createAppointment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['create-appointments'] });
     }
   });
 };
@@ -51,7 +51,7 @@ export const useRescheduleAppointment = () => {
       AppointmentService.rescheduleAppointment(appointmentId, newDate),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful reschedule
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['reschedule-appointments'] });
     }
   });
 };
@@ -64,7 +64,7 @@ export const useProcessPayment = () => {
       AppointmentService.processPayment(appointmentId),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['payment-process'] });
     }
   });
 };
@@ -73,11 +73,11 @@ export const useUpdatePaymentStatus = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ appointmentId }: { appointmentId: string }) =>
+    mutationFn: (appointmentId: TUpdatePaymentStatus) =>
       AppointmentService.updatePaymentStatus(appointmentId),
     onSuccess: () => {
       // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['payment-status'] });
+      queryClient.invalidateQueries({ queryKey: ['update-paymentstatus'] });
     }
   });
 };

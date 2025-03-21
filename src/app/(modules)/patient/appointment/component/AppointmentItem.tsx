@@ -85,7 +85,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
     if (dateNow.toISOString() === date) {
       return 'Today';
     } else {
-      return dateTimeUTC(date);
+      return dateTimeUTC(date, false);
     }
   };
 
@@ -108,7 +108,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
                   <p>{appointment.description}</p>
 
                   <div className=" w-[250px]">
-                    {appointment.status === 'PENDING' ? (
+                    {appointment.paymentStatus === 'PENDING' ? (
                       <Button
                         variant="outlined"
                         className="bg-green-400 text-white"
