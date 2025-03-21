@@ -4,12 +4,17 @@ import HyperLink from '@/atoms/Hyperlink';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
 import TestsTable from '../tests/TestsTable';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { pagination } from '@/constants/data';
 import { labTech } from '@/hooks/labTech/FetchKeyFactory';
 import { Switch } from '@/components/ui/switch';
+import { useFetchProfile } from '@/hooks/user/useFetchProfile';
+import { putAvailablity } from '@/requests/lab-tech';
+import { Toast } from '@/atoms/Toast';
+import { AUTH } from '@/constants/api';
 
 const Recent = () => {
+  const { data: userProfile } = useFetchProfile();
   const [activity, setActivity] = useState<TTestQuesRes>({
     requests: [],
     pagination
@@ -22,10 +27,31 @@ const Recent = () => {
   const meta = labTech.getRecentActivities();
   const memoizedSelect = useCallback(select, []);
 
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: meta.keys(),
     meta,
     select: memoizedSelect
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: putAvailablity,
+
+    onError: () => {
+      Toast.error('Unable to update availability now.');
+    },
+    onMutate: () => {},
+    onSuccess: (data) => {
+      const status = data.data.data.status;
+
+      if (status === 'Available') {
+        Toast.success('You are checked in!');
+      } else {
+        Toast.success('You are checked out!');
+      }
+
+      queryClient.invalidateQueries({ queryKey: [AUTH.GET_PROFILE] });
+    }
   });
 
   useEffect(() => {
@@ -43,7 +69,15 @@ const Recent = () => {
 
         <div className="flex items-center justify-start space-x-3">
           <div className="flex items-center justify-start space-x-1">
-            <Switch />
+            <Switch
+              checked={userProfile?.status === 'Available'}
+              disabled={isPending}
+              onClick={() =>
+                mutate({
+                  status: userProfile?.status === 'Available' ? 'Unavailable' : 'Available'
+                })
+              }
+            />
             <Paragraph className="!font-medium" text="Check in" />
           </div>
         </div>
