@@ -10,6 +10,7 @@ import {
 
 import { EllipsisVertical } from 'lucide-react';
 import Status, { EnumResultStatus } from '@/atoms/Buttons/Status';
+import Link from 'next/link';
 
 import {
   DropdownMenu,
@@ -37,18 +38,24 @@ const TransactionHistoryTable = ({ data }: BillingHistory) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.payments.map((test) => (
-            <TableRow key={test.invoiceNo}>
-              <TableCell>{test.invoiceNo}</TableCell>
-              <TableCell>{dateTimeUTC(test.paymentDate)}</TableCell>
-              <TableCell>{test.paymentMethod}</TableCell>
-              <TableCell>{test.amountPaid}</TableCell>
+          {data?.payments.map((payDetails) => (
+            <TableRow key={payDetails.invoiceNo}>
+              <TableCell>{payDetails.invoiceNo}</TableCell>
+              <TableCell>{dateTimeUTC(payDetails.paymentDate)}</TableCell>
+              <TableCell>{payDetails.paymentMethod}</TableCell>
+              <TableCell>{payDetails.amountPaid}</TableCell>
               <TableCell>
-                <Status variant={test.paymentStatus} />
+                <Status variant={payDetails.paymentStatus} />
               </TableCell>
               {/* download  */}
               <TableCell>
-                <DownloadCloudIcon className="cursor-pointer" />
+                <Link
+                  href={payDetails.paymentReceiptLink}
+                  target="_blank"
+                  className="cursor-pointer hover:text-blue-100"
+                >
+                  <DownloadCloudIcon />{' '}
+                </Link>
               </TableCell>
             </TableRow>
           ))}

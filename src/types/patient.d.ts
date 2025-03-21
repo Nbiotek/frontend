@@ -90,6 +90,7 @@ interface BookingForm {
     address: string;
   };
   availableDate: Date | undefined | string;
+  paymentMethod: 'via_card' | 'location';
 
   testRequests: Array<{
     testId: string;
@@ -103,6 +104,10 @@ interface Appointment {
   data: {
     paymentLink: string;
   };
+}
+
+interface TUpdatePaymentStatus {
+  appointmentId: string;
 }
 
 interface BookAppointmentDTO {
@@ -283,6 +288,7 @@ interface Payment {
   paymentDate: string;
   amountPaid: number;
   paymentStatus: string;
+  paymentReceiptLink: string;
 }
 
 interface BillingHistory {
