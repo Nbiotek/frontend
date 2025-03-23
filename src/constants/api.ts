@@ -62,5 +62,6 @@ export const LAB_COORD = {
   GET_TEST: '/lab-coordinator/test-requests/:id',
   DASHBOARD: '/lab-coordinator/dashboard',
   STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
-  AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians'
+  AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians',
+  ASSIGN_TECHNICIAN: '/lab-coordinator/test-requests-assign-technician'
 } as const;

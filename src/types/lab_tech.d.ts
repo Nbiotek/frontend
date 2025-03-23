@@ -75,7 +75,10 @@ type TSingleTestDetail = {
   deadlineAt: string;
   completedAt?: string;
   notes?: string;
-  technician?: string;
+  technician?: {
+    id: string;
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
 };

@@ -10,6 +10,8 @@ import { LAB_TECH } from '@/constants/api';
 import { getRecentResult } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
+import { EnumLabTechQueryType } from '@/store/LabTech';
 
 const ResultsView = () => {
   const params: Partial<TTestQuery> = {};
@@ -18,11 +20,11 @@ const ResultsView = () => {
     pagination
   });
   const {
-    LabTechStore: { resultQuery, applyResultQuery }
+    LabTechStore: { resultQuery, applyResultQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.RECENT_RESULTS, params],
-    queryFn: () => getRecentResult(params),
+    queryKey: [LAB_TECH.RECENT_RESULTS, resultQuery],
+    queryFn: () => getRecentResult(resultQuery),
     select: (data) => data.data.data
   });
 
@@ -35,7 +37,12 @@ const ResultsView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
-        <SearchFilter type="result" query={resultQuery} applyQuery={applyResultQuery} />
+        <SearchFilter
+          type="result"
+          query={resultQuery}
+          applyQuery={applyResultQuery}
+          resetQuery={() => resetQuery(EnumLabTechQueryType.RESULT)}
+        />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
@@ -44,4 +51,4 @@ const ResultsView = () => {
   );
 };
 
-export default ResultsView;
+export default observer(ResultsView);

@@ -10,21 +10,24 @@ import { LAB_TECH } from '@/constants/api';
 import { getArchivedResult } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
+import { EnumLabTechQueryType } from '@/store/LabTech';
 
 const ArchivedView = () => {
-  const params: Partial<TTestQuery> = {};
   const [recentResult, setRecentResult] = useState<TRecentTestResults>({
     results: [],
     pagination
   });
   const {
-    LabTechStore: { archivedResQuery, applyArchivedResQuery }
+    LabTechStore: { archivedResQuery, applyArchivedResQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.ARCHIVED_RESULTS, params],
-    queryFn: () => getArchivedResult(params),
+    queryKey: [LAB_TECH.ARCHIVED_RESULTS, archivedResQuery],
+    queryFn: () => getArchivedResult(archivedResQuery),
     select: (data) => data.data.data
   });
+
+  const handleResetQuery = () => resetQuery(EnumLabTechQueryType.ARCHIVED);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -34,13 +37,18 @@ const ArchivedView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
-        <SearchFilter type="result" query={archivedResQuery} applyQuery={applyArchivedResQuery} />
+        <SearchFilter
+          type="result"
+          query={archivedResQuery}
+          applyQuery={applyArchivedResQuery}
+          resetQuery={handleResetQuery}
+        />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
-      <ResultTable type="archived" isLoading={false} resultsData={recentResult} />
+      <ResultTable type="archived" isLoading={isLoading} resultsData={recentResult} />
     </div>
   );
 };
 
-export default ArchivedView;
+export default observer(ArchivedView);

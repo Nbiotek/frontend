@@ -45,6 +45,13 @@ export class AppConfigStore {
           };
         }
         break;
+      case AppModals.AVAILABLE_TECHNICIANS:
+        if (modal.open) {
+          this.testDetails = {
+            testId: modal.testId
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;

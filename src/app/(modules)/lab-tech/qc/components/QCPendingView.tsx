@@ -10,19 +10,20 @@ import { LAB_TECH } from '@/constants/api';
 import { getPendingQC } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
+import { EnumLabTechQueryType } from '@/store/LabTech';
+import { observer } from 'mobx-react-lite';
 
 const QCPendingView = () => {
-  const params: Partial<TTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
   });
   const {
-    LabTechStore: { qcPendingQuery, applyQcPendingQuery }
+    LabTechStore: { qcPendingQuery, applyQcPendingQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.PENDING_QC, params],
-    queryFn: () => getPendingQC(params),
+    queryKey: [LAB_TECH.PENDING_QC, qcPendingQuery],
+    queryFn: () => getPendingQC(qcPendingQuery),
     select: (data) => data.data.data
   });
 
@@ -32,18 +33,21 @@ const QCPendingView = () => {
     }
   }, [isLoading, data]);
 
-  console.log(result);
-
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
-        <SearchFilter type="result" query={qcPendingQuery} applyQuery={applyQcPendingQuery} />
+        <SearchFilter
+          type="result"
+          query={qcPendingQuery}
+          applyQuery={applyQcPendingQuery}
+          resetQuery={() => resetQuery(EnumLabTechQueryType.CONTROL_PENDING)}
+        />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
-      <QCTable isLoading={isLoading} resultsData={result} />
+      <QCTable type="pending" isLoading={isLoading} resultsData={result} />
     </div>
   );
 };
 
-export default QCPendingView;
+export default observer(QCPendingView);

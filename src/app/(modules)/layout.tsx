@@ -23,8 +23,6 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
       if (pathname.startsWith(route)) {
         const role = allProtectedRoutesObj.get(route);
 
-        console.log(role, pathname);
-
         if (role && data) {
           if (role.includes(userData.role as EnumRole)) {
             return router.replace(pathname);
