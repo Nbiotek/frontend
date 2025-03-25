@@ -33,7 +33,15 @@ export const labCoord = {
   getAvailableLabTechs() {
     return {
       path: LAB_COORD.AVAILABLE_TECHNICIAN,
-      keys: () => [LAB_COORD.AVAILABLE_TECHNICIAN] as const
+      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.AVAILABLE_TECHNICIAN] as const
+    };
+  },
+
+  getLabInventory(query: Partial<TinventoryQuery>) {
+    return {
+      path: LAB_COORD.INVENTORY,
+      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.INVENTORY, query] as const,
+      params: query
     };
   }
 };

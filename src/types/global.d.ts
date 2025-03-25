@@ -20,6 +20,8 @@ interface INBTServerResp<T> {
   statusCode: number;
 }
 
+type TGeneralPaginatedQuery = { page: number; limit: number };
+
 type TProfileInfo = {
   id: number;
   first_name?: string;

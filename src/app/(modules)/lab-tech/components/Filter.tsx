@@ -17,16 +17,16 @@ interface ISearchFilterProps {
   type: 'test' | 'result';
   query: Partial<TTestQuery>;
   applyQuery: (_query: Partial<TTestQuery>) => void;
+  resetQuery?: () => void;
 }
 
-const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
+const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProps) => {
   const [filter, setFilter] = useState<Partial<TTestQuery>>(query);
   const [reset, setReset] = useState('t');
 
   const handleReset = () => {
-    applyQuery({});
+    resetQuery && resetQuery();
     setFilter({});
-
     setReset(reset === 't' ? 'p' : 't');
   };
 
@@ -47,6 +47,7 @@ const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <RadioGroup
+                defaultValue={query.status}
                 onValueChange={(status) => {
                   setFilter((prev) => ({ ...prev, status }));
                 }}
@@ -149,6 +150,7 @@ const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <RadioGroup
+                defaultValue={query.sortBy}
                 onValueChange={(sortBy) => {
                   setFilter((prev) => ({ ...prev, sortBy }));
                 }}
