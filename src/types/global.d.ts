@@ -33,6 +33,7 @@ type TProfileInfo = {
   uuid: string;
   created_at: string;
   role: string;
+  status: string;
 };
 
 interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {
