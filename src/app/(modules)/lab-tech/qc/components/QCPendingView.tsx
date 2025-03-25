@@ -19,11 +19,11 @@ const QCPendingView = () => {
     pagination
   });
   const {
-    LabTechStore: { qcPendingQuery, applyQcPendingQuery, resetQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.PENDING_QC, qcPendingQuery],
-    queryFn: () => getPendingQC(qcPendingQuery),
+    queryKey: [LAB_TECH.PENDING_QC, queries.CONTROL_PENDING],
+    queryFn: () => getPendingQC(queries.CONTROL_PENDING),
     select: (data) => data.data.data
   });
 
@@ -38,8 +38,10 @@ const QCPendingView = () => {
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="result"
-          query={qcPendingQuery}
-          applyQuery={applyQcPendingQuery}
+          query={queries.CONTROL_PENDING}
+          applyQuery={(_query: Partial<TTestQuery>) =>
+            applyQuery(_query, EnumLabTechQueryType.CONTROL_PENDING)
+          }
           resetQuery={() => resetQuery(EnumLabTechQueryType.CONTROL_PENDING)}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />

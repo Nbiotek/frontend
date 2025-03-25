@@ -38,7 +38,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
   const router = useRouter();
   const {
     AppConfigStore: { toggleModals },
-    LabTechStore: { testQuery, setLimit, setPage }
+    LabTechStore: { queries, setLimit, setPage }
   } = useStore();
   const { mutateTestStatus, isPending } = useUpdateTestStatus();
 
@@ -163,9 +163,9 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
 
       {isLoading || (
         <Pagination
-          limit={pagination.limit ?? testQuery.limit}
+          limit={pagination.limit ?? queries.TEST.limit}
           setLimit={setLimit}
-          currentPage={pagination.page ?? testQuery.page}
+          currentPage={pagination.page ?? queries.TEST.page}
           setPage={setPage}
           total={pagination.total}
           totalPages={pagination.totalPages}

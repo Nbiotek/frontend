@@ -37,9 +37,9 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
   const pagination = resultsData.pagination;
   const router = useRouter();
   const {
-    LabTechStore: { resultQuery, archivedResQuery, setLimit, setPage }
+    LabTechStore: { queries, setLimit, setPage }
   } = useStore();
-  const query = type === 'archived' ? archivedResQuery : resultQuery;
+  const query = type === 'archived' ? queries.ARCHIVED : queries.RESULT;
 
   const handleSetLimit = (_limit: number) => setLimit(_limit, dataType);
   const handleSetPage = (_page: number) => setPage(_page, dataType);

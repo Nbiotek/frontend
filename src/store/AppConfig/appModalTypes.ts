@@ -1,7 +1,8 @@
 export enum AppModals {
   RESULT_UPLOAD_MODAL = 'RESULT_UPLOAD_MODAL',
   LOG_OUT_MODAL = 'LOG_OUT_MODAL',
-  AVAILABLE_TECHNICIANS = 'AVAILABLE_TECHNICIANS'
+  AVAILABLE_TECHNICIANS = 'AVAILABLE_TECHNICIANS',
+  ADD_INVENTORY = 'ADD_INVENTORY'
 }
 
 export type TAppModalsAction =
@@ -10,7 +11,7 @@ export type TAppModalsAction =
       name: '';
       open?: boolean;
     }
-  | ({ name: AppModals.LOG_OUT_MODAL } & {
+  | ({ name: AppModals.LOG_OUT_MODAL | AppModals.ADD_INVENTORY } & {
       open: boolean;
     })
   | ({ name: AppModals.RESULT_UPLOAD_MODAL | AppModals.AVAILABLE_TECHNICIANS } & (

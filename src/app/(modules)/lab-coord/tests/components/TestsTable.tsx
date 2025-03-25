@@ -40,7 +40,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
   const router = useRouter();
   const {
     AppConfigStore: { toggleModals },
-    LabCoordStore: { setTestLimit, setTestPage, testQuery }
+    LabCoordStore: { setLimit, setPage, queries }
   } = useStore();
 
   return (
@@ -130,10 +130,10 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
 
       {isLoading || (
         <Pagination
-          limit={testQuery.limit ?? pagination.limit}
-          setLimit={setTestLimit}
-          currentPage={testQuery.page ?? pagination.page}
-          setPage={setTestPage}
+          limit={queries.TEST.limit ?? pagination.limit}
+          setLimit={setLimit}
+          currentPage={queries.TEST.page ?? pagination.page}
+          setPage={setPage}
           total={pagination.total}
           totalPages={pagination.totalPages}
           siblingCount={1}

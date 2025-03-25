@@ -19,14 +19,16 @@ const ArchivedView = () => {
     pagination
   });
   const {
-    LabTechStore: { archivedResQuery, applyArchivedResQuery, resetQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.ARCHIVED_RESULTS, archivedResQuery],
-    queryFn: () => getArchivedResult(archivedResQuery),
+    queryKey: [LAB_TECH.ARCHIVED_RESULTS, queries.ARCHIVED],
+    queryFn: () => getArchivedResult(queries.ARCHIVED),
     select: (data) => data.data.data
   });
 
+  const handleApplyQuery = (_query: Partial<TTestQuery>) =>
+    applyQuery(_query, EnumLabTechQueryType.ARCHIVED);
   const handleResetQuery = () => resetQuery(EnumLabTechQueryType.ARCHIVED);
 
   useEffect(() => {
@@ -39,8 +41,8 @@ const ArchivedView = () => {
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="result"
-          query={archivedResQuery}
-          applyQuery={applyArchivedResQuery}
+          query={queries.ARCHIVED}
+          applyQuery={handleApplyQuery}
           resetQuery={handleResetQuery}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />

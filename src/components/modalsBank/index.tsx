@@ -12,6 +12,9 @@ const ModalsMap = {
   [AppModals.LOG_OUT_MODAL]: dynamic(() => import('@/components/dashboard/Sidebar/LogoutModal')),
   [AppModals.AVAILABLE_TECHNICIANS]: dynamic(
     () => import('@/app/(modules)/lab-coord/components/modals/LabTechModal')
+  ),
+  [AppModals.ADD_INVENTORY]: dynamic(
+    () => import('@/app/(modules)/lab-coord/inventory/components/AddInventoryModal')
   )
 };
 

@@ -20,11 +20,11 @@ const ResultsView = () => {
     pagination
   });
   const {
-    LabTechStore: { resultQuery, applyResultQuery, resetQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.RECENT_RESULTS, resultQuery],
-    queryFn: () => getRecentResult(resultQuery),
+    queryKey: [LAB_TECH.RECENT_RESULTS, queries.RESULT],
+    queryFn: () => getRecentResult(queries.RESULT),
     select: (data) => data.data.data
   });
 
@@ -39,8 +39,10 @@ const ResultsView = () => {
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="result"
-          query={resultQuery}
-          applyQuery={applyResultQuery}
+          query={queries.RESULT}
+          applyQuery={(_query: Partial<TTestQuery>) =>
+            applyQuery(_query, EnumLabTechQueryType.RESULT)
+          }
           resetQuery={() => resetQuery(EnumLabTechQueryType.RESULT)}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />

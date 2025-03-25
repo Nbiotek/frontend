@@ -17,9 +17,9 @@ const TestsView = () => {
   });
 
   const {
-    LabCoordStore: { testQuery, applyTestQuery, resetTestQuery }
+    LabCoordStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const { data, isLoading } = useFetchTestReqs(testQuery);
+  const { data, isLoading } = useFetchTestReqs(queries.TEST);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -27,16 +27,14 @@ const TestsView = () => {
     }
   }, [isLoading, data]);
 
-  console.log(testQuery);
-
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="test"
-          query={testQuery}
-          applyQuery={applyTestQuery}
-          resetQuery={resetTestQuery}
+          query={queries.TEST}
+          applyQuery={applyQuery}
+          resetQuery={resetQuery}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />

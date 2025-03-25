@@ -39,9 +39,9 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
 
   const router = useRouter();
   const {
-    LabTechStore: { qcHistoryQuery, qcPendingQuery, setLimit, setPage }
+    LabTechStore: { queries, setLimit, setPage }
   } = useStore();
-  const query = type === 'history' ? qcHistoryQuery : qcPendingQuery;
+  const query = type === 'history' ? queries.CONTROL_HISTORY : queries.CONTROL_PENDING;
 
   const handleSetLimit = (_limit: number) => setLimit(_limit, dataType);
   const handleSetPage = (_page: number) => setPage(_page, dataType);

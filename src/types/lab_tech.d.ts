@@ -92,9 +92,7 @@ type TTestQuery = {
   sortBy: string;
   sortOrder: string;
   priority: string;
-  page: number;
-  limit: number;
-};
+} & TGeneralPaginatedQuery;
 
 type TRecentTestResults = {
   results: Array<TTestData>;

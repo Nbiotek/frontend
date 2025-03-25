@@ -19,11 +19,11 @@ const QCHistoryView = () => {
     pagination
   });
   const {
-    LabTechStore: { qcHistoryQuery, applyQcHistoryQuery, resetQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.HISTORY_QC, qcHistoryQuery],
-    queryFn: () => getHistoryQC(qcHistoryQuery),
+    queryKey: [LAB_TECH.HISTORY_QC, queries.CONTROL_HISTORY],
+    queryFn: () => getHistoryQC(queries.CONTROL_HISTORY),
     select: (data) => data.data.data
   });
 
@@ -38,8 +38,10 @@ const QCHistoryView = () => {
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="result"
-          query={qcHistoryQuery}
-          applyQuery={applyQcHistoryQuery}
+          query={queries.CONTROL_HISTORY}
+          applyQuery={(_query: Partial<TTestQuery>) =>
+            applyQuery(_query, EnumLabTechQueryType.CONTROL_HISTORY)
+          }
           resetQuery={() => resetQuery(EnumLabTechQueryType.CONTROL_HISTORY)}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />

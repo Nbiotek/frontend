@@ -16,9 +16,9 @@ const TestView = () => {
     pagination
   });
   const {
-    LabTechStore: { testQuery, applyTestQuery, resetQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const { data, isLoading } = useFetchTests(testQuery);
+  const { data, isLoading } = useFetchTests(queries.TEST);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -30,8 +30,8 @@ const TestView = () => {
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
         <SearchFilter
           type="test"
-          query={testQuery}
-          applyQuery={applyTestQuery}
+          query={queries.TEST}
+          applyQuery={applyQuery}
           resetQuery={resetQuery}
         />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
