@@ -60,8 +60,6 @@ const Recent = () => {
     }
   }, [data, isLoading]);
 
-  console.log(activity, data);
-
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="flex w-full items-center justify-between border-b pb-2">

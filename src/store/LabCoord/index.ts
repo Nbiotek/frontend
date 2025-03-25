@@ -1,36 +1,55 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 
+export enum EnumLabCoordQueryType {
+  TEST = 'TEST',
+  INVENTORY = 'INVENTORY',
+  STAFF = 'STAFF',
+  CONTROL_HISTORY = 'CONTROL_HISTORY',
+  CONTROL_PENDING = 'CONTROL_PENDING'
+}
+
+const defaultQuery = { limit: 10, page: 1 };
+
 export class LabCoordStore {
   rootStore: RootStore;
-
-  testQuery: Partial<TTestQuery> = {};
-  qcPendingQuery: Partial<TTestQuery> = {};
-  qcHistoryQuery: Partial<TTestQuery> = {};
+  queries: Record<EnumLabCoordQueryType, Partial<TTestQuery>> = {
+    [EnumLabCoordQueryType.TEST]: { ...defaultQuery },
+    [EnumLabCoordQueryType.INVENTORY]: { ...defaultQuery },
+    [EnumLabCoordQueryType.STAFF]: { ...defaultQuery },
+    [EnumLabCoordQueryType.CONTROL_HISTORY]: { ...defaultQuery },
+    [EnumLabCoordQueryType.CONTROL_PENDING]: { ...defaultQuery }
+  };
+  inventoryQuery = {};
 
   constructor(_rootStore: RootStore) {
     this.rootStore = _rootStore;
-
     makeObservable(this, {
-      testQuery: observable,
-      qcPendingQuery: observable,
-      qcHistoryQuery: observable,
-
-      applyTestQuery: action.bound,
-      applyQcHistoryQuery: action.bound,
-      applyQcPendingQuery: action.bound
+      queries: observable,
+      applyQuery: action.bound,
+      resetQuery: action.bound,
+      setLimit: action.bound,
+      setPage: action.bound
     });
   }
 
-  applyTestQuery(_query: Partial<TTestQuery>) {
-    this.testQuery = { ...this.testQuery, ..._query };
+  applyQuery(
+    _query: Partial<TTestQuery>,
+    dataType: EnumLabCoordQueryType = EnumLabCoordQueryType.TEST
+  ) {
+    this.queries[dataType] = { ...this.queries[dataType], ..._query };
   }
 
-  applyQcHistoryQuery(_query: Partial<TTestQuery>) {
-    this.qcHistoryQuery = { ...this.qcHistoryQuery, ..._query };
+  resetQuery(dataType: EnumLabCoordQueryType = EnumLabCoordQueryType.TEST) {
+    const { limit, page } = this.queries[dataType];
+    this.queries[dataType] = { limit, page };
   }
 
-  applyQcPendingQuery(_query: Partial<TTestQuery>) {
-    this.qcPendingQuery = { ...this.qcPendingQuery, ..._query };
+  setPage(_page: number, dataType: EnumLabCoordQueryType = EnumLabCoordQueryType.TEST) {
+    this.queries[dataType].page = _page;
+  }
+
+  setLimit(_limit: number, dataType: EnumLabCoordQueryType = EnumLabCoordQueryType.TEST) {
+    this.queries[dataType].limit = _limit;
   }
 }

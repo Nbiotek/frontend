@@ -3,6 +3,7 @@ import { GoChevronDown } from 'react-icons/go';
 import { useState } from 'react';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
 
 const limitsObj: Array<Option<number, string>> = [
   { label: '10/page', value: 10 },
@@ -19,62 +20,54 @@ const limitsObj: Array<Option<number, string>> = [
 
 interface IPaginationProps {
   limit: number;
-  setLimit: React.Dispatch<React.SetStateAction<number>>;
-  setOffset: React.Dispatch<React.SetStateAction<number>>;
-  dataCount: number;
-  dataSize: number;
+  setLimit: (_limit: number) => void;
+  currentPage: number;
+  setPage: (_page: number) => void;
+  total: number;
+  totalPages: number;
   siblingCount: number;
 }
 
 function Pagination({
-  dataCount,
+  total,
   siblingCount,
-  setOffset,
+  setPage,
+  currentPage,
   limit,
   setLimit,
-  dataSize
+  totalPages
 }: IPaginationProps) {
-  const {
-    AppConfigStore: { queryLimit }
-  } = useStore();
-  const [currentPage, onPageChange] = useState<number>(1);
   const paginationRange = usePagination({
-    dataCount,
+    total,
     currentPage,
     siblingCount,
-    dataSize
+    limit,
+    totalPages
   });
 
-  if (currentPage === 0 || paginationRange.length < 2) {
-    return null;
-  }
-
   const onNext = () => {
-    onPageChange(currentPage + 1);
-    setOffset((prev) => prev + limit);
+    setPage(currentPage + 1);
   };
 
   const onPrevious = () => {
-    onPageChange(currentPage - 1);
-    setOffset((prev) => prev - limit);
+    setPage(currentPage - 1);
   };
 
   const lastPage = paginationRange[paginationRange.length - 1];
 
   const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLimit(parseInt(event.target.value));
-    onPageChange(1);
-    setOffset(0);
+    setPage(1);
   };
 
   return (
-    <div className="flex w-full items-center justify-center space-x-4">
+    <div className="flex w-full items-center justify-end space-x-4">
       <button
         disabled={currentPage === 1}
         onClick={onPrevious}
         className={`
           flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-lg border bg-white disabled:cursor-not-allowed
-          disabled:opacity-30 md:h-[30px] md:w-[30px] lg:h-[40px] lg:w-[40px]
+          disabled:opacity-50 md:h-[30px] md:w-[30px] lg:h-[40px] lg:w-[40px]
         `}
       >
         <RiArrowLeftSLine className={`text-2xl`} />
@@ -89,11 +82,10 @@ function Pagination({
             key={index}
             className={`
                 flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-lg md:h-[30px] md:w-[30px] lg:h-[40px] lg:w-[40px]
-                ${currentPage == page ? `bg-studio-500 border text-white` : `hover:bg-studio-200 bg-transparent`}
+                ${currentPage == page ? `border bg-blue-400 text-white` : `bg-transparent hover:bg-blue-400 hover:text-white`}
               `}
             onClick={() => {
-              onPageChange(page);
-              setOffset((page - 1) * limit);
+              setPage(page);
             }}
           >
             {page}
@@ -114,7 +106,7 @@ function Pagination({
       <div className="h-[20px] w-[100px] bg-white md:h-[30px] lg:h-[40px]">
         <div className="relative flex h-full w-full flex-col">
           <select
-            defaultValue={queryLimit}
+            defaultValue={limit}
             data-testid="select-input"
             className={`focus:border-studio-600 bg-neutralGrey-75 border-neutralGrey-500 h-full cursor-pointer appearance-none rounded-lg border bg-transparent px-3 text-sm font-medium text-neutral-500 placeholder:font-medium placeholder:text-neutral-500 focus:outline-none`}
             onChange={handleOnChange}
@@ -123,7 +115,7 @@ function Pagination({
               <option
                 key={option.value}
                 value={option.value}
-                className={`cursor-pointer text-secondary ${option.value > dataCount ? 'hidden' : 'block'}`}
+                className={`cursor-pointer text-secondary ${option.value > total ? 'hidden' : 'block'}`}
               >
                 {option.label}
               </option>
@@ -139,4 +131,4 @@ function Pagination({
   );
 }
 
-export default Pagination;
+export default observer(Pagination);

@@ -75,7 +75,10 @@ type TSingleTestDetail = {
   deadlineAt: string;
   completedAt?: string;
   notes?: string;
-  technician?: string;
+  technician?: {
+    id: string;
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
 };
@@ -89,9 +92,7 @@ type TTestQuery = {
   sortBy: string;
   sortOrder: string;
   priority: string;
-  page: number;
-  limit: number;
-};
+} & TGeneralPaginatedQuery;
 
 type TRecentTestResults = {
   results: Array<TTestData>;

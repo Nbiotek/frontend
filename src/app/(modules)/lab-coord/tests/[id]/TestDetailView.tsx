@@ -1,15 +1,12 @@
 'use client';
 import Button from '@/atoms/Buttons';
-import { EnumTestStatus } from '@/atoms/Buttons/Status';
 import { Paragraph } from '@/atoms/typographys';
 import { useFetchTestByID } from '@/hooks/labCoord/useFetchTestByID';
-import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
-import { ChevronLeft, Pause, Play, Upload } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TestDetailsInfo from './TestDetailsInfo';
-import AvailableTechnicians from '@/app/(modules)/components/AvailableTechnicians';
 
 interface ITestDetailModalProps {
   id: string;
@@ -22,7 +19,6 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
   } = useStore();
 
   const { data, status } = useFetchTestByID(id);
-  const { mutateTestStatus, isPending } = useUpdateTestStatus();
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -42,13 +38,22 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
             <Paragraph text="Back" />
           </button>
 
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-start lg:space-x-4">
-            <div className="w-full lg:w-[75%]">
-              <TestDetailsInfo data={data} />
-            </div>
-            <div className="h-fit w-full overflow-clip rounded-lg bg-white lg:w-[25%]">
-              <AvailableTechnicians />
-            </div>
+          <TestDetailsInfo data={data} />
+
+          <div className="w-full max-w-40">
+            {data?.technician && data.technician.id ? null : (
+              <Button
+                variant="filled"
+                text="Assign Test"
+                onClick={() => {
+                  toggleModals({
+                    name: AppModals.AVAILABLE_TECHNICIANS,
+                    open: true,
+                    testId: data?.id ?? ''
+                  });
+                }}
+              />
+            )}
           </div>
         </>
       )}

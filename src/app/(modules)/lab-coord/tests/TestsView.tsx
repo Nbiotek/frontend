@@ -8,6 +8,7 @@ import { pagination } from '@/constants/data';
 import { useFetchTestReqs } from '@/hooks/labCoord/useFetchTestReqs';
 import { useStore } from '@/store';
 import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
+import { observer } from 'mobx-react-lite';
 
 const TestsView = () => {
   const [results, setResults] = useState<TTestQuesRes>({
@@ -16,9 +17,9 @@ const TestsView = () => {
   });
 
   const {
-    LabCoordStore: { testQuery, applyTestQuery }
+    LabCoordStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const { data, isLoading } = useFetchTestReqs(testQuery);
+  const { data, isLoading } = useFetchTestReqs(queries.TEST);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -29,7 +30,12 @@ const TestsView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
-        <SearchFilter type="test" query={testQuery} applyQuery={applyTestQuery} />
+        <SearchFilter
+          type="test"
+          query={queries.TEST}
+          applyQuery={applyQuery}
+          resetQuery={resetQuery}
+        />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
@@ -38,4 +44,4 @@ const TestsView = () => {
   );
 };
 
-export default TestsView;
+export default observer(TestsView);

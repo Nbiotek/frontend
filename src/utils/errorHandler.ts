@@ -19,7 +19,8 @@ export function parseError<T>(error: unknown): string {
 
   if (isAxiosError(error)) {
     if (error.name === 'CanceledError') return 'Request canceled';
-    if (error.response?.status === 400) return error.response?.data.message || 'Bad request';
+    if (error.response?.status === 400)
+      return error.response.data.errors || error.response?.data.message || 'Bad request';
     return error.response?.data?.message || 'Something went wrong. Try again later.';
   }
   if (isZodError<T>(error)) {

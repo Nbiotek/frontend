@@ -62,3 +62,8 @@ export function snakeCaseToSentenceCase(input: string): string {
 
   return sentence;
 }
+
+export function getInitials(word: string) {
+  const charArr = word.split(' ').map((w) => w.charAt(0));
+  return charArr.join('');
+}
