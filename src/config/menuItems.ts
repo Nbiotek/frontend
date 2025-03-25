@@ -135,8 +135,17 @@ export const menuConfig: Record<string, MenuItem[]> = {
     },
     {
       title: ROUTES.DOCTOR_APPOINTMENT.title,
-      url: ROUTES.DOCTOR_APPOINTMENT.path,
-      icon: CalendarClock
+      icon: CalendarClock,
+      submenu: [
+        {
+          title: 'All ',
+          url: ROUTES.DOCTOR_APPOINTMENT.path
+        },
+        {
+          title: 'Create',
+          url: ROUTES.DOCTOR_CREATE_APPOINTMENT.path
+        }
+      ]
     },
     {
       title: ROUTES.DOCTOR_REFERRALS.title,

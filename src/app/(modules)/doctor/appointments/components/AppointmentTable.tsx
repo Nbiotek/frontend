@@ -19,20 +19,7 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import Status from '@/atoms/Buttons/Status';
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'pending':
-      return 'bg-[#FFA756]/30 text-yellow-800';
-    case 'completed':
-      return 'bg-green-100 text-green-800';
-    case 'under review':
-      return 'bg-[#6226EF]/30 text-blue-400';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-};
-
-const ReviewTestTable = () => {
+const AppointmentTable = () => {
   return (
     <div className="overflow-clip rounded-lg">
       <Table className="bg-white">
@@ -41,8 +28,7 @@ const ReviewTestTable = () => {
             <TableHead>Patient Name</TableHead>
             <TableHead>Test ID</TableHead>
             <TableHead>Test Name</TableHead>
-            <TableHead>Assinged Date</TableHead>
-            <TableHead>Deadlines</TableHead>
+            <TableHead>Date</TableHead>
             <TableHead>status</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
@@ -52,7 +38,6 @@ const ReviewTestTable = () => {
             <TableCell className="font-medium">david chappel</TableCell>
             <TableCell>##@$EEEE</TableCell>
             <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/05/33</TableCell>
             <TableCell>23/4/5</TableCell>
             <TableCell>
               {' '}
@@ -64,8 +49,8 @@ const ReviewTestTable = () => {
                   <EllipsisVertical className="mr-2" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>Reject </DropdownMenuItem>
-                  <DropdownMenuItem>Write Report</DropdownMenuItem>
+                  <DropdownMenuItem>View </DropdownMenuItem>
+                  <DropdownMenuItem></DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
@@ -74,7 +59,6 @@ const ReviewTestTable = () => {
             <TableCell className="font-medium">david chappel</TableCell>
             <TableCell>##@$EEEE</TableCell>
             <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/05/33</TableCell>
             <TableCell>23/4/5</TableCell>
             <TableCell>
               {' '}
@@ -98,4 +82,4 @@ const ReviewTestTable = () => {
   );
 };
 
-export default ReviewTestTable;
+export default AppointmentTable;

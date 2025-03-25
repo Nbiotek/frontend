@@ -168,9 +168,15 @@ class Routes {
 
   DOCTOR = new Route('/doctor', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
 
-  DOCTOR_APPOINTMENT = new Route('/doctor/appointment', 'Appointment', 'Doctor Dashboard page', [
+  DOCTOR_APPOINTMENT = new Route('/doctor/appointments', 'Appointments', 'Doctor Dashboard page', [
     EnumRole.DOCTOR
   ]);
+  DOCTOR_CREATE_APPOINTMENT = new Route(
+    '/doctor/appointments/create',
+    'Create Appointments',
+    'Doctor Dashboard page',
+    [EnumRole.DOCTOR]
+  );
 
   DOCTOR_TEST_REVIEW = new Route('/doctor/review-test', 'Test Review', 'Doctor Patient List', [
     EnumRole.DOCTOR
