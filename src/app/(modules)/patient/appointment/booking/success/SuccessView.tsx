@@ -54,7 +54,7 @@ const SuccessView = () => {
       </p>
 
       <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-        <Button variant="filled" onClick={() => router.push('/patient/appointments/upcoming')}>
+        <Button variant="filled" onClick={() => router.push('/patient/appointment/upcoming')}>
           View Appointments
         </Button>
 

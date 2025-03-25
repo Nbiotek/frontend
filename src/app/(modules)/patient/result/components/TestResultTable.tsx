@@ -38,11 +38,10 @@ const TestResultTable = ({ data }: TestResultResponse) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Test ID</TableHead>
+            <TableHead>Test ID</TableHead>
             <TableHead>Test Name</TableHead>
             <TableHead>Date Conducted</TableHead>
-            <TableHead>Result Summary</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>Result Status</TableHead>
             <TableHead className="w-20"></TableHead>
           </TableRow>
         </TableHeader>
@@ -55,7 +54,6 @@ const TestResultTable = ({ data }: TestResultResponse) => {
               <TableCell>
                 <Status variant={test.resultStatus} />
               </TableCell>
-              <TableCell>{test.status}</TableCell>
               <TableCell>
                 {test.resultStatus !== 'IN_PROGRESS' ? (
                   <DropdownMenu>
