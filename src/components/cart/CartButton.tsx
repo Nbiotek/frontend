@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
 import { CartItemType, cartStore } from '@/store/Cart';
 import { SingleTest, PackageTest } from '@/types/test';
+import { useRouter } from 'next/navigation';
 
 interface CartButtonProps {
   item: SingleTest | PackageTest;
@@ -36,6 +37,23 @@ export const CartButton = observer(({ item, type }: CartButtonProps) => {
   return (
     <Button variant="danger" onClick={removeItemfromCart}>
       Remove Item
+    </Button>
+  );
+});
+
+export const RequestTestButton = observer(({ item, type }: CartButtonProps) => {
+  const router = useRouter();
+
+  const handleRequestTest = () => {
+    cartStore.clearCart();
+    router.push('/patient/appointment/booking');
+
+    cartStore.addItem(item, type);
+  };
+
+  return (
+    <Button variant="filled" className="bg-green-400" onClick={handleRequestTest}>
+      Request Test
     </Button>
   );
 });

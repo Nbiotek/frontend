@@ -19,7 +19,7 @@ interface SingleTestDialogProps {
   // onAddToCart: (test: SingleTest) => void;
 }
 
-const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
+const AllTestsDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
   const router = useRouter();
 
   if (!test) return null;
@@ -60,4 +60,4 @@ const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
   );
 };
 
-export default SingleTestDialog;
+export default AllTestsDialog;

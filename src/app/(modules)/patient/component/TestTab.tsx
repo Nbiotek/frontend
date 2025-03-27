@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InputSearch from '@/atoms/fields/InputSearch';
 import SingleTestCard from '@/components/test/SingleTestCard';
-import SingleTestDialog from '@/components/test/TestDetailsDialog';
+import AllTestsDialog from '@/components/test/TestDetailsDialog';
 import { useState, useEffect } from 'react';
 
 import { PackageTest, SingleTest } from '@/types/test';
@@ -125,7 +125,7 @@ const TestTabs = () => {
       </Tabs>
 
       {/* Use the same dialog for both test types */}
-      <SingleTestDialog
+      <AllTestsDialog
         test={selectedTest}
         open={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
