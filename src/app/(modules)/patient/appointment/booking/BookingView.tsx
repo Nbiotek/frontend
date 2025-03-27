@@ -37,7 +37,9 @@ const BookAppointmentView = () => {
   };
 
   useEffect(() => {
-    setIsBookingForSelfModalOpen(true);
+    setTimeout(() => {
+      setIsBookingForSelfModalOpen(true);
+    }, 200);
   }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
