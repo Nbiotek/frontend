@@ -299,3 +299,19 @@ interface BillingHistory {
     payments: Payment[];
   };
 }
+
+// FAQ
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'general' | 'appointments' | 'results' | 'billing' | 'account';
+  isPopular?: boolean;
+}
+
+interface FAQCategory {
+  id: string;
+  name: string;
+  icon: string; // Path to icon or component name
+  description: string;
+}
