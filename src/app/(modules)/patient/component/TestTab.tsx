@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { PackageTest, SingleTest } from '@/types/test';
 import { useTestPackages, useTestsSingle } from '@/hooks/patient/useTest';
 import PackageTestCard from '@/components/test/packageTestCard';
+import PageLoading from '@/atoms/Loaders/PageLoading';
 
 const TestTabs = () => {
   const { data, isLoading, error } = useTestsSingle();
@@ -72,7 +73,7 @@ const TestTabs = () => {
     setIsDetailsOpen(true);
   };
 
-  if (isLoading || pkgLoading) return <div>Loading...</div>;
+  if (isLoading || pkgLoading) return <PageLoading />;
   if (error || pkgError) return <div>Error loading tests</div>;
   if (!data || !packageData) return null;
 

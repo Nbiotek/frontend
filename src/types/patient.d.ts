@@ -130,7 +130,7 @@ interface BookAppointmentDTO {
 
 interface TPatientDashboard {
   totalAppointments: number;
-  totalResult: number;
+  totalTestResults: number;
   totalMessages: number;
   upcomingAppointment: number;
   recentAppointments: Array<{
