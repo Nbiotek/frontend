@@ -2,12 +2,11 @@ import initializer from '@/utils/initializer';
 import jwt from 'jsonwebtoken';
 import store from 'store2';
 import { RootStore } from '..';
-import { action, flow, makeObservable, observable, runInAction, toJS } from 'mobx';
+import { action, flow, makeObservable, observable, runInAction } from 'mobx';
 import { ISSERVER } from '@/utils';
 import { Nullable } from 'vitest';
 import logger from '@/utils/logger';
 import { deleteSession, getSession, setSession } from '@/app/auth/action';
-import { Toast } from '@/atoms/Toast';
 import { parseError } from '@/utils/errorHandler';
 import ROUTES from '@/constants/routes';
 import { TAuthLoginResponse, TCreateAccount, TForgotPwd, TLogin } from '@/app/auth/validation';
@@ -21,6 +20,8 @@ import {
   postForgotPwd
 } from '@/requests/auth';
 import { EnumRole } from '@/constants/mangle';
+import toast from 'react-hot-toast';
+import { Toast } from '@/atoms/Toast';
 
 interface IJwtPayloadExt extends jwt.JwtPayload {
   authorization: boolean;
@@ -239,10 +240,10 @@ export class AuthStore {
       yield deleteSession();
       this.resetStores();
 
-      Toast.success('You have been sucessfully logged out!');
+      toast.success('You have been sucessfully logged out!');
       cb ? cb() : (window.location.href = ROUTES.LOGIN.path);
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
       this.errors.logout = parseError(error);
       setTimeout(() => {
         this.errors.logout = '';
@@ -303,7 +304,7 @@ export class AuthStore {
         cb && cb(ROUTES.getRedirectPathByRole(this.user?.role as EnumRole));
       }
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.login = false;
     }
@@ -329,11 +330,11 @@ export class AuthStore {
       persist('_um', payload.email);
       this._pd = payload.password;
 
-      Toast.success('Registration successful!');
+      toast.success('Registration successful!');
       Toast.info('Verify your account now!');
       cb && cb();
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.register = false;
     }
@@ -354,14 +355,14 @@ export class AuthStore {
       } = (yield postVerifyOTP(payload)) as { data: TAuthLoginResponse };
 
       if (!data.email_verified) {
-        Toast.error('Unable to verify account!');
+        toast.error('Unable to verify account!');
         return;
       }
 
-      Toast.success(message);
+      toast.success(message);
       this.login({ email: get('_um'), password: this._pd }, cb);
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.OTP = false;
     }
@@ -375,10 +376,10 @@ export class AuthStore {
         data: { message }
       } = (yield postResendOTP()) as { data: INBTServerResp<string> };
 
-      Toast.success(message);
+      toast.success(message);
       cb();
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.OTP = false;
     }
@@ -389,10 +390,10 @@ export class AuthStore {
 
     try {
       yield postNewPwd(payload);
-      Toast.success('New password set!');
+      toast.success('New password set!');
       cb();
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.newPwd = false;
     }
@@ -403,9 +404,9 @@ export class AuthStore {
 
     try {
       yield postForgotPwd(payload);
-      Toast.success('Reset password link sent!');
+      toast.success('Reset password link sent!');
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.newPwd = false;
     }

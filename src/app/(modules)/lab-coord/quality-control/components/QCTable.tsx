@@ -74,7 +74,10 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
         )}
       </Table>
 
-      {isLoading || (resultsData.requests.length === 0 && <EmptyState title="No Test data" />)}
+      {isLoading ||
+        (resultsData.requests.length === 0 && (
+          <EmptyState title="No pending Quality control data" />
+        ))}
     </div>
   );
 };

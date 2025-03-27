@@ -15,7 +15,7 @@ const EmptyState = forwardRef<HTMLDivElement, IEmptyStateProps>(({ title }, ref)
 
       <div className="mx-auto flex w-full flex-col items-center justify-center text-center md:w-[450px]">
         <SubTitle text={title} />
-        <Paragraph text="It looks like there's no data to display. Try adding some new items." />
+        <Paragraph text="It looks like there's no data to display. Try adding some." />
       </div>
     </div>
   );
