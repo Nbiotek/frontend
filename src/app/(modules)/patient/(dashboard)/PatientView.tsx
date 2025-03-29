@@ -26,15 +26,27 @@ const PatientView = () => {
     data: []
   });
 
+  const [OverviewData, setOverviewData] = useState<TPatientDashboard>({
+    totalAppointments: 0,
+    totalTestResults: 0,
+    totalMessages: 0,
+    upcomingAppointment: 0,
+    recentAppointments: []
+  });
+
   useEffect(() => {
     if (!recentDataloading && recentResultData !== undefined) {
       setRecentData(recentResultData);
     }
-  }, [recentDataloading, recentResultData]);
+
+    if (!isLoading && data !== undefined) {
+      setOverviewData(data);
+    }
+  }, [recentDataloading, recentResultData, data, isLoading]);
 
   return (
     <div className="mt-[24px] flex w-full flex-col space-y-[24px]">
-      <MetricsOverview data={data} isLoading={isLoading} />
+      <MetricsOverview overviewData={OverviewData} isLoading={isLoading} />
       <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0 ">
         <RecentAppointment isLoading={isLoading} recentAppointments={recentAppointments} />
         <Cards title="Daily insights" className="h-fit overflow-y-auto bg-white p-3 lg:w-[35%]">

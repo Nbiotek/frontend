@@ -187,7 +187,7 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
             <p className="mb-4">NO UPCOMING APPOINTMENT</p>
             <ScheduleBtn
               title="Book New Appointment"
-              className="text-blue-500 bg-white hover:bg-white/90"
+              className="mx-auto bg-white text-blue-400 hover:bg-white/90"
               onClick={() => (window.location.href = '/patient/appointment/booking')}
             />
           </div>

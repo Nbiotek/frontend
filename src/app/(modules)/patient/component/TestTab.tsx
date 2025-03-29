@@ -1,12 +1,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InputSearch from '@/atoms/fields/InputSearch';
 import SingleTestCard from '@/components/test/SingleTestCard';
-import SingleTestDialog from '@/components/test/TestDetailsDialog';
+import AllTestsDialog from '@/components/test/TestDetailsDialog';
 import { useState, useEffect } from 'react';
 
 import { PackageTest, SingleTest } from '@/types/test';
 import { useTestPackages, useTestsSingle } from '@/hooks/patient/useTest';
 import PackageTestCard from '@/components/test/packageTestCard';
+import PageLoading from '@/atoms/Loaders/PageLoading';
+import Spinner from '@/lib/utils/spinner';
+
+interface TestModalDialogProps {
+  isModal: boolean;
+}
 
 const TestTabs = () => {
   const { data, isLoading, error } = useTestsSingle();
@@ -72,7 +78,12 @@ const TestTabs = () => {
     setIsDetailsOpen(true);
   };
 
-  if (isLoading || pkgLoading) return <div>Loading...</div>;
+  if (isLoading || pkgLoading)
+    return (
+      <div className="item-center flex h-full justify-center">
+        <Spinner />
+      </div>
+    );
   if (error || pkgError) return <div>Error loading tests</div>;
   if (!data || !packageData) return null;
 
@@ -125,7 +136,7 @@ const TestTabs = () => {
       </Tabs>
 
       {/* Use the same dialog for both test types */}
-      <SingleTestDialog
+      <AllTestsDialog
         test={selectedTest}
         open={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}

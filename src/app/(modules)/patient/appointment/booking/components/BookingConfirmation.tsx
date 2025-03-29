@@ -71,6 +71,7 @@ const BonkingConfirmationDialog = ({
             <DialogHeader>
               <DialogTitle>Booking Summary</DialogTitle>
             </DialogHeader>
+            <DialogDescription>Make sure your appointment details is correct</DialogDescription>
 
             <div className="divide-y">
               {/* Personal Information */}

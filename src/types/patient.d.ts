@@ -130,7 +130,7 @@ interface BookAppointmentDTO {
 
 interface TPatientDashboard {
   totalAppointments: number;
-  totalResult: number;
+  totalTestResults: number;
   totalMessages: number;
   upcomingAppointment: number;
   recentAppointments: Array<{
@@ -298,4 +298,20 @@ interface BillingHistory {
   data: {
     payments: Payment[];
   };
+}
+
+// FAQ
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'general' | 'appointments' | 'results' | 'billing' | 'account';
+  isPopular?: boolean;
+}
+
+interface FAQCategory {
+  id: string;
+  name: string;
+  icon: string; // Path to icon or component name
+  description: string;
 }

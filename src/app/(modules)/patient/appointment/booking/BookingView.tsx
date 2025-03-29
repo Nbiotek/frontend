@@ -9,7 +9,7 @@ import { CircleX } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
@@ -17,7 +17,6 @@ import { CartItem, cartStore } from '@/store/Cart';
 import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
-import { useEffect } from 'react';
 import BookingForSelfModal from './components/BookingSelfDialog';
 
 type LocationType = 'Lab' | 'Custom';
@@ -37,7 +36,9 @@ const BookAppointmentView = () => {
   };
 
   useEffect(() => {
-    setIsBookingForSelfModalOpen(true);
+    setTimeout(() => {
+      setIsBookingForSelfModalOpen(true);
+    }, 200);
   }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
@@ -50,11 +51,19 @@ const BookAppointmentView = () => {
     },
     availableDate: undefined as Date | undefined,
     paymentMethod: 'via_card',
-    testRequests: cartStore.items.map((item) => ({
-      entityType: item.type.toUpperCase(),
-      testId: item.id
-    }))
+    testRequests: []
   });
+
+  // Update testRequests when cart items change
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      testRequests: cartStore.items.map((item) => ({
+        entityType: item.type.toUpperCase(),
+        testId: item.id
+      }))
+    }));
+  }, [cartStore.items]);
 
   useEffect(() => {
     if (data && isBookingForSelf) {
@@ -110,7 +119,7 @@ const BookAppointmentView = () => {
       }
     }
 
-    if (cartStore.items.length === 0) {
+    if (formData.testRequests.length === 0) {
       newErrors.testRequests = 'Please select at least one test';
     }
 
@@ -120,7 +129,7 @@ const BookAppointmentView = () => {
 
   const handleBookingConfirmation = () => {
     if (validateForm()) {
-      console.log(formData);
+      console.log('Form data at submission:', formData);
       setIsBookingConfirmationDialogOpen(true);
     }
   };
@@ -236,15 +245,6 @@ const BookAppointmentView = () => {
                             ₦{item.item.price.toLocaleString()}
                           </span>
                         </p>
-                        <Button
-                          variant="secondary"
-                          type="button"
-                          className="bg h-6 w-6 rounded-full p-0"
-                          onClick={() => cartStore.removeItem(item.id)}
-                        >
-                          {' '}
-                          <CircleX color="#ff6f61" />
-                        </Button>
                       </div>
                     ))}
                   </div>
