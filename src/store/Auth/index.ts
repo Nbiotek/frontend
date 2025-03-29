@@ -130,6 +130,8 @@ export class AuthStore {
     this.accessToken = '';
     this.isLoading = { ...INIT_IS_LOADING };
     this.errors = initializer(this.isLoading, '');
+    del('user');
+    this.user = {};
   }
 
   clearError(errorItem: keyof typeof this.errors, delay = 3000) {

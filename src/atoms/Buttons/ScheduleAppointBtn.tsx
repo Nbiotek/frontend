@@ -7,10 +7,11 @@ interface ScheduleProp {
   onClick?: () => void;
 }
 
-const ScheduleBtn = ({ title, className }: ScheduleProp) => {
+const ScheduleBtn = ({ title, className, onClick }: ScheduleProp) => {
   return (
     <button
       className={`flex w-fit justify-center rounded-full px-[12px] py-[8px] text-sm ${className}`}
+      onClick={onClick}
     >
       {title}
     </button>

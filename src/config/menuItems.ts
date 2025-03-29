@@ -1,6 +1,5 @@
 import {
   Home,
-  Calendar,
   User,
   CalendarClock,
   TestTubeDiagonal,
@@ -13,20 +12,16 @@ import {
   UserCircle,
   FileText,
   Settings,
-  ShoppingCart,
-  Bell,
-  Users,
-  BarChart,
-  Building2,
-  Activity,
-  Microscope,
-  FileCog,
   ShieldCheck,
-  Upload,
+  Bell,
   Book,
   BellDot,
   PhoneCall,
-  Settings2
+  Settings2,
+  UsersIcon,
+  PhoneCallIcon,
+  FilesIcon,
+  FileTextIcon
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -181,32 +176,14 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: TestTubeDiagonal
     },
     {
-      title: 'Result History',
+      title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
       icon: Book,
-      submenu: [
-        {
-          title: ROUTES.LAB_TECH_RESULT_HISTORY_RECENT.title,
-          url: ROUTES.LAB_TECH_RESULT_HISTORY_RECENT.path
-        },
-        {
-          title: ROUTES.LAB_TECH_RESULT_HISTORY_ARCHIVED.title,
-          url: ROUTES.LAB_TECH_RESULT_HISTORY_ARCHIVED.path
-        }
-      ]
+      url: ROUTES.LAB_TECH_RESULT_HISTORY.path
     },
     {
-      title: 'Quality Control',
+      title: ROUTES.LAB_TECH_QUALITY_CONTROL.title,
       icon: ShieldCheck,
-      submenu: [
-        {
-          title: ROUTES.LAB_TECH_QUALITY_CONTROL_PENDING.title,
-          url: ROUTES.LAB_TECH_QUALITY_CONTROL_PENDING.path
-        },
-        {
-          title: ROUTES.LAB_TECH_QUALITY_CONTROL_HISTORY.title,
-          url: ROUTES.LAB_TECH_QUALITY_CONTROL_HISTORY.path
-        }
-      ]
+      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path
     },
     {
       title: ROUTES.LAB_TECH_NOTIFICATION.title,
@@ -230,6 +207,49 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_TECH_SETTINGS.title,
       url: ROUTES.LAB_TECH_SETTINGS.path,
+      icon: Settings
+    }
+  ],
+
+  [EnumRole.LAB_CORDINATOR]: [
+    {
+      title: ROUTES.LAB_COORD.title,
+      url: ROUTES.LAB_COORD.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.LAB_COORD_TEST_SCHEDULING.title,
+      url: ROUTES.LAB_COORD_TEST_SCHEDULING.path,
+      icon: TestTubeDiagonal
+    },
+    {
+      title: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.title,
+      url: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.path,
+      icon: FileTextIcon
+    },
+    {
+      title: ROUTES.LAB_COORD_STAFF_SCHEDULES.title,
+      url: ROUTES.LAB_COORD_STAFF_SCHEDULES.path,
+      icon: UsersIcon
+    },
+    {
+      title: ROUTES.LAB_COORD_QUALITY_CONTROL.title,
+      url: ROUTES.LAB_COORD_QUALITY_CONTROL.path,
+      icon: ShieldCheck
+    },
+    {
+      title: ROUTES.LAB_COORD_NOTIFICATIONS.title,
+      url: ROUTES.LAB_COORD_NOTIFICATIONS.path,
+      icon: BellDot
+    },
+    {
+      title: ROUTES.LAB_COORD_SUPPORT.title,
+      url: ROUTES.LAB_COORD_SUPPORT.path,
+      icon: PhoneCallIcon
+    },
+    {
+      title: ROUTES.LAB_COORD_SETTINGS.title,
+      url: ROUTES.LAB_COORD_SETTINGS.path,
       icon: Settings
     }
   ]

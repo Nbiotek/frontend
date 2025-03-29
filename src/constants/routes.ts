@@ -135,18 +135,21 @@ class Routes {
     'Lab Technician Quality Control',
     [EnumRole.LAB_TECHNICIAN]
   );
-  LAB_TECH_RESULT_HISTORY_RECENT = new Route(
-    '/lab-tech/results/recent',
-    'Recent',
-    'Lab Technician Recent Result',
+
+  LAB_TECH_QUALITY_CONTROL = new Route(
+    '/lab-tech/qc',
+    'Quality Control',
+    'Lab Technician Quality Control',
     [EnumRole.LAB_TECHNICIAN]
   );
-  LAB_TECH_RESULT_HISTORY_ARCHIVED = new Route(
-    '/lab-tech/results/archived',
-    'Archived',
-    'Lab Technician Archived Result',
+
+  LAB_TECH_RESULT_HISTORY = new Route(
+    '/lab-tech/results',
+    'Result History',
+    'Lab Technician Tests Result',
     [EnumRole.LAB_TECHNICIAN]
   );
+
   LAB_TECH_NOTIFICATION = new Route(
     '/lab-tech/notification',
     'Notifications',
@@ -198,6 +201,44 @@ class Routes {
   );
 
   DOCTOR_SETTINGS = new Route('/doctor/settings', 'Settings', 'Doctor Settings', [EnumRole.DOCTOR]);
+  // LAB COORDINATOR
+  LAB_COORD = new Route('/lab-coord', 'Dashboard', 'Lab Coordinator', [EnumRole.LAB_CORDINATOR]);
+  LAB_COORD_TEST_SCHEDULING = new Route(
+    '/lab-coord/tests',
+    'Test Scheduling',
+    'Lab Coordinator Test Scheduling',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_INVENTORY_MANAGEMENT = new Route(
+    '/lab-coord/inventory',
+    'Inventory Management',
+    'Lab Coordinator Inventory Management',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_STAFF_SCHEDULES = new Route(
+    '/lab-coord/staff',
+    'Staff Schedules',
+    'Lab Coordinator Staff Schedules',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_QUALITY_CONTROL = new Route(
+    '/lab-coord/quality-control',
+    'Quality Control',
+    'Lab Coordinator Quality Control',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_NOTIFICATIONS = new Route(
+    '/lab-coord/notifications',
+    'Notifications',
+    'Lab Coordinator Notifications',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_SUPPORT = new Route('/lab-coord/support', 'Help/Support', 'Lab Coordinator Support', [
+    EnumRole.LAB_CORDINATOR
+  ]);
+  LAB_COORD_SETTINGS = new Route('/lab-coord/settings', 'Settings', 'Lab Coordinator Settings', [
+    EnumRole.LAB_CORDINATOR
+  ]);
 
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
@@ -205,8 +246,11 @@ class Routes {
         return this.LAB_TECH.path;
       case EnumRole.PATIENT:
         return this.PATIENT.path;
+      case EnumRole.LAB_CORDINATOR:
+        return this.LAB_COORD.path;
+      // TODO: Add more modules authorization routing here.
       default:
-        return this.PATIENT.path;
+        return '';
     }
   }
 
@@ -215,6 +259,7 @@ class Routes {
 
     routes.set(this.PATIENT.path, [EnumRole.PATIENT]);
     routes.set(this.LAB_TECH.path, [EnumRole.LAB_TECHNICIAN]);
+    routes.set(this.LAB_COORD.path, [EnumRole.LAB_CORDINATOR]);
 
     return routes;
   }
@@ -224,7 +269,8 @@ const ROUTES = new Routes();
 
 export const roleAccessRules = {
   '/patient': [EnumRole.PATIENT],
-  '/lab-tech': [EnumRole.LAB_TECHNICIAN]
+  '/lab-tech': [EnumRole.LAB_TECHNICIAN],
+  '/lab-coord': [EnumRole.LAB_CORDINATOR]
 };
 
 export default ROUTES;
