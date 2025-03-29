@@ -8,6 +8,11 @@ import { PackageTest, SingleTest } from '@/types/test';
 import { useTestPackages, useTestsSingle } from '@/hooks/patient/useTest';
 import PackageTestCard from '@/components/test/packageTestCard';
 import PageLoading from '@/atoms/Loaders/PageLoading';
+import Spinner from '@/lib/utils/spinner';
+
+interface TestModalDialogProps {
+  isModal: boolean;
+}
 
 const TestTabs = () => {
   const { data, isLoading, error } = useTestsSingle();
@@ -73,7 +78,12 @@ const TestTabs = () => {
     setIsDetailsOpen(true);
   };
 
-  if (isLoading || pkgLoading) return <PageLoading />;
+  if (isLoading || pkgLoading)
+    return (
+      <div className="item-center flex h-full justify-center">
+        <Spinner />
+      </div>
+    );
   if (error || pkgError) return <div>Error loading tests</div>;
   if (!data || !packageData) return null;
 

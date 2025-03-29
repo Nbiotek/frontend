@@ -245,15 +245,6 @@ const BookAppointmentView = () => {
                             ₦{item.item.price.toLocaleString()}
                           </span>
                         </p>
-                        <Button
-                          variant="secondary"
-                          type="button"
-                          className="bg h-6 w-6 rounded-full p-0"
-                          onClick={() => cartStore.removeItem(item.id)}
-                        >
-                          {' '}
-                          <CircleX color="#ff6f61" />
-                        </Button>
                       </div>
                     ))}
                   </div>

@@ -50,7 +50,7 @@ const AllTestsDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
               </ul>
             </div>
           )}
-          <div className="flex w-[450px] gap-4">
+          <div className="flex flex-col gap-4 md:flex-row  lg:w-[450px]">
             <CartButton item={test} type={'single'} />
             <RequestTestButton item={test} type={'single'} />
           </div>
