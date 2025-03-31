@@ -4,12 +4,12 @@ import { Text } from '@/lib/utils/Text';
 
 interface CardProps {
   title: string;
-  value: number;
+  stat: number;
   icon: React.ReactNode;
-  isLoading: boolean;
 }
 
-const CardMetrics = ({ title, value, icon, isLoading }: CardProps) => {
+const CardMetrics = ({ title, stat, icon }: CardProps) => {
+  console.log(stat);
   return (
     <div className="flex items-center justify-between rounded-lg bg-white p-4 shadow-lg ">
       <div className="space-y-2">
@@ -17,13 +17,9 @@ const CardMetrics = ({ title, value, icon, isLoading }: CardProps) => {
           {title}
         </Text>
 
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Text weight="bold" className="text-[26px]">
-            {value ?? 0}
-          </Text>
-        )}
+        <Text weight="bold" className="text-[26px]">
+          {stat}
+        </Text>
       </div>
       {icon}
     </div>
