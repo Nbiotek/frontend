@@ -6,10 +6,18 @@ import {
   NotepadText,
   CreditCard,
   Phone,
+  LayoutDashboard,
+  Hospital,
+  ClipboardList,
+  UserCircle,
+  FileText,
   Settings,
   ShieldCheck,
+  Bell,
   Book,
   BellDot,
+  PhoneCall,
+  Settings2,
   UsersIcon,
   PhoneCallIcon,
   FilesIcon,
@@ -98,6 +106,52 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: 'Settings',
       icon: Settings,
       url: ROUTES.PATIENT_SETTINGS.path
+    }
+  ],
+  [EnumRole.DOCTOR]: [
+    {
+      title: ROUTES.DOCTOR.title,
+      url: ROUTES.DOCTOR.path,
+      icon: LayoutDashboard
+    },
+    {
+      title: ROUTES.DOCTOR_TEST_REVIEW.title,
+      url: ROUTES.DOCTOR_TEST_REVIEW.path,
+      icon: NotepadText
+    },
+    {
+      title: ROUTES.DOCTOR_APPOINTMENT.title,
+      icon: CalendarClock,
+      submenu: [
+        {
+          title: 'All ',
+          url: ROUTES.DOCTOR_APPOINTMENT.path
+        },
+        {
+          title: 'Create',
+          url: ROUTES.DOCTOR_CREATE_APPOINTMENT.path
+        }
+      ]
+    },
+    {
+      title: ROUTES.DOCTOR_REFERRALS.title,
+      url: ROUTES.DOCTOR_REFERRALS.path,
+      icon: Hospital
+    },
+    {
+      title: ROUTES.DOCTOR_NOTIFICATION.title,
+      url: ROUTES.DOCTOR_NOTIFICATION.path,
+      icon: Bell
+    },
+    {
+      title: ROUTES.DOCTOR_HELP_SUPPORT.title,
+      url: ROUTES.DOCTOR_HELP_SUPPORT.path,
+      icon: PhoneCall
+    },
+    {
+      title: ROUTES.DOCTOR_SETTINGS.title,
+      url: ROUTES.DOCTOR_SETTINGS.path,
+      icon: Settings
     }
   ],
 
