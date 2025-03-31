@@ -44,7 +44,7 @@ export const PATIENT = {
 } as const;
 
 export const DOCTOR = {
-  DASHBOARD: '',
+  DASHBOARD: 'doctors/dashboard',
   TEST_REVIEW: '',
   APPOINTMENT: ''
 };
