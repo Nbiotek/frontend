@@ -7,3 +7,10 @@ export const useDashboard = () => {
     queryFn: doctorDashboardService.getDashboardOverview
   });
 };
+
+export const useRecentActivity = () => {
+  return useQuery<TRecentActivity>({
+    queryKey: ['docto-recentActivity'],
+    queryFn: doctorDashboardService.getRecentActivity
+  });
+};
