@@ -20,6 +20,8 @@ interface INBTServerResp<T> {
   statusCode: number;
 }
 
+type TGeneralPaginatedQuery = { page: number; limit: number };
+
 type TProfileInfo = {
   id: number;
   first_name?: string;
@@ -33,6 +35,7 @@ type TProfileInfo = {
   uuid: string;
   created_at: string;
   role: string;
+  status: string;
 };
 
 interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {

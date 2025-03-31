@@ -9,7 +9,7 @@ import { CircleX } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
@@ -17,7 +17,6 @@ import { CartItem, cartStore } from '@/store/Cart';
 import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
-import { useEffect } from 'react';
 import BookingForSelfModal from './components/BookingSelfDialog';
 
 type LocationType = 'Lab' | 'Custom';
@@ -37,7 +36,9 @@ const BookAppointmentView = () => {
   };
 
   useEffect(() => {
-    setIsBookingForSelfModalOpen(true);
+    setTimeout(() => {
+      setIsBookingForSelfModalOpen(true);
+    }, 200);
   }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
@@ -49,11 +50,20 @@ const BookAppointmentView = () => {
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
     availableDate: undefined as Date | undefined,
-    testRequests: cartStore.items.map((item) => ({
-      entityType: item.type.toUpperCase(),
-      testId: item.id
-    }))
+    paymentMethod: 'via_card',
+    testRequests: []
   });
+
+  // Update testRequests when cart items change
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      testRequests: cartStore.items.map((item) => ({
+        entityType: item.type.toUpperCase(),
+        testId: item.id
+      }))
+    }));
+  }, [cartStore.items]);
 
   useEffect(() => {
     if (data && isBookingForSelf) {
@@ -80,6 +90,8 @@ const BookAppointmentView = () => {
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
 
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required';
@@ -97,9 +109,17 @@ const BookAppointmentView = () => {
 
     if (!formData.availableDate) {
       newErrors.availableDate = 'Please select a date';
+    } else {
+      // Convert the ISO string back to a Date object for comparison
+      const selectedDate = new Date(formData.availableDate);
+      selectedDate.setHours(0, 0, 0, 0); // Remove time component
+
+      if (selectedDate < currentDate) {
+        newErrors.availableDate = 'Date cannot be in the past';
+      }
     }
 
-    if (cartStore.items.length === 0) {
+    if (formData.testRequests.length === 0) {
       newErrors.testRequests = 'Please select at least one test';
     }
 
@@ -109,7 +129,7 @@ const BookAppointmentView = () => {
 
   const handleBookingConfirmation = () => {
     if (validateForm()) {
-      console.log(formData);
+      console.log('Form data at submission:', formData);
       setIsBookingConfirmationDialogOpen(true);
     }
   };
@@ -121,6 +141,13 @@ const BookAppointmentView = () => {
         type: value as LocationType,
         address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : 'Select location'
       }
+    }));
+  };
+
+  const handlePaymentMethod = (value: string) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      paymentMethod: value
     }));
   };
 
@@ -157,7 +184,7 @@ const BookAppointmentView = () => {
           So our team can reach out to you on time
         </Text>
         <form action="" id="bookingForm">
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <Input
               type="text"
               label="Full Name"
@@ -174,7 +201,7 @@ const BookAppointmentView = () => {
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <Input
               type="text"
               label="Email"
@@ -192,7 +219,7 @@ const BookAppointmentView = () => {
               error={errors.phoneNumber}
             />
           </div>
-          <div className="flex flex-col gap-1 sm:flex-row md:gap-4">
+          <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <div className="flex w-full flex-col ">
               <Label className="mb-2">Available Test</Label>
               <Button
@@ -208,7 +235,7 @@ const BookAppointmentView = () => {
                 <></>
               ) : (
                 <>
-                  <div className="mt-3 flex h-[200px] flex-col overflow-auto border-2">
+                  <div className="mt-3 flex h-[100px] flex-col overflow-auto border-2">
                     {cartStore.items.map((item) => (
                       <div className="flexBetween items-center p-3" key={item.id}>
                         <p>
@@ -218,15 +245,6 @@ const BookAppointmentView = () => {
                             ₦{item.item.price.toLocaleString()}
                           </span>
                         </p>
-                        <Button
-                          variant="secondary"
-                          type="button"
-                          className="bg h-6 w-6 rounded-full p-0"
-                          onClick={() => cartStore.removeItem(item.id)}
-                        >
-                          {' '}
-                          <CircleX color="#ff6f61" />
-                        </Button>
                       </div>
                     ))}
                   </div>
@@ -250,6 +268,25 @@ const BookAppointmentView = () => {
                   <RadioGroupItem value="Custom" id="r2" />
                   <Label htmlFor="r2">Custom</Label>
                   <div className="rounded-md bg-neutral-300/30 p-3">Select location</div>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
+          <div className="mt-3 w-full">
+            <div className="flex w-full flex-col">
+              <Label className="mb-3">Payment Method</Label>
+              <RadioGroup
+                value={formData.paymentMethod}
+                onValueChange={handlePaymentMethod}
+                className="flex"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="via_card" id="r3" />
+                  <Label htmlFor="r3">Online</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="location" id="r4" />
+                  <Label htmlFor="r4">Pay at location</Label>
                 </div>
               </RadioGroup>
             </div>

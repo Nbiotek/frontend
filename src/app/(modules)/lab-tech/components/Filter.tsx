@@ -15,18 +15,18 @@ import { observer } from 'mobx-react-lite';
 
 interface ISearchFilterProps {
   type: 'test' | 'result';
-  query: Partial<TLabTechTestQuery>;
-  applyQuery: (_query: Partial<TLabTechTestQuery>) => void;
+  query: Partial<TTestQuery>;
+  applyQuery: (_query: Partial<TTestQuery>) => void;
+  resetQuery?: () => void;
 }
 
-const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
-  const [filter, setFilter] = useState<Partial<TLabTechTestQuery>>(query);
+const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProps) => {
+  const [filter, setFilter] = useState<Partial<TTestQuery>>(query);
   const [reset, setReset] = useState('t');
 
   const handleReset = () => {
-    applyQuery({});
+    resetQuery && resetQuery();
     setFilter({});
-
     setReset(reset === 't' ? 'p' : 't');
   };
 
@@ -47,6 +47,7 @@ const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <RadioGroup
+                defaultValue={query.status}
                 onValueChange={(status) => {
                   setFilter((prev) => ({ ...prev, status }));
                 }}
@@ -149,6 +150,7 @@ const SearchFilter = ({ type, query, applyQuery }: ISearchFilterProps) => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <RadioGroup
+                defaultValue={query.sortBy}
                 onValueChange={(sortBy) => {
                   setFilter((prev) => ({ ...prev, sortBy }));
                 }}

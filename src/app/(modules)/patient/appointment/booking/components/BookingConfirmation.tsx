@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 
 import { useState } from 'react';
 import PaymentProcessingDialog from './PaymentProcessingDialog';
+import { useRouter } from 'next/navigation';
 
 interface BookingSummaryDialogProps {
   open: boolean;
@@ -30,6 +31,8 @@ const BonkingConfirmationDialog = ({
   bookingData,
   onConfirm
 }: BookingSummaryDialogProps) => {
+  console.log(bookingData);
+  const router = useRouter();
   const [paymentLink, setPaymentLink] = useState<string | null>(null);
 
   const { mutate: bookAppointment, isPending } = useBookAppointment();
@@ -39,6 +42,9 @@ const BonkingConfirmationDialog = ({
       bookAppointment(bookingData, {
         onSuccess: (response) => {
           toast.success('Booking confirmed');
+          if (bookingData.paymentMethod === 'location') {
+            router.push('/patient/appointment/pending');
+          }
           if (response?.data?.paymentLink) {
             setPaymentLink(response.data.paymentLink);
           }
@@ -65,6 +71,7 @@ const BonkingConfirmationDialog = ({
             <DialogHeader>
               <DialogTitle>Booking Summary</DialogTitle>
             </DialogHeader>
+            <DialogDescription>Make sure your appointment details is correct</DialogDescription>
 
             <div className="divide-y">
               {/* Personal Information */}
@@ -123,7 +130,18 @@ const BonkingConfirmationDialog = ({
                       <span>₦{test.item.price.toLocaleString()}</span>
                     </div>
                   ))}
+
                   <div className="mt-3 border-t pt-3">
+                    <div className="mb-3">
+                      <div className="flex justify-between font-medium">
+                        <span>Payment Method</span>
+                        <span>
+                          {bookingData.paymentMethod === 'via_card'
+                            ? 'Via Card'
+                            : 'Pay at Location'}
+                        </span>
+                      </div>
+                    </div>
                     <div className="flex justify-between font-medium">
                       <span>Total Amount</span>
                       <span>₦{cartStore.total.toLocaleString()}</span>
@@ -153,7 +171,7 @@ const BonkingConfirmationDialog = ({
         </DialogContent>
       </Dialog>
 
-      {paymentLink && (
+      {bookingData.paymentMethod === 'via_card' && paymentLink && (
         <PaymentProcessingDialog
           paymentLink={paymentLink}
           onComplete={() => {

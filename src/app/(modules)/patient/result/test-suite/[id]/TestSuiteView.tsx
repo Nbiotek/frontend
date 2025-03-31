@@ -17,6 +17,12 @@ const TestSuiteView = () => {
   const resultId = param.id as string;
   const { data, isLoading, error } = useTestSuiteDetails(resultId as string);
 
+  const handleResultSuiteView = (link: string) => {
+    window.open(link, '_blank');
+  };
+
+  console.log(data);
+
   // Error state
   if (error) {
     return (
@@ -129,7 +135,7 @@ const TestSuiteView = () => {
           Personal Information
         </Text>
         <div className="flex flex-col space-y-[24px]">
-          <FieldSet legend="Test Ordered" text={data?.data.description} />
+          <FieldSet legend="Test Ordered" text={data?.data.title} />
           <div className="flex gap-[24px]">
             <FieldSet legend="Patient Name" text={data?.data.patientName} />
             <FieldSet
@@ -141,7 +147,9 @@ const TestSuiteView = () => {
         </div>
       </div>
       <TestSuiteDetails tests={data?.data.tests} />
-      <Button variant="danger">Download All Results</Button>
+      <Button variant="danger" onClick={() => handleResultSuiteView(data.data.resultLink)}>
+        Download All Results
+      </Button>
     </div>
   );
 };

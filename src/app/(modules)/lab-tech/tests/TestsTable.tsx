@@ -25,6 +25,8 @@ import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { formatTestDate } from '@/utils/date';
+import Pagination from '@/atoms/pagination';
+import { EnumLabTechQueryType } from '@/store/LabTech';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -32,128 +34,144 @@ interface ITestTableProps {
 }
 
 const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
+  const pagination = tests.pagination;
   const router = useRouter();
   const {
-    AppConfigStore: { toggleModals }
+    AppConfigStore: { toggleModals },
+    LabTechStore: { queries, setLimit, setPage }
   } = useStore();
   const { mutateTestStatus, isPending } = useUpdateTestStatus();
 
   return (
-    <div className="w-full overflow-clip rounded-lg bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Test Name</TableHead>
-            <TableHead>Priority</TableHead>
-            <TableHead>Date created</TableHead>
-            <TableHead>Requested Date</TableHead>
-            <TableHead>Deadline</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="w-[20px]"></TableHead>
-          </TableRow>
-        </TableHeader>
-        {isLoading ? (
-          <TableLoader rows={20} columns={8} />
-        ) : (
-          tests.requests.length !== 0 && (
-            <TableBody>
-              {tests.requests.map((test) => (
-                <TableRow key={test.id}>
-                  <TableCell className="whitespace-nowrap font-medium">
-                    {test.patientName}
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
-                  <TableCell>
-                    <Status variant={test.priority} />
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap">
-                    {formatTestDate(test.createdAt)}
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap">
-                    {formatTestDate(test.preferredAt)}
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap">
-                    {formatTestDate(test.deadlineAt)}
-                  </TableCell>
-                  <TableCell>
-                    <Status variant={test.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
-                      </DropdownMenuTrigger>
+    <div className="flex flex-col space-y-4">
+      <div className="w-full overflow-clip rounded-lg bg-white">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Test Name</TableHead>
+              <TableHead>Priority</TableHead>
+              <TableHead>Date created</TableHead>
+              <TableHead>Requested Date</TableHead>
+              <TableHead>Deadline</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="w-[20px]"></TableHead>
+            </TableRow>
+          </TableHeader>
+          {isLoading ? (
+            <TableLoader rows={20} columns={8} />
+          ) : (
+            tests.requests.length !== 0 && (
+              <TableBody>
+                {tests.requests.map((test) => (
+                  <TableRow key={test.id}>
+                    <TableCell className="whitespace-nowrap font-medium">
+                      {test.patientName}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
+                    <TableCell>
+                      <Status variant={test.priority} />
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {formatTestDate(test.createdAt)}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {formatTestDate(test.preferredAt)}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {formatTestDate(test.deadlineAt)}
+                    </TableCell>
+                    <TableCell>
+                      <Status variant={test.status} />
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                        </DropdownMenuTrigger>
 
-                      <DropdownMenuContent className="">
-                        <DropdownMenuGroup>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              router.push(
-                                `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', test.id)}`
-                              )
-                            }
-                          >
-                            <Eye />
-                            <p>View Test</p>
-                          </DropdownMenuItem>
-
-                          {test.status === EnumTestStatus.PENDING && (
+                        <DropdownMenuContent className="">
+                          <DropdownMenuGroup>
                             <DropdownMenuItem
-                              disabled={isPending}
                               onClick={() =>
-                                mutateTestStatus({
-                                  id: test.id,
-                                  payload: { status: EnumTestStatus.IN_PROGRESS }
-                                })
+                                router.push(
+                                  `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', test.id)}`
+                                )
                               }
                             >
-                              <Play />
-                              <p>Start test</p>
+                              <Eye />
+                              <p>View Test</p>
                             </DropdownMenuItem>
-                          )}
 
-                          {test.status === EnumTestStatus.IN_PROGRESS && (
-                            <DropdownMenuItem
-                              disabled={isPending}
-                              onClick={() =>
-                                mutateTestStatus({
-                                  id: test.id,
-                                  payload: { status: EnumTestStatus.PENDING }
-                                })
-                              }
-                            >
-                              <Pause />
-                              <p>Pause test</p>
-                            </DropdownMenuItem>
-                          )}
+                            {test.status === EnumTestStatus.PENDING && (
+                              <DropdownMenuItem
+                                disabled={isPending}
+                                onClick={() =>
+                                  mutateTestStatus({
+                                    id: test.id,
+                                    payload: { status: EnumTestStatus.IN_PROGRESS }
+                                  })
+                                }
+                              >
+                                <Play />
+                                <p>Start test</p>
+                              </DropdownMenuItem>
+                            )}
 
-                          {test.status === EnumTestStatus.IN_PROGRESS && (
-                            <DropdownMenuItem
-                              onClick={() => {
-                                toggleModals({
-                                  open: true,
-                                  name: AppModals.RESULT_UPLOAD_MODAL,
-                                  testId: test.id
-                                });
-                              }}
-                            >
-                              <Upload />
-                              <p>Upload result</p>
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          )
-        )}
-      </Table>
+                            {test.status === EnumTestStatus.IN_PROGRESS && (
+                              <DropdownMenuItem
+                                disabled={isPending}
+                                onClick={() =>
+                                  mutateTestStatus({
+                                    id: test.id,
+                                    payload: { status: EnumTestStatus.PENDING }
+                                  })
+                                }
+                              >
+                                <Pause />
+                                <p>Pause test</p>
+                              </DropdownMenuItem>
+                            )}
 
-      {isLoading || (tests.requests.length === 0 && <EmptyState title="No Test data" />)}
+                            {test.status === EnumTestStatus.IN_PROGRESS && (
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  toggleModals({
+                                    open: true,
+                                    name: AppModals.RESULT_UPLOAD_MODAL,
+                                    testId: test.id
+                                  });
+                                }}
+                              >
+                                <Upload />
+                                <p>Upload result</p>
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )
+          )}
+        </Table>
+
+        {isLoading || (tests.requests.length === 0 && <EmptyState title="No Test data" />)}
+      </div>
+
+      {isLoading || (
+        <Pagination
+          limit={pagination.limit ?? queries.TEST.limit}
+          setLimit={setLimit}
+          currentPage={pagination.page ?? queries.TEST.page}
+          setPage={setPage}
+          total={pagination.total}
+          totalPages={pagination.totalPages}
+          siblingCount={1}
+        />
+      )}
     </div>
   );
 };

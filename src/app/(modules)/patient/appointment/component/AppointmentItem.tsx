@@ -66,8 +66,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
         </div>
         <h3 className="mb- text-center text-lg font-medium">No appointments found</h3>
         <p className="text-gray-500 mb-6 max-w-sm text-center">
-          You don&apos;t have any past appointments. When you book appointments, they will appear
-          here.
+          You don&apos;t have any appointments. When you book appointments, they will appear here.
         </p>
         <Link
           className="w-full rounded-lg bg-blue-400 py-3 text-center text-base font-semibold text-white hover:bg-blue-400/60"
@@ -85,7 +84,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
     if (dateNow.toISOString() === date) {
       return 'Today';
     } else {
-      return dateTimeUTC(date);
+      return dateTimeUTC(date, false);
     }
   };
 
@@ -108,7 +107,7 @@ const AppointmentItem = (props: AppointmentItemProps) => {
                   <p>{appointment.description}</p>
 
                   <div className=" w-[250px]">
-                    {appointment.status === 'PENDING' ? (
+                    {appointment.paymentStatus === 'PENDING' ? (
                       <Button
                         variant="outlined"
                         className="bg-green-400 text-white"

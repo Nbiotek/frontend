@@ -6,35 +6,50 @@ import { AppointmentsIcon, ResultIcon, HealthProfileIcon, MessagesIcon } from '@
 import { Calendar, Clock, MapPin } from 'lucide-react';
 
 import Cards from '@/atoms/Cards';
-import { Text } from '@/lib/utils/Text';
-import HyperLink from '@/atoms/Hyperlink';
-import Button from '@/atoms/Buttons';
-import ScheduleBtn from '@/atoms/Buttons/ScheduleAppointBtn';
-import Image from 'next/image';
-import TestTable from '@/atoms/Table/test-table';
-import ActivityTable from '@/atoms/Table/test-table';
 import QuickAction from '@/components/common/quick-links';
 import Link from 'next/link';
 
 import { PatientQuickLinks } from '@/config/quickActionItems';
 
-import { usePatientDashboard } from '@/hooks/patient/usePatientDashboard';
-import Spinner from '@/lib/utils/spinner';
-import { Skeleton } from '@/components/ui/skeleton';
-import { dateTimeUTC } from '@/utils/date';
+import { usePatientDashboard, usePatientRecentResult } from '@/hooks/patient/usePatientDashboard';
 import MetricsOverview from './component/MetricOverView';
 import RecentAppointment from './component/RecentAppointment';
+import RecentResultTable from './component/RecentResultTable';
+import { useEffect, useState } from 'react';
 
 const PatientView = () => {
   const { isLoading, data } = usePatientDashboard();
   const recentAppointments = data?.recentAppointments || [];
+  const { isLoading: recentDataloading, data: recentResultData } = usePatientRecentResult();
+
+  const [recentResult, setRecentData] = useState<TPatientRecentTest>({
+    data: []
+  });
+
+  const [OverviewData, setOverviewData] = useState<TPatientDashboard>({
+    totalAppointments: 0,
+    totalTestResults: 0,
+    totalMessages: 0,
+    upcomingAppointment: 0,
+    recentAppointments: []
+  });
+
+  useEffect(() => {
+    if (!recentDataloading && recentResultData !== undefined) {
+      setRecentData(recentResultData);
+    }
+
+    if (!isLoading && data !== undefined) {
+      setOverviewData(data);
+    }
+  }, [recentDataloading, recentResultData, data, isLoading]);
 
   return (
-    <div className="mt-[24px] flex w-[100%] flex-col space-y-[24px] pb-20">
-      {/* <MetricsOverview data={data} isLoading={isLoading} /> */}
-      <div className=" flex w-full flex-col justify-between space-y-[24px] md:items-start lg:flex-row lg:space-x-[24px] lg:space-y-0 ">
+    <div className="mt-[24px] flex w-full flex-col space-y-[24px]">
+      <MetricsOverview overviewData={OverviewData} isLoading={isLoading} />
+      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0 ">
         <RecentAppointment isLoading={isLoading} recentAppointments={recentAppointments} />
-        <Cards title="Daily insights" className="overflow-y-auto bg-white p-3 lg:w-[35%]">
+        <Cards title="Daily insights" className="h-fit overflow-y-auto bg-white p-3 lg:w-[35%]">
           <div className="mt-4 border-t p-2" />
           <p className="text-sm font-normal text-black">
             Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
@@ -45,9 +60,18 @@ const PatientView = () => {
           </p>
         </Cards>
       </div>
-      <div className="lg:item-start flex w-full flex-col justify-between space-y-[24px] md:space-y-0 lg:flex-row lg:space-x-[24px]  ">
-        <Cards className="flex-1 bg-white ">
-          <ActivityTable />
+      <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0  ">
+        <Cards className="bg-white p-4 lg:w-[65%] ">
+          <div className="mb-3 flex justify-between">
+            <h4 className="text-lg font-bold">Recent Test Result</h4>
+            <Link
+              className="text-sm text-blue-50 hover:text-black/20 hover:underline"
+              href="/patient/result"
+            >
+              View all result
+            </Link>
+          </div>
+          <RecentResultTable loading={recentDataloading} data={recentResult} />
         </Cards>
         <Cards title="Quick Actions" className="w-full bg-white px-[12px] py-[23px] lg:w-[35%]">
           <QuickAction quickLink={PatientQuickLinks} />

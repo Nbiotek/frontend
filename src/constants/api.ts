@@ -14,10 +14,11 @@ export const PATIENT = {
   PERSONAL_REG: '/patients/register',
   DASHBOARD: '/patients/dashboard',
   PROFILE: '/patients/profile',
+  RECENT_RESULT: '/patients/dashboard/recent-activiy',
   BILLING: '/payments',
 
   APPOINTMENTS: {
-    UPCOMING: '/patients/appointments/upcoming',
+    UPCOMING: '/patients/appointments/upcoming?sortOrder=DESC',
     PENDING: '/patients/appointments/pending?sortOrder=DESC',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',
@@ -25,7 +26,7 @@ export const PATIENT = {
     CANCEL: (id: string) => `/appointments/${id}/cancel`,
     RESCHEDULE: (id: string) => `patients/appointments/${id}/reschedule`,
     PENDING_PAYMENT: (id: string) => `patients/appointments/${id}/payment/generate`,
-    PAYMENT_STATUS: 'patients/appointments/payment'
+    PAYMENT_STATUS: '/patients/appointments/payment/status'
   } as const,
 
   TESTS: {
@@ -58,9 +59,16 @@ export const LAB_TECH = {
   ARCHIVED_RESULTS: '/lab-technicians/archived-test-results',
   PENDING_QC: '/lab-technicians/test-quality-control',
   HISTORY_QC: '/lab-technicians/quality-control-history',
-  UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status'
+  UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status',
+  UPADTE_AVAILABILITY: '/lab-technicians/update-availability'
 } as const;
 
 export const LAB_COORD = {
-  STAFF_SHIFTS: '/lab-coordinator/staff-shifts'
-};
+  ALL_TESTS: '/lab-coordinator/test-requests',
+  GET_TEST: '/lab-coordinator/test-requests/:id',
+  DASHBOARD: '/lab-coordinator/dashboard',
+  STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
+  AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians',
+  ASSIGN_TECHNICIAN: '/lab-coordinator/test-requests-assign-technician',
+  INVENTORY: '/lab-coordinator/inventory'
+} as const;

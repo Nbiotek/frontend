@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/table';
 
 import { EllipsisVertical } from 'lucide-react';
+import Status, { EnumResultStatus } from '@/atoms/Buttons/Status';
+import Link from 'next/link';
 
 import {
   DropdownMenu,
@@ -21,19 +23,7 @@ import { DownloadCloudIcon } from 'lucide-react';
 import { dateTimeUTC } from '@/utils/date';
 
 const TransactionHistoryTable = ({ data }: BillingHistory) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING':
-        return 'bg-[#6226EF]/20 text-blue-400';
-      case 'COMPLETED':
-        return 'bg-green-200/30 text-green-500';
-      case 'FAILED':
-        return 'bg-red-200/30 text-red-500';
-      default:
-        return 'bg-gray-200/30 text-gray-500';
-    }
-  };
-
+  console.log(data);
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -48,22 +38,24 @@ const TransactionHistoryTable = ({ data }: BillingHistory) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.payments.map((test) => (
-            <TableRow key={test.invoiceNo}>
-              <TableCell>{test.invoiceNo}</TableCell>
-              <TableCell>{dateTimeUTC(test.paymentDate)}</TableCell>
-              <TableCell>{test.paymentMethod}</TableCell>
-              <TableCell>{test.amountPaid}</TableCell>
+          {data?.payments.map((payDetails) => (
+            <TableRow key={payDetails.invoiceNo}>
+              <TableCell>{payDetails.invoiceNo}</TableCell>
+              <TableCell>{dateTimeUTC(payDetails.paymentDate)}</TableCell>
+              <TableCell>{payDetails.paymentMethod}</TableCell>
+              <TableCell>{payDetails.amountPaid}</TableCell>
               <TableCell>
-                <span
-                  className={`${getStatusColor(test.paymentStatus)} rounded-lg px-5 py-2 font-[500]`}
-                >
-                  {test.paymentStatus}
-                </span>
+                <Status variant={payDetails.paymentStatus} />
               </TableCell>
               {/* download  */}
               <TableCell>
-                <DownloadCloudIcon className="cursor-pointer" />
+                <Link
+                  href={payDetails.paymentReceiptLink}
+                  target="_blank"
+                  className="cursor-pointer hover:text-blue-100"
+                >
+                  <DownloadCloudIcon />{' '}
+                </Link>
               </TableCell>
             </TableRow>
           ))}

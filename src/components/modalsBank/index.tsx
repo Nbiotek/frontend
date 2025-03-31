@@ -9,7 +9,13 @@ const ModalsMap = {
   [AppModals.RESULT_UPLOAD_MODAL]: dynamic(
     () => import('@/app/(modules)/lab-tech/tests/components/ResultUploadModal')
   ),
-  [AppModals.LOG_OUT_MODAL]: dynamic(() => import('@/components/dashboard/Sidebar/LogoutModal'))
+  [AppModals.LOG_OUT_MODAL]: dynamic(() => import('@/components/dashboard/Sidebar/LogoutModal')),
+  [AppModals.AVAILABLE_TECHNICIANS]: dynamic(
+    () => import('@/app/(modules)/lab-coord/components/modals/LabTechModal')
+  ),
+  [AppModals.ADD_INVENTORY]: dynamic(
+    () => import('@/app/(modules)/lab-coord/inventory/components/AddInventoryModal')
+  )
 };
 
 const ModalsBank = () => {

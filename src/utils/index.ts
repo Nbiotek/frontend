@@ -5,7 +5,7 @@ export const specialCharcterRegex = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
 export const ISSERVER = typeof window === 'undefined';
 
-export const getAllParams = (params: Partial<TLabTechTestQuery>) => {
+export const getAllParams = (params: Partial<TTestQuery>) => {
   const { search, status, fromDate, toDate, sortBy, sortOrder, page, priority } = params;
 
   if (search) {
@@ -61,4 +61,9 @@ export function snakeCaseToSentenceCase(input: string): string {
     .join(' ');
 
   return sentence;
+}
+
+export function getInitials(word: string) {
+  const charArr = word.split(' ').map((w) => w.charAt(0));
+  return charArr.join('');
 }

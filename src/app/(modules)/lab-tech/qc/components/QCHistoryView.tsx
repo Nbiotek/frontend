@@ -10,19 +10,20 @@ import { LAB_TECH } from '@/constants/api';
 import { getHistoryQC } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
+import { EnumLabTechQueryType } from '@/store/LabTech';
+import { observer } from 'mobx-react-lite';
 
 const QCHistoryView = () => {
-  const params: Partial<TLabTechTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
   });
   const {
-    LabtechStore: { qcHistoryQuery, applyQcHistoryQuery }
+    LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.HISTORY_QC, params],
-    queryFn: () => getHistoryQC(params),
+    queryKey: [LAB_TECH.HISTORY_QC, queries.CONTROL_HISTORY],
+    queryFn: () => getHistoryQC(queries.CONTROL_HISTORY),
     select: (data) => data.data.data
   });
 
@@ -35,13 +36,20 @@ const QCHistoryView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
       <fieldset disabled={isLoading} className="flex w-full items-center justify-between space-x-2">
-        <SearchFilter type="result" query={qcHistoryQuery} applyQuery={applyQcHistoryQuery} />
+        <SearchFilter
+          type="result"
+          query={queries.CONTROL_HISTORY}
+          applyQuery={(_query: Partial<TTestQuery>) =>
+            applyQuery(_query, EnumLabTechQueryType.CONTROL_HISTORY)
+          }
+          resetQuery={() => resetQuery(EnumLabTechQueryType.CONTROL_HISTORY)}
+        />
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
-      <QCTable isLoading={isLoading} resultsData={result} />
+      <QCTable type="history" isLoading={isLoading} resultsData={result} />
     </div>
   );
 };
 
-export default QCHistoryView;
+export default observer(QCHistoryView);

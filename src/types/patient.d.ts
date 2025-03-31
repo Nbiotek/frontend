@@ -90,6 +90,7 @@ interface BookingForm {
     address: string;
   };
   availableDate: Date | undefined | string;
+  paymentMethod: 'via_card' | 'location';
 
   testRequests: Array<{
     testId: string;
@@ -103,6 +104,10 @@ interface Appointment {
   data: {
     paymentLink: string;
   };
+}
+
+interface TUpdatePaymentStatus {
+  appointmentId: string;
 }
 
 interface BookAppointmentDTO {
@@ -120,11 +125,12 @@ interface BookAppointmentDTO {
     testId: string;
     entityType: string;
   }>;
+  paymentMethod: string;
 }
 
 interface TPatientDashboard {
   totalAppointments: number;
-  totalResult: number;
+  totalTestResults: number;
   totalMessages: number;
   upcomingAppointment: number;
   recentAppointments: Array<{
@@ -134,6 +140,16 @@ interface TPatientDashboard {
       address: string;
     };
     appointmentDate: string;
+  }>;
+}
+
+interface TPatientRecentTest {
+  data: Array<{
+    id: string;
+    name: string;
+    type: string;
+    status: string;
+    date: string | Date | unefined;
   }>;
 }
 
@@ -219,6 +235,7 @@ interface Test {
   technician: Technician;
   results: TestResult[];
   testSuitId: string;
+  resultLink: string;
 }
 
 interface Pagination {
@@ -257,6 +274,7 @@ interface TestSuiteDetails {
     appointmentDate: string;
     doctor: {} | null;
     tests: TestSuiteSingle[];
+    resultLink: string;
   };
 }
 
@@ -273,10 +291,27 @@ interface Payment {
   paymentDate: string;
   amountPaid: number;
   paymentStatus: string;
+  paymentReceiptLink: string;
 }
 
 interface BillingHistory {
   data: {
     payments: Payment[];
   };
+}
+
+// FAQ
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'general' | 'appointments' | 'results' | 'billing' | 'account';
+  isPopular?: boolean;
+}
+
+interface FAQCategory {
+  id: string;
+  name: string;
+  icon: string; // Path to icon or component name
+  description: string;
 }

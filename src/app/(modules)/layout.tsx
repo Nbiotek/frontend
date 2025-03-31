@@ -1,30 +1,33 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/dashboard/Sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import MenuHeader from '@/components/dashboard/Header/menu-header';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import PageLoading from '@/atoms/Loaders/PageLoading';
-import { redirect, usePathname } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import { EnumRole } from '@/constants/mangle';
 
 const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [userData, setUserData] = useState<Partial<TProfileInfo>>({});
   const { data, status } = useFetchProfile();
 
   const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
   const allProtectedRoutes = allProtectedRoutesObj.keys();
 
-  const checkAuthorization = useMemo(() => {
+  const checkAuthorization = useCallback(() => {
     for (let route of allProtectedRoutes) {
       if (pathname.startsWith(route)) {
         const role = allProtectedRoutesObj.get(route);
 
         if (role && data) {
-          if (!role.includes(userData.role as EnumRole)) {
-            return redirect(ROUTES.UNAUTHORIZED.path);
+          if (role.includes(userData.role as EnumRole)) {
+            return router.replace(pathname);
+          } else {
+            return router.replace(ROUTES.UNAUTHORIZED.path);
           }
         }
       }
@@ -38,8 +41,8 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   }, [data]);
 
   useEffect(() => {
-    checkAuthorization;
-  });
+    checkAuthorization();
+  }, [checkAuthorization]);
 
   if (status === 'pending') {
     return <PageLoading />;

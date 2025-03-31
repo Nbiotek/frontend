@@ -1,50 +1,54 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 
+export enum EnumLabTechQueryType {
+  TEST = 'TEST',
+  RESULT = 'RESULT',
+  ARCHIVED = 'ARCHIVED',
+  CONTROL_HISTORY = 'CONTROL_HISTORY',
+  CONTROL_PENDING = 'CONTROL_PENDING'
+}
+
+const defaultQuery = { limit: 10, page: 1 };
+
 export class LabTechStore {
   rootStore: RootStore;
-
-  testQuery: Partial<TLabTechTestQuery> = {};
-  qcPendingQuery: Partial<TLabTechTestQuery> = {};
-  qcHistoryQuery: Partial<TLabTechTestQuery> = {};
-  resultQuery: Partial<TLabTechTestQuery> = {};
-  archivedResQuery: Partial<TLabTechTestQuery> = {};
+  queries: Record<EnumLabTechQueryType, Partial<TTestQuery>> = {
+    [EnumLabTechQueryType.TEST]: { ...defaultQuery },
+    [EnumLabTechQueryType.RESULT]: { ...defaultQuery },
+    [EnumLabTechQueryType.ARCHIVED]: { ...defaultQuery },
+    [EnumLabTechQueryType.CONTROL_HISTORY]: { ...defaultQuery },
+    [EnumLabTechQueryType.CONTROL_PENDING]: { ...defaultQuery }
+  };
 
   constructor(_rootStore: RootStore) {
     this.rootStore = _rootStore;
-
     makeObservable(this, {
-      testQuery: observable,
-      qcPendingQuery: observable,
-      qcHistoryQuery: observable,
-      resultQuery: observable,
-      archivedResQuery: observable,
-
-      applyTestQuery: action.bound,
-      applyResultQuery: action.bound,
-      applyArchivedResQuery: action.bound,
-      applyQcHistoryQuery: action.bound,
-      applyQcPendingQuery: action.bound
+      queries: observable,
+      applyQuery: action.bound,
+      resetQuery: action.bound,
+      setLimit: action.bound,
+      setPage: action.bound
     });
   }
 
-  applyTestQuery(_query: Partial<TLabTechTestQuery>) {
-    this.testQuery = { ...this.testQuery, ..._query };
+  applyQuery(
+    _query: Partial<TTestQuery>,
+    dataType: EnumLabTechQueryType = EnumLabTechQueryType.TEST
+  ) {
+    this.queries[dataType] = { ...this.queries[dataType], ..._query };
   }
 
-  applyResultQuery(_query: Partial<TLabTechTestQuery>) {
-    this.resultQuery = { ...this.resultQuery, ..._query };
+  resetQuery(dataType: EnumLabTechQueryType = EnumLabTechQueryType.TEST) {
+    const { limit, page } = this.queries[dataType];
+    this.queries[dataType] = { limit, page };
   }
 
-  applyArchivedResQuery(_query: Partial<TLabTechTestQuery>) {
-    this.archivedResQuery = { ...this.archivedResQuery, ..._query };
+  setPage(_page: number, dataType: EnumLabTechQueryType = EnumLabTechQueryType.TEST) {
+    this.queries[dataType].page = _page;
   }
 
-  applyQcHistoryQuery(_query: Partial<TLabTechTestQuery>) {
-    this.qcHistoryQuery = { ...this.qcHistoryQuery, ..._query };
-  }
-
-  applyQcPendingQuery(_query: Partial<TLabTechTestQuery>) {
-    this.qcPendingQuery = { ...this.qcPendingQuery, ..._query };
+  setLimit(_limit: number, dataType: EnumLabTechQueryType = EnumLabTechQueryType.TEST) {
+    this.queries[dataType].limit = _limit;
   }
 }

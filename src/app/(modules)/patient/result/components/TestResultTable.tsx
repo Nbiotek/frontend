@@ -11,6 +11,7 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import { dateTimeUTC } from '@/utils/date';
 import Router, { useRouter } from 'next/navigation';
+import Status, { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 import {
   DropdownMenu,
@@ -37,12 +38,11 @@ const TestResultTable = ({ data }: TestResultResponse) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Test ID</TableHead>
+            <TableHead>Test ID</TableHead>
             <TableHead>Test Name</TableHead>
             <TableHead>Date Conducted</TableHead>
-            <TableHead>Result Summary</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead>Result Status</TableHead>
+            <TableHead className="w-20"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -51,24 +51,31 @@ const TestResultTable = ({ data }: TestResultResponse) => {
               <TableCell>{test.testId}</TableCell>
               <TableCell>{test.testName}</TableCell>
               <TableCell>{dateTimeUTC(test.conductedAt, false)}</TableCell>
-              <TableCell>{test.resultStatus}</TableCell>
-              <TableCell>{test.status}</TableCell>
               <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical className="cursor-pointer" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem onClick={() => handleView(test.id)}>View</DropdownMenuItem>
-                      {test.testSuitId && (
-                        <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
-                          View Test Suit
+                <Status variant={test.resultStatus} />
+              </TableCell>
+              <TableCell>
+                {test.resultStatus !== 'IN_PROGRESS' ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <EllipsisVertical className="cursor-pointer" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem onClick={() => handleView(test.id)}>
+                          View
                         </DropdownMenuItem>
-                      )}
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        {test.testSuitId && (
+                          <DropdownMenuItem onClick={() => handleTestSuit(test.testSuitId)}>
+                            View Test Suit
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Status variant="NOT_AVAILABLE" />
+                )}
               </TableCell>
             </TableRow>
           ))}

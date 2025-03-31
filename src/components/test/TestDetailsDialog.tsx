@@ -8,7 +8,9 @@ import {
 import Button from '@/atoms/Buttons';
 import { PackageTest, SingleTest } from '@/types/test';
 
-import { CartButton } from '../cart/CartButton';
+import { CartButton, RequestTestButton } from '../cart/CartButton';
+import { useRouter } from 'next/navigation';
+import { cartStore } from '@/store/Cart';
 
 interface SingleTestDialogProps {
   test: SingleTest | PackageTest | null;
@@ -17,16 +19,16 @@ interface SingleTestDialogProps {
   // onAddToCart: (test: SingleTest) => void;
 }
 
-const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
+const AllTestsDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
+  const router = useRouter();
+
   if (!test) return null;
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold text-blue-400">{test.name}</DialogTitle>
-          {/* <DialogDescription>
-              Complete test details and requirements
-            </DialogDescription> */}
+          <DialogDescription>{test.name} details and requirements</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div>
@@ -48,12 +50,9 @@ const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
               </ul>
             </div>
           )}
-          <div className="flex w-[450px] gap-4">
+          <div className="flex flex-col gap-4 md:flex-row  lg:w-[450px]">
             <CartButton item={test} type={'single'} />
-            <Button variant="filled" className="bg-green-400">
-              {' '}
-              Request Test
-            </Button>
+            <RequestTestButton item={test} type={'single'} />
           </div>
         </div>
       </DialogContent>
@@ -61,4 +60,4 @@ const SingleTestDialog = ({ test, open, onClose }: SingleTestDialogProps) => {
   );
 };
 
-export default SingleTestDialog;
+export default AllTestsDialog;

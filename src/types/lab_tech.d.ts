@@ -75,13 +75,16 @@ type TSingleTestDetail = {
   deadlineAt: string;
   completedAt?: string;
   notes?: string;
-  technician?: string;
+  technician?: {
+    id: string;
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
 };
 
 // ============ Results ========================
-type TLabTechTestQuery = {
+type TTestQuery = {
   search: string;
   status: string;
   fromDate: string;
@@ -89,9 +92,7 @@ type TLabTechTestQuery = {
   sortBy: string;
   sortOrder: string;
   priority: string;
-  page: number;
-  limit: number;
-};
+} & TGeneralPaginatedQuery;
 
 type TRecentTestResults = {
   results: Array<TTestData>;
@@ -100,3 +101,9 @@ type TRecentTestResults = {
 
 // ============ Quality Control ==================
 type TQCTestResp = INBTPaginatedData<TTestData>;
+
+type TAvailabiltyData = {
+  id: string;
+  status: string;
+  lastUpdate: string;
+};
