@@ -18,6 +18,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { EllipsisVertical } from 'lucide-react';
 import Status from '@/atoms/Buttons/Status';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import { dateTimeUTC } from '@/utils/date';
+import EmptyState from '@/components/EmptyState';
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -32,14 +35,21 @@ const getStatusColor = (status: string) => {
   }
 };
 
-const ReviewTestTable = () => {
+interface ReviewTestTableProps {
+  loading: boolean;
+  reviewTests: Tests[];
+}
+
+const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
+  console.log(reviewTests);
+
   return (
     <div className="overflow-clip rounded-lg">
       <Table className="bg-white">
         <TableHeader>
           <TableRow>
-            <TableHead>Patient Name</TableHead>
             <TableHead>Test ID</TableHead>
+            <TableHead>Patient Name</TableHead>
             <TableHead>Test Name</TableHead>
             <TableHead>Assinged Date</TableHead>
             <TableHead>Deadlines</TableHead>
@@ -47,53 +57,32 @@ const ReviewTestTable = () => {
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">david chappel</TableCell>
-            <TableCell>##@$EEEE</TableCell>
-            <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/05/33</TableCell>
-            <TableCell>23/4/5</TableCell>
-            <TableCell>
-              {' '}
-              <Status variant={'PENDING'} />
-            </TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <EllipsisVertical className="mr-2" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Reject </DropdownMenuItem>
-                  <DropdownMenuItem>Write Report</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">david chappel</TableCell>
-            <TableCell>##@$EEEE</TableCell>
-            <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/05/33</TableCell>
-            <TableCell>23/4/5</TableCell>
-            <TableCell>
-              {' '}
-              <Status variant={'PENDING'} />
-            </TableCell>
-            <TableCell className="">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <EllipsisVertical className="mr-2" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Reject </DropdownMenuItem>
-                  <DropdownMenuItem>Write Report</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        </TableBody>
+        {loading ? (
+          <TableLoader rows={7} columns={6} />
+        ) : (
+          reviewTests.length !== 0 && (
+            <TableBody>
+              {reviewTests.map((test) => (
+                <TableRow key={test.id}>
+                  <TableCell>{test.id}</TableCell>
+                  <TableCell>{test.patientName}</TableCell>
+                  <TableCell>{test.testName}</TableCell>
+                  <TableCell>{dateTimeUTC(test.createdAt, false)}</TableCell>
+                  <TableCell>{dateTimeUTC(test.deadline, false)}</TableCell>
+                  <TableCell>
+                    <Status variant={test.status} />
+                  </TableCell>
+                  {/* download  */}
+                  <TableCell>
+                    <EllipsisVertical className="cursor-pointer" />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
       </Table>
+      {loading || (reviewTests.length === 0 && <EmptyState title="No Test data" />)}
     </div>
   );
 };
