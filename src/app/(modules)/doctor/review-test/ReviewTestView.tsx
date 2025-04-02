@@ -7,7 +7,12 @@ import { ArrowUpDown, ListFilter, ClipboardList, Receipt, Calendar } from 'lucid
 import Button from '@/atoms/Buttons';
 import ReviewTestTable from './components/TestReviewTable';
 
+import { useTestReview } from '@/hooks/doctor/useTestReview';
+import { useEffect } from 'react';
+
 const ReviewTestView = () => {
+  const { data: reviewTests, isLoading } = useTestReview();
+
   return (
     <div className="flex-col space-y-[24px]">
       <div className="flex flex-col space-x-2 sm:flex-row sm:items-center sm:justify-between">
@@ -15,7 +20,7 @@ const ReviewTestView = () => {
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search transactions..." />
         <IconPod Icon={ArrowUpDown} />
       </div>
-      <ReviewTestTable />
+      <ReviewTestTable reviewTests={reviewTests?.data.tests || []} loading={isLoading} />
     </div>
   );
 };

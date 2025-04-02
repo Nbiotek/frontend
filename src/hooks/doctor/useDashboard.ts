@@ -10,7 +10,7 @@ export const useDashboard = () => {
 
 export const useRecentActivity = () => {
   return useQuery<TRecentActivity>({
-    queryKey: ['docto-recentActivity'],
+    queryKey: ['doctor-recentActivity'],
     queryFn: doctorDashboardService.getRecentActivity
   });
 };
