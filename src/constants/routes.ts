@@ -277,6 +277,8 @@ class Routes {
         return this.PATIENT.path;
       case EnumRole.LAB_CORDINATOR:
         return this.LAB_COORD.path;
+      case EnumRole.DOCTOR:
+        return this.DOCTOR.path;
       // TODO: Add more modules authorization routing here.
       default:
         return '';
@@ -323,7 +325,8 @@ const ROUTES = new Routes();
 export const roleAccessRules = {
   '/patient': [EnumRole.PATIENT],
   '/lab-tech': [EnumRole.LAB_TECHNICIAN],
-  '/lab-coord': [EnumRole.LAB_CORDINATOR]
+  '/lab-coord': [EnumRole.LAB_CORDINATOR],
+  '/doctor': [EnumRole.DOCTOR]
 };
 
 export default ROUTES;
