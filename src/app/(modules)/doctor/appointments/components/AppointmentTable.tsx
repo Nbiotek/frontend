@@ -18,66 +18,52 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { EllipsisVertical } from 'lucide-react';
 import Status from '@/atoms/Buttons/Status';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import EmptyState from '@/components/EmptyState';
 
-const AppointmentTable = () => {
+interface AppointmentTable {
+  appointments: TPatient[];
+  loading: boolean;
+}
+
+const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
   return (
-    <div className="overflow-clip rounded-lg">
+    <div className="overflow-clip rounded-lg bg-white">
       <Table className="bg-white">
         <TableHeader>
           <TableRow>
+            <TableHead>ID</TableHead>
             <TableHead>Patient Name</TableHead>
-            <TableHead>Test ID</TableHead>
-            <TableHead>Test Name</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>status</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Phone Number</TableHead>
+            <TableHead>Appointment No</TableHead>
+            <TableHead>Patient Type</TableHead>
+            <TableHead>Last Appointment</TableHead>
             <TableHead className="w-[20px]"></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">david chappel</TableCell>
-            <TableCell>##@$EEEE</TableCell>
-            <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/4/5</TableCell>
-            <TableCell>
-              {' '}
-              <Status variant={'PENDING'} />
-            </TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <EllipsisVertical className="mr-2" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>View </DropdownMenuItem>
-                  <DropdownMenuItem></DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">david chappel</TableCell>
-            <TableCell>##@$EEEE</TableCell>
-            <TableCell>Glucose blah blah</TableCell>
-            <TableCell>23/4/5</TableCell>
-            <TableCell>
-              {' '}
-              <Status variant={'PENDING'} />
-            </TableCell>
-            <TableCell className="">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <EllipsisVertical className="mr-2" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Reject </DropdownMenuItem>
-                  <DropdownMenuItem>Write Report</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        </TableBody>
+        {loading ? (
+          <TableLoader rows={8} columns={8} />
+        ) : (
+          <TableBody>
+            {appointments.map((patient) => (
+              <TableRow key={patient.id}>
+                <TableCell>{patient.id}</TableCell>
+                <TableCell>{patient.name}</TableCell>
+                <TableCell>{patient.email}</TableCell>
+                <TableCell>{patient.phoneNumber}</TableCell>
+                <TableCell>{patient.patientType}</TableCell>
+                <TableCell>{patient.lastAppointment}</TableCell>
+                <TableCell>{patient.createdAt}</TableCell>
+                <TableCell>
+                  <EllipsisVertical className="cursor-pointer" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
       </Table>
+      {loading || (appointments.length === 0 && <EmptyState title="No Test data" />)}
     </div>
   );
 };
