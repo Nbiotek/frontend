@@ -16,7 +16,8 @@ interface IInputDateProps extends InputHTMLAttributes<HTMLInputElement> {
   showTime?: boolean;
   placeholder?: string;
   minDate?: Date;
-  initialValue?: Date;
+  maxDate?: Date;
+  initialValue?: string;
   handleSetDate: (date: Date) => void;
   callBackFn?: () => void;
   callBackNote?: string;
@@ -30,6 +31,7 @@ const CustomDate = forwardRef<HTMLInputElement, IInputDateProps>(
       showTime,
       placeholder,
       minDate,
+      maxDate,
       required,
       handleSetDate,
       initialValue,
@@ -42,7 +44,7 @@ const CustomDate = forwardRef<HTMLInputElement, IInputDateProps>(
   ) => {
     const [open, setOpen] = useState(false);
     const [val, setVal] = useState<string | undefined>(
-      initialValue ? dateTimeUTC(initialValue.toISOString(), showTime) : ''
+      initialValue ? dateTimeUTC(initialValue, showTime) : ''
     );
     const [date, setDate] = useState<Date | undefined>(undefined);
 
@@ -111,6 +113,7 @@ const CustomDate = forwardRef<HTMLInputElement, IInputDateProps>(
             }}
             date={date}
             minDate={minDate}
+            maxDate={maxDate}
           />
         </DropdownMenuContent>
       </DropdownMenu>
