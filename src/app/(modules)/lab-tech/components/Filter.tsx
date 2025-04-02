@@ -120,6 +120,7 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
               <CustomDate
                 id="startDate"
                 className="md:w-[50%]"
+                initialValue={filter?.fromDate ?? ''}
                 showTime={false}
                 placeholder="Jan 1, 2000"
                 handleSetDate={(val) => {
@@ -130,9 +131,10 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
               <CustomDate
                 id="endDate"
                 className="md:w-[50%]"
+                initialValue={filter?.toDate ?? ''}
                 showTime={false}
                 placeholder="Jan 1, 2000"
-                minDate={new Date(filter?.fromDate ?? '')}
+                minDate={filter?.fromDate ? new Date(filter.fromDate) : new Date()}
                 handleSetDate={(val) => {
                   setFilter((prev) => ({ ...prev, toDate: val.toISOString() }));
                 }}
