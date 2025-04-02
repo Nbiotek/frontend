@@ -1,8 +1,6 @@
-import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 import { Skeleton } from '@/components/ui/skeleton';
 import Spinner from '@/lib/utils/spinner';
 import { Text } from '@/lib/utils/Text';
-import { LucideIcon } from 'lucide-react';
 
 interface CardProps {
   title: string;

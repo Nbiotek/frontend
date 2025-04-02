@@ -11,19 +11,14 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
-import TestModalDialog from './components/TestModal';
 import { CartItem, cartStore } from '@/store/Cart';
 
-import BonkingConfirmationDialog from './components/BookingConfirmation';
-
-import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
-import BookingForSelfModal from './components/BookingSelfDialog';
+import AppointmentConfirmation from './components/AppointmentConfirmation';
+import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';
 
 type LocationType = 'Lab' | 'Custom';
 
-const BookAppointmentView = () => {
-  const { data } = usePatientInfo();
-
+const CreateAppointmentView = () => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
   const [isBookingForSelfModalOpen, setIsBookingForSelfModalOpen] = useState(false);
@@ -34,12 +29,6 @@ const BookAppointmentView = () => {
   const handleTestModal = () => {
     setIsTestModalOpen(true);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsBookingForSelfModalOpen(true);
-    }, 200);
-  }, []);
 
   const [formData, setFormData] = useState<BookingForm>({
     fullName: '',
@@ -64,29 +53,6 @@ const BookAppointmentView = () => {
       }))
     }));
   }, [cartStore.items]);
-
-  useEffect(() => {
-    if (data && isBookingForSelf) {
-      setFormData((prev) => ({
-        ...prev,
-        fullName: data?.data?.personal.firstName + ' ' + data?.data.personal.lastName || '',
-        email: data?.data?.personal.email || '',
-        phoneNumber: data?.data?.personal.phoneNumber || ''
-      }));
-    } else if (!isBookingForSelf) {
-      setFormData((prev) => ({
-        ...prev,
-        fullName: '',
-        email: '',
-        phoneNumber: ''
-      }));
-    }
-  }, [data, isBookingForSelf]);
-
-  const handleBookingForSelfChoice = (forSelf: boolean) => {
-    setIsBookingForSelf(forSelf);
-    setIsBookingForSelfModalOpen(false);
-  };
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
@@ -166,20 +132,10 @@ const BookAppointmentView = () => {
       [name]: value
     }));
   };
-
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <>
-      <BookingForSelfModal
-        open={isBookingForSelfModalOpen}
-        onOpenChange={setIsBookingForSelfModalOpen}
-        onSelectOption={handleBookingForSelfChoice}
-      />
       <Cards className="p-[5px] sm:bg-white sm:p-[10px] md:p-[45px] ">
-        <Title text="Book your appointment now" />
+        <Title text="Book appointment for patients" />
         <Text variant="body" className="mb-4">
           So our team can reach out to you on time
         </Text>
@@ -304,7 +260,7 @@ const BookAppointmentView = () => {
       </Cards>
       <TestModalDialog open={isTestModalOpen} onClose={() => setIsTestModalOpen(false)} />
       {isBookingConfirmationDialogOpen && (
-        <BonkingConfirmationDialog
+        <AppointmentConfirmation
           open={isBookingConfirmationDialogOpen}
           onClose={() => setIsBookingConfirmationDialogOpen(false)}
           bookingData={formData}
@@ -315,4 +271,4 @@ const BookAppointmentView = () => {
   );
 };
 
-export default BookAppointmentView;
+export default CreateAppointmentView;

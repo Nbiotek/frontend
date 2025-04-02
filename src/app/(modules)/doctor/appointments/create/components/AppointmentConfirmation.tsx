@@ -11,7 +11,7 @@ import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide
 import Button from '@/atoms/Buttons';
 import { cartStore } from '@/store/Cart';
 
-import { useBookAppointment } from '@/hooks/patient/useAppoitment';
+import { useCreateAppointment } from '@/hooks/doctor/useAppointment';
 import toast from 'react-hot-toast';
 
 import { useState } from 'react';
@@ -25,17 +25,16 @@ interface BookingSummaryDialogProps {
   onConfirm?: () => void;
 }
 
-const BonkingConfirmationDialog = ({
+const AppointmentConfirmation = ({
   open,
   onClose,
   bookingData,
   onConfirm
 }: BookingSummaryDialogProps) => {
-  console.log(bookingData);
   const router = useRouter();
   const [paymentLink, setPaymentLink] = useState<string | null>(null);
 
-  const { mutate: bookAppointment, isPending } = useBookAppointment();
+  const { mutate: bookAppointment, isPending } = useCreateAppointment();
 
   const handleBookingSubmission = async () => {
     try {
@@ -184,4 +183,4 @@ const BonkingConfirmationDialog = ({
   );
 };
 
-export default BonkingConfirmationDialog;
+export default AppointmentConfirmation;

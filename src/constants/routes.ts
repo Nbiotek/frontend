@@ -192,6 +192,38 @@ class Routes {
     EnumRole.LAB_TECHNICIAN
   ]);
 
+  DOCTOR = new Route('/doctor', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
+
+  DOCTOR_APPOINTMENT = new Route('/doctor/appointments', 'Appointments', 'Doctor Dashboard page', [
+    EnumRole.DOCTOR
+  ]);
+  DOCTOR_CREATE_APPOINTMENT = new Route(
+    '/doctor/appointments/create',
+    'Create Appointments',
+    'Doctor Dashboard page',
+    [EnumRole.DOCTOR]
+  );
+
+  DOCTOR_TEST_REVIEW = new Route('/doctor/review-test', 'Test Review', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_REFERRALS = new Route('/doctor/referrals', 'Referrals', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_NOTIFICATION = new Route('/doctor/notification', 'Notifications', 'Doctor Notification', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_HELP_SUPPORT = new Route(
+    '/doctor/help_support',
+    'Help & Support',
+    'Doctor Help & Support',
+    [EnumRole.DOCTOR]
+  );
+
+  DOCTOR_SETTINGS = new Route('/doctor/settings', 'Settings', 'Doctor Settings', [EnumRole.DOCTOR]);
   // LAB COORDINATOR
   LAB_COORD = new Route('/lab-coord', 'Dashboard', 'Lab Coordinator', [EnumRole.LAB_CORDINATOR]);
   LAB_COORD_TEST_SCHEDULING = new Route(

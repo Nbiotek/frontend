@@ -13,7 +13,7 @@ const TableLoader = ({ rows, columns }: ITableLoaderProps) => {
         <TableRow key={`${row}-${rowIndex}`} className="hover:bg-gray-50 w-full">
           {Array.from({ length: columns }).map((col, colIndex) => (
             <TableCell key={`${col}-${colIndex}`} className="">
-              <div className="h-4 animate-pulse rounded bg-neutral-50"></div>
+              <div className="h-4 animate-pulse rounded bg-neutral-200"></div>
             </TableCell>
           ))}
         </TableRow>
