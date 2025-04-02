@@ -14,26 +14,40 @@ type TInventoryOverview = {
 };
 
 type TPendingQualityControl = {
+  id: string;
   patientName: string;
-  patientId: string;
-  assignedTechnician: string;
-  dueDate: string;
+  testName: string;
+  testType: string;
+  type: string;
   status: string;
+  priority: string;
+  preferredAt: string;
+  deadlineAt: string;
+  completedAt?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+  resultStatus: string;
 };
 
 type TCurrentStaffShifts = {
-  staffName: string;
   id: string;
-  role: string;
   shiftType: string;
+  startTime: string;
+  endTime: string;
   dueDate: string;
-  status: string;
+  staff: {
+    firstName: string;
+    lastName: string;
+    id: string;
+    role: string;
+  };
 };
 
 type TDashboardData = {
   summary: TDashboardSummary;
   inventoryOverview: TInventoryOverview;
-  pendingQualityControl: Array<TPendingQualityControl>;
+  pendingQualityControl: Array<TTestData>;
   currentStaffShifts: Array<TCurrentStaffShifts>;
 };
 
@@ -83,4 +97,10 @@ type TCreateInventory = {
   supplierName: string;
   supplierContact: string;
   expiryDate: string;
+};
+
+// staff schedules
+type TStaffShiftsRes = {
+  shifts: Array<TCurrentStaffShifts>;
+  pagination: TPaginationResponse;
 };

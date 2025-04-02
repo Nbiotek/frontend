@@ -4,14 +4,15 @@ import { ChevronRight, ShieldAlert, ShieldCheck, TestTube2 } from 'lucide-react'
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
 import Inventory from './Inventory';
-import Qc from './Qc';
-import Shifts from './Shifts';
 import Link from 'next/link';
 import { useFetchDashboard } from '@/hooks/labCoord/useFetchDashboard';
 import { EnumOverviewIcon } from '@/components/dashboard/metric/OverviewCard';
 import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 import { useEffect, useState } from 'react';
+import QCTable from '../quality-control/components/QCTable';
+import { pagination } from '@/constants/data';
+import ShiftTable from '../staff/components/ShiftTable';
 
 const actions = [
   {
@@ -126,8 +127,18 @@ const DashboardView = () => {
               </div>
             </div>
           </div>
-          <Qc pendingQualityControl={dashboard?.pendingQualityControl} />
-          <Shifts currentStaffShifts={dashboard?.currentStaffShifts} />
+          {dashboard?.pendingQualityControl && (
+            <>
+              <QCTable
+                isLoading={isLoading}
+                resultsData={{ requests: dashboard.pendingQualityControl, pagination }}
+              />
+              <ShiftTable
+                isLoading={isLoading}
+                resultsData={{ shifts: dashboard.currentStaffShifts, pagination }}
+              />
+            </>
+          )}
         </>
       )}
 

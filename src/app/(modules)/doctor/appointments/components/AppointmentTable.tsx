@@ -20,6 +20,7 @@ import { EllipsisVertical } from 'lucide-react';
 import Status from '@/atoms/Buttons/Status';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
+import { formatTestDate } from '@/utils/date';
 
 interface AppointmentTable {
   appointments: TPatient[];
@@ -32,7 +33,7 @@ const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
       <Table className="bg-white">
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
+            {/* <TableHead>ID</TableHead> */}
             <TableHead>Patient Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone Number</TableHead>
@@ -48,13 +49,15 @@ const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
           <TableBody>
             {appointments.map((patient) => (
               <TableRow key={patient.id}>
-                <TableCell>{patient.id}</TableCell>
+                {/* <TableCell>{patient.id}</TableCell> */}
                 <TableCell>{patient.name}</TableCell>
                 <TableCell>{patient.email}</TableCell>
                 <TableCell>{patient.phoneNumber}</TableCell>
+                <TableCell>{patient.appointmentCount}</TableCell>
                 <TableCell>{patient.patientType}</TableCell>
-                <TableCell>{patient.lastAppointment}</TableCell>
-                <TableCell>{patient.createdAt}</TableCell>
+                <TableCell>
+                  {patient?.createdAt ? formatTestDate(patient.createdAt) : '-'}
+                </TableCell>
                 <TableCell>
                   <EllipsisVertical className="cursor-pointer" />
                 </TableCell>
