@@ -36,6 +36,7 @@ type TProfileInfo = {
   created_at: string;
   role: string;
   status: string;
+  has_completed_profile: boolean;
 };
 
 interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {

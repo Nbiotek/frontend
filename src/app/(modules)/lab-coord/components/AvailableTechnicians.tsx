@@ -46,7 +46,7 @@ const AvailableTechnicians = () => {
       <div className="h-fit max-h-[600px] w-full overflow-y-scroll bg-white pt-2">
         {status === 'pending' && (
           <div className="flex flex-col space-y-2">
-            {Array(10)
+            {Array(5)
               .fill('1')
               .map((_, idx) => (
                 <div

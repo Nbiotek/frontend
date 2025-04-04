@@ -17,7 +17,8 @@ import {
   postVerifyOTP,
   postNewPwd,
   postResendOTP,
-  postForgotPwd
+  postForgotPwd,
+  getProfile
 } from '@/requests/auth';
 import { EnumRole } from '@/constants/mangle';
 import toast from 'react-hot-toast';
@@ -35,6 +36,7 @@ interface IJwtPayloadExt extends jwt.JwtPayload {
   profile_pics: string;
   uuid: string;
   role: string;
+  has_completed_profile: boolean;
 }
 
 export enum EnumResendToken {
@@ -274,7 +276,8 @@ export class AuthStore {
         role: decodedToken.role,
         profile_pics: decodedToken.profile_pics,
         uuid: decodedToken.uuid,
-        id: decodedToken.id
+        id: decodedToken.id,
+        has_completed_profile: decodedToken.has_completed_profile
       });
 
       if (!data?.email_verified) {
@@ -298,10 +301,13 @@ export class AuthStore {
       del('_um');
       this._pd = '';
 
-      if (this.user?.role === EnumRole.PATIENT && this.user.first_name === 'patient') {
-        cb && cb(ROUTES.PATIENT_REG_INFO.path);
+      if (this.user.role === EnumRole.PATIENT) {
+        cb &&
+          cb(
+            decodedToken.has_completed_profile ? ROUTES.PATIENT.path : ROUTES.PATIENT_REG_INFO.path
+          );
       } else {
-        cb && cb(ROUTES.getRedirectPathByRole(this.user?.role as EnumRole));
+        cb && cb(ROUTES.getRedirectPathByRole(decodedToken.role as EnumRole));
       }
     } catch (error) {
       toast.error(parseError(error));

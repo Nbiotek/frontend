@@ -99,7 +99,12 @@ const DashboardView = () => {
           <CoordAnalytics {...{ card, summary: dashboard?.summary }} />
           <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
             <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
-              <Inventory inventoryOverview={dashboard?.inventoryOverview} />
+              {dashboard?.pendingQualityControl && (
+                <QCTable
+                  isLoading={isLoading}
+                  resultsData={{ requests: dashboard.pendingQualityControl, pagination }}
+                />
+              )}
             </div>
             <div className="flex h-fit w-full flex-col space-y-2 rounded-xl bg-white p-4 lg:w-[25%]">
               <SubTitle text="Quick Actions" className="border-b pb-2" />
@@ -127,7 +132,7 @@ const DashboardView = () => {
               </div>
             </div>
           </div>
-          {dashboard?.pendingQualityControl && (
+          {/* {dashboard?.pendingQualityControl && (
             <>
               <QCTable
                 isLoading={isLoading}
@@ -138,7 +143,7 @@ const DashboardView = () => {
                 resultsData={{ shifts: dashboard.currentStaffShifts, pagination }}
               />
             </>
-          )}
+          )} */}
         </>
       )}
 

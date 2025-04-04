@@ -36,6 +36,10 @@ type TTestData = {
   createdAt: string;
   updatedAt: string;
   resultStatus: string;
+  technician: {
+    id: string;
+    name: string;
+  } | null;
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;

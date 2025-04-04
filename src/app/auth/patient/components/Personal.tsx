@@ -97,16 +97,17 @@ function PersonalForm() {
               error={errors.phoneNumber?.message}
             />
 
-            <CustomDate
-              required={true}
-              className="md:w-[50%]"
-              id="dateOfBirth"
-              label="Date of Birth"
-              showTime={false}
-              error={errors.dateOfBirth?.message}
-              placeholder="Jan 1, 2000"
-              handleSetDate={handleSetDate}
-            />
+            <div className="md:w-[50%]">
+              <CustomDate
+                required={true}
+                id="dateOfBirth"
+                label="Date of Birth"
+                showTime={false}
+                error={errors.dateOfBirth?.message}
+                placeholder="Jan 1, 2000"
+                handleSetDate={handleSetDate}
+              />
+            </div>
           </div>
 
           <div className="">

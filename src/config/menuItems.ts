@@ -33,9 +33,11 @@ export interface MenuItem {
   title: string;
   url?: string;
   icon: LucideIcon;
+  isNestable?: boolean;
   submenu?: Array<{
     title: string;
     url: string;
+    isNestable?: boolean;
   }>;
 }
 
@@ -164,7 +166,8 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_TECH_TEST.title,
       url: ROUTES.LAB_TECH_TEST.path,
-      icon: TestTubeDiagonal
+      icon: TestTubeDiagonal,
+      isNestable: true
     },
     {
       title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
@@ -211,18 +214,19 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_COORD_TEST_SCHEDULING.title,
       url: ROUTES.LAB_COORD_TEST_SCHEDULING.path,
-      icon: TestTubeDiagonal
+      icon: TestTubeDiagonal,
+      isNestable: true
     },
-    {
-      title: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.title,
-      url: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.path,
-      icon: FileTextIcon
-    },
-    {
-      title: ROUTES.LAB_COORD_STAFF_SCHEDULES.title,
-      url: ROUTES.LAB_COORD_STAFF_SCHEDULES.path,
-      icon: UsersIcon
-    },
+    // {
+    //   title: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.title,
+    //   url: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.path,
+    //   icon: FileTextIcon
+    // },
+    // {
+    //   title: ROUTES.LAB_COORD_STAFF_SCHEDULES.title,
+    //   url: ROUTES.LAB_COORD_STAFF_SCHEDULES.path,
+    //   icon: UsersIcon
+    // },
     {
       title: ROUTES.LAB_COORD_QUALITY_CONTROL.title,
       url: ROUTES.LAB_COORD_QUALITY_CONTROL.path,

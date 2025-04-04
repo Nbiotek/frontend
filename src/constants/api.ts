@@ -74,5 +74,7 @@ export const LAB_COORD = {
   STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
   AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians',
   ASSIGN_TECHNICIAN: '/lab-coordinator/test-requests-assign-technician',
-  INVENTORY: '/lab-coordinator/inventory'
+  INVENTORY: '/lab-coordinator/inventory',
+  QC_PENDING: '/lab-coordinator/test-quality-control',
+  QC_HISTORY: '/lab-coordinator/quality-control-history'
 } as const;
