@@ -57,26 +57,6 @@ function PatientRegView() {
           </div>
 
           <div className="">
-            {/* <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="fname"
-                label="First Name"
-                placeholder="Adeolu"
-                {...register('firstName')}
-                error={errors.firstName?.message}
-              />
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                label="Last Name"
-                placeholder="John"
-                {...register('lastName')}
-                error={errors.lastName?.message}
-              />
-            </div> */}
             <Input
               type="email"
               label="Email Address"

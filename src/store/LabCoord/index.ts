@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
+import { EnumTestStatus } from '@/atoms/Buttons/Status';
 
 export enum EnumLabCoordQueryType {
   TEST = 'TEST',
@@ -18,7 +19,7 @@ export class LabCoordStore {
     [EnumLabCoordQueryType.INVENTORY]: { ...defaultQuery },
     [EnumLabCoordQueryType.STAFF]: { ...defaultQuery },
     [EnumLabCoordQueryType.CONTROL_HISTORY]: { ...defaultQuery },
-    [EnumLabCoordQueryType.CONTROL_PENDING]: { ...defaultQuery }
+    [EnumLabCoordQueryType.CONTROL_PENDING]: { ...defaultQuery, status: EnumTestStatus.PENDING }
   };
   inventoryQuery = {};
 

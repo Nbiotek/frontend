@@ -1,21 +1,19 @@
 'use client';
-import { EllipsisVertical, Eye, HandCoins, Pause, Play, Upload } from 'lucide-react';
+import { EllipsisVertical, Eye, HandCoins } from 'lucide-react';
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import Status, { EnumTestStatus } from '@/atoms/Buttons/Status';
+import Status from '@/atoms/Buttons/Status';
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuGroup
+  DropdownMenuContent
 } from '@/components/ui/dropdown-menu';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
@@ -23,12 +21,9 @@ import { observer } from 'mobx-react-lite';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
-import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import Pagination from '@/atoms/pagination';
-import { SetStateAction } from 'react';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -51,16 +46,18 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
             <TableRow>
               <TableHead className="w-[280px]">Name</TableHead>
               <TableHead className="w-[280px]">Test Name</TableHead>
+              <TableHead className="w-[280px]">Test Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
               <TableHead className="w-[150px]">Date created</TableHead>
               <TableHead className="w-[150px]">Requested Date</TableHead>
               <TableHead className="w-[150px]">Deadline</TableHead>
               <TableHead className="w-[80px]">Status</TableHead>
+              <TableHead>Lab Technician</TableHead>
               <TableHead className="w-[20px]"></TableHead>
             </TableRow>
           </TableHeader>
           {isLoading ? (
-            <TableLoader rows={20} columns={8} />
+            <TableLoader rows={20} columns={10} />
           ) : (
             tests.requests.length !== 0 && (
               <TableBody>
@@ -70,6 +67,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                       {test.patientName}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
+                    <TableCell className="whitespace-nowrap">{test.testType}</TableCell>
                     <TableCell>
                       <Status variant={test.priority} />
                     </TableCell>
@@ -85,6 +83,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     <TableCell>
                       <Status variant={test.status} />
                     </TableCell>
+                    <TableCell>{test.technician?.name ?? ''}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger>
@@ -102,19 +101,20 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                             <Eye />
                             <p>View Test</p>
                           </DropdownMenuItem>
-                          {}
-                          <DropdownMenuItem
-                            onClick={() =>
-                              toggleModals({
-                                name: AppModals.AVAILABLE_TECHNICIANS,
-                                open: true,
-                                testId: test.id
-                              })
-                            }
-                          >
-                            <HandCoins />
-                            <p>Assign</p>
-                          </DropdownMenuItem>
+                          {test.technician && test.technician.id ? null : (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                toggleModals({
+                                  name: AppModals.AVAILABLE_TECHNICIANS,
+                                  open: true,
+                                  testId: test.id
+                                })
+                              }
+                            >
+                              <HandCoins />
+                              <p>Assign</p>
+                            </DropdownMenuItem>
+                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

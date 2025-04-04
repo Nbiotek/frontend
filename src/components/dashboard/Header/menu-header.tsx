@@ -5,6 +5,7 @@ import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
 import { CartPopup } from '@/components/cart/CartPopup';
+import { EnumRole } from '@/constants/mangle';
 
 const MenuHeader = () => {
   const { state, toggleSidebar } = useSidebar();
@@ -28,9 +29,11 @@ const MenuHeader = () => {
         <div className="hidden items-center justify-between space-x-4 md:flex">
           <Bell color="#4044A7" />
           <Settings color="#4044A7" />
-          <div className="flex items-center space-x-2">
-            <CartPopup />
-          </div>
+          {data?.role === EnumRole.PATIENT && (
+            <div className="flex items-center space-x-2">
+              <CartPopup />
+            </div>
+          )}
         </div>
       </div>
     </div>

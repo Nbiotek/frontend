@@ -53,6 +53,7 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
           <TableHeader>
             <TableRow>
               <TableHead>Patient Name</TableHead>
+              <TableHead>Test Name</TableHead>
               <TableHead>Test type</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Date Requested</TableHead>
@@ -65,13 +66,14 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
           </TableHeader>
 
           {isLoading ? (
-            <TableLoader rows={20} columns={9} />
+            <TableLoader rows={20} columns={10} />
           ) : (
             resultsData.requests.length !== 0 && (
               <TableBody>
                 {resultsData.requests.map((qcDatum) => (
                   <TableRow key={qcDatum.id}>
-                    <TableCell className="font-medium">{qcDatum.patientName}</TableCell>
+                    <TableCell>{qcDatum.patientName}</TableCell>
+                    <TableCell>{qcDatum.testName}</TableCell>
                     <TableCell>{qcDatum.testType}</TableCell>
                     <TableCell>
                       <Status variant={qcDatum.priority} />

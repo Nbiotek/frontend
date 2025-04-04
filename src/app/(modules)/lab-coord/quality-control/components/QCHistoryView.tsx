@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
 import QCTable from './QCTable';
 import { ArrowUpDown } from 'lucide-react';
@@ -8,6 +8,7 @@ import { pagination } from '@/constants/data';
 import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
 import { EnumLabCoordQueryType } from '@/store/LabCoord';
+import { useFetchQCHistory } from '@/hooks/labCoord/useFetchQCHistory';
 
 const QCHistoryView = () => {
   const params: Partial<TTestQuery> = {};
@@ -18,6 +19,14 @@ const QCHistoryView = () => {
   const {
     LabCoordStore: { queries, applyQuery, resetQuery }
   } = useStore();
+
+  const { data, isLoading } = useFetchQCHistory(queries.CONTROL_HISTORY);
+
+  useEffect(() => {
+    if (!isLoading && data != undefined) {
+      setResult(data);
+    }
+  }, [data, isLoading]);
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -33,7 +42,7 @@ const QCHistoryView = () => {
         <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for tests..." />
         <IconPod Icon={ArrowUpDown} />
       </fieldset>
-      <QCTable isLoading={false} resultsData={result} />
+      <QCTable isLoading={isLoading} resultsData={result} />
     </div>
   );
 };
