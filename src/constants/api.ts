@@ -46,11 +46,15 @@ export const PATIENT = {
 export const DOCTOR = {
   DASHBOARD: '/doctors/dashboard',
   RECENT_ACTIVITY: '/doctors/recent-activity',
-  TEST_REVIEW: '/doctors/test-requests?',
+  TEST_REVIEW: {
+    All: '/doctors/test-requests',
+    DETAILS: (id: string) => `/doctors/test-requests/${id}`
+  },
   APPOINTMENT: {
     ALL: '/doctors/appointments',
     CREATE: '/doctors/appointments'
-  }
+  },
+  REFERRALS: '/doctors/patients'
 };
 
 export const LAB_TECH = {

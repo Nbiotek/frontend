@@ -15,7 +15,18 @@ export const doctorDashboardService = {
 
 export const doctorReviewTestService = {
   getAllTestReview: async () => {
-    const { data } = await server.get<TDoctorTestReview>(DOCTOR.TEST_REVIEW);
+    const { data } = await server.get<TDoctorTestReview>(DOCTOR.TEST_REVIEW.All);
+    return data;
+  },
+
+  getTestReviewById: async (id: string) => {
+    const { data } = await server.get<TTestRevDet>(DOCTOR.TEST_REVIEW.DETAILS(id));
+    return data;
+  },
+
+  writeRecommendation: async (id: string, notes: string) => {
+    const { data } = await server.post(`/doctors/test-requests/${id}/approve`, { notes });
+
     return data;
   }
 };
@@ -27,6 +38,13 @@ export const doctorAppointmentService = {
   },
   createAppointment: async (appointmentData: BookAppointmentDTO) => {
     const { data } = await server.post<Appointment>(DOCTOR.APPOINTMENT.CREATE, appointmentData);
+    return data;
+  }
+};
+
+export const doctorReferralsService = {
+  getAllPatientReffered: async () => {
+    const { data } = await server.get<TPatientReffered>(DOCTOR.REFERRALS);
     return data;
   }
 };
