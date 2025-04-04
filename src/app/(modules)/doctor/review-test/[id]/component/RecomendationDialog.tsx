@@ -79,7 +79,8 @@ const RecommendationDialog = ({
           <DialogHeader>
             <DialogTitle>Medical Recommendation</DialogTitle>
             <DialogDescription>
-              Write your professional recommendation based on {patientName}'s {testType} results.
+              Write your professional recommendation based on {patientName}&apos;s {testType}{' '}
+              results.
             </DialogDescription>
           </DialogHeader>
 
