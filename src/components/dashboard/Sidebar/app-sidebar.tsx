@@ -20,7 +20,7 @@ import { PanelRightOpen } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { EnumRole } from '@/constants/mangle';
-import { menuConfig } from '@/config/menuItems';
+import { menuConfig, MenuItem } from '@/config/menuItems';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -41,6 +41,14 @@ export function AppSidebar() {
 
   const isSubmenuActive = (submenu: { url: string }[]) =>
     submenu.some((item) => isActive(item.url));
+
+  const isCurrentPath = (menuItem: MenuItem, currentPath: string): boolean => {
+    if (!menuItem.url) return false;
+
+    if (!menuItem.isNestable) return menuItem.url === currentPath;
+
+    return currentPath.startsWith(menuItem.url);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,7 +80,7 @@ export function AppSidebar() {
                 <Link key={item.url} href={item.url ?? ''}>
                   <SidebarMenuItem
                     key={index}
-                    className={`${pathname === item.url ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                    className={`${isCurrentPath(item, pathname) ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
                   >
                     <SidebarMenuButton tooltip={item.title}>
                       <item.icon />

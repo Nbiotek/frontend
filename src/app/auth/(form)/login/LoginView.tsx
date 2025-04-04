@@ -33,8 +33,7 @@ function LoginView() {
 
   const onSubmit: SubmitHandler<TLogin> = async (formData) => {
     login(formData, (url) => {
-      queryClient.resetQueries();
-      router.replace(url);
+      queryClient.resetQueries().then(() => router.replace(url));
     });
   };
 
@@ -48,16 +47,16 @@ function LoginView() {
           disabled={isLoading.login}
           className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
         >
-          {/* <div className="flex flex-col space-y-2">
-          <GoogleBtn />
-          <FacebookBtn />
-        </div>
+          <div className="flex flex-col space-y-2">
+            <GoogleBtn />
+            <FacebookBtn />
+          </div>
 
-        <div className="flex items-center justify-between text-neutral-200">
-          <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-          <p>or</p>
-          <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-        </div> */}
+          <div className="flex items-center justify-between text-neutral-200">
+            <div className="h-[1px] w-[45%] bg-neutral-100"></div>
+            <p>or</p>
+            <div className="h-[1px] w-[45%] bg-neutral-100"></div>
+          </div>
 
           <div className="">
             <Input
