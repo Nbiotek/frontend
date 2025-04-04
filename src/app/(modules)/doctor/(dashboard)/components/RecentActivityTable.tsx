@@ -31,10 +31,10 @@ const RecentActivityTable = () => {
         <Table>
           <TableHeader className="bg-neutral-50 text-black">
             <TableRow className="text-black">
-              <TableHead className="text-black">ID</TableHead>
               <TableHead className="text-black">TEST NAME</TableHead>
+              <TableHead className="text-black">PATIENT NAME</TableHead>
+              <TableHead className="text-black"> TEST TYPE</TableHead>
               <TableHead className="text-black">DATE</TableHead>
-              <TableHead className="text-black">TYPE</TableHead>
               <TableHead className="text-black">STATUS</TableHead>
               <TableHead className="w-[20px]"> </TableHead>
             </TableRow>
@@ -46,10 +46,11 @@ const RecentActivityTable = () => {
               <TableBody>
                 {reviews.map((recentTest) => (
                   <TableRow key={recentTest.id}>
-                    <TableCell>{recentTest.id}</TableCell>
-                    <TableCell>{recentTest.name}</TableCell>
-                    <TableCell>{dateTimeUTC(recentTest.date, false)}</TableCell>
-                    <TableCell>{recentTest.testType}</TableCell>
+                    <TableCell>{recentTest.testName}</TableCell>
+                    <TableCell>{recentTest.patientName}</TableCell>
+
+                    <TableCell>{recentTest.type}</TableCell>
+                    <TableCell>{dateTimeUTC(recentTest.createdAt, false)}</TableCell>
                     <TableCell>
                       <Status variant={recentTest.status} />
                     </TableCell>

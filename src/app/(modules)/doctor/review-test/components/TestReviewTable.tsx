@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuGroup,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
@@ -21,19 +22,7 @@ import Status from '@/atoms/Buttons/Status';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import { dateTimeUTC } from '@/utils/date';
 import EmptyState from '@/components/EmptyState';
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'pending':
-      return 'bg-[#FFA756]/30 text-yellow-800';
-    case 'completed':
-      return 'bg-green-100 text-green-800';
-    case 'under review':
-      return 'bg-[#6226EF]/30 text-blue-400';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-};
+import { useRouter } from 'next/navigation';
 
 interface ReviewTestTableProps {
   loading: boolean;
@@ -41,14 +30,13 @@ interface ReviewTestTableProps {
 }
 
 const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
-  console.log(reviewTests);
+  const router = useRouter();
 
   return (
     <div className="overflow-clip rounded-lg">
       <Table className="bg-white">
         <TableHeader>
           <TableRow>
-            <TableHead>Test ID</TableHead>
             <TableHead>Patient Name</TableHead>
             <TableHead>Test Name</TableHead>
             <TableHead>Assinged Date</TableHead>
@@ -64,7 +52,6 @@ const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
             <TableBody>
               {reviewTests.map((test) => (
                 <TableRow key={test.id}>
-                  <TableCell>{test.id}</TableCell>
                   <TableCell>{test.patientName}</TableCell>
                   <TableCell>{test.testName}</TableCell>
                   <TableCell>{dateTimeUTC(test.createdAt, false)}</TableCell>
@@ -74,7 +61,28 @@ const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
                   </TableCell>
                   {/* download  */}
                   <TableCell>
-                    <EllipsisVertical className="cursor-pointer" />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical className="cursor-pointer" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuGroup>
+                          {test.status === 'COMPLETED' ? (
+                            <DropdownMenuItem
+                              onClick={() => router.push(`/doctor/review-test/${test.id}`)}
+                            >
+                              View Test
+                            </DropdownMenuItem>
+                          ) : (
+                            <DropdownMenuItem
+                              onClick={() => router.push(`/doctor/review-test/${test.id}`)}
+                            >
+                              Write Report
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}

@@ -35,6 +35,12 @@ export enum EnumTPatientPayment {
   FAILED = 'FAILED'
 }
 
+export enum EnumTDoctorReview {
+  IN_REVIEW = 'IN_REVIEW',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED'
+}
+
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
@@ -77,6 +83,13 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
       case EnumTPatientPayment.COMPLETED:
         return 'status-green';
       case EnumTPatientPayment.FAILED:
+        return 'status-red';
+
+      case EnumTDoctorReview.IN_REVIEW:
+        return 'status-violet';
+      case EnumTDoctorReview.COMPLETED:
+        return 'status-green';
+      case EnumTDoctorReview.FAILED:
         return 'status-red';
     }
   }, [variant]);

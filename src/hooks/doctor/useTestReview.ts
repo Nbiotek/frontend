@@ -7,3 +7,10 @@ export const useTestReview = () => {
     queryFn: doctorReviewTestService.getAllTestReview
   });
 };
+
+export const useTestRevDetails = (id: string) => {
+  return useQuery<TTestRevDet>({
+    queryKey: ['doctor-review-test-details', id],
+    queryFn: () => doctorReviewTestService.getTestReviewById(id)
+  });
+};
