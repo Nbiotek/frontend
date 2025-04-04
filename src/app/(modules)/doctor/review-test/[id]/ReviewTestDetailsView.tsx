@@ -74,7 +74,11 @@ const ReviewTestDetailsView = () => {
           {' '}
           Download Result
         </Button> */}
-      <RecommendationDialog isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <RecommendationDialog
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        id={data?.data.id || ''}
+      />
     </div>
   );
 };

@@ -14,3 +14,15 @@ export const useTestRevDetails = (id: string) => {
     queryFn: () => doctorReviewTestService.getTestReviewById(id)
   });
 };
+
+export const useWriteRecommendation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, notes }: { id: string; notes: string }) =>
+      doctorReviewTestService.writeRecommendation(id, notes),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['doctor-review-test'] });
+    }
+  });
+};

@@ -22,6 +22,12 @@ export const doctorReviewTestService = {
   getTestReviewById: async (id: string) => {
     const { data } = await server.get<TTestRevDet>(DOCTOR.TEST_REVIEW.DETAILS(id));
     return data;
+  },
+
+  writeRecommendation: async (id: string, notes: string) => {
+    const { data } = await server.post(`/doctors/test-requests/${id}/approve`, { notes });
+
+    return data;
   }
 };
 
