@@ -139,6 +139,7 @@ const ResultView = () => {
         </div>
       </div>
       <TestResult data={data?.data?.results} />
+      {/* <FieldSet legend='Doctors Comment' text={data.data.} /> */}
       <Button
         variant="filled"
         className="mx-auto w-60"
