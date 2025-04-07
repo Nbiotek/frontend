@@ -18,8 +18,8 @@ export const PATIENT = {
   BILLING: '/payments',
 
   APPOINTMENTS: {
-    UPCOMING: '/patients/appointments/upcoming?sortOrder=DESC',
-    PENDING: '/patients/appointments/pending?sortOrder=DESC',
+    UPCOMING: '/patients/appointments/upcoming',
+    PENDING: '/patients/appointments/pending',
     PAST: '/patients/appointments/past',
     CREATE: 'patients/appointments',
     DETAILS: (id: string) => `patients/appointments/${id}/show`,

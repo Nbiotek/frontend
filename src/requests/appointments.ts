@@ -1,22 +1,95 @@
 import server, { serverwithoutInterceptor } from '.';
 import { PATIENT } from '@/constants/api';
 
+export interface AppointmentFilterParams {
+  search?: string;
+  fromDate?: string;
+  toDate?: string;
+  sortBy?: string;
+  sortOrder?: 'ASC' | 'DESC';
+}
+
 export const AppointmentService = {
   // Get all upcoming appointments
-  getUpcomingAppointments: async () => {
-    const { data } = await server.get<UpcomingAppointment>(PATIENT.APPOINTMENTS.UPCOMING);
-    return data;
+  getUpcomingAppointments: async (params?: AppointmentFilterParams) => {
+    // Get the base URL
+    const baseUrl = PATIENT.APPOINTMENTS.UPCOMING;
+
+    // If no params are provided, use the default sortOrder=DESC
+    if (!params || Object.keys(params).length === 0) {
+      const defaultUrl = `${baseUrl}?sortOrder=DESC`;
+      const { data } = await server.get<UpcomingAppointment>(defaultUrl);
+      return data;
+    } else {
+      // Build query string from params
+      const queryParams = new URLSearchParams();
+
+      if (params.search) queryParams.append('search', params.search);
+      if (params.fromDate) queryParams.append('fromDate', params.fromDate);
+      if (params.toDate) queryParams.append('toDate', params.toDate);
+      if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+
+      // Always include sortOrder, default to DESC if not provided
+      queryParams.append('sortOrder', params.sortOrder || 'DESC');
+
+      // Append the query string to the URL
+      const url = `${baseUrl}?${queryParams.toString()}`;
+      const { data } = await server.get<UpcomingAppointment>(url);
+      return data;
+    }
   },
 
-  getPendingAppointments: async () => {
-    const { data } = await server.get<PendingAppointment>(PATIENT.APPOINTMENTS.PENDING);
-    return data;
+  getPendingAppointments: async (params?: AppointmentFilterParams) => {
+    const baseUrl = PATIENT.APPOINTMENTS.PENDING;
+
+    if (!params || Object.keys(params).length === 0) {
+      const defaultUrl = `${baseUrl}?sortOrder=DESC`;
+      const { data } = await server.get<PendingAppointment>(defaultUrl);
+      return data;
+    } else {
+      // Build query string from params
+      const queryParams = new URLSearchParams();
+
+      if (params.search) queryParams.append('search', params.search);
+      if (params.fromDate) queryParams.append('fromDate', params.fromDate);
+      if (params.toDate) queryParams.append('toDate', params.toDate);
+      if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+
+      // Always include sortOrder, default to DESC if not provided
+      queryParams.append('sortOrder', params.sortOrder || 'DESC');
+
+      // Append the query string to the URL
+      const url = `${baseUrl}?${queryParams.toString()}`;
+      const { data } = await server.get<PendingAppointment>(url);
+      return data;
+    }
   },
 
   // Get all past appointment
-  getPastAppointments: async () => {
-    const { data } = await server.get<PastAppointment>(PATIENT.APPOINTMENTS.PAST);
-    return data;
+  getPastAppointments: async (params?: AppointmentFilterParams) => {
+    const baseUrl = PATIENT.APPOINTMENTS.PAST;
+
+    if (!params || Object.keys(params).length === 0) {
+      const defaultUrl = `${baseUrl}?sortOrder=DESC`;
+      const { data } = await server.get<PastAppointment>(defaultUrl);
+      return data;
+    } else {
+      // Build query string from params
+      const queryParams = new URLSearchParams();
+
+      if (params.search) queryParams.append('search', params.search);
+      if (params.fromDate) queryParams.append('fromDate', params.fromDate);
+      if (params.toDate) queryParams.append('toDate', params.toDate);
+      if (params.sortBy) queryParams.append('sortBy', params.sortBy);
+
+      // Always include sortOrder, default to DESC if not provided
+      queryParams.append('sortOrder', params.sortOrder || 'DESC');
+
+      // Append the query string to the URL
+      const url = `${baseUrl}?${queryParams.toString()}`;
+      const { data } = await server.get<PastAppointment>(url);
+      return data;
+    }
   },
 
   // Get single appointment
