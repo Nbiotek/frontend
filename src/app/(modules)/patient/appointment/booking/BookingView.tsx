@@ -5,6 +5,7 @@ import Cards from '@/atoms/Cards';
 import Input from '@/atoms/fields/Input';
 import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
+import { observer } from 'mobx-react-lite';
 import { CircleX } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
@@ -21,7 +22,7 @@ import BookingForSelfModal from './components/BookingSelfDialog';
 
 type LocationType = 'Lab' | 'Custom';
 
-const BookAppointmentView = () => {
+const BookAppointmentView = observer(() => {
   const { data } = usePatientInfo();
 
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
@@ -313,6 +314,6 @@ const BookAppointmentView = () => {
       )}
     </>
   );
-};
+});
 
 export default BookAppointmentView;
