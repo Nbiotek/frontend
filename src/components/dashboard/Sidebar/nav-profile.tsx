@@ -22,12 +22,12 @@ const ProfileSide = () => {
       </Text>
       <div className="flex items-center gap-2">
         <figure className="h-[50px] w-[50px] overflow-clip rounded-full">
-          <Image
+          {/* <Image
             src={`${data?.profile_pics ? `${env.NEXT_PUBLIC_BASE_ASSET_URL}${data?.profile_pics}` : '/Avatar.png'}`}
             alt="Profile image"
             width={50}
             height={40}
-          />
+          /> */}
         </figure>
 
         <div className="space-y-1">

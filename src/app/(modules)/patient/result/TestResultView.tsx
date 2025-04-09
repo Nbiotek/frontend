@@ -1,130 +1,172 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import InputSearch from '@/atoms/fields/InputSearch';
 import IconPod from '@/atoms/Icon/IconPod';
-import { ArrowUpDown, ListFilter, ClipboardList } from 'lucide-react';
+import { ArrowUpDown, ListFilter } from 'lucide-react';
 import TestResultTable from './components/TestResultTable';
 import { useTestResult } from '@/hooks/patient/useTestResult';
-import { Skeleton } from '@/components/ui/skeleton';
-import Button from '@/atoms/Buttons';
-import { useState, useEffect } from 'react';
+import { TestResultFilterParams } from '@/requests/testResult';
+import FilterComponent from '../component/FilterCP';
+import SortComponent from '../component/SortCP';
+import { format } from 'date-fns';
+import { useQueryClient } from '@tanstack/react-query';
+import Pagination from '@/atoms/pagination';
 
 const TestResultView = () => {
-  const { data, isLoading } = useTestResult();
-
-  // State for filtered results
-  const [filteredResults, setFilteredResults] = useState<Test[] | undefined>(undefined);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // Update filtered results when data changes or search term changes
-  useEffect(() => {
-    if (!data || !data.data.results) {
-      setFilteredResults(undefined);
-      return;
-    }
-
-    if (!searchTerm) {
-      setFilteredResults(data.data.results);
-      return;
-    }
-
-    const term = searchTerm.toLowerCase().trim();
-    const filtered = data.data.results.filter(
-      (result) =>
-        result.testName?.toLowerCase().includes(term) ||
-        result.testId?.toLowerCase().includes(term) ||
-        result.status?.toLowerCase().includes(term) ||
-        result.resultStatus?.toLowerCase().includes(term) ||
-        // Search in test parameters if available
-        result.results?.some(
-          (r) => r.parameter?.toLowerCase().includes(term) || r.range?.toLowerCase().includes(term)
-        )
-    );
-
-    setFilteredResults(filtered);
-  }, [data, searchTerm]);
-
-  // Handle search from InputSearch component
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
+  // Default state
+  const defaultFilters: TestResultFilterParams = {
+    page: 1,
+    limit: 10,
+    sortOrder: 'DESC'
   };
+
+  // Filter state
+  const [filters, setFilters] = useState<TestResultFilterParams>(defaultFilters);
+
+  // Get the query client for manual invalidation
+  const queryClient = useQueryClient();
+
+  // Use the updated hook with filter params
+  const { data, isLoading } = useTestResult(filters);
+
+  // Debounce search to avoid too many requests
+  const [searchInput, setSearchInput] = useState('');
+
+  // Calculate the number of active filters
+  const getActiveFilterCount = () => {
+    let count = 0;
+    if (filters.fromDate) count++;
+    if (filters.toDate) count++;
+    if (filters.sortBy) count++;
+    return count;
+  };
+
+  // Pagination handlers
+  const handlePageChange = (page: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      page
+    }));
+  };
+
+  const handleLimitChange = (limit: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      limit,
+      page: 1 // Reset to first page when changing limit
+    }));
+  };
+
+  // Search handler with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (filters.search !== searchInput) {
+        setFilters((prev) => ({
+          ...prev,
+          search: searchInput,
+          page: 1 // Reset to first page when searching
+        }));
+      }
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchInput, filters.search]);
+
+  // Handle search input change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  // Handle filter changes (date range and sortBy)
+  const handleFilterChange = (filterData: { fromDate?: Date; toDate?: Date; sortBy?: string }) => {
+    // Format dates for API if they exist
+    const formattedFilters: TestResultFilterParams = {};
+
+    if (filterData.sortBy) {
+      formattedFilters.sortBy = filterData.sortBy;
+    }
+
+    if (filterData.fromDate) {
+      formattedFilters.fromDate = format(filterData.fromDate, 'yyyy-MM-dd');
+    }
+
+    if (filterData.toDate) {
+      formattedFilters.toDate = format(filterData.toDate, 'yyyy-MM-dd');
+    }
+
+    setFilters((prev) => ({
+      ...prev,
+      ...formattedFilters,
+      page: 1 // Reset to first page when changing filters
+    }));
+  };
+
+  // Handle sort order change
+  const handleSortChange = (sortOrder: 'ASC' | 'DESC') => {
+    setFilters((prev) => ({
+      ...prev,
+      sortOrder
+    }));
+  };
+
+  // Handle clearing all filters
+  const handleClearFilters = () => {
+    setFilters({
+      ...defaultFilters,
+      page: filters.page, // Keep current page
+      limit: filters.limit // Keep current limit
+    });
+    setSearchInput('');
+  };
+
+  // Effect to refetch data when filters change
+  useEffect(() => {
+    // Invalidate and refetch when filters change
+    queryClient.invalidateQueries({ queryKey: ['test-result'] });
+  }, [filters, queryClient]);
+
+  // Calculate pagination values
+  const total = data?.data.pagination?.total || 0;
+  const currentPage = filters.page || 1;
+  const totalPages = data?.data.pagination?.totalPages || 1;
 
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="flex w-full items-center justify-between space-x-2">
-        <IconPod Icon={ListFilter} />
+        {/* Filter component with active filter count */}
+        <FilterComponent
+          onFilterChange={handleFilterChange}
+          onClearFilters={handleClearFilters}
+          activeFilters={getActiveFilterCount()}
+        />
+
+        {/* Search component */}
         <InputSearch
           className="!w-[calc(100%-80px)]"
           placeholder="Search for tests..."
-          onSearch={handleSearch}
-          value={searchTerm}
+          value={searchInput}
+          onChange={handleSearchChange}
         />
-        <IconPod Icon={ArrowUpDown} />
+
+        {/* Sort component */}
+        <SortComponent onSortChange={handleSortChange} />
       </div>
 
-      {isLoading ? (
-        // Loading state with skeleton table
-        <div className="w-full overflow-clip rounded-lg bg-white p-4">
-          <div className="mb-4 flex h-8 space-x-4">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-8 w-full" />
-            ))}
-          </div>
-          {[1, 2, 3, 4].map((row) => (
-            <div key={row} className="mb-4 flex space-x-4">
-              {[1, 2, 3, 4, 5, 6, 7].map((col) => (
-                <Skeleton key={col} className="h-12 w-full" />
-              ))}
-            </div>
-          ))}
-        </div>
-      ) : !data || (!filteredResults?.length && searchTerm) ? (
-        // No results after search
-        <div className="flex flex-col items-center justify-center rounded-lg bg-white py-16">
-          <div className="bg-gray-100 mb-4 flex h-20 w-20 items-center justify-center rounded-full">
-            <ClipboardList className="text-gray-400 h-10 w-10" />
-          </div>
-          <h3 className="mb-2 text-lg font-medium">
-            {searchTerm ? `No results for "${searchTerm}"` : 'No Test Results Found'}
-          </h3>
-          <p className="text-gray-500 mb-6 max-w-sm text-center">
-            {searchTerm
-              ? 'Try searching with different terms or check all your test results below.'
-              : "You don't have any test results yet. Results will appear here after your lab tests are processed."}
-          </p>
-          {searchTerm ? (
-            <Button
-              variant="outlined"
-              onClick={() => setSearchTerm('')}
-              className="w-[40%]"
-              type="button"
-            >
-              View All Results
-            </Button>
-          ) : (
-            <Button variant="filled" className="w-[40%]">
-              Book a Test
-            </Button>
-          )}
-        </div>
-      ) : !filteredResults?.length && !searchTerm ? (
-        // No data at all
-        <div className="flex flex-col items-center justify-center rounded-lg bg-white py-16">
-          <div className="bg-gray-100 mb-4 flex h-20 w-20 items-center justify-center rounded-full">
-            <ClipboardList className="text-gray-400 h-10 w-10" />
-          </div>
-          <h3 className="mb-2 text-lg font-medium">No Test Results Found</h3>
-          <p className="text-gray-500 mb-6 max-w-sm text-center">
-            You don&apos;t have any test results yet. Results will appear here after your lab tests
-            are processed.
-          </p>
-          <Button variant="filled" className="w-[40%]">
-            Book a Test
-          </Button>
-        </div>
-      ) : (
-        // Data available state - with filtered results
-        <TestResultTable data={{ ...data.data, results: filteredResults || [] }} />
+      {/* Test result table */}
+      <TestResultTable data={data?.data.results || []} loading={isLoading} />
+
+      {/* Pagination */}
+      {!isLoading && data?.data.results && data.data.results.length > 0 && (
+        <Pagination
+          total={total}
+          siblingCount={1}
+          currentPage={currentPage}
+          setPage={handlePageChange}
+          limit={filters.limit || 10}
+          setLimit={handleLimitChange}
+          totalPages={totalPages}
+        />
       )}
     </div>
   );

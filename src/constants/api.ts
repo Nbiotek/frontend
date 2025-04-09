@@ -37,7 +37,7 @@ export const PATIENT = {
   },
 
   TEST_RESULTS: {
-    ALL: '/patients/test-results',
+    ALL: '/patients/test-results' as string,
     DETAILS: (id: string) => `/patients/test-results/${id}`,
     SUITE_DETAILS: (id: string) => `/patients/APPOINTMENTS/${id}/details`
   }
