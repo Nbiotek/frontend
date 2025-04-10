@@ -40,6 +40,7 @@ type TTestData = {
     id: string;
     name: string;
   } | null;
+  qcStatus?: string;
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;

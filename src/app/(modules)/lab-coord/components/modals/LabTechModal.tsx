@@ -2,6 +2,8 @@ import { XModal } from '@/atoms/modal';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import AvailableTechnicians from '../AvailableTechnicians';
 import { useStore } from '@/store';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 const LabTechModal = () => {
   const {
@@ -21,4 +23,4 @@ const LabTechModal = () => {
   );
 };
 
-export default LabTechModal;
+export default observer(LabTechModal);
