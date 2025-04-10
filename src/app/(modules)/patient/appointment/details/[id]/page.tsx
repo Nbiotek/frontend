@@ -64,9 +64,9 @@ const AppointmentSummary = ({ data: appointmentData }: AppointmentDetailsProp) =
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'CONFIRMED':
-        return 'text-green-300';
+        return 'text-green';
       case 'PENDING':
-        return 'text-yellow-500';
+        return 'text-yellow-300';
       case 'COMPLETED':
         return 'text-blue-500';
       case 'CANCELLED':
@@ -77,7 +77,7 @@ const AppointmentSummary = ({ data: appointmentData }: AppointmentDetailsProp) =
   };
 
   return (
-    <div className="container mx-auto max-w-4xl bg-white px-4 py-8">
+    <div className="mx-auto w-full bg-white px-4 py-8">
       <div className="mb-6 flex items-center">
         <button
           onClick={handleBack}
