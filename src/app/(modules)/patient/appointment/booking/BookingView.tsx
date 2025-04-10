@@ -56,6 +56,7 @@ const BookAppointmentView = observer(() => {
   });
 
   // Update testRequests when cart items change
+
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
@@ -64,7 +65,7 @@ const BookAppointmentView = observer(() => {
         testId: item.id
       }))
     }));
-  }, [cartStore.items]);
+  }, [cartStore.items, isTestModalOpen]);
 
   useEffect(() => {
     if (data && isBookingForSelf) {
@@ -129,10 +130,11 @@ const BookAppointmentView = observer(() => {
   };
 
   const handleBookingConfirmation = () => {
-    if (validateForm()) {
-      console.log('Form data at submission:', formData);
-      setIsBookingConfirmationDialogOpen(true);
-    }
+    console.log(formData);
+    // if (validateForm()) {
+    //   console.log('Form data at submission:', formData);
+    //   setIsBookingConfirmationDialogOpen(true);
+    // }
   };
 
   const handleLocationChange = (value: string) => {
@@ -246,6 +248,12 @@ const BookAppointmentView = observer(() => {
                             ₦{item.item.price.toLocaleString()}
                           </span>
                         </p>
+                        <CircleX
+                          className="cursor-pointer text-red-500"
+                          onClick={() => {
+                            cartStore.removeItem(item.id);
+                          }}
+                        />
                       </div>
                     ))}
                   </div>
@@ -297,6 +305,7 @@ const BookAppointmentView = observer(() => {
               variant="filled"
               type="button"
               text="Confirm"
+              disabled={cartStore.items.length === 0}
               onClick={handleBookingConfirmation}
               form="bookingForm"
             />
