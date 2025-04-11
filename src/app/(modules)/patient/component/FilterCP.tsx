@@ -87,7 +87,6 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
               <SelectContent>
                 <SelectGroup>
                   <SelectItem value="availableDate">Date</SelectItem>
-                  <SelectItem value="specialty">Specialty</SelectItem>
                   <SelectItem value="status">Status</SelectItem>
                 </SelectGroup>
               </SelectContent>

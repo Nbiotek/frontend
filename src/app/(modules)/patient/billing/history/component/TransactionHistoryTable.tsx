@@ -21,9 +21,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DownloadCloudIcon } from 'lucide-react';
 import { dateTimeUTC } from '@/utils/date';
+import { is } from 'date-fns/locale';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import EmptyState from '@/components/EmptyState';
 
-const TransactionHistoryTable = ({ data }: BillingHistory) => {
-  console.log(data);
+interface BillingHistroryProps {
+  data: Payment[];
+  loading: boolean;
+}
+
+const TransactionHistoryTable = ({ data, loading }: BillingHistroryProps) => {
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -37,30 +44,37 @@ const TransactionHistoryTable = ({ data }: BillingHistory) => {
             <TableHead> </TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {data?.payments.map((payDetails) => (
-            <TableRow key={payDetails.invoiceNo}>
-              <TableCell>{payDetails.invoiceNo}</TableCell>
-              <TableCell>{dateTimeUTC(payDetails.paymentDate)}</TableCell>
-              <TableCell>{payDetails.paymentMethod}</TableCell>
-              <TableCell>{payDetails.amountPaid}</TableCell>
-              <TableCell>
-                <Status variant={payDetails.paymentStatus} />
-              </TableCell>
-              {/* download  */}
-              <TableCell>
-                <Link
-                  href={payDetails.paymentReceiptLink}
-                  target="_blank"
-                  className="cursor-pointer hover:text-blue-100"
-                >
-                  <DownloadCloudIcon />{' '}
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {loading ? (
+          <TableLoader columns={7} rows={7} />
+        ) : (
+          data.length !== 0 && (
+            <TableBody>
+              {data.map((payDetails) => (
+                <TableRow key={payDetails.invoiceNo}>
+                  <TableCell>{payDetails.invoiceNo}</TableCell>
+                  <TableCell>{dateTimeUTC(payDetails.paymentDate)}</TableCell>
+                  <TableCell>{payDetails.paymentMethod}</TableCell>
+                  <TableCell>{payDetails.amountPaid}</TableCell>
+                  <TableCell>
+                    <Status variant={payDetails.paymentStatus} />
+                  </TableCell>
+                  {/* download  */}
+                  <TableCell>
+                    <Link
+                      href={payDetails.paymentReceiptLink}
+                      target="_blank"
+                      className="cursor-pointer hover:text-blue-100"
+                    >
+                      <DownloadCloudIcon />{' '}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
       </Table>
+      {loading || (data.length === 0 && <EmptyState />)}
     </div>
   );
 };

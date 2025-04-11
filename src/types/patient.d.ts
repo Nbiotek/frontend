@@ -297,6 +297,7 @@ interface Payment {
 interface BillingHistory {
   data: {
     payments: Payment[];
+    pagination: Pagination;
   };
 }
 

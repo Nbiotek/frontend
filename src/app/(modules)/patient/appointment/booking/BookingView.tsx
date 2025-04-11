@@ -130,11 +130,9 @@ const BookAppointmentView = observer(() => {
   };
 
   const handleBookingConfirmation = () => {
-    console.log(formData);
-    // if (validateForm()) {
-    //   console.log('Form data at submission:', formData);
-    //   setIsBookingConfirmationDialogOpen(true);
-    // }
+    if (validateForm()) {
+      setIsBookingConfirmationDialogOpen(true);
+    }
   };
 
   const handleLocationChange = (value: string) => {

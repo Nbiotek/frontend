@@ -15,7 +15,7 @@ export const PATIENT = {
   DASHBOARD: '/patients/dashboard',
   PROFILE: '/patients/profile',
   RECENT_RESULT: '/patients/dashboard/recent-activiy',
-  BILLING: '/payments',
+  BILLING: '/payments' as string,
 
   APPOINTMENTS: {
     UPCOMING: '/patients/appointments/upcoming',
