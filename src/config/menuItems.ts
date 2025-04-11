@@ -141,11 +141,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: Hospital
     },
     {
-      title: ROUTES.DOCTOR_NOTIFICATION.title,
-      url: ROUTES.DOCTOR_NOTIFICATION.path,
-      icon: Bell
-    },
-    {
       title: ROUTES.DOCTOR_HELP_SUPPORT.title,
       url: ROUTES.DOCTOR_HELP_SUPPORT.path,
       icon: PhoneCall
