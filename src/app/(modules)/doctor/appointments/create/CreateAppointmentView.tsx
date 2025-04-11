@@ -21,8 +21,6 @@ type LocationType = 'Lab' | 'Custom';
 const CreateAppointmentView = () => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
-  const [isBookingForSelfModalOpen, setIsBookingForSelfModalOpen] = useState(false);
-  const [isBookingForSelf, setIsBookingForSelf] = useState(true);
 
   const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
 
@@ -52,7 +50,7 @@ const CreateAppointmentView = () => {
         testId: item.id
       }))
     }));
-  }, [cartStore.items]);
+  }, [cartStore.items, isTestModalOpen]);
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
@@ -253,6 +251,7 @@ const CreateAppointmentView = () => {
               type="button"
               text="Confirm"
               onClick={handleBookingConfirmation}
+              disabled={cartStore.items.length === 0}
               form="bookingForm"
             />
           </div>
