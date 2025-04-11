@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { AppointmentService } from '@/requests/appointments';
+import { AppointmentFilterParams, AppointmentService } from '@/requests/appointments';
 
 export const useBookAppointment = () => {
   const queryClient = useQueryClient();
@@ -12,24 +12,28 @@ export const useBookAppointment = () => {
   });
 };
 
-export const useAllUpcomingAppointment = () => {
+export const useAllUpcomingAppointment = (filterParams?: AppointmentFilterParams) => {
   return useQuery<UpcomingAppointment>({
-    queryKey: ['upcoming-appointment'],
-    queryFn: AppointmentService.getUpcomingAppointments
+    queryKey: ['upcoming-appointment', filterParams],
+    queryFn: () => AppointmentService.getUpcomingAppointments(filterParams),
+    // prevent excessive refetching
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 };
 
-export const usePendingAppointment = () => {
+export const usePendingAppointment = (filterParams?: AppointmentFilterParams) => {
   return useQuery<PendingAppointment>({
-    queryKey: ['pending-appointment'],
-    queryFn: AppointmentService.getPendingAppointments
+    queryKey: ['pending-appointment', filterParams],
+    queryFn: () => AppointmentService.getPendingAppointments(filterParams),
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 };
 
-export const usePastAppointment = () => {
+export const usePastAppointment = (filterParams?: AppointmentFilterParams) => {
   return useQuery<PastAppointment>({
-    queryKey: ['past-appointment'],
-    queryFn: AppointmentService.getPastAppointments
+    queryKey: ['past-appointment', filterParams],
+    queryFn: () => AppointmentService.getPastAppointments(filterParams),
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 };
 
@@ -69,15 +73,12 @@ export const useProcessPayment = () => {
   });
 };
 
-export const useUpdatePaymentStatus = () => {
-  const queryClient = useQueryClient();
+export const useVerifyPayment = (tx_Ref: string) => {
+  return useQuery<TverifyPaymentResponse>({
+    queryKey: ['verify-payment', tx_Ref],
+    queryFn: () => AppointmentService.verifyPayment(tx_Ref),
 
-  return useMutation({
-    mutationFn: (appointmentId: TUpdatePaymentStatus) =>
-      AppointmentService.updatePaymentStatus(appointmentId),
-    onSuccess: () => {
-      // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['update-paymentstatus'] });
-    }
+    // Only run the query if we have an ID
+    enabled: !!tx_Ref
   });
 };

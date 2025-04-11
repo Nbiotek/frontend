@@ -31,7 +31,6 @@ const BonkingConfirmationDialog = ({
   bookingData,
   onConfirm
 }: BookingSummaryDialogProps) => {
-  console.log(bookingData);
   const router = useRouter();
   const [paymentLink, setPaymentLink] = useState<string | null>(null);
 

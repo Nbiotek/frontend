@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams, useParams } from 'next/navigation';
-import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import { useUpdatePaymentStatus } from '@/hooks/patient/useAppoitment';
-import toast from 'react-hot-toast';
+import { useVerifyPayment } from '@/hooks/patient/useAppoitment';
+import { Toast } from '@/atoms/Toast';
 
 type Params = {
   id: string;
@@ -17,51 +16,23 @@ export default function PaymentResultPage() {
   const [progress, setProgress] = useState(0);
   const [navigationPath, setNavigationPath] = useState<string | null>(null);
 
-  const [isUpdatePaymentStatus, setIsUpdatePaymentStatus] = useState<boolean>(false);
+  const { id: tx_Ref } = useParams<Params>();
 
-  const { mutate: updatePaymentStatus, isPending } = useUpdatePaymentStatus();
+  const { data, isLoading, isError } = useVerifyPayment(tx_Ref);
 
-  const { id } = useParams<Params>();
-
-  const appointmentId = {
-    appointmentId: id
-  };
-
+  // Handle navigation
   useEffect(() => {
-    // Handle navigation based on state
     if (navigationPath) {
       router.push(navigationPath);
     }
   }, [navigationPath, router]);
 
+  // Handle payment verification
   useEffect(() => {
-    // Only attempt to update if we have an appointmentId and successful status
-    if (status === 'successful' && id) {
-      console.log('working.....');
-      try {
-        updatePaymentStatus(appointmentId, {
-          onSuccess: (response) => {
-            setIsUpdatePaymentStatus(true);
-          },
-          onError: (error) => {
-            toast.error('Could not verify payment');
-            setNavigationPath('/patient/appointment/booking/error');
-          }
-        });
-      } catch (error) {
-        toast.error('An unexpected error occurred');
-        setNavigationPath('/patient/appointment/booking/error');
-      }
-    } else if (status === 'failed') {
-      setNavigationPath('/patient/appointment/booking/error');
-    } else if (status === 'cancelled') {
-      setNavigationPath('/appointment/booking/cancelled');
-    }
-  }, [status, id, updatePaymentStatus]);
+    if (data?.data.status === 'COMPLETED') {
+      Toast.success('Payment verification successful');
 
-  useEffect(() => {
-    // Create a loading progress effect when payment status is being updated
-    if (isUpdatePaymentStatus) {
+      // Start progress and set navigation path
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -76,8 +47,11 @@ export default function PaymentResultPage() {
       return () => {
         clearInterval(interval);
       };
+    } else if (isError || data?.data.status === 'FAILED') {
+      Toast.error('Payment verification Failed');
+      setNavigationPath('/patient/appointment/booking/failed');
     }
-  }, [isUpdatePaymentStatus]);
+  }, [data, isError, tx_Ref]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-blue-50/50">

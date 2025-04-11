@@ -136,7 +136,7 @@ const TestSelectionPanel = observer(
     // List View Component
     return (
       <div className="flex h-full flex-col">
-        {!hideHeader && (
+        {hideHeader && (
           <div className="flex items-center justify-between border-b bg-white p-4">
             <h2 className="text-xl font-semibold">Select Tests</h2>
             <Button variant="ghost" size="sm" onClick={onClose}>
