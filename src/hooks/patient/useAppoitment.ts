@@ -73,15 +73,12 @@ export const useProcessPayment = () => {
   });
 };
 
-export const useUpdatePaymentStatus = () => {
-  const queryClient = useQueryClient();
+export const useVerifyPayment = (tx_Ref: string) => {
+  return useQuery<TverifyPaymentResponse>({
+    queryKey: ['verify-payment', tx_Ref],
+    queryFn: () => AppointmentService.verifyPayment(tx_Ref),
 
-  return useMutation({
-    mutationFn: (appointmentId: TUpdatePaymentStatus) =>
-      AppointmentService.updatePaymentStatus(appointmentId),
-    onSuccess: () => {
-      // Invalidate and refetch appointments after a successful payment
-      queryClient.invalidateQueries({ queryKey: ['update-paymentstatus'] });
-    }
+    // Only run the query if we have an ID
+    enabled: !!tx_Ref
   });
 };

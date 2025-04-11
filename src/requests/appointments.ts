@@ -125,9 +125,8 @@ export const AppointmentService = {
     return data;
   },
 
-  updatePaymentStatus: async (appointmentId: TUpdatePaymentStatus) => {
-    console.log(appointmentId);
-    const { data } = await server.post(PATIENT.APPOINTMENTS.PAYMENT_STATUS, appointmentId);
+  verifyPayment: async (tx_Ref: string) => {
+    const { data } = await server.get(PATIENT.APPOINTMENTS.VERIFY_PAYMENT(tx_Ref));
     return data;
   }
 };
