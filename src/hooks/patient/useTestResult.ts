@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { TestResultService } from '@/requests/testResult';
+import { TestResultFilterParams, TestResultService } from '@/requests/testResult';
 
-export const useTestResult = () => {
+export const useTestResult = (filterParams?: TestResultFilterParams) => {
   return useQuery<TestResultResponse>({
-    queryKey: ['test-result'],
-    queryFn: TestResultService.getTestResult
+    queryKey: ['test-result', filterParams],
+    queryFn: () => TestResultService.getTestResult(filterParams),
+    // Add staleTime to prevent excessive refetching
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 };
 

@@ -106,8 +106,20 @@ interface Appointment {
   };
 }
 
-interface TUpdatePaymentStatus {
-  appointmentId: string;
+interface TverifyPayment {
+  tx_Ref: string;
+}
+
+interface TverifyPaymentResponse {
+  data: {
+    status: 'COMPLETED' | 'PENDING' | 'FAILED';
+    paymentId: string;
+    transactionId: string;
+    amount: number;
+    status: string;
+  };
+  message: string;
+  statusCode: number;
 }
 
 interface BookAppointmentDTO {
@@ -297,6 +309,7 @@ interface Payment {
 interface BillingHistory {
   data: {
     payments: Payment[];
+    pagination: Pagination;
   };
 }
 

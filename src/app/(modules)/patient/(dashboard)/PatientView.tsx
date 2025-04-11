@@ -1,10 +1,4 @@
 'use client';
-import CardMetrics from '@/components/dashboard/metric/card';
-
-import { AppointmentsIcon, ResultIcon, HealthProfileIcon, MessagesIcon } from '@/lib/utils/svg';
-
-import { Calendar, Clock, MapPin } from 'lucide-react';
-
 import Cards from '@/atoms/Cards';
 import QuickAction from '@/components/common/quick-links';
 import Link from 'next/link';
