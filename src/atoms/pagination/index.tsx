@@ -60,7 +60,7 @@ function Pagination({
     setPage(1);
   };
 
-  if (totalPages < 10) return <></>;
+  if (totalPages < 2) return <></>;
 
   return (
     <div className="flex w-full items-center justify-end space-x-4">

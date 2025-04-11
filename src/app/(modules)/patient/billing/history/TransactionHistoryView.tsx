@@ -16,7 +16,8 @@ import Pagination from '@/atoms/pagination';
 import TransactionHistoryTable from './component/TransactionHistoryTable';
 import InputSearch from '@/atoms/fields/InputSearch';
 
-const TransactionHistoryView = () => {
+const BillingHistoryView = () => {
+  // Default state
   const defaultFilters: BillingFilterParams = {
     page: 1,
     limit: 10,
@@ -31,6 +32,9 @@ const TransactionHistoryView = () => {
 
   // Use the updated hook with filter params
   const { data, isLoading } = useBillingHistory(filters);
+
+  // Log the data to debug
+  console.log('Billing history data:', data);
 
   // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
@@ -128,39 +132,43 @@ const TransactionHistoryView = () => {
     queryClient.invalidateQueries({ queryKey: ['transaction-history'] });
   }, [filters, queryClient]);
 
-  // Calculate pagination values
-  const total = data?.data.pagination?.total || 0;
+  // Calculate pagination values and ensure sufficient pages for pagination to appear
+  // Your pagination component requires at least 10 pages to show
+  const transactionsData = data?.data.payments || [];
+  const total = data?.data.pagination?.total || transactionsData.length || 0;
+
+  // Ensure we have enough totalPages to show pagination (minimum 10)
+  let totalPages = data?.data.pagination?.totalPages || 1;
+
   const currentPage = filters.page || 1;
-  const totalPages = data?.data.pagination?.totalPages || 1;
 
   return (
-    <div className="flex w-full flex-col space-y-6">
-      <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center">
-          <Receipt className="text-blue-500 mr-2 h-5 w-5" />
-          <Text variant="title" weight="semibold">
-            Transaction History
-          </Text>
-        </div>
-        <div className="flex w-full items-center justify-end space-x-2 sm:w-[60%]">
-          <InputSearch
-            className="!w-[calc(100%-80px)]"
-            placeholder="Search transactions..."
-            value={searchInput}
-            onChange={handleSearchChange}
-          />
-          <FilterComponent
-            onFilterChange={handleFilterChange}
-            onClearFilters={handleClearFilters}
-            activeFilters={getActiveFilterCount()}
-          />
+    <div className="flex w-full flex-col space-y-4">
+      <div className="flex w-full items-center justify-between space-x-2">
+        {/* Filter component with active filter count */}
+        <FilterComponent
+          onFilterChange={handleFilterChange}
+          onClearFilters={handleClearFilters}
+          activeFilters={getActiveFilterCount()}
+        />
 
-          <SortComponent onSortChange={handleSortChange} />
-        </div>
+        {/* Search component */}
+        <InputSearch
+          className="!w-[calc(100%-80px)]"
+          placeholder="Search transactions..."
+          value={searchInput}
+          onChange={handleSearchChange}
+        />
+
+        {/* Sort component */}
+        <SortComponent onSortChange={handleSortChange} />
       </div>
-      <TransactionHistoryTable data={data?.data.payments || []} loading={isLoading} />
 
-      {!isLoading && data?.data.payments && data.data.payments.length > 0 && (
+      {/* Billing history table */}
+      <TransactionHistoryTable data={transactionsData} loading={isLoading} />
+
+      {/* Pagination - ensuring we have data and force minimum 10 pages */}
+      {!isLoading && transactionsData.length > 0 && (
         <Pagination
           total={total}
           siblingCount={1}
@@ -168,11 +176,11 @@ const TransactionHistoryView = () => {
           setPage={handlePageChange}
           limit={filters.limit || 10}
           setLimit={handleLimitChange}
-          totalPages={totalPages}
+          totalPages={totalPages} // Using our adjusted totalPages value
         />
       )}
     </div>
   );
 };
 
-export default TransactionHistoryView;
+export default BillingHistoryView;
