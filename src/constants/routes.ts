@@ -212,10 +212,6 @@ class Routes {
     EnumRole.DOCTOR
   ]);
 
-  DOCTOR_NOTIFICATION = new Route('/doctor/notification', 'Notifications', 'Doctor Notification', [
-    EnumRole.DOCTOR
-  ]);
-
   DOCTOR_HELP_SUPPORT = new Route(
     '/doctor/help_support',
     'Help & Support',

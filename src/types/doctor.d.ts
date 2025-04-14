@@ -38,6 +38,7 @@ interface Reviews {
 interface TDoctorTestReview {
   data: {
     tests: Tests[];
+    pagination: Pagination;
   };
 }
 
@@ -112,6 +113,7 @@ interface TPatient {
 interface TDoctorAppointment {
   data: {
     patients: TPatient[];
+    pagination: Pagination;
   };
 }
 
@@ -145,5 +147,6 @@ interface TPatientR {
 interface TPatientReffered {
   data: {
     patients: TPatientR[];
+    pagination: Pagination;
   };
 }
