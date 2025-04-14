@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
-import { doctorAppointmentService } from '@/requests/doctor';
+import { doctorAppointmentService, FilterParams } from '@/requests/doctor';
 
-export const useDoctorAppointment = () => {
+export const useDoctorAppointment = (filterParams?: FilterParams) => {
   return useQuery<TDoctorAppointment>({
-    queryKey: ['doctor-appointment'],
-    queryFn: doctorAppointmentService.getAllAppointment
+    queryKey: ['doctor-appointment', filterParams],
+    queryFn: () => doctorAppointmentService.getAllAppointment(filterParams || {})
   });
 };
 

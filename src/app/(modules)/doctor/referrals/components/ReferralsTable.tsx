@@ -40,7 +40,7 @@ const ReferralTable = ({ loading, referPatientList }: ReferralTableProps) => {
           </TableRow>
         </TableHeader>
         {loading ? (
-          <TableLoader rows={4} columns={5} />
+          <TableLoader rows={4} columns={4} />
         ) : (
           referPatientList.length !== 0 && (
             <TableBody>

@@ -33,7 +33,7 @@ const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
   const router = useRouter();
 
   return (
-    <div className="overflow-clip rounded-lg">
+    <div className="overflow-clip rounded-lg bg-white">
       <Table className="bg-white">
         <TableHeader>
           <TableRow>

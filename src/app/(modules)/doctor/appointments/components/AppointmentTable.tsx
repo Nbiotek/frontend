@@ -40,11 +40,11 @@ const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
             <TableHead>Appointment No</TableHead>
             <TableHead>Patient Type</TableHead>
             <TableHead>Last Appointment</TableHead>
-            <TableHead className="w-[20px]"></TableHead>
+            {/* <TableHead className="w-[20px]"></TableHead> */}
           </TableRow>
         </TableHeader>
         {loading ? (
-          <TableLoader rows={8} columns={8} />
+          <TableLoader rows={6} columns={6} />
         ) : (
           <TableBody>
             {appointments.map((patient) => (
@@ -58,9 +58,9 @@ const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
                 <TableCell>
                   {patient?.createdAt ? formatTestDate(patient.createdAt) : '-'}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <EllipsisVertical className="cursor-pointer" />
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

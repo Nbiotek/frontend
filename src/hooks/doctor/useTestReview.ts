@@ -1,10 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { doctorReviewTestService } from '@/requests/doctor';
+import { FilterParams, doctorReviewTestService } from '@/requests/doctor';
 
-export const useTestReview = () => {
+export const useTestReview = (filterParams?: FilterParams) => {
   return useQuery<TDoctorTestReview>({
-    queryKey: ['doctor-review-test'],
-    queryFn: doctorReviewTestService.getAllTestReview
+    queryKey: ['doctor-review-test', filterParams],
+    queryFn: () => {
+      // If filterParams is undefined, pass an empty object instead
+      return doctorReviewTestService.getAllTestReview(filterParams);
+    },
+    // Add staleTime to prevent excessive refetching
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 };
 
