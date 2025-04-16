@@ -49,11 +49,11 @@ export default function PaymentResultPage() {
       Toast.success('Payment verification successful');
 
       // Determine navigation path based on user role
-      let successPath = '/patient/appointment/booking/success';
+      let successPath = '/patient/appointments/booking/success';
 
       switch (userRole) {
         case 'DOCTOR':
-          successPath = '/doctor/booking/success';
+          successPath = '/doctor/appointments/success';
           break;
         case 'PATIENT':
         default:
@@ -83,10 +83,7 @@ export default function PaymentResultPage() {
 
       switch (userRole) {
         case 'DOCTOR':
-          failedPath = '/doctor/booking/failed';
-          break;
-        case 'ADMIN':
-          failedPath = '/admin/booking/failed';
+          failedPath = '/doctor/appointments/failed';
           break;
         case 'PATIENT':
         default:
