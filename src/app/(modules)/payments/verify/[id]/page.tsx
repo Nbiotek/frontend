@@ -15,10 +15,24 @@ export default function PaymentResultPage() {
   const status = searchParams.get('status');
   const [progress, setProgress] = useState(0);
   const [navigationPath, setNavigationPath] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const { id: tx_Ref } = useParams<Params>();
 
   const { data, isLoading, isError } = useVerifyPayment(tx_Ref);
+
+  // Get user role from session storage
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('auth.user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUserRole(parsedUser.role);
+      } catch (error) {
+        console.error('Error parsing user from session storage', error);
+      }
+    }
+  }, []);
 
   // Handle navigation
   useEffect(() => {
@@ -29,15 +43,29 @@ export default function PaymentResultPage() {
 
   // Handle payment verification
   useEffect(() => {
+    if (!userRole) return; // Wait until user role is loaded
+
     if (data?.data.status === 'COMPLETED') {
       Toast.success('Payment verification successful');
+
+      // Determine navigation path based on user role
+      let successPath = '/patient/appointment/booking/success';
+
+      switch (userRole) {
+        case 'DOCTOR':
+          successPath = '/doctor/booking/success';
+          break;
+        case 'PATIENT':
+        default:
+          successPath = '/patient/appointment/booking/success';
+      }
 
       // Start progress and set navigation path
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            setNavigationPath('/patient/appointment/booking/success');
+            setNavigationPath(successPath);
             return 100;
           }
           return prev + 10;
@@ -49,9 +77,25 @@ export default function PaymentResultPage() {
       };
     } else if (isError || data?.data.status === 'FAILED') {
       Toast.error('Payment verification Failed');
-      setNavigationPath('/patient/appointment/booking/failed');
+
+      // Determine failed path based on user role
+      let failedPath = '/patient/appointment/booking/failed';
+
+      switch (userRole) {
+        case 'DOCTOR':
+          failedPath = '/doctor/booking/failed';
+          break;
+        case 'ADMIN':
+          failedPath = '/admin/booking/failed';
+          break;
+        case 'PATIENT':
+        default:
+          failedPath = '/patient/appointment/booking/failed';
+      }
+
+      setNavigationPath(failedPath);
     }
-  }, [data, isError, tx_Ref]);
+  }, [data, isError, tx_Ref, userRole]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-blue-50/50">
