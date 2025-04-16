@@ -27,7 +27,7 @@ interface AppointmentDetailsProp {
   data: TShowAppointment;
 }
 
-const AppointmentSummary = ({ data: appointmentData }: AppointmentDetailsProp) => {
+const AppointmentSummary = () => {
   const router = useRouter();
   const params = useParams();
   const appointmentId = params.id as string;
