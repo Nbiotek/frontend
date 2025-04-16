@@ -1,7 +1,5 @@
 'use client';
 
-'use client';
-
 import { useState, useEffect } from 'react';
 import { Text } from '@/lib/utils/Text';
 import IconPod from '@/atoms/Icon/IconPod';
