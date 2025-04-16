@@ -7,7 +7,7 @@ const FacebookBtn = () => {
       className="font-medium"
       type="button"
       variant="outlined"
-      leftIcon={<FaFacebook className="text-xl text-blue-300" />}
+      leftIcon={<FaFacebook className="text-lg text-blue-300" />}
       text="Continue with Facebbok"
     />
   );

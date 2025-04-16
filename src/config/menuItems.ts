@@ -1,22 +1,27 @@
 import {
   Home,
-  Calendar,
   User,
   CalendarClock,
   TestTubeDiagonal,
   NotepadText,
+  CreditCard,
+  Phone,
+  LayoutDashboard,
+  Hospital,
   ClipboardList,
   UserCircle,
   FileText,
   Settings,
-  ShoppingCart,
+  ShieldCheck,
   Bell,
-  Users,
-  BarChart,
-  Building2,
-  Activity,
-  Microscope,
-  FileCog
+  Book,
+  BellDot,
+  PhoneCall,
+  Settings2,
+  UsersIcon,
+  PhoneCallIcon,
+  FilesIcon,
+  FileTextIcon
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -27,11 +32,12 @@ export type UserRole = 'patient';
 export interface MenuItem {
   title: string;
   url?: string;
-  icon?: LucideIcon;
-  isActive?: boolean;
+  icon: LucideIcon;
+  isNestable?: boolean;
   submenu?: Array<{
     title: string;
     url: string;
+    isNestable?: boolean;
   }>;
 }
 
@@ -40,7 +46,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.PATIENT.title,
       url: ROUTES.PATIENT.path,
-      isActive: true,
       icon: Home
     },
     {
@@ -53,12 +58,16 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: CalendarClock,
       submenu: [
         {
+          title: ROUTES.PATIENT_BOOK_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_BOOK_APPOINTMENTS.path
+        },
+        {
           title: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.title,
           url: ROUTES.PATIENT_UPCOMING_APPOINTMENTS.path
         },
         {
-          title: ROUTES.PATIENT_BOOK_APPOINTMENTS.title,
-          url: ROUTES.PATIENT_BOOK_APPOINTMENTS.path
+          title: ROUTES.PATIENT_PENDING_APPOINTMENTS.title,
+          url: ROUTES.PATIENT_PENDING_APPOINTMENTS.path
         },
         {
           title: ROUTES.PATIENT_PAST_APPOINTMENTS.title,
@@ -69,21 +78,169 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: 'Test request',
       icon: TestTubeDiagonal,
+      url: ROUTES.PATIENT_AVAILABLE_TEST.path
+    },
+    {
+      title: 'Test Results',
+      url: ROUTES.PATIENT_TEST_RESULT.path,
+      icon: NotepadText
+    },
+    {
+      title: 'Biling & Payment',
+      icon: CreditCard,
+      url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
+    },
+    {
+      title: 'Support & Help',
+      icon: Phone,
       submenu: [
         {
-          title: 'Available Test',
-          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
+          title: 'Contact Us',
+          url: ROUTES.PATIENT_SUPPORT_CONTACT.path
         },
         {
-          title: 'Pending Test',
-          url: ROUTES.PATIENT_PAST_APPOINTMENTS.path
+          title: 'FAQ',
+          url: ROUTES.PATIENT_SUPPORT_FAQ.path
         }
       ]
     },
     {
-      title: 'Test Results',
-      url: ROUTES.PATIENT_PAST_APPOINTMENTS.path,
+      title: 'Settings',
+      icon: Settings,
+      url: ROUTES.PATIENT_SETTINGS.path
+    }
+  ],
+  [EnumRole.DOCTOR]: [
+    {
+      title: ROUTES.DOCTOR.title,
+      url: ROUTES.DOCTOR.path,
+      icon: LayoutDashboard
+    },
+    {
+      title: ROUTES.DOCTOR_TEST_REVIEW.title,
+      url: ROUTES.DOCTOR_TEST_REVIEW.path,
       icon: NotepadText
+    },
+    {
+      title: ROUTES.DOCTOR_APPOINTMENT.title,
+      icon: CalendarClock,
+      submenu: [
+        {
+          title: 'All ',
+          url: ROUTES.DOCTOR_APPOINTMENT.path
+        },
+        {
+          title: 'Create',
+          url: ROUTES.DOCTOR_CREATE_APPOINTMENT.path
+        }
+      ]
+    },
+    {
+      title: ROUTES.DOCTOR_REFERRALS.title,
+      url: ROUTES.DOCTOR_REFERRALS.path,
+      icon: Hospital
+    },
+    {
+      title: ROUTES.DOCTOR_HELP_SUPPORT.title,
+      url: ROUTES.DOCTOR_HELP_SUPPORT.path,
+      icon: PhoneCall
+    },
+    {
+      title: ROUTES.DOCTOR_SETTINGS.title,
+      url: ROUTES.DOCTOR_SETTINGS.path,
+      icon: Settings
+    }
+  ],
+
+  [EnumRole.LAB_TECHNICIAN]: [
+    {
+      title: ROUTES.LAB_TECH.title,
+      url: ROUTES.LAB_TECH.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.LAB_TECH_TEST.title,
+      url: ROUTES.LAB_TECH_TEST.path,
+      icon: TestTubeDiagonal,
+      isNestable: true
+    },
+    {
+      title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
+      icon: Book,
+      url: ROUTES.LAB_TECH_RESULT_HISTORY.path
+    },
+    {
+      title: ROUTES.LAB_TECH_QUALITY_CONTROL.title,
+      icon: ShieldCheck,
+      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path
+    },
+    {
+      title: ROUTES.LAB_TECH_NOTIFICATION.title,
+      url: ROUTES.LAB_TECH_NOTIFICATION.path,
+      icon: BellDot
+    },
+    {
+      title: 'Support & help',
+      icon: Phone,
+      submenu: [
+        {
+          title: ROUTES.LAB_TECH_SUPPORT_CONTACT.title,
+          url: ROUTES.LAB_TECH_SUPPORT_CONTACT.path
+        },
+        {
+          title: ROUTES.LAB_TECH_SUPPORT_FAQ.title,
+          url: ROUTES.LAB_TECH_SUPPORT_FAQ.path
+        }
+      ]
+    },
+    {
+      title: ROUTES.LAB_TECH_SETTINGS.title,
+      url: ROUTES.LAB_TECH_SETTINGS.path,
+      icon: Settings
+    }
+  ],
+
+  [EnumRole.LAB_CORDINATOR]: [
+    {
+      title: ROUTES.LAB_COORD.title,
+      url: ROUTES.LAB_COORD.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.LAB_COORD_TEST_SCHEDULING.title,
+      url: ROUTES.LAB_COORD_TEST_SCHEDULING.path,
+      icon: TestTubeDiagonal,
+      isNestable: true
+    },
+    // {
+    //   title: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.title,
+    //   url: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.path,
+    //   icon: FileTextIcon
+    // },
+    // {
+    //   title: ROUTES.LAB_COORD_STAFF_SCHEDULES.title,
+    //   url: ROUTES.LAB_COORD_STAFF_SCHEDULES.path,
+    //   icon: UsersIcon
+    // },
+    {
+      title: ROUTES.LAB_COORD_QUALITY_CONTROL.title,
+      url: ROUTES.LAB_COORD_QUALITY_CONTROL.path,
+      icon: ShieldCheck
+    },
+    {
+      title: ROUTES.LAB_COORD_NOTIFICATIONS.title,
+      url: ROUTES.LAB_COORD_NOTIFICATIONS.path,
+      icon: BellDot
+    },
+    {
+      title: ROUTES.LAB_COORD_SUPPORT.title,
+      url: ROUTES.LAB_COORD_SUPPORT.path,
+      icon: PhoneCallIcon
+    },
+    {
+      title: ROUTES.LAB_COORD_SETTINGS.title,
+      url: ROUTES.LAB_COORD_SETTINGS.path,
+      icon: Settings
     }
   ]
 };

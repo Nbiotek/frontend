@@ -18,9 +18,9 @@ interface TextProps extends HTMLAttributes<HTMLElement> {
 
 const variantClasses: Record<TextVariant, string> = {
   h1: 'text-4xl font-bold tracking-tight',
-  h2: 'text-3xl font-semibold tracking-tight',
+  h2: 'text-[32px] font-semibold tracking-tight',
   h3: 'text-2xl font-semibold tracking-tight',
-  h4: 'text-xl font-semibold tracking-tight',
+  h4: 'text-xl font-bold tracking-tight',
   title: 'text-lg font-medium',
   subtitle: 'text-base font-medium',
   body: 'text-base',

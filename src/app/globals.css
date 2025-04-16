@@ -4,11 +4,40 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+}
+@layer utilities {
+  .container {
+    @apply max-w-[1440px];
+  }
+  .max-container {
+    @apply mx-auto max-w-[1440px];
+  }
+
+  .padding-container {
+    @apply px-6 lg:px-20 3xl:px-0;
+  }
+
+  .flexCenter {
+    @apply flex items-center justify-center;
+  }
+
+  .flexBetween {
+    @apply flex items-center justify-between;
+  }
+
+  .flexStart {
+    @apply flex items-center justify-start;
+  }
+
+  .flexEnd {
+    @apply flex items-center justify-end;
+  }
 }
 
 @layer components {
   .button {
-    @apply font-roboto flex cursor-pointer items-center justify-center text-sm;
+    @apply flex cursor-pointer items-center justify-center px-2 font-roboto text-sm;
     @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
   }
   .button-filled {
@@ -16,15 +45,15 @@ body {
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-transparent {
-    @apply bg-bgGray hover:bg-bgGray/50 border-none text-black;
+    @apply border-none bg-bgGray text-black hover:bg-bgGray/50;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-outlined {
-    @apply border-borderLine border bg-white text-black hover:border-blue-400 hover:shadow;
+    @apply border border-borderLine bg-white text-black hover:border-blue-400 hover:shadow;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-light {
-    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400/50 hover:text-white;
+    @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400 hover:text-white;
     @apply h-[45px] w-full rounded-lg border font-medium;
   }
   .button-underlined {
@@ -35,6 +64,39 @@ body {
   .button-danger {
     @apply border-none bg-error-500 text-white hover:opacity-80;
     @apply h-[45px] w-full rounded-lg border font-medium;
+  }
+  .button-danger-outlined {
+    @apply border border-error-400 bg-white text-error-400  hover:opacity-80;
+    @apply h-[55px] w-full rounded-lg border font-medium;
+  }
+
+  .button-secondary {
+    @apply border-none bg-neutral-60 text-neutral-800 hover:bg-neutral-200/50;
+    @apply h-[45px] w-full rounded-md border font-medium;
+  }
+
+  .status-badge {
+    @apply flex w-fit items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-center font-roboto text-xs;
+  }
+
+  .status-red {
+    @apply bg-darkRed/10 text-darkRed;
+  }
+
+  .status-amber {
+    @apply bg-amber/10 text-amber;
+  }
+
+  .status-teal {
+    @apply bg-teal/10 text-teal;
+  }
+
+  .status-green {
+    @apply bg-green-300/10 text-green-300;
+  }
+
+  .status-violet {
+    @apply bg-violet-500/10 text-violet-500;
   }
 }
 
@@ -116,5 +178,54 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.custom-sidebar {
+  --sidebar-width: 20rem;
+
+  --sidebar-width-mobile: 20rem;
+}
+
+.custom-table {
+  border-radius: 14px 14px 0px 0px;
+  border: 0.3px solid #d5d5d5;
+  background: #fcfdfd;
+}
+
+/* react-date-range custom style */
+.rdrMonth {
+  width: 100% !important;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #6795d1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

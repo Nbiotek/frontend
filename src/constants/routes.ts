@@ -1,67 +1,328 @@
+import { EnumRole } from './mangle';
+
 class Route {
   path: string;
-
   title: string;
-
   description: string;
+  roles: Array<EnumRole> = [EnumRole.DEFAULT];
 
-  constructor(path: string, title: string, description: string) {
-    this.path = path;
-    this.title = title;
-    this.description = description;
+  constructor(_path: string, _title: string, _description: string, _roles?: EnumRole[]) {
+    this.path = _path;
+    this.description = _description;
+    this.title = _title;
+
+    if (_roles) this.roles = _roles;
   }
 }
 
 class Routes {
   // landing
-  HOME = new Route('/', 'Home', 'Home page - Nbiotek');
-  ABOUT = new Route('/about', 'About - Nbiotek', 'About page of Nbiotek.');
-  FAQS = new Route('/faqs', 'FAQs - Nbiotek', 'Nbiotek frequently asked questions');
+  HOME = new Route('/', 'Nbiotek | Home', 'Home');
+  ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
+  FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');
   PRIVACY_POLICY = new Route(
     '/privacy-policy',
-    'Privacy Policy - Nbiotek',
-    'Nbiotek Privacy Policy'
+    'Nbiotek Privacy Policy',
+    'Privacy Policy - Nbiotek'
   );
+  UNAUTHORIZED = new Route('/unathorized', '', '');
 
   // auth
-  REGISTER = new Route(
-    '/auth/register',
-    'Create Account - Nbiotek',
-    'Create Account page for Nbiotek'
-  );
-  LOGIN = new Route('/auth/login', 'Login', 'Login page');
+  REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
+  LOGIN = new Route('/auth/login', 'NbioTek | Login page', 'Login');
+  OTP = new Route('/auth/otp', 'NbioTek | One Time Password (OTP)', 'One Time Password (OTP)');
+  FORGOT_PWD = new Route('/auth/forgot-pwd', 'NbioTek | Forgot Password', 'Forgot password');
+  PWD_RESET = new Route('/auth/pwd-reset', 'NbioTek | Password Reset', 'Password reset');
+
+  PATIENT_REG_INFO = new Route('/auth/patient', 'NbioTek | Patient Info', 'Patient Info Reg.');
 
   // patient
-  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page');
-  PATIENT_INFO = new Route('/patient/info', 'Patient Info', 'Patient Info Page');
+  PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page', [EnumRole.PATIENT]);
+  PATIENT_INFO = new Route('/patient/info', 'Info', 'Patient Info Page', [EnumRole.PATIENT]);
   PATIENT_UPCOMING_APPOINTMENTS = new Route(
     '/patient/appointment/upcoming',
-    'Upcoming Appointment',
-    'Patient appointment upcoming page'
+    'Upcoming',
+    'Patient appointment upcoming page',
+    [EnumRole.PATIENT]
   );
   PATIENT_BOOK_APPOINTMENTS = new Route(
     '/patient/appointment/booking',
-    'Book Appointment',
-    'Patient appointment booking page'
+    'Book',
+    'Patient appointment booking page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_PENDING_APPOINTMENTS = new Route(
+    '/patient/appointment/pending',
+    'Pending',
+    'Patient appointment booking page',
+    [EnumRole.PATIENT]
   );
   PATIENT_PAST_APPOINTMENTS = new Route(
     '/patient/appointment/past',
-    'PatienPast Appointment',
-    'Patient appointment past page'
+    'Past',
+    'Patient appointment past page',
+    [EnumRole.PATIENT]
   );
-  PATIENT_TEST = new Route('/patient/test', 'Test request', 'Patient appointment past page');
+  PATIENT_TEST = new Route(
+    '/patient/test',
+    'Nbiotek | Test request',
+    'Patient appointment past page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_TEST_RESULT = new Route(
+    '/patient/result',
+    'Nbiotek | Test result',
+    'Patient Test Result',
+    [EnumRole.PATIENT]
+  );
   PATIENT_AVAILABLE_TEST = new Route(
     '/patient/test/available',
-    'Available test',
-    'Patient test available page'
+    'Available',
+    'Patient test available',
+    [EnumRole.PATIENT]
   );
   PATIENT_PENDING_TEST = new Route(
     '/patient/test/pending',
-    'Pending Test',
-    'Patient test available page'
+    'Pending',
+    'Patient test available page',
+    [EnumRole.PATIENT]
   );
+  PATIENT_BILLING = new Route(
+    '/patient/billing',
+    'Billing & Payments',
+    'Patient Billing nad payment page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_BILLING_TRANSACTION_HISTORY = new Route(
+    '/patient/billing/history',
+    'Transaction History',
+    ' Transaction History Page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_BILLING_PENDING_PAYMENTS = new Route(
+    '/patient/billing/pending-payments',
+    'Pending Payment',
+    ' Pending Payment Page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_BILLING_INSURANCE = new Route(
+    '/patient/billing/insurance',
+    'insurance',
+    'Insurance Page',
+    [EnumRole.PATIENT]
+  );
+  PATIENT_SUPPORT = new Route('/patient/support', 'Support & Help', 'Help  Desk Page', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SUPPORT_CONTACT = new Route('/patient/support/contact', 'Contact Us', 'Contact Us', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SUPPORT_FAQ = new Route('/patient/support/faq', 'FAQ', 'Frequent Asked Questions', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SETTINGS = new Route('/patient/settings', 'Settings', 'Settings Page', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SETTINGS_SETTINGS = new Route('/patient/settings/update', 'Settings', 'Settings Page', [
+    EnumRole.PATIENT
+  ]);
+  PATIENT_SETTING_NOTIFICATION = new Route(
+    '/patient/settings/NOTIFICATION',
+    'Notification',
+    'Notification Page',
+    [EnumRole.PATIENT]
+  );
+
+  // Lab Tech
+  LAB_TECH = new Route('/lab-tech', 'Dashboard', 'Lab Technician Dashboard page', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+  LAB_TECH_TEST = new Route('/lab-tech/tests', 'Test Queue', 'Lab Technician All Test', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+  LAB_TECH_TEST_DETAILS = new Route(
+    '/lab-tech/tests/:id',
+    'Test Details',
+    'Lab Technician Single Test',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+  LAB_TECH_QUALITY_CONTROL_PENDING = new Route(
+    '/lab-tech/qc/pending',
+    'Pending',
+    'Lab Technician Quality Control Pending',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+  LAB_TECH_QUALITY_CONTROL_HISTORY = new Route(
+    '/lab-tech/qc/history',
+    'History',
+    'Lab Technician Quality Control',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+
+  LAB_TECH_QUALITY_CONTROL = new Route(
+    '/lab-tech/qc',
+    'Quality Control',
+    'Lab Technician Quality Control',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+
+  LAB_TECH_RESULT_HISTORY = new Route(
+    '/lab-tech/results',
+    'Result History',
+    'Lab Technician Tests Result',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+
+  LAB_TECH_NOTIFICATION = new Route(
+    '/lab-tech/notification',
+    'Notifications',
+    'Lab Technician Notifications',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+  LAB_TECH_SUPPORT_CONTACT = new Route(
+    '/lab-tech/sh/contact',
+    'Contact',
+    'Lab Technician contact',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+  LAB_TECH_SUPPORT_FAQ = new Route('/lab-tech/sh/faq', 'FAQ', 'Lab Technician FAQs', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+  LAB_TECH_SETTINGS = new Route('/lab-tech/settings', 'Settings', 'Lab Technician Settings', [
+    EnumRole.LAB_TECHNICIAN
+  ]);
+
+  DOCTOR = new Route('/doctor', 'Dashboard', 'Doctor Dashboard page', [EnumRole.DOCTOR]);
+
+  DOCTOR_APPOINTMENT = new Route('/doctor/appointments', 'Appointments', 'Doctor Dashboard page', [
+    EnumRole.DOCTOR
+  ]);
+  DOCTOR_CREATE_APPOINTMENT = new Route(
+    '/doctor/appointments/create',
+    'Create Appointments',
+    'Doctor Dashboard page',
+    [EnumRole.DOCTOR]
+  );
+
+  DOCTOR_TEST_REVIEW = new Route('/doctor/review-test', 'Test Review', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_REFERRALS = new Route('/doctor/referrals', 'Referrals', 'Doctor Patient List', [
+    EnumRole.DOCTOR
+  ]);
+
+  DOCTOR_HELP_SUPPORT = new Route(
+    '/doctor/help_support',
+    'Help & Support',
+    'Doctor Help & Support',
+    [EnumRole.DOCTOR]
+  );
+
+  DOCTOR_SETTINGS = new Route('/doctor/settings', 'Settings', 'Doctor Settings', [EnumRole.DOCTOR]);
+  // LAB COORDINATOR
+  LAB_COORD = new Route('/lab-coord', 'Dashboard', 'Lab Coordinator', [EnumRole.LAB_CORDINATOR]);
+  LAB_COORD_TEST_SCHEDULING = new Route(
+    '/lab-coord/tests',
+    'Test Scheduling',
+    'Lab Coordinator Test Scheduling',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_TEST_DETAILS = new Route(
+    '/lab-coord/tests/:id',
+    'Test Details',
+    'Lab Coordinator Single Test',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_INVENTORY_MANAGEMENT = new Route(
+    '/lab-coord/inventory',
+    'Inventory Management',
+    'Lab Coordinator Inventory Management',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_STAFF_SCHEDULES = new Route(
+    '/lab-coord/staff',
+    'Staff Schedules',
+    'Lab Coordinator Staff Schedules',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_QUALITY_CONTROL = new Route(
+    '/lab-coord/quality-control',
+    'Quality Control',
+    'Lab Coordinator Quality Control',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_NOTIFICATIONS = new Route(
+    '/lab-coord/notifications',
+    'Notifications',
+    'Lab Coordinator Notifications',
+    [EnumRole.LAB_CORDINATOR]
+  );
+  LAB_COORD_SUPPORT = new Route('/lab-coord/support', 'Help/Support', 'Lab Coordinator Support', [
+    EnumRole.LAB_CORDINATOR
+  ]);
+  LAB_COORD_SETTINGS = new Route('/lab-coord/settings', 'Settings', 'Lab Coordinator Settings', [
+    EnumRole.LAB_CORDINATOR
+  ]);
+
+  getRedirectPathByRole(_role: EnumRole) {
+    switch (_role) {
+      case EnumRole.LAB_TECHNICIAN:
+        return this.LAB_TECH.path;
+      case EnumRole.PATIENT:
+        return this.PATIENT.path;
+      case EnumRole.LAB_CORDINATOR:
+        return this.LAB_COORD.path;
+      case EnumRole.DOCTOR:
+        return this.DOCTOR.path;
+      // TODO: Add more modules authorization routing here.
+      default:
+        return '';
+    }
+  }
+
+  isPublicPath(path: string): boolean {
+    const publicPaths = [
+      this.HOME.path,
+      this.ABOUT.path,
+      this.FAQS.path,
+      this.PRIVACY_POLICY.path,
+      this.REGISTER.path,
+      this.LOGIN.path,
+      this.OTP.path,
+      this.FORGOT_PWD.path,
+      this.PWD_RESET.path,
+      this.UNAUTHORIZED.path
+    ];
+
+    return publicPaths.includes(path) || path.startsWith('/auth');
+  }
+
+  getAllProtectedRoutes() {
+    const routes = new Map<string, Array<EnumRole>>();
+
+    const properties = Object.getOwnPropertyNames(this);
+
+    for (const prop of properties) {
+      const value = this[prop as keyof Routes];
+      if (value instanceof Route && value.roles.length > 0) {
+        if (!this.isPublicPath(value.path)) {
+          routes.set(value.path, value.roles);
+        }
+      }
+    }
+
+    return routes;
+  }
 }
 
 const ROUTES = new Routes();
+
+export const roleAccessRules = {
+  '/patient': [EnumRole.PATIENT],
+  '/lab-tech': [EnumRole.LAB_TECHNICIAN],
+  '/lab-coord': [EnumRole.LAB_CORDINATOR],
+  '/doctor': [EnumRole.DOCTOR]
+};
 
 export default ROUTES;

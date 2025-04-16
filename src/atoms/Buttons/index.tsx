@@ -3,7 +3,15 @@ import { ClipLoader } from 'react-spinners';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
-  variant: 'filled' | 'transparent' | 'outlined' | 'light' | 'underlined' | 'danger';
+  variant:
+    | 'filled'
+    | 'transparent'
+    | 'outlined'
+    | 'light'
+    | 'underlined'
+    | 'danger'
+    | 'secondary'
+    | 'danger-outlined';
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -33,6 +41,10 @@ const Button = ({
         return 'button-underlined';
       case 'danger':
         return 'button-danger';
+      case 'secondary':
+        return 'button-secondary';
+      case 'danger-outlined':
+        return 'button-danger-outlined';
       default:
         break;
     }
