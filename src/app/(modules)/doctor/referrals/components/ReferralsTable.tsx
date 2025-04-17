@@ -1,25 +1,13 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { EllipsisVertical } from 'lucide-react';
-
 import EmptyState from '@/components/EmptyState';
-import Status from '@/atoms/Buttons/Status';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 
 interface ReferralTableProps {
