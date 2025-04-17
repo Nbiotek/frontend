@@ -17,12 +17,17 @@ export class AppConfigStore {
     testId: ''
   };
 
+  availableLabTechnicians: { testId: string; isReassign?: boolean } = {
+    testId: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
       nonce: observable,
       testDetails: observable,
       queryLimit: observable,
+      availableLabTechnicians: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound
@@ -47,8 +52,9 @@ export class AppConfigStore {
         break;
       case AppModals.AVAILABLE_TECHNICIANS:
         if (modal.open) {
-          this.testDetails = {
-            testId: modal.testId
+          this.availableLabTechnicians = {
+            testId: modal.testId,
+            isReassign: Boolean(modal.isReassign)
           };
         }
         break;

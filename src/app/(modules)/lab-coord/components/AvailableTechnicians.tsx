@@ -4,23 +4,24 @@ import { Toast } from '@/atoms/Toast';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { LAB_COORD } from '@/constants/api';
 import { useFetchAvailableLabTechs } from '@/hooks/labCoord/useFetchAvailableLabTech';
-import { postAssignLabTech } from '@/requests/lab-coord';
+import { postAssignLabTech, putReassignLabTech } from '@/requests/lab-coord';
 import { useStore } from '@/store';
 import { getInitials } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
 const AvailableTechnicians = () => {
   const { data, status } = useFetchAvailableLabTechs();
   const [technicianId, setTechnicianId] = useState('');
   const {
-    AppConfigStore: { testDetails, toggleModals }
+    AppConfigStore: { availableLabTechnicians, toggleModals }
   } = useStore();
 
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: postAssignLabTech,
+    mutationFn: availableLabTechnicians.isReassign ? putReassignLabTech : postAssignLabTech,
 
     onError: () => {
       Toast.error('Unable to assign test now.');
@@ -90,7 +91,7 @@ const AvailableTechnicians = () => {
                       onClick={() => {
                         setTechnicianId(technician.id);
                         mutate({
-                          testRequestId: testDetails.testId,
+                          testRequestId: availableLabTechnicians.testId,
                           technicianId: technician.id
                         });
                       }}
@@ -117,4 +118,4 @@ const AvailableTechnicians = () => {
   );
 };
 
-export default AvailableTechnicians;
+export default observer(AvailableTechnicians);

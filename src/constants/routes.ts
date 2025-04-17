@@ -265,6 +265,40 @@ class Routes {
     EnumRole.LAB_CORDINATOR
   ]);
 
+  // receptionist
+  RECPTS = new Route('/recpst', 'Dashboard', 'Receptionist Dashboard page', [
+    EnumRole.RECEPTIONIST
+  ]);
+
+  RECPTS_PATIENT_REG = new Route(
+    '/recpst/patient-reg',
+    'Patient Reg.',
+    'Receptionist Patient Registration page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_APOINTMENT = new Route(
+    '/recpst/appt',
+    'Appointment',
+    'Receptionist Appointment Booking page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_NOTIFICATIONS = new Route(
+    '/recpst/notifications',
+    'Notifications',
+    'Receptionist Notifications',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_SUPPORT = new Route('/recpst/support', 'Help/Support', 'Receptionist Support', [
+    EnumRole.RECEPTIONIST
+  ]);
+
+  RECPTS_SETTINGS = new Route('/recpst/settings', 'Settings', 'Receptionist Settings', [
+    EnumRole.RECEPTIONIST
+  ]);
+
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
       case EnumRole.LAB_TECHNICIAN:
@@ -276,6 +310,8 @@ class Routes {
       case EnumRole.DOCTOR:
         return this.DOCTOR.path;
       // TODO: Add more modules authorization routing here.
+      case EnumRole.RECEPTIONIST:
+        return this.RECPTS.path;
       default:
         return '';
     }
@@ -322,7 +358,8 @@ export const roleAccessRules = {
   '/patient': [EnumRole.PATIENT],
   '/lab-tech': [EnumRole.LAB_TECHNICIAN],
   '/lab-coord': [EnumRole.LAB_CORDINATOR],
-  '/doctor': [EnumRole.DOCTOR]
+  '/doctor': [EnumRole.DOCTOR],
+  [ROUTES.RECPTS.path]: [EnumRole.RECEPTIONIST]
 };
 
 export default ROUTES;

@@ -15,7 +15,7 @@ export function useUpdateTestStatus() {
       Toast.error(parseError(error));
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [LAB_TECH.RECENT_ACTIVITIES] });
+      queryClient.invalidateQueries({ queryKey: [LAB_TECH.RECENT_ACTIVITIES, LAB_TECH.ALL_TESTS] });
       Toast.success('Test status updated!');
     }
   });

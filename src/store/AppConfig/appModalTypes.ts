@@ -14,10 +14,18 @@ export type TAppModalsAction =
   | ({ name: AppModals.LOG_OUT_MODAL | AppModals.ADD_INVENTORY } & {
       open: boolean;
     })
-  | ({ name: AppModals.RESULT_UPLOAD_MODAL | AppModals.AVAILABLE_TECHNICIANS } & (
+  | ({ name: AppModals.RESULT_UPLOAD_MODAL } & (
       | {
           open: true;
           testId: string;
+        }
+      | { open?: false }
+    ))
+  | ({ name: AppModals.AVAILABLE_TECHNICIANS } & (
+      | {
+          open: true;
+          testId: string;
+          isReassign?: boolean;
         }
       | { open?: false }
     ));
