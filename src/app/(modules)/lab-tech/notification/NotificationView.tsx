@@ -1,7 +1,6 @@
 import Button from '@/atoms/Buttons';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { Switch } from '@/components/ui/switch';
-import React from 'react';
 
 const NotificationView = () => {
   return (
