@@ -10,7 +10,6 @@ import {
 import { cartStore } from '@/store/Cart';
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
-import Link from 'next/link';
 import { X } from 'lucide-react';
 
 const CartTable = observer(() => {
@@ -80,30 +79,6 @@ const CartTable = observer(() => {
           </div>
         </div>
       </div>
-      {/* <div className="w-full lg:w-96">
-        <div className="rounded-lg bg-white">
-          <h2 className="mb-6 rounded-lg bg-blue-400 p-3 text-xl font-semibold text-white">
-            Cart Total
-          </h2>
-          <div className="space-y-4 p-3">
-            <div className="flex justify-between border-b pb-2">
-              <span>Subtotal:</span>
-              <span>₦{cartStore.total.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between border-b pb-2">
-              <span>Shipping:</span>
-              <span>₦0</span>
-            </div>
-            <div className="flex justify-between font-semibold">
-              <span>Total:</span>
-              <span>₦{cartStore.total.toLocaleString()}</span>
-            </div>
-            <Link href='/booking/appointment' className="mt-4 w-full rounded-lg bg-[#1e56b0] py-3 text-white">
-              Proceed to checkout
-            </Link>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 });
