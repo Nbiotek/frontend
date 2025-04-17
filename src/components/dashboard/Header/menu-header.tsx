@@ -12,7 +12,7 @@ const MenuHeader = () => {
   const { data } = useFetchProfile();
 
   return (
-    <div className="z-40w sticky top-0 w-full border border-r bg-white p-2 shadow-lg">
+    <div className="sticky top-0 z-10 w-full border border-r bg-white p-2 shadow-lg">
       <div className="flex w-full justify-between">
         <div className="flex items-center gap-2">
           <button
