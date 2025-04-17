@@ -1,5 +1,4 @@
 'use client';
-import ActivityTable from '@/atoms/Table/test-table';
 import OverviewActivity from './components/OverviewActivity';
 import QuickAction from '@/components/common/quick-links';
 import { DoctorsQuickLinks } from '@/config/quickActionItems';
