@@ -27,7 +27,7 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
           if (role.includes(userData.role as EnumRole)) {
             return router.replace(pathname);
           } else {
-            return router.replace(ROUTES.UNAUTHORIZED.path);
+            return router.replace(ROUTES.DENIED.path);
           }
         }
       }

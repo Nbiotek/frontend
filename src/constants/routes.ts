@@ -25,7 +25,7 @@ class Routes {
     'Nbiotek Privacy Policy',
     'Privacy Policy - Nbiotek'
   );
-  UNAUTHORIZED = new Route('/unathorized', '', '');
+  DENIED = new Route('/denied', '', '');
 
   // auth
   REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
@@ -328,7 +328,7 @@ class Routes {
       this.OTP.path,
       this.FORGOT_PWD.path,
       this.PWD_RESET.path,
-      this.UNAUTHORIZED.path
+      this.DENIED.path
     ];
 
     return publicPaths.includes(path) || path.startsWith('/auth');
