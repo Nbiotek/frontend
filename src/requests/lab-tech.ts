@@ -13,7 +13,7 @@ export type TTestStatusMutateParams = {
 
 export const putUpdateTestStatus = async (args: TTestStatusMutateParams) => {
   const { id, payload } = args;
-  server.put(LAB_TECH.UPDATE_TEST_STATUS.replace(':id', id), payload);
+  server.put<INBTServerResp<string>>(LAB_TECH.UPDATE_TEST_STATUS.replace(':id', id), payload);
 };
 
 // get requests
