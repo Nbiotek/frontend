@@ -19,7 +19,6 @@ import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
 import { formatTestDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { putQCStatusUpdate } from '@/requests/lab-coord';
 import toast from 'react-hot-toast';
 import { LAB_COORD } from '@/constants/api';
 import { observer } from 'mobx-react-lite';
@@ -27,6 +26,7 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
+import { patchQCStatusUpdate } from '@/requests/qc';
 
 interface IQCTableProps {
   isLoading: boolean;
@@ -40,7 +40,7 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
   } = useStore();
   const queryClient = useQueryClient();
   const { mutate: qcStatusMutate, isPending } = useMutation({
-    mutationFn: putQCStatusUpdate,
+    mutationFn: patchQCStatusUpdate,
     onError: (error) => {
       toast.success(error.message);
     },
@@ -111,8 +111,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                             <DropdownMenuItem
                               onClick={() =>
                                 qcStatusMutate({
-                                  status: EnumResultStatus.UNDER_REVIEW,
-                                  testId: qcDatum.id
+                                  payload: { status: EnumResultStatus.UNDER_REVIEW },
+                                  id: qcDatum.id
                                 })
                               }
                             >

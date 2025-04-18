@@ -6,12 +6,13 @@ import { ArrowUpDown, ListFilter } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import { useQuery } from '@tanstack/react-query';
-import { LAB_TECH } from '@/constants/api';
+import { LAB_TECH, QUALITY_CONTROL } from '@/constants/api';
 import { getPendingQC } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 import { EnumLabTechQueryType } from '@/store/LabTech';
 import { observer } from 'mobx-react-lite';
+import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
 
 const QCPendingView = () => {
   const [result, setResult] = useState<TQCTestResp>({
@@ -21,11 +22,8 @@ const QCPendingView = () => {
   const {
     LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.PENDING_QC, queries.CONTROL_PENDING],
-    queryFn: () => getPendingQC(queries.CONTROL_PENDING),
-    select: (data) => data.data.data
-  });
+
+  const { data, isLoading } = useFetchPendingQC(queries.CONTROL_PENDING);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {

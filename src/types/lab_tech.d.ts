@@ -104,9 +104,6 @@ type TRecentTestResults = {
   pagination: TPaginationResponse;
 };
 
-// ============ Quality Control ==================
-type TQCTestResp = INBTPaginatedData<TTestData>;
-
 type TAvailabiltyData = {
   id: string;
   status: string;

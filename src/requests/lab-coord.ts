@@ -13,8 +13,3 @@ export const putReassignLabTech = (payload: TAssignLabTechPayload) =>
 
 export const postCreateInventory = (payload: TAddInventorySchema['items']) =>
   server.post(LAB_COORD.INVENTORY, payload);
-
-export const putQCStatusUpdate = (payload: { status: EnumResultStatus; testId: string }) =>
-  server.put<INBTServerResp<string>>(LAB_COORD.QC_STATUS_UPDATE.replaceAll(':id', payload.testId), {
-    status: payload.status
-  });
