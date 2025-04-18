@@ -18,15 +18,12 @@ import {
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
 import { formatTestDate } from '@/utils/date';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { LAB_COORD } from '@/constants/api';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
-import { patchQCStatusUpdate } from '@/requests/qc';
+import { useUpdateQCStatus } from '@/hooks/labCoord/useUpdateQCStatus';
 
 interface IQCTableProps {
   isLoading: boolean;
@@ -38,17 +35,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
-  const queryClient = useQueryClient();
-  const { mutate: qcStatusMutate, isPending } = useMutation({
-    mutationFn: patchQCStatusUpdate,
-    onError: (error) => {
-      toast.success(error.message);
-    },
-    onSuccess: (data) => {
-      toast.success(data.data.message);
-      queryClient.invalidateQueries({ queryKey: [LAB_COORD.DASHBOARD] });
-    }
-  });
+
+  const { mutate: qcStatusMutate } = useUpdateQCStatus();
 
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
@@ -107,7 +95,7 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                           >
                             View Test
                           </DropdownMenuItem>
-                          {(qcDatum.qcStatus && qcDatum.qcStatus === EnumResultStatus.PENDING) || (
+                          {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
                             <DropdownMenuItem
                               onClick={() =>
                                 qcStatusMutate({
@@ -123,7 +111,12 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                             qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
                               <DropdownMenuItem
                                 onClick={() => {
-                                  // TODO: Open modal to pass or fail test.
+                                  toggleModals({
+                                    open: true,
+                                    name: AppModals.QC_STATUS_UPDATE,
+                                    testId: qcDatum.id,
+                                    currentStatus: qcDatum.qcStatus as EnumResultStatus
+                                  });
                                 }}
                               >
                                 Review Test
