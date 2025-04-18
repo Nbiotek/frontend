@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   description
 };
 
-const page = () => {
+export default function SettingsPage() {
   return <div>Settings Page</div>;
-};
-
-export default page;
+}

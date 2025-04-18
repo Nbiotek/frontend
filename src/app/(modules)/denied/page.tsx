@@ -1,7 +1,6 @@
+'use client';
 import UnauthorizedView from './View';
 
-const page = () => {
+export default function DeniedPage() {
   return <UnauthorizedView />;
-};
-
-export default page;
+}

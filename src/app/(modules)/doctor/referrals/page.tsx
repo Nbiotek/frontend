@@ -1,7 +1,5 @@
 import ReferralsView from './ReferralsView';
 
-const ReviewPage = () => {
+export default function ReviewPage() {
   return <ReferralsView />;
-};
-
-export default ReviewPage;
+}

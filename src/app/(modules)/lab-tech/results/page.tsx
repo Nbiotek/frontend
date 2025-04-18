@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecentView from './components/RecentView';
 import ArchivedView from './components/ArchivedView';
 
-const ResultPage = () => {
+export default function ResultPage() {
   return (
     <div className="w-full">
       <Tabs defaultValue="recent" className="flex w-full flex-col space-y-2">
@@ -24,6 +24,4 @@ const ResultPage = () => {
       </Tabs>
     </div>
   );
-};
-
-export default ResultPage;
+}
