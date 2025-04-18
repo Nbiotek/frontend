@@ -40,6 +40,7 @@ type TTestData = {
     id: string;
     name: string;
   } | null;
+  qcStatus?: string;
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;
@@ -102,9 +103,6 @@ type TRecentTestResults = {
   results: Array<TTestData>;
   pagination: TPaginationResponse;
 };
-
-// ============ Quality Control ==================
-type TQCTestResp = INBTPaginatedData<TTestData>;
 
 type TAvailabiltyData = {
   id: string;

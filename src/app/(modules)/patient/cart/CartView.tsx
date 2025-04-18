@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import { Minus, Plus, X } from 'lucide-react';
-import Button from '@/atoms/Buttons';
 import CartTable from './CartTable';
 
 export const CartPage = () => {

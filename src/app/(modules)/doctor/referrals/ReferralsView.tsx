@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
-import IconPod from '@/atoms/Icon/IconPod';
-import { ArrowUpDown, ListFilter } from 'lucide-react';
 import ReferralTable from './components/ReferralsTable';
 import { useDoctorReferral } from '@/hooks/doctor/useReferrals';
 import FilterComponent from '../../patient/component/FilterCP';

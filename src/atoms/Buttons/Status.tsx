@@ -17,10 +17,10 @@ export enum EnumTestPriority {
   LOW = 'LOW'
 }
 
-export enum EnumResultStatus {
-  ACCEPTED = 'ACCEPTED',
+export enum EnumResultStatus { // same as qc status
+  FAILED = 'FAILED',
   PENDING = 'PENDING',
-  REJECTED = 'REJECTED',
+  PASSED = 'PASSED',
   UNDER_REVIEW = 'UNDER_REVIEW'
 }
 
@@ -53,11 +53,11 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-teal';
 
       // Result status | Quality Control
-      case EnumResultStatus.ACCEPTED:
+      case EnumResultStatus.PASSED:
         return 'status-green';
       case EnumResultStatus.PENDING:
         return 'status-violet';
-      case EnumResultStatus.REJECTED:
+      case EnumResultStatus.FAILED:
         return 'status-red';
       case EnumResultStatus.UNDER_REVIEW:
         return 'status-teal';

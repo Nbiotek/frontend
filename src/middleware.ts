@@ -27,7 +27,7 @@ function redirectToLogin(request: NextRequest): NextResponse {
 }
 
 function redirectToUnauthorized(request: NextRequest): NextResponse {
-  return NextResponse.redirect(new URL(Routes.UNAUTHORIZED.path, request.url));
+  return NextResponse.redirect(new URL(Routes.DENIED.path, request.url));
 }
 
 export default async function middleware(request: NextRequest) {

@@ -5,13 +5,12 @@ import Cards from '@/atoms/Cards';
 import Input from '@/atoms/fields/Input';
 import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
-import { CircleX } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
-import { CartItem, cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/Cart';
 
 import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';

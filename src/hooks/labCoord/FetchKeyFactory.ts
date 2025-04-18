@@ -1,6 +1,4 @@
 import { LAB_COORD } from '@/constants/api';
-import { keys } from 'mobx';
-import path from 'path';
 
 export const labCoord = {
   getDashboard() {
@@ -42,22 +40,6 @@ export const labCoord = {
     return {
       path: LAB_COORD.INVENTORY,
       keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.INVENTORY, query] as const,
-      params: query
-    };
-  },
-
-  getLabCoordQCPending(query: Partial<TTestQuery>) {
-    return {
-      path: LAB_COORD.QC_PENDING,
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.QC_PENDING],
-      params: query
-    };
-  },
-
-  getLabCoordQCHistory(query: Partial<TTestQuery>) {
-    return {
-      path: LAB_COORD.QC_HISTORY,
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.QC_HISTORY],
       params: query
     };
   }

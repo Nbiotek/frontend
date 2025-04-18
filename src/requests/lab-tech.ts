@@ -1,4 +1,4 @@
-import { LAB_TECH } from '@/constants/api';
+import { LAB_TECH, QUALITY_CONTROL } from '@/constants/api';
 import server from '.';
 import { getAllParams } from '@/utils';
 import { EnumTestStatus } from '@/atoms/Buttons/Status';
@@ -13,7 +13,7 @@ export type TTestStatusMutateParams = {
 
 export const putUpdateTestStatus = async (args: TTestStatusMutateParams) => {
   const { id, payload } = args;
-  server.put(LAB_TECH.UPDATE_TEST_STATUS.replace(':id', id), payload);
+  server.put<INBTServerResp<string>>(LAB_TECH.UPDATE_TEST_STATUS.replace(':id', id), payload);
 };
 
 // get requests
@@ -64,7 +64,7 @@ export const getPendingQC = async ({
 }: Partial<TTestQuery>) => {
   const params = getAllParams({ search, status, fromDate, toDate, sortBy, sortOrder, page, limit });
 
-  return server.get<INBTServerResp<TQCTestResp>>(LAB_TECH.PENDING_QC, { params });
+  return server.get<INBTServerResp<TQCTestResp>>(QUALITY_CONTROL.PENDING, { params });
 };
 
 export const getHistoryQC = async ({

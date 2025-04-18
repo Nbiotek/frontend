@@ -8,7 +8,7 @@ import { pagination } from '@/constants/data';
 import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
 import { EnumLabCoordQueryType } from '@/store/LabCoord';
-import { useFetchQCPending } from '@/hooks/labCoord/useFetchQCPending';
+import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
 
 const QCPendingView = () => {
   const params: Partial<TTestQuery> = {};
@@ -20,7 +20,7 @@ const QCPendingView = () => {
     LabCoordStore: { queries, resetQuery, applyQuery }
   } = useStore();
 
-  const { data, isLoading } = useFetchQCPending(queries.CONTROL_PENDING);
+  const { data, isLoading } = useFetchPendingQC(queries.CONTROL_PENDING);
 
   useEffect(() => {
     if (!isLoading && data != undefined) {

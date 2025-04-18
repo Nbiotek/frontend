@@ -4,31 +4,33 @@ import { Toast } from '@/atoms/Toast';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { LAB_COORD } from '@/constants/api';
 import { useFetchAvailableLabTechs } from '@/hooks/labCoord/useFetchAvailableLabTech';
-import { postAssignLabTech } from '@/requests/lab-coord';
+import { postAssignLabTech, putReassignLabTech } from '@/requests/lab-coord';
 import { useStore } from '@/store';
 import { getInitials } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const AvailableTechnicians = () => {
   const { data, status } = useFetchAvailableLabTechs();
   const [technicianId, setTechnicianId] = useState('');
   const {
-    AppConfigStore: { testDetails, toggleModals }
+    AppConfigStore: { availableLabTechnicians, toggleModals }
   } = useStore();
 
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: postAssignLabTech,
+    mutationFn: availableLabTechnicians.isReassign ? putReassignLabTech : postAssignLabTech,
 
     onError: () => {
-      Toast.error('Unable to assign test now.');
+      toast.error('Unable to assign test now.');
     },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [LAB_COORD.DASHBOARD] });
-      Toast.success('Test successfully assigned!');
+      toast.success('Test successfully assigned!');
       toggleModals({});
     },
 
@@ -39,10 +41,6 @@ const AvailableTechnicians = () => {
 
   return (
     <div className="flex h-fit w-full flex-col">
-      {/* <div className="w-full rounded-lg bg-blue-400 p-3">
-        <SubTitle className="!text-white" text="Available Technicians" />
-      </div> */}
-
       <div className="h-fit max-h-[600px] w-full overflow-y-scroll bg-white pt-2">
         {status === 'pending' && (
           <div className="flex flex-col space-y-2">
@@ -90,7 +88,7 @@ const AvailableTechnicians = () => {
                       onClick={() => {
                         setTechnicianId(technician.id);
                         mutate({
-                          testRequestId: testDetails.testId,
+                          testRequestId: availableLabTechnicians.testId,
                           technicianId: technician.id
                         });
                       }}
@@ -117,4 +115,4 @@ const AvailableTechnicians = () => {
   );
 };
 
-export default AvailableTechnicians;
+export default observer(AvailableTechnicians);

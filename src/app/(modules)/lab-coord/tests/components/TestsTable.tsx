@@ -24,6 +24,7 @@ import { format } from 'date-fns';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import Pagination from '@/atoms/pagination';
+import { toTitleCase } from '@/utils';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -45,14 +46,13 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[280px]">Name</TableHead>
-              <TableHead className="w-[280px]">Test Name</TableHead>
-              <TableHead className="w-[280px]">Test Type</TableHead>
+              <TableHead className="w-[280px]">Test</TableHead>
+              <TableHead className="w-[280px]">Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
               <TableHead className="w-[150px]">Date created</TableHead>
               <TableHead className="w-[150px]">Requested Date</TableHead>
               <TableHead className="w-[150px]">Deadline</TableHead>
               <TableHead className="w-[80px]">Status</TableHead>
-              <TableHead>Lab Technician</TableHead>
               <TableHead className="w-[20px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -67,7 +67,10 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                       {test.patientName}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
-                    <TableCell className="whitespace-nowrap">{test.testType}</TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {' '}
+                      {toTitleCase(test.testType)}
+                    </TableCell>
                     <TableCell>
                       <Status variant={test.priority} />
                     </TableCell>
@@ -83,7 +86,6 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     <TableCell>
                       <Status variant={test.status} />
                     </TableCell>
-                    <TableCell>{test.technician?.name ?? ''}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger>

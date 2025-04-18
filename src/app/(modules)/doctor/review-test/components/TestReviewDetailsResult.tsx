@@ -1,4 +1,3 @@
-import FieldSet from '@/atoms/fields/FieldSet';
 import { Text } from '@/lib/utils/Text';
 import ResultFieldHeader from '@/atoms/fields/ResultFields';
 

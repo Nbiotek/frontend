@@ -105,15 +105,17 @@ class CartStore {
   };
 
   private loadCart = () => {
+    if (typeof window === 'undefined') return;
     try {
-      const saveCart = localStorage.getItem('cart');
-      if (saveCart) {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
         runInAction(() => {
-          this.items = JSON.parse(saveCart);
+          this.items = parsedCart;
         });
       }
     } catch (error) {
-      console.error('failed to load cart', error);
+      console.error('Failed to load cart:', error);
     }
   };
 }

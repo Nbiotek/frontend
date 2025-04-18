@@ -1,5 +1,5 @@
 import CardMetrics from '@/atoms/Cards/metric';
-import { AppointmentsIcon, ResultIcon, HealthProfileIcon, MessagesIcon } from '@/lib/utils/svg';
+import { AppointmentsIcon, ResultIcon, MessagesIcon } from '@/lib/utils/svg';
 import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 
 interface OverviewProps {
