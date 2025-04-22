@@ -18,6 +18,17 @@ class Route {
 class Routes {
   // landing
   HOME = new Route('/', 'Nbiotek | Home', 'Home');
+  LAB_TEST = new Route('/lab-test', 'Lab Test', 'Lab Test');
+  SPECIAL_PACKAGES = new Route('/special-package', 'Special Package', 'Special Package');
+  ADVANCED_IMAGING = new Route('/advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
+  MOLECULAR_DIAGNOSTICS = new Route(
+    '/molecular-diagnostics',
+    'Molecular Diagnostics',
+    'Molecular Diagnostics'
+  );
+  BIO_HUB = new Route('/bio-hub', 'Bio Hub', 'Bio Hub');
+  ECOMMERCE = new Route('/ecommerce', 'E-commerce', 'E-commerce');
+  WHATS_NEW = new Route('/whats-new', 'Whats New', 'Whats New');
   ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
   FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');
   PRIVACY_POLICY = new Route(
@@ -25,6 +36,7 @@ class Routes {
     'Nbiotek Privacy Policy',
     'Privacy Policy - Nbiotek'
   );
+
   DENIED = new Route('/denied', '', '');
 
   // auth
@@ -320,6 +332,13 @@ class Routes {
   isPublicPath(path: string): boolean {
     const publicPaths = [
       this.HOME.path,
+      this.LAB_TEST.path,
+      this.SPECIAL_PACKAGES.path,
+      this.ADVANCED_IMAGING.path,
+      this.MOLECULAR_DIAGNOSTICS.path,
+      this.BIO_HUB.path,
+      this.ECOMMERCE.path,
+      this.WHATS_NEW.path,
       this.ABOUT.path,
       this.FAQS.path,
       this.PRIVACY_POLICY.path,

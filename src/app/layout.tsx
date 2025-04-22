@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${roboto.className} antialiased`} suppressHydrationWarning>
+      <body className={`${roboto.className} over antialiased`} suppressHydrationWarning>
         <AppProvider>{children}</AppProvider>
       </body>
     </html>
