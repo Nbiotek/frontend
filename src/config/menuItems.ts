@@ -35,13 +35,18 @@ export type UserRole = 'patient';
 export interface MenuItem {
   title: string;
   url?: string;
-  icon?: LucideIcon;
+  icon: LucideIcon;
   isNestable?: boolean;
   submenu?: Array<{
     title: string;
     url: string;
     isNestable?: boolean;
   }>;
+}
+
+export interface WebsiteMenu {
+  title: string;
+  url: string;
 }
 
 export const menuConfig: Record<string, MenuItem[]> = {
@@ -286,7 +291,7 @@ export const menuConfig: Record<string, MenuItem[]> = {
   ]
 };
 
-export const defaultMenuConfig: MenuItem[] = [
+export const defaultMenuConfig: WebsiteMenu[] = [
   {
     title: ROUTES.HOME.title,
     url: ROUTES.HOME.path

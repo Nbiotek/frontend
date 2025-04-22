@@ -61,7 +61,7 @@ const EcommerceSection = () => {
             </div>
           </div>
           {products.map((product, idx) => (
-            <div className=" h-[390px] w-[300px] bg-white">
+            <div className=" h-[390px] w-[300px] bg-white" key={idx}>
               <Image src={product.image} width={300} height={100} alt="scale" />
               <div className="mt-3 space-y-3 p-3">
                 <p>{product.title}</p>
