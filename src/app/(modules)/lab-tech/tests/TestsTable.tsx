@@ -26,7 +26,7 @@ import { useRouter } from 'next/navigation';
 import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { formatTestDate } from '@/utils/date';
 import Pagination from '@/atoms/pagination';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 
 interface ITestTableProps {
   isLoading: boolean;

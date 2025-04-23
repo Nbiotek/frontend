@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { SingleTest, PackageTest } from '@/types/test';
+import { RootStore } from '..';
 
 export type CartItemType = 'single' | 'package';
 
@@ -11,12 +12,14 @@ export interface CartItem {
 }
 
 class CartStore {
+  rootStore: RootStore;
   items: CartItem[] = [];
   isLoading: boolean = false;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     makeAutoObservable(this);
 
+    this.rootStore = rootStore;
     // Load cart from local storage on initialization
     this.loadCart();
   }
@@ -122,4 +125,4 @@ class CartStore {
 
 //  create and export a single instance
 
-export const cartStore = new CartStore();
+export default CartStore;

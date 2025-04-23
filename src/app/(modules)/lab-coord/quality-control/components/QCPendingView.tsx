@@ -7,7 +7,7 @@ import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
-import { EnumLabCoordQueryType } from '@/store/LabCoord';
+import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
 import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
 
 const QCPendingView = () => {

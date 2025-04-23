@@ -11,7 +11,7 @@ import { getRecentResult } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 
 const ResultsView = () => {
   const params: Partial<TTestQuery> = {};

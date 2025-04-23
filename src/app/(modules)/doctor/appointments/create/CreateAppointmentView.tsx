@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
-import { cartStore } from '@/store/Cart';
+import { useStore } from '@/store';
 
 import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';
@@ -22,6 +22,10 @@ const CreateAppointmentView = () => {
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
 
   const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
+
+  const {
+    CartStore: { items, total }
+  } = useStore();
 
   const handleTestModal = () => {
     setIsTestModalOpen(true);
@@ -44,12 +48,12 @@ const CreateAppointmentView = () => {
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      testRequests: cartStore.items.map((item) => ({
+      testRequests: items.map((item) => ({
         entityType: item.type.toUpperCase(),
         testId: item.id
       }))
     }));
-  }, [cartStore.items, isTestModalOpen]);
+  }, [items, isTestModalOpen]);
 
   const validateForm = () => {
     const newErrors: Partial<Record<keyof BookingForm, string>> = {};
@@ -184,12 +188,12 @@ const CreateAppointmentView = () => {
                 Select Test
               </Button>
 
-              {cartStore.items.length === 0 ? (
+              {items.length === 0 ? (
                 <></>
               ) : (
                 <>
                   <div className="mt-3 flex h-[100px] flex-col overflow-auto border-2">
-                    {cartStore.items.map((item) => (
+                    {items.map((item) => (
                       <div className="flexBetween items-center p-3" key={item.id}>
                         <p>
                           {item.item.name}{' '}
@@ -250,7 +254,7 @@ const CreateAppointmentView = () => {
               type="button"
               text="Confirm"
               onClick={handleBookingConfirmation}
-              disabled={cartStore.items.length === 0}
+              disabled={items.length === 0}
               form="bookingForm"
             />
           </div>
