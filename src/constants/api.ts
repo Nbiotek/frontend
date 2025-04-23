@@ -62,7 +62,6 @@ export const LAB_TECH = {
   RECENT_ACTIVITIES: '/lab-technicians/dashboard/recent-activities',
   ALL_TESTS: '/lab-technicians/test-requests',
   GET_TEST: '/lab-technicians/test-requests/:id',
-  RESULT_UPLOAD: '/lab-technicians/test-requests/:id/results',
   RECENT_RESULTS: '/lab-technicians/recent-test-results',
   ARCHIVED_RESULTS: '/lab-technicians/archived-test-results',
   HISTORY_QC: '/lab-technicians/quality-control-history',
@@ -85,4 +84,19 @@ export const QUALITY_CONTROL = {
   PENDING: '/qc/pending',
   HISTORY: '/qc/history',
   UPDATE_STATUS: '/qc/status/:id'
+};
+
+export const TEST = {
+  GET_ALL: '/tests/all-tests',
+  GET_SINGLE: '/tests/single/:id',
+  UPDATE_TEST: '/tests/update/:id',
+  TOGGLE_STATUS: '/tests/toggle-status/:id',
+  GET_RESULTS: '/tests/test-results',
+  GET_SINGLE_RESULT: '/tests/test-results/:id',
+  GET_REQUESTS: '/tests/test-requests',
+  GET_SINGLE_REQUEST: '/tests/test-requests/single/:id',
+  UPLOAD_RESULT: '/tests/upload-test-result/:id',
+  ASSIGN_TEST: '/tests/assign-technician',
+  REASSIGN_TEST: '/tests/reassign-technician',
+  ASSIGNED_TESTS: '/tests/fetch-assigned-test'
 };

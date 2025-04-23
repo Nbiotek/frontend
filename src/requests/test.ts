@@ -1,5 +1,5 @@
 import server, { serverwithoutInterceptor } from '.';
-import { PATIENT, LAB_TECH } from '@/constants/api';
+import { PATIENT, LAB_TECH, TEST } from '@/constants/api';
 import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 import { TTestResultsTypeSchema } from '@/app/(modules)/lab-tech/tests/components/validation';
 
@@ -18,7 +18,6 @@ export const TestService = {
 
 // post requests
 export const postUploadResult = async (testRequestId: string, result: TTestResultsTypeSchema) =>
-  server.post(LAB_TECH.RESULT_UPLOAD.replaceAll(':id', testRequestId), {
-    testRequestId,
+  server.post(TEST.UPLOAD_RESULT.replaceAll(':id', testRequestId), {
     data: result.data
   });
