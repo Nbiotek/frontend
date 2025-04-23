@@ -2,8 +2,8 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, X } from 'lucide-react';
 import { PackageTest, SingleTest } from '@/types/test';
-import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '@/store';
 import { Toast } from '@/atoms/Toast';
 import CartSummary from './CartSummary';
 
@@ -23,8 +23,11 @@ const TestDetailView = observer(
     onRemoveFromCart,
     hideCartSummary = false
   }: TestDetailViewProps) => {
+    const {
+      CartStore: { items, total, itemCount, clearCart, isInCart: checkCart, removeItem }
+    } = useStore();
     const isPackage = 'tests' in test;
-    const isInCart = cartStore.isInCart(test.id);
+    const isInCart = checkCart(test.id);
 
     return (
       <div className="flex h-full flex-col">
@@ -84,7 +87,7 @@ const TestDetailView = observer(
               if (id === test.id) {
                 onBack(); // Go back to the list view if removing the current test
               } else {
-                cartStore.removeItem(id);
+                removeItem(id);
                 Toast.success(`Removed ${name} from your selection`);
               }
             }}

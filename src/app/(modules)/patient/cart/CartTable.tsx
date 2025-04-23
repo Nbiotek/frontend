@@ -7,13 +7,16 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
 import { X } from 'lucide-react';
+import { useStore } from '@/store';
 
 const CartTable = observer(() => {
-  // Calculate total amount for an item
+  const {
+    CartStore: { items, removeItem, total }
+  } = useStore();
+
   const calculateItemTotal = (price: number, quantity: number) => {
     return price * quantity;
   };
@@ -29,11 +32,11 @@ const CartTable = observer(() => {
               <TableHead>PRICE</TableHead>
               <TableHead>QUANTITY</TableHead>
               <TableHead>SUBTOTAL</TableHead>
-              <TableHead className="text-right"></TableHead> {/* For remove button */}
+              <TableHead className="text-right"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {cartStore.items.map((cartItem) => (
+            {items.map((cartItem) => (
               <TableRow key={cartItem.id}>
                 <TableCell className="font-medium">{cartItem.item.name}</TableCell>
                 <TableCell>
@@ -59,7 +62,7 @@ const CartTable = observer(() => {
                   <Button
                     variant="outlined"
                     className="h-10 w-10 rounded-full p-2"
-                    onClick={() => cartStore.removeItem(cartItem.id)}
+                    onClick={() => removeItem(cartItem.id)}
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -74,7 +77,7 @@ const CartTable = observer(() => {
               Total
             </span>
             <span className="w-[200px] rounded-lg border-2 border-blue-400 px-4 py-3 text-center text-base">
-              ₦{cartStore.total.toLocaleString()}
+              ₦{total.toLocaleString()}
             </span>
           </div>
         </div>

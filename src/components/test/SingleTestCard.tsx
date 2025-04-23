@@ -6,7 +6,7 @@ import type { SingleTest } from '@/types/test';
 import Button from '@/atoms/Buttons';
 import { Item } from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import { cartStore } from '@/store/CartStore';
+import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 
 interface TestCardProps {
@@ -15,18 +15,22 @@ interface TestCardProps {
 }
 
 const SingleTestCard = observer(({ test, onViewDetails }: TestCardProps) => {
+  const {
+    CartStore: { isInCart, addItem, removeItem }
+  } = useStore();
+
   const handleCheckboxChange = (checked: boolean) => {
     console.log(checked);
     if (checked) {
-      cartStore.addItem(test, 'single');
+      addItem(test, 'single');
     } else {
-      cartStore.removeItem(test.id);
+      removeItem(test.id);
     }
   };
   return (
     <div className="relative mt-[12px] flex w-full items-center space-x-4 rounded-lg bg-white p-[16px]">
       <Checkbox
-        checked={cartStore.isInCart(test.id)}
+        checked={isInCart(test.id)}
         onCheckedChange={handleCheckboxChange}
         id={`test-${test.id}`}
       />

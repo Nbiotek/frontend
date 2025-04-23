@@ -7,8 +7,8 @@ import { PackageTest, SingleTest } from '@/types/test';
 import Spinner from '@/lib/utils/spinner';
 import { Button } from '@/components/ui/button';
 import { Search, ArrowLeft } from 'lucide-react';
-import { cartStore } from '@/store/CartStore';
 import { Toast } from '@/atoms/Toast';
+import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import TestCard from '../test/available/component/TestCard';
 import TestDetailView from '../test/available/component/TestDetailView';
@@ -28,7 +28,10 @@ const TestSelectionPanel = observer(
     hideHeader = false,
     hideCartSummary = false
   }: TestSelectionPanelProps) => {
-    // Fetching data
+    const {
+      CartStore: { isInCart, addItem, removeItem }
+    } = useStore();
+
     const { data, isLoading } = useTestsSingle();
     const { data: packageData, isLoading: pkgLoading } = useTestPackages();
 
@@ -40,7 +43,6 @@ const TestSelectionPanel = observer(
     const [filteredSingleTests, setFilteredSingleTests] = useState<SingleTest[]>([]);
     const [filteredPackageTests, setFilteredPackageTests] = useState<PackageTest[]>([]);
 
-    // Handle search
     const handleSearch = (term: string) => {
       setSearchTerm(term);
     };
@@ -84,13 +86,11 @@ const TestSelectionPanel = observer(
       setDetailView(true);
     };
 
-    // Add to cart
     const handleAddToCart = (test: SingleTest | PackageTest) => {
       const isPackage = 'tests' in test;
 
       try {
-        // Use the correct method from cartStore
-        cartStore.addItem(test, isPackage ? 'package' : 'single');
+        addItem(test, isPackage ? 'package' : 'single');
         Toast.success(`Added ${test.name} to your selection`);
       } catch (error) {
         console.error('Error adding to cart:', error);
@@ -98,10 +98,9 @@ const TestSelectionPanel = observer(
       }
     };
 
-    // Remove from cart
     const handleRemoveFromCart = (id: string, name: string) => {
       try {
-        cartStore.removeItem(id);
+        removeItem(id);
         Toast.success(`Removed ${name} from your selection`);
       } catch (error) {
         console.error('Error removing from cart:', error);
@@ -109,7 +108,6 @@ const TestSelectionPanel = observer(
       }
     };
 
-    // Loading state
     if (isLoading || pkgLoading) {
       return (
         <div className="flex h-full w-full items-center justify-center p-8">
@@ -120,7 +118,6 @@ const TestSelectionPanel = observer(
 
     if (!data || !packageData) return null;
 
-    // Detail View Component
     if (detailView && selectedTest) {
       return (
         <TestDetailView
@@ -133,7 +130,6 @@ const TestSelectionPanel = observer(
       );
     }
 
-    // List View Component
     return (
       <div className="flex h-full flex-col">
         {hideHeader && (
@@ -170,7 +166,7 @@ const TestSelectionPanel = observer(
                     onView={() => handleViewDetails(test)}
                     onAdd={() => handleAddToCart(test)}
                     onRemove={() => handleRemoveFromCart(test.id, test.name)}
-                    isInCart={cartStore.isInCart(test.id)}
+                    isInCart={isInCart(test.id)}
                   />
                 ))
               )}
@@ -188,7 +184,7 @@ const TestSelectionPanel = observer(
                     onView={() => handleViewDetails(test)}
                     onAdd={() => handleAddToCart(test)}
                     onRemove={() => handleRemoveFromCart(test.id, test.name)}
-                    isInCart={cartStore.isInCart(test.id)}
+                    isInCart={isInCart(test.id)}
                   />
                 ))
               )}

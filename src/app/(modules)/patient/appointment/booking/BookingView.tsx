@@ -13,8 +13,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
 import TestModalDialog from './components/TestModal';
-import { CartItem, cartStore } from '@/store/CartStore';
 
+import { useStore } from '@/store';
 import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
@@ -23,6 +23,9 @@ import BookingForSelfModal from './components/BookingSelfDialog';
 type LocationType = 'Lab' | 'Custom';
 
 const BookAppointmentView = observer(() => {
+  const {
+    CartStore: { items, total, removeItem, clearCart }
+  } = useStore();
   const { data } = usePatientInfo();
 
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
@@ -60,12 +63,12 @@ const BookAppointmentView = observer(() => {
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      testRequests: cartStore.items.map((item) => ({
+      testRequests: items.map((item) => ({
         entityType: item.type.toUpperCase(),
         testId: item.id
       }))
     }));
-  }, [cartStore.items, isTestModalOpen]);
+  }, [items, isTestModalOpen]);
 
   useEffect(() => {
     if (data && isBookingForSelf) {
@@ -232,12 +235,12 @@ const BookAppointmentView = observer(() => {
                 Select Test
               </Button>
 
-              {cartStore.items.length === 0 ? (
+              {items.length === 0 ? (
                 <></>
               ) : (
                 <>
                   <div className="mt-3 flex h-[100px] flex-col overflow-auto border-2">
-                    {cartStore.items.map((item) => (
+                    {items.map((item) => (
                       <div className="flexBetween items-center p-3" key={item.id}>
                         <p>
                           {item.item.name}{' '}
@@ -249,7 +252,7 @@ const BookAppointmentView = observer(() => {
                         <CircleX
                           className="cursor-pointer text-red-500"
                           onClick={() => {
-                            cartStore.removeItem(item.id);
+                            removeItem(item.id);
                           }}
                         />
                       </div>
@@ -303,7 +306,7 @@ const BookAppointmentView = observer(() => {
               variant="filled"
               type="button"
               text="Confirm"
-              disabled={cartStore.items.length === 0}
+              disabled={items.length === 0}
               onClick={handleBookingConfirmation}
               form="bookingForm"
             />

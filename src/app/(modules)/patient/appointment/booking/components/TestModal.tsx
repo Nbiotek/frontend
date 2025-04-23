@@ -8,11 +8,12 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { cartStore } from '@/store/CartStore';
 import { Toast } from '@/atoms/Toast';
 import { observer } from 'mobx-react-lite';
 import { ShoppingCart, X } from 'lucide-react';
 import TestSelectionPanel from '../../../component/TestTab';
+
+import { useStore } from '@/store';
 
 interface TestModalDialogProps {
   open: boolean;
@@ -20,9 +21,10 @@ interface TestModalDialogProps {
 }
 
 const TestModalDialog = observer(({ open, onClose }: TestModalDialogProps) => {
+  const {
+    CartStore: { items, total, itemCount, clearCart }
+  } = useStore();
   const [isConfirming, setIsConfirming] = useState(false);
-  const itemCount = cartStore.itemCount;
-  const totalPrice = cartStore.total;
 
   const handleConfirmSelection = () => {
     if (itemCount === 0) {
@@ -32,7 +34,6 @@ const TestModalDialog = observer(({ open, onClose }: TestModalDialogProps) => {
 
     setIsConfirming(true);
 
-    // Simulate API call or processing
     setTimeout(() => {
       Toast.success(`${itemCount} test${itemCount !== 1 ? 's' : ''} added to your appointment`);
       setIsConfirming(false);
@@ -42,7 +43,7 @@ const TestModalDialog = observer(({ open, onClose }: TestModalDialogProps) => {
 
   const handleClearSelection = () => {
     if (itemCount > 0) {
-      cartStore.clearCart();
+      clearCart();
       Toast.info('Selection cleared');
     }
   };
@@ -74,7 +75,7 @@ const TestModalDialog = observer(({ open, onClose }: TestModalDialogProps) => {
                 <div className="text-sm font-medium">
                   {itemCount} {itemCount === 1 ? 'test' : 'tests'} selected
                 </div>
-                <div className="text-lg font-semibold">₦{totalPrice.toLocaleString()}</div>
+                <div className="text-lg font-semibold">₦{total.toLocaleString()}</div>
               </div>
             </div>
             <div className="flex space-x-2">
