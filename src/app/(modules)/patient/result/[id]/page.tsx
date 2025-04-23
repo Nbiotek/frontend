@@ -1,7 +1,5 @@
 import ResultView from './ResultView';
 
-const ResultPage = () => {
+export default function ResultPage() {
   return <ResultView />;
-};
-
-export default ResultPage;
+}

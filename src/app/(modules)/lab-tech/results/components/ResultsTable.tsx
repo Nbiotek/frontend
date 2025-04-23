@@ -22,7 +22,7 @@ import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
 import Pagination from '@/atoms/pagination';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import { observer } from 'mobx-react-lite';
 
 interface IQCTableProps {

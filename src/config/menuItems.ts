@@ -21,7 +21,10 @@ import {
   UsersIcon,
   PhoneCallIcon,
   FilesIcon,
-  FileTextIcon
+  FileTextIcon,
+  UserCircle2Icon,
+  NotebookIcon,
+  SettingsIcon
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -258,6 +261,44 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.MARKETER_SETTINGS.title,
       url: ROUTES.MARKETER_SETTINGS.path,
       icon: Settings
+    }
+  ],
+
+  [EnumRole.RECEPTIONIST]: [
+    {
+      title: ROUTES.RECPTS.title,
+      url: ROUTES.RECPTS.path,
+      icon: Home
+    },
+
+    {
+      title: ROUTES.RECPTS_PATIENT_REG.title,
+      url: ROUTES.RECPTS_PATIENT_REG.path,
+      icon: UserCircle2Icon
+    },
+
+    {
+      title: ROUTES.RECPTS_APOINTMENT.title,
+      url: ROUTES.RECPTS_APOINTMENT.path,
+      icon: CalendarClock
+    },
+
+    {
+      title: ROUTES.RECPTS_NOTIFICATIONS.title,
+      url: ROUTES.RECPTS_NOTIFICATIONS.path,
+      icon: Bell
+    },
+
+    {
+      title: ROUTES.RECPTS_SETTINGS.title,
+      url: ROUTES.RECPTS_SETTINGS.path,
+      icon: SettingsIcon
+    },
+
+    {
+      title: ROUTES.RECPTS_SUPPORT.title,
+      url: ROUTES.RECPTS_SUPPORT.path,
+      icon: Phone
     }
   ]
 };

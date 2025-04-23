@@ -37,14 +37,12 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
     setIsRescheduleOpen(true);
   };
 
-  // Handle navigation
   const goToSlide = (index: number) => {
     if (animating) return;
 
     setAnimating(true);
     setCurrentIndex(index);
 
-    // Reset animation flag after transition completes
     setTimeout(() => {
       setAnimating(false);
     }, 400);
@@ -62,13 +60,13 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
     goToSlide(newIndex);
   };
 
-  // Auto-advance carousel
+  // carousel
   useEffect(() => {
     if (recentAppointments.length <= 1) return;
 
     const interval = setInterval(() => {
       goToNext();
-    }, 5000); // Change every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [currentIndex, recentAppointments.length]);
@@ -116,7 +114,6 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
                 </>
               )}
 
-              {/* Appointment content with sliding effect */}
               <div className="mx-auto max-w-80 overflow-hidden">
                 <div
                   className="flex transition-transform duration-300 ease-in-out"
@@ -174,7 +171,6 @@ const RecentAppointment = ({ isLoading, recentAppointments }: RecentAppointmentP
                 </div>
               </div>
 
-              {/* Carousel indicators */}
               {recentAppointments.length > 1 && (
                 <div className="mt-4 flex justify-center gap-2">
                   {recentAppointments.map((_, index) => (

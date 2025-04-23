@@ -1,11 +1,12 @@
 'use client';
 import { createContext, useContext } from 'react';
 import { configure } from 'mobx';
-import { AppConfigStore } from './AppConfig';
-import { AuthStore } from './Auth';
-import { PatientStore } from './Patient';
-import { LabTechStore } from './LabTech';
-import { LabCoordStore } from './LabCoord';
+import AppConfigStore from './AppConfig';
+import AuthStore from './AuthStore';
+import PatientStore from './PatientStore';
+import LabTechStore from './LabTechStore';
+import LabCoordStore from './LabCoordStore';
+import CartStore from './CartStore';
 
 configure({
   enforceActions: 'observed',
@@ -22,6 +23,7 @@ export class RootStore {
   PatientStore: PatientStore;
   LabTechStore: LabTechStore;
   LabCoordStore: LabCoordStore;
+  CartStore: CartStore;
 
   constructor() {
     this.AppConfigStore = new AppConfigStore(this);
@@ -29,6 +31,7 @@ export class RootStore {
     this.PatientStore = new PatientStore(this);
     this.LabTechStore = new LabTechStore(this);
     this.LabCoordStore = new LabCoordStore(this);
+    this.CartStore = new CartStore(this);
   }
 }
 

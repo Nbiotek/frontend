@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import HyperLink from '@/atoms/Hyperlink';
 import { useStore } from '@/store';
 import { useCountdown } from '@/hooks/useCountdown';
-import { EnumResendToken } from '@/store/Auth';
+import { EnumResendToken } from '@/store/AuthStore';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';

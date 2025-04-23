@@ -22,7 +22,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Toast } from '@/atoms/Toast';
 import { postCreateInventory } from '@/requests/lab-coord';
 import { LAB_COORD } from '@/constants/api';
-import { Calendar } from '@/components/ui/calendar';
 import CustomDate from '@/atoms/fields/CustomDate';
 
 const AddInventoryModal = () => {
@@ -38,7 +37,7 @@ const AddInventoryModal = () => {
     },
     onSuccess: () => {
       toggleModals({});
-      queryClient.invalidateQueries({ queryKey: LAB_COORD.DASHBOARD });
+      queryClient.invalidateQueries({ queryKey: [LAB_COORD.DASHBOARD] });
       Toast.success('Inventory added successful!');
     }
   });

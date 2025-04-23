@@ -1,9 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { cartStore } from '@/store/Cart';
 import { observer } from 'mobx-react-lite';
-import { CartItem } from '@/store/Cart';
+import { CartItem } from '@/store/CartStore';
+import { useStore } from '@/store';
 
 interface CartSummaryProps {
   onClose: () => void;
@@ -13,10 +13,9 @@ interface CartSummaryProps {
 
 const CartSummary = observer(
   ({ onClose, onRemoveItem, confirmButtonText = 'Confirm Selection' }: CartSummaryProps) => {
-    // Safely access total from cartStore
-    const totalPrice = cartStore.total;
-    const itemCount = cartStore.itemCount;
-    const items = cartStore.items;
+    const {
+      CartStore: { items, total, itemCount, clearCart }
+    } = useStore();
 
     if (itemCount === 0) return null;
 
@@ -33,7 +32,7 @@ const CartSummary = observer(
         </div>
         <CartSummaryFooter
           itemCount={itemCount}
-          totalPrice={totalPrice}
+          totalPrice={total}
           onClose={onClose}
           confirmButtonText={confirmButtonText}
         />
@@ -42,7 +41,6 @@ const CartSummary = observer(
   }
 );
 
-// Component for individual cart items
 const CartItemRow = ({ item, onRemove }: { item: CartItem; onRemove: () => void }) => (
   <div className="flex items-center justify-between border-b py-2 last:border-0">
     <div className="min-w-0 flex-1">
