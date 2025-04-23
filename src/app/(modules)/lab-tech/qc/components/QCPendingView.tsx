@@ -7,7 +7,7 @@ import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import { observer } from 'mobx-react-lite';
 import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
 

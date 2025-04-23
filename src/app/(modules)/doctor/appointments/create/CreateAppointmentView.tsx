@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 
 import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';

@@ -6,7 +6,7 @@ import { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 const INIT_IS_OPEN = initializer(AppModals, false);
 
-export class AppConfigStore {
+class AppConfigStore {
   rootStore: RootStore;
 
   queryLimit: number = 10;
@@ -84,3 +84,5 @@ export class AppConfigStore {
     this.nonce = Date.now() + Math.random();
   }
 }
+
+export default AppConfigStore;

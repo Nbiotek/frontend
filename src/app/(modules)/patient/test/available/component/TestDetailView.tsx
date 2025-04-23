@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, X } from 'lucide-react';
 import { PackageTest, SingleTest } from '@/types/test';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
 import { Toast } from '@/atoms/Toast';
 import CartSummary from './CartSummary';

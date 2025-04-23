@@ -11,7 +11,7 @@ export enum EnumLabTechQueryType {
 
 const defaultQuery = { limit: 10, page: 1 };
 
-export class LabTechStore {
+class LabTechStore {
   rootStore: RootStore;
   queries: Record<EnumLabTechQueryType, Partial<TTestQuery>> = {
     [EnumLabTechQueryType.TEST]: { ...defaultQuery },
@@ -52,3 +52,5 @@ export class LabTechStore {
     this.queries[dataType].limit = _limit;
   }
 }
+
+export default LabTechStore;

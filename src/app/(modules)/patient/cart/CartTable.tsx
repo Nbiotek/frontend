@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
 import { X } from 'lucide-react';

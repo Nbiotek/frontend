@@ -1,9 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
-import { CartItem } from '@/store/Cart';
+import { CartItem } from '@/store/CartStore';
 
 interface CartSummaryProps {
   onClose: () => void;

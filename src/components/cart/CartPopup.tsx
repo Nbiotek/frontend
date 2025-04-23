@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sheet';
 // import { Button } from "@/components/ui/button"
 import { ShoppingCart, Minus, Plus, X } from 'lucide-react';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { observe } from 'mobx';
 import { CartIcon } from '@/lib/utils/svg';
 import Button from '@/atoms/Buttons';

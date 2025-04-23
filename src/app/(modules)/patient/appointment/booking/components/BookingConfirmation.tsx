@@ -9,7 +9,7 @@ import {
 
 import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide-react';
 import Button from '@/atoms/Buttons';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 
 import { useBookAppointment } from '@/hooks/patient/useAppoitment';
 import toast from 'react-hot-toast';

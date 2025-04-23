@@ -6,7 +6,7 @@ import type { PackageTest, SingleTest } from '@/types/test';
 import Button from '@/atoms/Buttons';
 import { Item } from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { observer } from 'mobx-react-lite';
 
 interface TestCardProps {

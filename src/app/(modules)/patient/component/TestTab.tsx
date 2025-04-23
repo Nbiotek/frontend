@@ -7,7 +7,7 @@ import { PackageTest, SingleTest } from '@/types/test';
 import Spinner from '@/lib/utils/spinner';
 import { Button } from '@/components/ui/button';
 import { Search, ArrowLeft } from 'lucide-react';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { Toast } from '@/atoms/Toast';
 import { observer } from 'mobx-react-lite';
 import TestCard from '../test/available/component/TestCard';

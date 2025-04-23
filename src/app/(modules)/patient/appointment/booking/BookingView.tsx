@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
 import TestModalDialog from './components/TestModal';
-import { CartItem, cartStore } from '@/store/Cart';
+import { CartItem, cartStore } from '@/store/CartStore';
 
 import BonkingConfirmationDialog from './components/BookingConfirmation';
 

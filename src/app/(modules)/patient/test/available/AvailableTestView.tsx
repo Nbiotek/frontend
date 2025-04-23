@@ -2,7 +2,7 @@
 import TestSelectionPanel from '../../component/TestTab';
 import { useRouter } from 'next/navigation';
 import { Toast } from '@/atoms/Toast';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 
 const AvailableTestView = () => {
   const router = useRouter();

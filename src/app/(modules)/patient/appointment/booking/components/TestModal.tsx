@@ -8,7 +8,7 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { cartStore } from '@/store/Cart';
+import { cartStore } from '@/store/CartStore';
 import { Toast } from '@/atoms/Toast';
 import { observer } from 'mobx-react-lite';
 import { ShoppingCart, X } from 'lucide-react';
