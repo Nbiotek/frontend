@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
 import SettingsView from './SettingsView';
 
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description
 };
 
-const SettingsPage = () => {
+export default function SettingsPage() {
   return <SettingsView />;
-};
-
-export default SettingsPage;
+}

@@ -4,7 +4,6 @@ import { Paragraph, Title } from '@/atoms/typographys';
 import { EnumRole } from '@/constants/mangle';
 import ROUTES from '@/constants/routes';
 import { useStore } from '@/store';
-import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 
 function DeniedView() {
@@ -30,4 +29,4 @@ function DeniedView() {
   );
 }
 
-export default observer(DeniedView);
+export default DeniedView;

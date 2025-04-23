@@ -2,10 +2,11 @@ import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 import { AppModals, TAppModalsAction } from './appModalTypes';
 import initializer from '@/utils/initializer';
+import { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 const INIT_IS_OPEN = initializer(AppModals, false);
 
-export class AppConfigStore {
+class AppConfigStore {
   rootStore: RootStore;
 
   queryLimit: number = 10;
@@ -21,6 +22,11 @@ export class AppConfigStore {
     testId: ''
   };
 
+  qcStatusUpdate = {
+    testId: '',
+    currentStatus: EnumResultStatus.PENDING
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -28,6 +34,7 @@ export class AppConfigStore {
       testDetails: observable,
       queryLimit: observable,
       availableLabTechnicians: observable,
+      qcStatusUpdate: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound
@@ -58,6 +65,14 @@ export class AppConfigStore {
           };
         }
         break;
+      case AppModals.QC_STATUS_UPDATE:
+        if (modal.open) {
+          this.qcStatusUpdate = {
+            testId: modal.testId,
+            currentStatus: modal.currentStatus
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;
@@ -69,3 +84,5 @@ export class AppConfigStore {
     this.nonce = Date.now() + Math.random();
   }
 }
+
+export default AppConfigStore;

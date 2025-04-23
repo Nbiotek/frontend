@@ -12,7 +12,7 @@ export enum EnumLabCoordQueryType {
 
 const defaultQuery = { limit: 10, page: 1 };
 
-export class LabCoordStore {
+class LabCoordStore {
   rootStore: RootStore;
   queries: Record<EnumLabCoordQueryType, Partial<TTestQuery>> = {
     [EnumLabCoordQueryType.TEST]: { ...defaultQuery },
@@ -54,3 +54,5 @@ export class LabCoordStore {
     this.queries[dataType].limit = _limit;
   }
 }
+
+export default LabCoordStore;

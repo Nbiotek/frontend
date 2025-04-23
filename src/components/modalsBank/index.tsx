@@ -15,6 +15,9 @@ const ModalsMap = {
   ),
   [AppModals.ADD_INVENTORY]: dynamic(
     () => import('@/app/(modules)/lab-coord/inventory/components/AddInventoryModal')
+  ),
+  [AppModals.QC_STATUS_UPDATE]: dynamic(
+    () => import('@/app/(modules)/lab-coord/components/modals/QCStatusModal')
   )
 };
 

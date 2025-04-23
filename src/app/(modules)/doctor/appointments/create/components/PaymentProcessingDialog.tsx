@@ -1,4 +1,5 @@
 // components/appointments/PaymentProcessingDialog.tsx
+'use client';
 import { useEffect } from 'react';
 
 interface PaymentProcessingDialogProps {

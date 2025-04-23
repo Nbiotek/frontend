@@ -1,7 +1,5 @@
 import TestSuiteView from './TestSuiteView';
 
-const AllTestItemSuite = () => {
+export default function AllTestItemSuite() {
   return <TestSuiteView />;
-};
-
-export default AllTestItemSuite;
+}

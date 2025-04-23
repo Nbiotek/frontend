@@ -132,7 +132,8 @@ const AppointmentItem = (props: AppointmentItemProps) => {
 
               <div className="sm:flexBetween  w-full pt-4">
                 <div>
-                  <MapPin className="inline" /> ({dateTimeUTC(appointment.appointmentDate, false)}){' '}
+                  <MapPin className="inline" /> ({dateTimeUTC(appointment.appointmentDate, false)}
+                  ){' '}
                 </div>
                 <span>{dateTimeUTC(appointment.appointmentDate).split(', ')[2]}</span>
               </div>

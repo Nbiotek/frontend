@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description
 };
 
-const InventoryPage = () => {
+export default function InventoryPage() {
   return <InventoryView />;
-};
-
-export default InventoryPage;
+}

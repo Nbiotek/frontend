@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ROUTES from '@/constants/routes';
 import QCHistoryView from './components/QCHistoryView';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description
 };
 
-const QCPage = () => {
+export default function QCPage() {
   return (
     <div className="w-full">
       <Tabs defaultValue="pending" className="flex w-full flex-col space-y-2">
@@ -33,6 +33,4 @@ const QCPage = () => {
       </Tabs>
     </div>
   );
-};
-
-export default QCPage;
+}

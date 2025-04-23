@@ -7,8 +7,8 @@ import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
-import { EnumLabCoordQueryType } from '@/store/LabCoord';
-import { useFetchQCHistory } from '@/hooks/labCoord/useFetchQCHistory';
+import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
+import { useFetchHistoryQC } from '@/hooks/qualityControl/useFetchHistoryQC';
 
 const QCHistoryView = () => {
   const params: Partial<TTestQuery> = {};
@@ -20,7 +20,7 @@ const QCHistoryView = () => {
     LabCoordStore: { queries, applyQuery, resetQuery }
   } = useStore();
 
-  const { data, isLoading } = useFetchQCHistory(queries.CONTROL_HISTORY);
+  const { data, isLoading } = useFetchHistoryQC(queries.CONTROL_HISTORY);
 
   useEffect(() => {
     if (!isLoading && data != undefined) {

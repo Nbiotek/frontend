@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
 
 const { title, description } = ROUTES.RECPTS_SUPPORT;
@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   description
 };
 
-const page = () => {
+export default function SupportPage() {
   return <div>Support Page</div>;
-};
-
-export default page;
+}

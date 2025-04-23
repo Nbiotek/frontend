@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
 
 const { title, description } = ROUTES.RECPTS_APOINTMENT;
@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   description
 };
 
-const page = () => {
+export default function ApptPage() {
   return <div>Appointments</div>;
-};
-
-export default page;
+}

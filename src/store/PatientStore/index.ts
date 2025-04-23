@@ -30,7 +30,7 @@ const INIT_IS_LOADING = {
   regPatient: false
 };
 
-export class PatientStore {
+class PatientStore {
   rootStore: RootStore;
   isLoading = { ...INIT_IS_LOADING };
   errors = initializer(this.isLoading, '');
@@ -41,7 +41,6 @@ export class PatientStore {
 
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
-      rootStore: observable,
       isLoading: observable,
       errors: observable,
       currentForm: observable,
@@ -115,3 +114,5 @@ export class PatientStore {
     }
   }
 }
+
+export default PatientStore;
