@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { qualityControl } from './keyFactory';
+import { qualityControl } from './FetchkeyFactory';
 import { useQuery } from '@tanstack/react-query';
 
 const select = (resp: INBTServerResp<TQCTestResp>) => resp.data;

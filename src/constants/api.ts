@@ -98,5 +98,6 @@ export const TEST = {
   UPLOAD_RESULT: '/tests/upload-test-result/:id',
   ASSIGN_TEST: '/tests/assign-technician',
   REASSIGN_TEST: '/tests/reassign-technician',
-  ASSIGNED_TESTS: '/tests/fetch-assigned-test'
+  ASSIGNED_TESTS: '/tests/fetch-assigned-test',
+  SINGLE_ASSIGNED_TESTS: '/tests/fetch-assigned-test/:id'
 };

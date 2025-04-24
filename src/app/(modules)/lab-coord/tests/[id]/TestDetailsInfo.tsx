@@ -16,14 +16,17 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
 
         <div className="flex w-full flex-col space-y-1 ">
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
-            <FieldSet legend="Name" text={data?.patient.name} />
-            <FieldSet legend="Email" text={data?.patient.email || 'Nill'} />
-            <FieldSet legend="Gender" text={data?.patient.gender || 'Nill'} />
+            <FieldSet legend="Name" text={data?.patient?.name} />
+            <FieldSet legend="Email" text={data?.patient?.email || 'Nill'} />
+            <FieldSet legend="Gender" text={data?.patient?.gender || 'Nill'} />
           </div>
 
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
-            <FieldSet legend="Date of Birth" text={data?.patient.dateOfBirth || 'Nill'} />
-            <FieldSet legend="Age" text={data?.patient.age.toString() || 'Nill'} />
+            <FieldSet legend="Date of Birth" text={data?.patient?.dateOfBirth || 'Nill'} />
+            <FieldSet
+              legend="Age"
+              text={data?.patient?.age ? data?.patient.age.toString() : 'Nill'}
+            />
           </div>
         </div>
       </div>

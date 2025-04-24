@@ -17,9 +17,9 @@ export const labTech = {
   },
   getTestByID(id: string) {
     return {
-      path: TEST.GET_SINGLE_REQUEST.replace(':id', id),
+      path: TEST.SINGLE_ASSIGNED_TESTS.replace(':id', id),
       keys: () =>
-        [LAB_TECH.RECENT_ACTIVITIES, TEST.ASSIGNED_TESTS, TEST.GET_SINGLE_REQUEST, id] as const
+        [LAB_TECH.RECENT_ACTIVITIES, TEST.ASSIGNED_TESTS, TEST.SINGLE_ASSIGNED_TESTS, id] as const
     };
   }
 };

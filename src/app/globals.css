@@ -259,3 +259,8 @@ body {
 .fc .fc-daygrid-day.fc-day-today {
   background-color: #78b2ff30;
 }
+
+.fc-h-event {
+  background-color: transparent;
+  border: none;
+}

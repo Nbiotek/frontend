@@ -23,7 +23,10 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
 
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
             <FieldSet legend="Date of Birth" text={data?.patient.dateOfBirth || 'Nill'} />
-            <FieldSet legend="Age" text={data?.patient.age.toString() || 'Nill'} />
+            <FieldSet
+              legend="Age"
+              text={data?.patient.age ? data?.patient.age.toString() : 'Nill'}
+            />
           </div>
         </div>
       </div>
