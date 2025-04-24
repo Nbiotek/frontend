@@ -255,15 +255,15 @@ export const menuConfig: Record<string, MenuItem[]> = {
     },
 
     {
-      title: ROUTES.RECPTS_PATIENT_REG.title,
-      url: ROUTES.RECPTS_PATIENT_REG.path,
-      icon: UserCircle2Icon
-    },
-
-    {
       title: ROUTES.RECPTS_APOINTMENT.title,
       url: ROUTES.RECPTS_APOINTMENT.path,
       icon: CalendarClock
+    },
+
+    {
+      title: ROUTES.RECPTS_PATIENT_REG.title,
+      url: ROUTES.RECPTS_PATIENT_REG.path,
+      icon: UserCircle2Icon
     },
 
     {

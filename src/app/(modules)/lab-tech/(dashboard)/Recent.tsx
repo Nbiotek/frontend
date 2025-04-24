@@ -10,8 +10,8 @@ import { labTech } from '@/hooks/labTech/FetchKeyFactory';
 import { Switch } from '@/components/ui/switch';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import { putAvailablity } from '@/requests/lab-tech';
-import { Toast } from '@/atoms/Toast';
 import { AUTH } from '@/constants/api';
+import toast from 'react-hot-toast';
 
 const Recent = () => {
   const { data: userProfile } = useFetchProfile();
@@ -38,16 +38,16 @@ const Recent = () => {
     mutationFn: putAvailablity,
 
     onError: () => {
-      Toast.error('Unable to update availability now.');
+      toast.error('Unable to update availability now.');
     },
     onMutate: () => {},
     onSuccess: (data) => {
       const status = data.data.data.status;
 
       if (status === 'Available') {
-        Toast.success('You are checked in!');
+        toast.success('You are checked in!');
       } else {
-        Toast.success('You are checked out!');
+        toast.success('You are checked out!');
       }
 
       queryClient.invalidateQueries({ queryKey: [AUTH.GET_PROFILE] });
@@ -83,7 +83,7 @@ const Recent = () => {
 
       <TestsTable isLoading={isLoading} tests={activity} />
 
-      {activity.requests.length && (
+      {activity.requests.length > 0 && (
         <div className="flex w-full justify-end">
           <HyperLink href={ROUTES.LAB_TECH_TEST.path} hrefText="See tests" />
         </div>
