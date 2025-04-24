@@ -30,15 +30,15 @@ export const PATIENT = {
   } as const,
 
   TESTS: {
-    ALl: '/patients/tests',
-    PACKAGES: '/patients/package-tests',
+    ALl: '/tests/all-tests',
+    PACKAGES: '/tests/package-tests',
     DETAILS: (id: string) => `/tests/${id}`,
     SINGLE: '/test/single'
   },
 
   TEST_RESULTS: {
-    ALL: '/patients/test-results' as string,
-    DETAILS: (id: string) => `/patients/test-results/${id}`,
+    ALL: 'tests/test-results' as string,
+    DETAILS: (id: string) => `/tests/test-results/${id}`,
     SUITE_DETAILS: (id: string) => `/patients/APPOINTMENTS/${id}/details`
   }
 } as const;
