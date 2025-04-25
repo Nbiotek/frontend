@@ -89,11 +89,11 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(
-                                `${ROUTES.LAB_COORD_TEST_DETAILS.path.replaceAll(':id', qcDatum.id)}`
+                                `${ROUTES.LAB_COORD_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
                               )
                             }
                           >
-                            View Test
+                            View Result
                           </DropdownMenuItem>
                           {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
                             <DropdownMenuItem

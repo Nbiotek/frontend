@@ -229,3 +229,38 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* fullcalendar */
+.fc .fc-button {
+  border-radius: 8px;
+}
+
+.fc .fc-button-primary {
+  background-color: #004aad;
+  border-color: #004aad;
+  color: white;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: #004aad;
+  border-color: #004aad;
+  opacity: 0.5;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #0067f0;
+  border-color: #004aad;
+}
+
+.fc th {
+  background-color: #f7f8fa;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: #78b2ff30;
+}
+
+.fc-h-event {
+  background-color: transparent;
+  border: none;
+}
