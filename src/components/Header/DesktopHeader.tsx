@@ -7,7 +7,6 @@ import { defaultMenuConfig } from '@/config/menuItems';
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
 
-  // Add scroll event listener
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -16,10 +15,8 @@ const Header = () => {
       }
     };
 
-    // Add event listener
     window.addEventListener('scroll', handleScroll);
 
-    // Clean up
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -39,7 +36,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation menu - sticky on scroll with dynamic background and shadow */}
       <div
         className={`sticky top-0 z-50 transition-all duration-200 ${
           scrolled ? 'bg-white shadow-md' : 'bg-blue-400/10'
@@ -49,7 +45,7 @@ const Header = () => {
           {defaultMenuConfig.map((item, index) => (
             <div
               key={index}
-              className="flex cursor-pointer items-center p-2 text-[#004AAD]/40 transition-colors hover:bg-blue-200"
+              className="flex cursor-pointer items-center p-2 text-[#004AAD]/40 transition-colors hover:text-blue-200"
             >
               <span>{item.title}</span>
             </div>
