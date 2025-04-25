@@ -74,7 +74,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="bg-blue-400/50 py-[4rem]">
+    <div className="bg-blue-400/50 py-[4rem]" id="home">
       <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
         <div className="flex w-[50%] flex-col space-y-6">
           <h1 className="text-4xl font-bold text-neutral-900">

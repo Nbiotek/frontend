@@ -1,11 +1,17 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import Button from '@/atoms/Buttons';
 import InputSearch from '@/atoms/fields/InputSearch';
 import Image from 'next/image';
 import { defaultMenuConfig } from '@/config/menuItems';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +37,9 @@ const Header = () => {
           <InputSearch placeholder="Search" className="!w-[calc(100%-500px)] rounded-full" />
           <div className="flex w-[260px] space-x-2">
             <Button variant="filled">Contact us</Button>
-            <Button variant="outlined">Log in</Button>
+            <Button variant="outlined" onClick={() => router.push(ROUTES.LOGIN.path)}>
+              Log in
+            </Button>
           </div>
         </div>
       </div>
