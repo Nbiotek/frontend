@@ -74,7 +74,7 @@ const del = (key: string) => {
 
 type TIsAuthenticated = { ttl: number; token?: string; email?: string; role?: string };
 
-export class AuthStore {
+class AuthStore {
   _pd = '';
 
   rootStore: RootStore;
@@ -92,7 +92,6 @@ export class AuthStore {
     this.rootStore = _rootStore;
 
     makeObservable(this, {
-      rootStore: observable,
       isLoading: observable,
       errors: observable,
       accessToken: observable,
@@ -418,3 +417,5 @@ export class AuthStore {
     }
   }
 }
+
+export default AuthStore;

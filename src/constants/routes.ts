@@ -264,6 +264,12 @@ class Routes {
     'Lab Coordinator Quality Control',
     [EnumRole.LAB_CORDINATOR]
   );
+  LAB_COORD_QUALITY_CONTROL_DETAILS = new Route(
+    '/lab-coord/quality-control/:id',
+    'Test Results',
+    'Lab Coordinator Single Test Result',
+    [EnumRole.LAB_CORDINATOR]
+  );
   LAB_COORD_NOTIFICATIONS = new Route(
     '/lab-coord/notifications',
     'Notifications',

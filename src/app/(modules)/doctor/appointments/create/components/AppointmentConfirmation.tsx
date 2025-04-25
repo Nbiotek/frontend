@@ -8,7 +8,7 @@ import {
 
 import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide-react';
 import Button from '@/atoms/Buttons';
-import { cartStore } from '@/store/Cart';
+import cartStore from '@/store/CartStore';
 
 import { useCreateAppointment } from '@/hooks/doctor/useAppointment';
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useState } from 'react';
 import PaymentProcessingDialog from './PaymentProcessingDialog';
 import { useRouter } from 'next/navigation';
+import { useStore } from '@/store';
 
 interface BookingSummaryDialogProps {
   open: boolean;
@@ -34,6 +35,9 @@ const AppointmentConfirmation = ({
   const [paymentLink, setPaymentLink] = useState<string | null>(null);
 
   const { mutate: bookAppointment, isPending } = useCreateAppointment();
+  const {
+    CartStore: { items, total }
+  } = useStore();
 
   const handleBookingSubmission = async () => {
     try {
@@ -122,7 +126,7 @@ const AppointmentConfirmation = ({
               <div className="py-4">
                 <h2 className="mb-3 text-sm font-medium">Selected Tests</h2>
                 <div className="space-y-2">
-                  {cartStore.items.map((test) => (
+                  {items.map((test) => (
                     <div key={test.id} className="flex justify-between text-sm">
                       <span>{test.item.name}</span>
                       <span>₦{test.item.price.toLocaleString()}</span>
@@ -142,7 +146,7 @@ const AppointmentConfirmation = ({
                     </div>
                     <div className="flex justify-between font-medium">
                       <span>Total Amount</span>
-                      <span>₦{cartStore.total.toLocaleString()}</span>
+                      <span>₦{total.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>

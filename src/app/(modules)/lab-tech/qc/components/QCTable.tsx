@@ -20,7 +20,7 @@ import { formatTestDate } from '@/utils/date';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import Pagination from '@/atoms/pagination';
 import { observer } from 'mobx-react-lite';
 

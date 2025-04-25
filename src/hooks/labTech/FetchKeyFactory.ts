@@ -1,4 +1,4 @@
-import { LAB_TECH } from '@/constants/api';
+import { LAB_TECH, TEST } from '@/constants/api';
 
 export const labTech = {
   getRecentActivities() {
@@ -10,15 +10,16 @@ export const labTech = {
 
   getTestQueue(query: Partial<TTestQuery>) {
     return {
-      path: LAB_TECH.ALL_TESTS,
-      keys: () => [LAB_TECH.RECENT_ACTIVITIES, LAB_TECH.ALL_TESTS, query] as const,
+      path: TEST.ASSIGNED_TESTS,
+      keys: () => [LAB_TECH.RECENT_ACTIVITIES, TEST.ASSIGNED_TESTS, query] as const,
       params: query
     };
   },
   getTestByID(id: string) {
     return {
-      path: LAB_TECH.GET_TEST.replace(':id', id),
-      keys: () => [LAB_TECH.RECENT_ACTIVITIES, LAB_TECH.ALL_TESTS, LAB_TECH.GET_TEST, id] as const
+      path: TEST.SINGLE_ASSIGNED_TESTS.replace(':id', id),
+      keys: () =>
+        [LAB_TECH.RECENT_ACTIVITIES, TEST.ASSIGNED_TESTS, TEST.SINGLE_ASSIGNED_TESTS, id] as const
     };
   }
 };

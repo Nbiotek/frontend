@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
-import { CartItemType, cartStore } from '@/store/Cart';
 import { SingleTest, PackageTest } from '@/types/test';
+import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
+import { CartItemType } from '@/store/CartStore';
 
 interface CartButtonProps {
   item: SingleTest | PackageTest;
@@ -10,20 +11,28 @@ interface CartButtonProps {
 }
 
 export const CartButton = observer(({ item, type }: CartButtonProps) => {
-  const isInCart = cartStore.isInCart(item.id);
-  const quantity = cartStore.getItemQuantity(item.id);
+  const {
+    CartStore: {
+      itemCount,
+      addItem,
+      clearCart,
+      isInCart,
+      getItemQuantity,
+      updateQuantity,
+      removeItem
+    }
+  } = useStore();
 
   const handleAddToCart = () => {
-    cartStore.addItem(item, type);
+    addItem(item, type);
   };
 
   const handleUpdateQuantity = (newQuantity: number) => {
-    cartStore.updateQuantity(item.id, newQuantity);
+    updateQuantity(item.id, newQuantity);
   };
 
   const removeItemfromCart = () => {
-    cartStore.removeItem(item.id);
-    console.log('removed');
+    removeItem(item.id);
   };
 
   if (!isInCart) {
@@ -42,13 +51,16 @@ export const CartButton = observer(({ item, type }: CartButtonProps) => {
 });
 
 export const RequestTestButton = observer(({ item, type }: CartButtonProps) => {
+  const {
+    CartStore: { addItem, clearCart }
+  } = useStore();
   const router = useRouter();
 
   const handleRequestTest = () => {
-    cartStore.clearCart();
+    clearCart();
     router.push('/patient/appointment/booking');
 
-    cartStore.addItem(item, type);
+    addItem(item, type);
   };
 
   return (

@@ -55,6 +55,14 @@ type TTestDetailsPatient = {
   age: number;
 };
 
+type TTestResultData = {
+  parameter: string;
+  result: string;
+  range: string;
+  unit: string;
+  reference: string;
+};
+
 type TSingleTestDetail = {
   id: string;
   patient: {
@@ -84,6 +92,8 @@ type TSingleTestDetail = {
     id: string;
     name: string;
   };
+  results?: Array<TTestResultData>;
+  resultLink: string;
   createdAt: string;
   updatedAt: string;
 };

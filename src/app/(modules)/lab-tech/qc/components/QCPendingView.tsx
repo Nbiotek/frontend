@@ -2,15 +2,12 @@
 import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
 import QCTable from './QCTable';
-import { ArrowUpDown, ListFilter } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
-import { useQuery } from '@tanstack/react-query';
-import { LAB_TECH, QUALITY_CONTROL } from '@/constants/api';
-import { getPendingQC } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import { observer } from 'mobx-react-lite';
 import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
 
