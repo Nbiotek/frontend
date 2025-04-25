@@ -10,7 +10,6 @@ import { PackageTest, SingleTest } from '@/types/test';
 
 import { CartButton, RequestTestButton } from '../cart/CartButton';
 import { useRouter } from 'next/navigation';
-import { cartStore } from '@/store/Cart';
 
 interface SingleTestDialogProps {
   test: SingleTest | PackageTest | null;

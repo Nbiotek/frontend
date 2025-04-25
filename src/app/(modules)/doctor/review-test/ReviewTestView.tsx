@@ -1,14 +1,9 @@
 'use client';
 
 import SearchInput from '@/atoms/fields/SearchInput';
-import IconPod from '@/atoms/Icon/IconPod';
-import { Text } from '@/lib/utils/Text';
-import { ArrowUpDown, ListFilter, ClipboardList, Receipt, Calendar } from 'lucide-react';
-import Button from '@/atoms/Buttons';
 import ReviewTestTable from './components/TestReviewTable';
 
 import { useTestReview } from '@/hooks/doctor/useTestReview';
-import pagination from '@/atoms/pagination';
 import FilterComponent from '../../patient/component/FilterCP';
 import SortComponent from '../../patient/component/SortCP';
 import { useEffect, useState } from 'react';
@@ -53,6 +48,12 @@ const ReviewTestView = () => {
   // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
 
+  // Calculate pagination values for the pagination component
+  const tests = data?.data.tests || [];
+  const total = data?.data.pagination?.total || 0;
+  const currentPage = filters.page || 1;
+  const totalPages = data?.data.pagination?.totalPages || 1;
+
   // Calculate the number of active filters
   const getActiveFilterCount = () => {
     let count = 0;
@@ -62,21 +63,6 @@ const ReviewTestView = () => {
     if (filters.status) count++; // Count status as an active filter
     return count;
   };
-
-  // Search handler with debounce
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (filters.search !== searchInput) {
-        setFilters((prev) => ({
-          ...prev,
-          search: searchInput,
-          page: 1 // Reset to first page when searching
-        }));
-      }
-    }, 500); // 500ms debounce delay
-
-    return () => clearTimeout(timer);
-  }, [searchInput, filters.search]);
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,17 +137,26 @@ const ReviewTestView = () => {
     }));
   };
 
+  // Search handler with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (filters.search !== searchInput) {
+        setFilters((prev) => ({
+          ...prev,
+          search: searchInput,
+          page: 1 // Reset to first page when searching
+        }));
+      }
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchInput, filters.search]);
+
   // Effect to refetch data when filters change
   useEffect(() => {
     // Invalidate and refetch when filters change
     queryClient.invalidateQueries({ queryKey: ['doctor-review-test'] });
   }, [filters, queryClient]);
-
-  // Calculate pagination values for the pagination component
-  const tests = data?.data.tests || [];
-  const total = data?.data.pagination?.total || 0;
-  const currentPage = filters.page || 1;
-  const totalPages = data?.data.pagination?.totalPages || 1;
 
   return (
     <div className="flex-col space-y-[24px]">

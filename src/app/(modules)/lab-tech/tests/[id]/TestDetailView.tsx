@@ -1,16 +1,14 @@
 'use client';
 import Button from '@/atoms/Buttons';
-import Status, { EnumTestStatus } from '@/atoms/Buttons/Status';
-import FieldSet from '@/atoms/fields/FieldSet';
+import { EnumTestStatus } from '@/atoms/Buttons/Status';
 import { Paragraph } from '@/atoms/typographys';
 import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
 import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
-import { format } from 'date-fns';
-import { ChevronLeft, Eye, Pause, Play, Upload } from 'lucide-react';
+import { ChevronLeft, Pause, Play, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import TestDetailsInfo from './TestDetailsInfo';
+import TestDetailsInfo from '@/app/(modules)/lab-coord/components/TestDetailsInfo';
 
 interface ITestDetailModalProps {
   id: string;

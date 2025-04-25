@@ -20,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
 import { ChevronsDown, Plus, Trash } from 'lucide-react';
 import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
-import TestDetailsInfo from '../[id]/TestDetailsInfo';
+import TestDetailsInfo from '@/app/(modules)/lab-coord/components/TestDetailsInfo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Toast } from '@/atoms/Toast';
 import { postUploadResult } from '@/requests/test';

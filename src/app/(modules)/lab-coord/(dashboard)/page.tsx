@@ -1,4 +1,4 @@
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import DashboardView from './DashboardView';
 import ROUTES from '@/constants/routes';
 
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description
 };
 
-const DashboardPage = () => {
+export default function DashboardPage() {
   return <DashboardView />;
-};
-
-export default DashboardPage;
+}

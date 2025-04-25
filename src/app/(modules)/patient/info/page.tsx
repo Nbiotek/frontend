@@ -1,7 +1,5 @@
 import PersonalInfoView from './PersonalInfoView';
 
-const Profile = () => {
+export default function Profile() {
   return <PersonalInfoView />;
-};
-
-export default Profile;
+}

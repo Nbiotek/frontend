@@ -1,7 +1,5 @@
 import AppointmentView from './AppointmentView';
 
-const AppointmentPage = () => {
+export default function AppointmentPage() {
   return <AppointmentView />;
-};
-
-export default AppointmentPage;
+}

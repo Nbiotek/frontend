@@ -3,9 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Text } from '@/lib/utils/Text';
-import { dateTimeUTC } from '@/utils/date';
-import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Button from '@/atoms/Buttons';
 
 import { useTestRevDetails } from '@/hooks/doctor/useTestReview';

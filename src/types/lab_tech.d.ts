@@ -40,6 +40,7 @@ type TTestData = {
     id: string;
     name: string;
   } | null;
+  qcStatus?: string;
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;
@@ -52,6 +53,14 @@ type TTestDetailsPatient = {
   gender: string;
   dateOfBirth: string;
   age: number;
+};
+
+type TTestResultData = {
+  parameter: string;
+  result: string;
+  range: string;
+  unit: string;
+  reference: string;
 };
 
 type TSingleTestDetail = {
@@ -83,6 +92,8 @@ type TSingleTestDetail = {
     id: string;
     name: string;
   };
+  results?: Array<TTestResultData>;
+  resultLink: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -102,9 +113,6 @@ type TRecentTestResults = {
   results: Array<TTestData>;
   pagination: TPaginationResponse;
 };
-
-// ============ Quality Control ==================
-type TQCTestResp = INBTPaginatedData<TTestData>;
 
 type TAvailabiltyData = {
   id: string;

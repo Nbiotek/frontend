@@ -1,6 +1,4 @@
-import { LAB_COORD } from '@/constants/api';
-import { keys } from 'mobx';
-import path from 'path';
+import { LAB_COORD, TEST } from '@/constants/api';
 
 export const labCoord = {
   getDashboard() {
@@ -9,25 +7,26 @@ export const labCoord = {
       keys: () => [LAB_COORD.DASHBOARD] as const
     };
   },
-  getStaffShifts() {
-    return {
-      path: LAB_COORD.STAFF_SHIFTS,
-      Keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.STAFF_SHIFTS] as const
-    };
-  },
 
   getAllTests(query: Partial<TTestQuery>) {
     return {
-      path: LAB_COORD.ALL_TESTS,
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.ALL_TESTS, query] as const,
+      path: TEST.GET_REQUESTS,
+      keys: () => [LAB_COORD.DASHBOARD, TEST.GET_REQUESTS, query] as const,
       params: query
     };
   },
 
   getTestByID(id: string) {
     return {
-      path: LAB_COORD.GET_TEST.replace(':id', id),
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.ALL_TESTS, LAB_COORD.GET_TEST, id] as const
+      path: TEST.GET_SINGLE_REQUEST.replace(':id', id),
+      keys: () => [LAB_COORD.DASHBOARD, TEST.GET_REQUESTS, TEST.GET_SINGLE_REQUEST, id] as const
+    };
+  },
+
+  getTestResultByID(id: string) {
+    return {
+      path: TEST.GET_SINGLE_RESULT.replace(':id', id),
+      keys: () => [LAB_COORD.DASHBOARD, TEST.GET_REQUESTS, TEST.GET_SINGLE_RESULT, id] as const
     };
   },
 
@@ -42,22 +41,6 @@ export const labCoord = {
     return {
       path: LAB_COORD.INVENTORY,
       keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.INVENTORY, query] as const,
-      params: query
-    };
-  },
-
-  getLabCoordQCPending(query: Partial<TTestQuery>) {
-    return {
-      path: LAB_COORD.QC_PENDING,
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.QC_PENDING],
-      params: query
-    };
-  },
-
-  getLabCoordQCHistory(query: Partial<TTestQuery>) {
-    return {
-      path: LAB_COORD.QC_HISTORY,
-      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.QC_HISTORY],
       params: query
     };
   }

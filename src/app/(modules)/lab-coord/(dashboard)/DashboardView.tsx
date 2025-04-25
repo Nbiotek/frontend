@@ -3,7 +3,6 @@ import CoordAnalytics from './CoordAnalytics';
 import { ChevronRight, ShieldAlert, ShieldCheck, TestTube2 } from 'lucide-react';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
-import Inventory from './Inventory';
 import Link from 'next/link';
 import { useFetchDashboard } from '@/hooks/labCoord/useFetchDashboard';
 import { EnumOverviewIcon } from '@/components/dashboard/metric/OverviewCard';
@@ -12,7 +11,7 @@ import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 import { useEffect, useState } from 'react';
 import QCTable from '../quality-control/components/QCTable';
 import { pagination } from '@/constants/data';
-import ShiftTable from '../staff/components/ShiftTable';
+import HyperLink from '@/atoms/Hyperlink';
 
 const actions = [
   {
@@ -98,7 +97,12 @@ const DashboardView = () => {
         <>
           <CoordAnalytics {...{ card, summary: dashboard?.summary }} />
           <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
-            <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
+            <div className="flex w-full flex-col space-y-4 divide-y divide-borderLine rounded-xl bg-white p-4 lg:w-[75%]">
+              <div className="flex w-full items-center justify-between">
+                <SubTitle text="Pending Quality control" />
+                <HyperLink href={ROUTES.LAB_COORD_QUALITY_CONTROL.path} hrefText="See all" />
+              </div>
+
               {dashboard?.pendingQualityControl && (
                 <QCTable
                   isLoading={isLoading}
@@ -132,18 +136,6 @@ const DashboardView = () => {
               </div>
             </div>
           </div>
-          {/* {dashboard?.pendingQualityControl && (
-            <>
-              <QCTable
-                isLoading={isLoading}
-                resultsData={{ requests: dashboard.pendingQualityControl, pagination }}
-              />
-              <ShiftTable
-                isLoading={isLoading}
-                resultsData={{ shifts: dashboard.currentStaffShifts, pagination }}
-              />
-            </>
-          )} */}
         </>
       )}
 

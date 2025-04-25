@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import TestDetailsInfo from './TestDetailsInfo';
+import TestDetailsInfo from '../../components/TestDetailsInfo';
 
 interface ITestDetailModalProps {
   id: string;

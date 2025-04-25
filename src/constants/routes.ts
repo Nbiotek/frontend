@@ -18,6 +18,17 @@ class Route {
 class Routes {
   // landing
   HOME = new Route('/', 'Nbiotek | Home', 'Home');
+  LAB_TEST = new Route('/lab-test', 'Lab Test', 'Lab Test');
+  SPECIAL_PACKAGES = new Route('/special-package', 'Special Package', 'Special Package');
+  ADVANCED_IMAGING = new Route('/advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
+  MOLECULAR_DIAGNOSTICS = new Route(
+    '/molecular-diagnostics',
+    'Molecular Diagnostics',
+    'Molecular Diagnostics'
+  );
+  BIO_HUB = new Route('/bio-hub', 'Bio Hub', 'Bio Hub');
+  ECOMMERCE = new Route('/ecommerce', 'E-commerce', 'E-commerce');
+  WHATS_NEW = new Route('/whats-new', 'Whats New', 'Whats New');
   ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
   FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');
   PRIVACY_POLICY = new Route(
@@ -25,7 +36,8 @@ class Routes {
     'Nbiotek Privacy Policy',
     'Privacy Policy - Nbiotek'
   );
-  UNAUTHORIZED = new Route('/unathorized', '', '');
+
+  DENIED = new Route('/denied', '', '');
 
   // auth
   REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
@@ -252,6 +264,12 @@ class Routes {
     'Lab Coordinator Quality Control',
     [EnumRole.LAB_CORDINATOR]
   );
+  LAB_COORD_QUALITY_CONTROL_DETAILS = new Route(
+    '/lab-coord/quality-control/:id',
+    'Test Results',
+    'Lab Coordinator Single Test Result',
+    [EnumRole.LAB_CORDINATOR]
+  );
   LAB_COORD_NOTIFICATIONS = new Route(
     '/lab-coord/notifications',
     'Notifications',
@@ -265,6 +283,40 @@ class Routes {
     EnumRole.LAB_CORDINATOR
   ]);
 
+  // receptionist
+  RECPTS = new Route('/recpst', 'Dashboard', 'Receptionist Dashboard page', [
+    EnumRole.RECEPTIONIST
+  ]);
+
+  RECPTS_PATIENT_REG = new Route(
+    '/recpst/patient-reg',
+    'Patient Reg.',
+    'Receptionist Patient Registration page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_APOINTMENT = new Route(
+    '/recpst/appt',
+    'Appointment',
+    'Receptionist Appointment Booking page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_NOTIFICATIONS = new Route(
+    '/recpst/notifications',
+    'Notifications',
+    'Receptionist Notifications',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_SUPPORT = new Route('/recpst/support', 'Help/Support', 'Receptionist Support', [
+    EnumRole.RECEPTIONIST
+  ]);
+
+  RECPTS_SETTINGS = new Route('/recpst/settings', 'Settings', 'Receptionist Settings', [
+    EnumRole.RECEPTIONIST
+  ]);
+
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
       case EnumRole.LAB_TECHNICIAN:
@@ -276,6 +328,8 @@ class Routes {
       case EnumRole.DOCTOR:
         return this.DOCTOR.path;
       // TODO: Add more modules authorization routing here.
+      case EnumRole.RECEPTIONIST:
+        return this.RECPTS.path;
       default:
         return '';
     }
@@ -284,6 +338,13 @@ class Routes {
   isPublicPath(path: string): boolean {
     const publicPaths = [
       this.HOME.path,
+      this.LAB_TEST.path,
+      this.SPECIAL_PACKAGES.path,
+      this.ADVANCED_IMAGING.path,
+      this.MOLECULAR_DIAGNOSTICS.path,
+      this.BIO_HUB.path,
+      this.ECOMMERCE.path,
+      this.WHATS_NEW.path,
       this.ABOUT.path,
       this.FAQS.path,
       this.PRIVACY_POLICY.path,
@@ -292,7 +353,7 @@ class Routes {
       this.OTP.path,
       this.FORGOT_PWD.path,
       this.PWD_RESET.path,
-      this.UNAUTHORIZED.path
+      this.DENIED.path
     ];
 
     return publicPaths.includes(path) || path.startsWith('/auth');
@@ -322,7 +383,8 @@ export const roleAccessRules = {
   '/patient': [EnumRole.PATIENT],
   '/lab-tech': [EnumRole.LAB_TECHNICIAN],
   '/lab-coord': [EnumRole.LAB_CORDINATOR],
-  '/doctor': [EnumRole.DOCTOR]
+  '/doctor': [EnumRole.DOCTOR],
+  [ROUTES.RECPTS.path]: [EnumRole.RECEPTIONIST]
 };
 
 export default ROUTES;

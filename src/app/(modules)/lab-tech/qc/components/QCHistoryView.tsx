@@ -2,16 +2,14 @@
 import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
 import QCTable from './QCTable';
-import { ArrowUpDown, ListFilter } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
-import { useQuery } from '@tanstack/react-query';
-import { LAB_TECH } from '@/constants/api';
-import { getHistoryQC } from '@/requests/lab-tech';
 import SearchFilter from '../../components/Filter';
 import { useStore } from '@/store';
-import { EnumLabTechQueryType } from '@/store/LabTech';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import { observer } from 'mobx-react-lite';
+import { useFetchHistoryQC } from '@/hooks/qualityControl/useFetchHistoryQC';
 
 const QCHistoryView = () => {
   const [result, setResult] = useState<TQCTestResp>({
@@ -21,11 +19,7 @@ const QCHistoryView = () => {
   const {
     LabTechStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.HISTORY_QC, queries.CONTROL_HISTORY],
-    queryFn: () => getHistoryQC(queries.CONTROL_HISTORY),
-    select: (data) => data.data.data
-  });
+  const { data, isLoading } = useFetchHistoryQC(queries.CONTROL_HISTORY);
 
   useEffect(() => {
     if (!isLoading) {

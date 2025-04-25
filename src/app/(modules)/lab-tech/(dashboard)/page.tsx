@@ -1,5 +1,5 @@
 import DashboardView from './DashboardView';
-import { type Metadata } from 'next';
+import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
 
 const { title, description } = ROUTES.LAB_TECH;
@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   description
 };
 
-const LabTechPage = () => {
+export default function LabTechPage() {
   return <DashboardView />;
-};
-
-export default LabTechPage;
+}
