@@ -237,6 +237,23 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: Settings
     }
   ],
+  [EnumRole.MARKETER]: [
+    {
+      title: ROUTES.MARKETER.title,
+      url: ROUTES.MARKETER.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.MARKETER_FIELD_VISIT.title,
+      url: ROUTES.MARKETER_FIELD_VISIT.path,
+      icon: UsersIcon
+    },
+    {
+      title: ROUTES.MARKETER_SETTINGS.title,
+      url: ROUTES.MARKETER_SETTINGS.path,
+      icon: Settings
+    }
+  ],
 
   [EnumRole.RECEPTIONIST]: [
     {
