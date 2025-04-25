@@ -4,8 +4,7 @@ export const qualityControl = {
   getHistory(query: Partial<TTestQuery>) {
     return {
       path: QUALITY_CONTROL.HISTORY,
-      keys: () =>
-        [QUALITY_CONTROL.HISTORY, LAB_COORD.DASHBOARD, LAB_TECH.DASHBOARD, query] as const,
+      keys: () => [QUALITY_CONTROL.HISTORY, query],
       params: query
     };
   },

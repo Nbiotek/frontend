@@ -1,4 +1,4 @@
-import { LAB_TECH, QUALITY_CONTROL } from '@/constants/api';
+import { LAB_TECH, QUALITY_CONTROL, TEST } from '@/constants/api';
 import server from '.';
 import { getAllParams } from '@/utils';
 import { EnumTestStatus } from '@/atoms/Buttons/Status';

@@ -32,8 +32,9 @@ const QCStatusModal = () => {
       <div className="flex w-full flex-col space-y-8 bg-white">
         <Paragraph text="You are about to update the Quality control status of a test." />
 
-        <div className="justify-betw flex items-center space-x-3">
+        <div className="flex items-center justify-end space-x-3">
           <Button
+            className="!w-24"
             disabled={isPending}
             isLoading={isPending && status === EnumResultStatus.FAILED}
             variant="danger"
@@ -41,6 +42,7 @@ const QCStatusModal = () => {
             onClick={() => handleUpdate(EnumResultStatus.FAILED)}
           />
           <Button
+            className="!w-24"
             disabled={isPending}
             isLoading={isPending && status === EnumResultStatus.PASSED}
             variant="filled"
