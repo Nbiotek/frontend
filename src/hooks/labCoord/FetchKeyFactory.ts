@@ -23,6 +23,13 @@ export const labCoord = {
     };
   },
 
+  getTestResultByID(id: string) {
+    return {
+      path: TEST.GET_SINGLE_RESULT.replace(':id', id),
+      keys: () => [LAB_COORD.DASHBOARD, TEST.GET_REQUESTS, TEST.GET_SINGLE_RESULT, id] as const
+    };
+  },
+
   getAvailableLabTechs() {
     return {
       path: LAB_COORD.AVAILABLE_TECHNICIAN,

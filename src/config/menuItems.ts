@@ -215,20 +215,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: TestTubeDiagonal,
       isNestable: true
     },
-    // {
-    //   title: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.title,
-    //   url: ROUTES.LAB_COORD_INVENTORY_MANAGEMENT.path,
-    //   icon: FileTextIcon
-    // },
-    // {
-    //   title: ROUTES.LAB_COORD_STAFF_SCHEDULES.title,
-    //   url: ROUTES.LAB_COORD_STAFF_SCHEDULES.path,
-    //   icon: UsersIcon
-    // },
     {
       title: ROUTES.LAB_COORD_QUALITY_CONTROL.title,
       url: ROUTES.LAB_COORD_QUALITY_CONTROL.path,
-      icon: ShieldCheck
+      icon: ShieldCheck,
+      isNestable: true
     },
     {
       title: ROUTES.LAB_COORD_NOTIFICATIONS.title,

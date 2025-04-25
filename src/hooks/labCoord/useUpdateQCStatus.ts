@@ -8,7 +8,8 @@ export function useUpdateQCStatus(cbFn?: () => void) {
   const { mutate, isPending } = useMutation({
     mutationFn: patchQCStatusUpdate,
     onError: (error) => {
-      toast.success(error.message);
+      toast.error(error.message);
+      cbFn?.();
     },
     onSuccess: (data) => {
       toast.success(data.data.message);
