@@ -142,7 +142,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href="#" className="transition hover:text-white">
-                    What's Newt
+                    What&apos;s Newt
                   </Link>
                 </li>
               </ul>
