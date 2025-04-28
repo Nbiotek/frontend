@@ -175,7 +175,8 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_TECH_QUALITY_CONTROL.title,
       icon: ShieldCheck,
-      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path
+      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path,
+      isNestable: true
     },
     {
       title: ROUTES.LAB_TECH_NOTIFICATION.title,

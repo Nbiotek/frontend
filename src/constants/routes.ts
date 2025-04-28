@@ -166,6 +166,13 @@ class Routes {
     [EnumRole.LAB_TECHNICIAN]
   );
 
+  LAB_TECH_QUALITY_CONTROL_DETAILS = new Route(
+    '/lab-tech/qc/:id',
+    'Test Results',
+    'Lab Technician Single Test Result',
+    [EnumRole.LAB_CORDINATOR]
+  );
+
   LAB_TECH_RESULT_HISTORY = new Route(
     '/lab-tech/results',
     'Result History',

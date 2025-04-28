@@ -1,15 +1,11 @@
 'use client';
 import Button from '@/atoms/Buttons';
 import { Paragraph } from '@/atoms/typographys';
-import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfig/appModalTypes';
-import { ChevronLeft, DownloadIcon, ShieldCheckIcon } from 'lucide-react';
+import { ChevronLeft, DownloadIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 import { useFetchTestResultByID } from '@/hooks/labCoord/useFetchTestResByID';
-import { EnumResultStatus } from '@/atoms/Buttons/Status';
 import Link from 'next/link';
-import { useUpdateQCStatus } from '@/hooks/labCoord/useUpdateQCStatus';
 
 interface ITestDetailModalProps {
   id: string;
@@ -17,12 +13,8 @@ interface ITestDetailModalProps {
 
 export default function ResultView({ id }: ITestDetailModalProps) {
   const router = useRouter();
-  const {
-    AppConfigStore: { toggleModals }
-  } = useStore();
 
   const { data, status } = useFetchTestResultByID(id);
-  const { mutate: qcStatusMutate } = useUpdateQCStatus();
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -45,38 +37,6 @@ export default function ResultView({ id }: ITestDetailModalProps) {
           <TestDetailsInfo data={data} />
 
           <div className="flex w-full items-center justify-start space-x-3">
-            {data?.qcStatus && data.qcStatus === EnumResultStatus.PENDING && (
-              <div>
-                <Button
-                  leftIcon={<ShieldCheckIcon size={18} />}
-                  variant="filled"
-                  text="Start Review"
-                  onClick={() =>
-                    qcStatusMutate({
-                      payload: { status: EnumResultStatus.UNDER_REVIEW },
-                      id: id
-                    })
-                  }
-                />
-              </div>
-            )}
-            {data?.qcStatus && data.qcStatus === EnumResultStatus.UNDER_REVIEW && (
-              <div>
-                <Button
-                  leftIcon={<ShieldCheckIcon size={18} />}
-                  variant="filled"
-                  text="Review Test"
-                  onClick={() => {
-                    toggleModals({
-                      open: true,
-                      name: AppModals.QC_STATUS_UPDATE,
-                      testId: id,
-                      currentStatus: EnumResultStatus.UNDER_REVIEW
-                    });
-                  }}
-                />
-              </div>
-            )}
             {data?.resultLink && data.resultLink && (
               <Link href={data.resultLink} target="_blank">
                 <Button

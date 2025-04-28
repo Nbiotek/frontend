@@ -92,6 +92,7 @@ type TSingleTestDetail = {
     id: string;
     name: string;
   };
+  qcStatus?: string;
   results?: Array<TTestResultData>;
   resultLink: string;
   createdAt: string;
