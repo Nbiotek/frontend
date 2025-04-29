@@ -1,48 +1,33 @@
 'use client';
 import { CardContent } from '@/components/ui/card';
-import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../../validation';
+import { useFormContext } from 'react-hook-form';
+import { TPatientInsuranceSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useEffect } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { EnumPatientForm } from '@/constants/mangle';
-import { useRouter } from 'next/navigation';
 
 function InsuranceForm() {
-  const router = useRouter();
   const {
-    PatientStore: { isLoading, insuranceInfo, setInsuranceInfo, setCurrentForm, registerPatient }
+    PatientStore: { isLoading, insuranceInfo }
   } = useStore();
   const {
     register,
-    handleSubmit,
     reset,
     watch,
     formState: { errors }
-  } = useForm<TPatientInsuranceSchema>({
-    defaultValues: insuranceInfo,
-    mode: 'onSubmit',
-    resolver: zodResolver(PatientInsuranceSchema),
-    reValidateMode: 'onSubmit'
-  });
+  } = useFormContext<TPatientInsuranceSchema>();
 
   const provider = watch('primaryInsuranceProvider');
-
-  const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => registerPatient((url) => router.replace(url)));
-  };
 
   useEffect(() => {
     reset(insuranceInfo);
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-2xl bg-white py-6 shadow-lg">
+    <div className="flex flex-col space-y-4">
+      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
         <SubTitle className="!text-center" text="Insurance Information" />
 
         <fieldset disabled={isLoading.regPatient} className="">
@@ -135,24 +120,7 @@ function InsuranceForm() {
           </fieldset>
         </fieldset>
       </CardContent>
-
-      <div className="flex items-center justify-between space-x-2">
-        <Button
-          type="button"
-          variant="transparent"
-          text="Prev"
-          disabled={isLoading.regPatient}
-          onClick={() => setCurrentForm(EnumPatientForm.CONTACT)}
-        />
-        <Button
-          type="submit"
-          variant="filled"
-          text="Submit"
-          isLoading={isLoading.regPatient}
-          disabled={isLoading.regPatient}
-        />
-      </div>
-    </form>
+    </div>
   );
 }
 

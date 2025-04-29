@@ -22,6 +22,7 @@ export default function ResultView({ id }: ITestDetailModalProps) {
         <>
           <div className="flex h-24 w-full animate-pulse flex-col space-y-1 rounded-lg bg-neutral-75 p-4"></div>
           <div className="flex h-80 w-full animate-pulse flex-col space-y-1 rounded-lg bg-neutral-75 p-4"></div>
+          <div className="flex h-80 w-full animate-pulse flex-col space-y-1 rounded-lg bg-neutral-75 p-4"></div>
         </>
       )}
       {status === 'success' && (

@@ -6,31 +6,20 @@ import EmptyState from '@/components/EmptyState';
 
 const PatientsRegTable = () => {
   return (
-    <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
-      <div className="flex w-full items-center justify-between border-b pb-2">
-        <SubTitle text="Patients Reg." className="whitespace-nowrap" />
+    <div className="w-full overflow-clip rounded-lg bg-white">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Contact</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Submitted on</TableHead>
+            <TableHead>Action</TableHead>
+          </TableRow>
+        </TableHeader>
+      </Table>
 
-        <div className="flex w-full justify-end">
-          <HyperLink href={ROUTES.RECPTS_PATIENT_REG.path} hrefText="See all" />
-        </div>
-      </div>
-
-      <div className="w-full">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Time</TableHead>
-              <TableHead>Patient</TableHead>
-              <TableHead>Test</TableHead>
-              <TableHead>Technician</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
-
-        <EmptyState title="No Pending Patients Registration." />
-      </div>
+      <EmptyState title="No Patient data available." />
     </div>
   );
 };

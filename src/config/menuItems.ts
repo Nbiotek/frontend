@@ -170,7 +170,8 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
       icon: Book,
-      url: ROUTES.LAB_TECH_RESULT_HISTORY.path
+      url: ROUTES.LAB_TECH_RESULT_HISTORY.path,
+      isNestable: true
     },
     {
       title: ROUTES.LAB_TECH_QUALITY_CONTROL.title,
@@ -270,9 +271,10 @@ export const menuConfig: Record<string, MenuItem[]> = {
     },
 
     {
-      title: ROUTES.RECPTS_PATIENT_REG.title,
-      url: ROUTES.RECPTS_PATIENT_REG.path,
-      icon: UserCircle2Icon
+      title: ROUTES.RECPTS_PATIENT.title,
+      url: ROUTES.RECPTS_PATIENT.path,
+      icon: UserCircle2Icon,
+      isNestable: true
     },
 
     {

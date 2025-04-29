@@ -2,6 +2,9 @@ import { EnumOverviewIcon } from '@/components/dashboard/metric/OverviewCard';
 import RecptsAnalytics from './RecptsAnalytics';
 import ApptTodayTable from '../components/ApptTodayTable';
 import PatientsRegTable from '../components/PatientsRegTable';
+import HyperLink from '@/atoms/Hyperlink';
+import ROUTES from '@/constants/routes';
+import { SubTitle } from '@/atoms/typographys';
 
 const card = [
   {
@@ -37,8 +40,30 @@ const DashboardView = () => {
   return (
     <div className="flex w-full flex-col space-y-4">
       <RecptsAnalytics {...{ card }} />
-      <ApptTodayTable />
-      <PatientsRegTable />
+
+      <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
+        <div className="flex w-full items-center justify-between border-b pb-2">
+          <SubTitle text="Appointments" className="whitespace-nowrap" />
+
+          <div className="flex w-full justify-end">
+            <HyperLink href={ROUTES.RECPTS_APOINTMENT.path} hrefText="See all" />
+          </div>
+        </div>
+
+        <ApptTodayTable />
+      </div>
+
+      <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
+        <div className="flex w-full items-center justify-between border-b pb-2">
+          <SubTitle text="Patients" className="whitespace-nowrap" />
+
+          <div className="flex w-full justify-end">
+            <HyperLink href={ROUTES.RECPTS_PATIENT.path} hrefText="See all" />
+          </div>
+        </div>
+
+        <PatientsRegTable />
+      </div>
     </div>
   );
 };

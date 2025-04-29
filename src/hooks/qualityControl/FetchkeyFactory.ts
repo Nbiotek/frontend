@@ -1,4 +1,4 @@
-import { LAB_COORD, LAB_TECH, QUALITY_CONTROL } from '@/constants/api';
+import { QUALITY_CONTROL } from '@/constants/api';
 
 export const qualityControl = {
   getHistory(query: Partial<TTestQuery>) {

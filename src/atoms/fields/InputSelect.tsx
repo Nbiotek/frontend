@@ -5,7 +5,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
@@ -17,12 +16,25 @@ interface IInputSelectProps extends InputHTMLAttributes<HTMLInputElement> {
   note?: string;
   child?: React.ReactNode;
   items: Array<{ label: string; value: string }>;
+  defaultValue?: string;
   handleSetValue: (key: string, value: string) => void;
 }
 
 const InputSelect = forwardRef<HTMLInputElement, IInputSelectProps>(
   (
-    { label, hideError, error, note, required, child, items, className, handleSetValue, ...props },
+    {
+      label,
+      hideError,
+      error,
+      note,
+      required,
+      child,
+      items,
+      defaultValue,
+      className,
+      handleSetValue,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -37,7 +49,9 @@ const InputSelect = forwardRef<HTMLInputElement, IInputSelectProps>(
           </div>
         )}
         <Select onValueChange={(value) => handleSetValue(props.name || '', value)}>
-          <SelectTrigger className={`w-full ${error ? 'bg-red-100/50 ring-red-200' : ''}`}>
+          <SelectTrigger
+            className={`w-full data-[placeholder]:text-neutral-400 ${error ? 'bg-red-100/50 ring-red-200' : ''}`}
+          >
             <SelectValue placeholder={props.placeholder} />
           </SelectTrigger>
           <SelectContent>

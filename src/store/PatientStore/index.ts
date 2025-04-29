@@ -12,6 +12,7 @@ import { parseError } from '@/utils/errorHandler';
 import { Toast } from '@/atoms/Toast';
 import { postRegPatient, TPatientRegPayload } from '@/requests/patient';
 import ROUTES from '@/constants/routes';
+import toast from 'react-hot-toast';
 
 const persist = <T = string>(key: string, value: T) => {
   store.namespace('pat').session.set(key, value);
@@ -104,11 +105,11 @@ class PatientStore {
         data: { message }
       } = (yield postRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
 
-      Toast.success(message);
+      toast.success(message);
 
       cb(ROUTES.PATIENT.path);
     } catch (error) {
-      Toast.error(parseError(error));
+      toast.error(parseError(error));
     } finally {
       this.isLoading.regPatient = false;
     }

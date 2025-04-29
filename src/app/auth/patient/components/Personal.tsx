@@ -25,7 +25,6 @@ function PersonalForm() {
     reset,
     formState: { errors }
   } = useForm<TPatientPersonalSchema>({
-    defaultValues: personalInfo,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
@@ -59,7 +58,7 @@ function PersonalForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-2xl bg-white py-6 shadow-lg">
+      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
         <SubTitle className="!text-center" text="Personal Information" />
 
         <fieldset className="">

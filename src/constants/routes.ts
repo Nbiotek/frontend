@@ -180,6 +180,13 @@ class Routes {
     [EnumRole.LAB_TECHNICIAN]
   );
 
+  LAB_TECH_RESULT_DETAIL = new Route(
+    '/lab-tech/results/:id',
+    'Result History',
+    'Lab Technician Tests Result',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+
   LAB_TECH_NOTIFICATION = new Route(
     '/lab-tech/notification',
     'Notifications',
@@ -293,10 +300,17 @@ class Routes {
     EnumRole.RECEPTIONIST
   ]);
 
-  RECPTS_PATIENT_REG = new Route(
-    '/recpst/patient-reg',
-    'Patient Reg.',
+  RECPTS_PATIENT = new Route(
+    '/recpst/patients',
+    'Patients',
     'Receptionist Patient Registration page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_PATIENT_DETAILS = new Route(
+    '/recpst/patients/:id',
+    'Patient Details',
+    'Receptionist Patient Details page',
     [EnumRole.RECEPTIONIST]
   );
 
