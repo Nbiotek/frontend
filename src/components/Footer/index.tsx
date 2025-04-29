@@ -10,34 +10,44 @@ const Footer = () => {
   return (
     <>
       {/* Newsletter Section */}
-      <div className="border-gray-200 w-full border-t py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between px-4 md:flex-row">
-          <div className="mb-6 md:mb-0">
-            <Image
-              src="/logo.png"
-              alt="NBIOTEK Logo"
-              width={160}
-              height={60}
-              className="object-contain"
-            />
-          </div>
+      <div className="border-gray-200 w-full border-t py-8 sm:py-10 md:py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between md:gap-8">
+            <div className="flex items-center justify-center md:justify-start">
+              <Image
+                src="/logo.png"
+                alt="NBIOTEK Logo"
+                width={160}
+                height={60}
+                className="h-12 w-auto object-contain sm:h-14 md:h-16"
+              />
+            </div>
 
-          <div className="max-w-xl">
-            <h2 className="text-gray-800 mb-2 text-2xl font-semibold">Subcribe our Newsletter</h2>
-            <p className="text-gray-600 mb-4">
-              Pellentesque eu nibh eget mauris congue mattis matti.
-            </p>
-          </div>
+            <div className="max-w-xl text-center md:text-left">
+              <h2 className="text-gray-800 mb-1 text-xl font-semibold sm:text-2xl">
+                Subscribe our Newsletter
+              </h2>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Pellentesque eu nibh eget mauris congue mattis matti.
+              </p>
+            </div>
 
-          <div className="flex w-full md:w-auto">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="border-gray-300 focus:ring-blue-500 flex-grow rounded-l-md border px-4 py-3 focus:outline-none focus:ring-2"
-            />
-            <button className="hover:bg-blue-800 rounded-r-md bg-blue-400 px-6 py-3 text-white transition duration-200">
-              Subscribe
-            </button>
+            <div className="w-full max-w-md md:w-auto">
+              <div className="flex flex-col sm:flex-row">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  className="border-gray-300 focus:ring-blue-500 w-full rounded-md rounded-b-none border px-4 py-3 focus:outline-none focus:ring-2 sm:rounded-b-md sm:rounded-l-md sm:rounded-r-none"
+                  aria-label="Email address"
+                />
+                <button
+                  className="hover:bg-blue-800 rounded-md rounded-t-none bg-blue-400 px-6 py-3 text-white transition duration-200 sm:rounded-l-none sm:rounded-r-md sm:rounded-t-md"
+                  aria-label="Subscribe"
+                >
+                  Subscribe
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

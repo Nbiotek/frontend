@@ -46,17 +46,17 @@ const Header = () => {
 
       <div
         className={`sticky top-0 z-50 transition-all duration-200 ${
-          scrolled ? 'bg-white shadow-md' : 'bg-blue-400/10'
+          scrolled ? 'bg-white shadow-md' : 'w-full bg-blue-400/10  '
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between p-4 ">
           {defaultMenuConfig.map((item, index) => (
-            <div
+            <ul
               key={index}
-              className="flex cursor-pointer items-center p-2 text-[#004AAD]/40 transition-colors hover:text-blue-200"
+              className="flex cursor-pointer items-center p-2 text-[#004AAD]/60 transition-colors hover:text-blue-200"
             >
-              <span>{item.title}</span>
-            </div>
+              <li className="text-base">{item.title}</li>
+            </ul>
           ))}
         </div>
       </div>

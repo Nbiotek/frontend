@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const testimonials = [
@@ -33,12 +33,32 @@ const testimonials = [
 
 const TestimonialSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsToShow, setCardsToShow] = useState(3);
 
-  const visibleIndices = [
-    currentIndex % testimonials.length,
-    (currentIndex + 1) % testimonials.length,
-    (currentIndex + 2) % testimonials.length
-  ];
+  // Responsive handling - update cards to show based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardsToShow(1);
+      } else if (window.innerWidth < 1024) {
+        setCardsToShow(2);
+      } else {
+        setCardsToShow(3);
+      }
+    };
+
+    // Set initial value
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Calculate visible indices based on cards to show
+  const visibleIndices = Array.from(
+    { length: cardsToShow },
+    (_, i) => (currentIndex + i) % testimonials.length
+  );
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
@@ -49,14 +69,14 @@ const TestimonialSlider = () => {
   };
 
   // Generate star rating
-  const renderStars = (rating: any) => {
+  const renderStars = (rating: number) => {
     return Array(5)
       .fill(0)
       .map((_, i) => (
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
-          className={`h-5 w-5 ${i < rating ? 'text-yellow' : 'text-yellow-300'}`}
+          className={`h-4 w-4 sm:h-5 sm:w-5 ${i < rating ? 'text-yellow' : 'text-yellow-300'}`}
           viewBox="0 0 20 20"
           fill="#FFC300"
         >
@@ -66,24 +86,25 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <div className="bg-[#F2F2F2] px-4 py-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-10 flex items-start justify-between">
-          <div className="max-w-2xl">
-            <h2 className="text-gray-900 text-3xl font-bold">
+    <div className="bg-[#F2F2F2] px-4 py-8 sm:px-6 sm:py-12 md:py-16">
+      <div className="mx-auto w-full max-w-7xl">
+        {/* Header section - responsive layout */}
+        <div className="mb-6 flex flex-col space-y-4 sm:mb-8 md:mb-10 md:flex-row md:items-start md:justify-between md:space-y-0">
+          <div className="max-w-xl md:max-w-2xl">
+            <h2 className="text-gray-900 text-xl font-bold sm:text-2xl md:text-3xl">
               What Our Users Are Saying: Hear from patients and doctors about their experiences with
               NBIOTEK.
             </h2>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 self-end">
             <button
               onClick={handlePrev}
-              className="rounded-full border border-neutral-300 p-2 transition hover:bg-green-400 hover:text-white"
+              className="rounded-full border border-neutral-300 p-1.5 transition hover:bg-green-400 hover:text-white sm:p-2"
               aria-label="Previous testimonial"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -98,12 +119,12 @@ const TestimonialSlider = () => {
             </button>
             <button
               onClick={handleNext}
-              className="rounded-full border border-neutral-300 p-2  transition hover:bg-green-400 hover:text-white"
+              className="rounded-full border border-neutral-300 p-1.5 transition hover:bg-green-400 hover:text-white sm:p-2"
               aria-label="Next testimonial"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -119,39 +140,43 @@ const TestimonialSlider = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {visibleIndices.map((index, i) => {
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+          {visibleIndices.map((index) => {
             const testimonial = testimonials[index];
             return (
               <div
                 key={testimonial.id}
-                className={`"border-2 border-blue-400" : "" } rounded-lg bg-white
-                p-6`}
+                className="rounded-lg bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:p-5 md:p-6"
               >
-                <div className="mb-4">
+                <div className="mb-3 sm:mb-4">
                   <svg
-                    className="h-8 w-8 text-green-100"
-                    fill="'"
+                    className="h-6 w-6 text-green-400/30 sm:h-7 sm:w-7 md:h-8 md:w-8"
+                    fill="currentColor"
                     viewBox="0 0 32 32"
                     aria-hidden="true"
                   >
                     <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                   </svg>
                 </div>
-                <p className="text-gray-600 mb-6">{testimonial.quote}</p>
-                <div className="flex items-center justify-between">
+                <p className="text-gray-600 mb-4 text-sm sm:mb-5 sm:text-base md:mb-6">
+                  {testimonial.quote}
+                </p>
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center">
-                    <div className="relative mr-3 h-10 w-10 overflow-hidden rounded-full">
+                    <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full sm:mr-3 sm:h-10 sm:w-10">
                       <Image
                         src={testimonial.avatar}
                         alt={testimonial.name}
-                        fill
+                        width={40}
+                        height={40}
                         className="object-cover"
                       />
                     </div>
                     <div>
-                      <h4 className="text-gray-900 font-medium">{testimonial.name}</h4>
-                      <p className="text-gray-500 text-sm">{testimonial.role}</p>
+                      <h4 className="text-gray-900 text-sm font-medium sm:text-base">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-gray-500 text-xs sm:text-sm">{testimonial.role}</p>
                     </div>
                   </div>
                   <div className="flex">{renderStars(testimonial.rating)}</div>
@@ -159,6 +184,19 @@ const TestimonialSlider = () => {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-4 flex justify-center space-x-1 sm:mt-6 md:hidden">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-2 w-2 rounded-full transition-all ${
+                visibleIndices.includes(index) ? 'bg-blue-500 w-4' : 'bg-gray-300'
+              }`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </div>
