@@ -7,6 +7,7 @@ import { PiTwitterLogo } from 'react-icons/pi';
 import { FiInstagram } from 'react-icons/fi';
 
 const Footer = () => {
+  const year = new Date().getFullYear();
   return (
     <>
       {/* Newsletter Section */}
@@ -217,7 +218,7 @@ const Footer = () => {
             </div>
 
             <div className="mb-6 text-center text-sm text-[#808080] md:mb-0 md:text-left">
-              Nbiotek © 2021. All Rights Reserved
+              Nbiotek ©{year}. All Rights Reserved
             </div>
 
             {/* <div className="flex items-center space-x-3">
