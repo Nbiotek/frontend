@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { defaultMenuConfig } from '@/config/menuItems';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
+import Link from 'next/link';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -55,7 +56,9 @@ const Header = () => {
               key={index}
               className="flex cursor-pointer items-center p-2 text-[#004AAD]/60 transition-colors hover:text-blue-200"
             >
-              <li className="text-base">{item.title}</li>
+              <Link href={item.url} className="text-base">
+                {item.title}
+              </Link>
             </ul>
           ))}
         </div>

@@ -53,8 +53,8 @@ const WhatsNew = () => {
               <Image
                 src="/blog.png"
                 alt="Blog"
-                layout="fill"
-                objectFit="cover"
+                width={240}
+                height={240}
                 className="transition-transform duration-300 hover:scale-105"
               />
             </div>
@@ -84,8 +84,8 @@ const WhatsNew = () => {
                   <div className="relative h-[180px] sm:h-auto sm:w-[120px] md:w-[180px]">
                     <Image
                       src={item.image}
-                      layout="fill"
-                      objectFit="cover"
+                      width={200}
+                      height={200}
                       alt={item.title}
                       className="transition-transform duration-300 hover:scale-105"
                     />

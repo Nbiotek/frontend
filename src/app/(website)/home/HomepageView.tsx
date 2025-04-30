@@ -13,21 +13,17 @@ import Footer from '@/components/Footer';
 import ToggleHeader from '@/components/Header/ToggleHeader';
 const HomePageView = () => {
   return (
-    <div className="flex w-full  flex-col">
-      <ToggleHeader />
-      <main>
-        <Hero />
-        <Services />
-        <EcommerceSection />
-        <WhatsNew />
-        <Discount />
-        <BioHub />
-        <TestimonialSlider />
-        <CTA />
-        <PartnerSection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <Services />
+      <EcommerceSection />
+      <WhatsNew />
+      <Discount />
+      <BioHub />
+      <TestimonialSlider />
+      <CTA />
+      <PartnerSection />
+    </>
   );
 };
 

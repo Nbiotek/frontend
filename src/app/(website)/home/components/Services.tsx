@@ -81,8 +81,8 @@ const Services = () => {
           vestibulum eu nisl.
         </p>
 
-        {/* Individual Tests - Maintaining original structure but making responsive */}
-        <div className="mt-4 flex flex-wrap justify-between gap-4 sm:gap-5">
+        {/* Individual Tests - */}
+        <div className="mt-4 flex flex-wrap justify-between gap-4 sm:gap-5" id="lab-test">
           {tests.map((test, idx) => (
             <div className="flex w-full flex-col space-y-2 md:w-[450px]" key={idx}>
               <p className="ml-auto w-fit rounded-lg bg-red-300 px-4 py-1.5 text-white">
@@ -114,7 +114,7 @@ const Services = () => {
       </div>
 
       {/* Special Packages Section */}
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl" id="special-package">
         <Title text="Special Packages" className="text-center font-semibold text-blue-400" />
         <p className="mx-auto mt-3 max-w-3xl text-center text-sm sm:text-base">
           Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
@@ -175,7 +175,7 @@ const Services = () => {
       </div>
 
       {/* Advanced Imaging Section */}
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl" id="advanced-imaging">
         <Title text="Advanced Imaging" className="text-center font-semibold text-blue-400" />
         <p className="mx-auto mt-3 max-w-3xl text-center text-sm sm:text-base">
           Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
@@ -230,7 +230,7 @@ const Services = () => {
       </div>
 
       {/* Molecular Diagnostics Section */}
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl" id="molecular-diagnostics">
         <Title text="Molecular Diagnostics" className="text-center font-semibold text-blue-400" />
         <p className="mx-auto mt-3 max-w-3xl text-center text-sm sm:text-base">
           Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
