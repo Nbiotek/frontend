@@ -1,4 +1,4 @@
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, Eye, HandCoins, Pause, Play, Shield } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -35,7 +35,6 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
-
   const { mutate: qcStatusMutate } = useUpdateQCStatus();
 
   return (
@@ -93,7 +92,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                               )
                             }
                           >
-                            View Result
+                            <Eye />
+                            View
                           </DropdownMenuItem>
                           {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
                             <DropdownMenuItem
@@ -104,9 +104,25 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                                 })
                               }
                             >
-                              Start Review
+                              <Play />
+                              Start
                             </DropdownMenuItem>
                           )}
+                          {qcDatum.qcStatus &&
+                            qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  qcStatusMutate({
+                                    payload: { status: EnumResultStatus.PENDING },
+                                    id: qcDatum.id
+                                  })
+                                }
+                              >
+                                {' '}
+                                <Pause />
+                                Pause
+                              </DropdownMenuItem>
+                            )}
                           {qcDatum.qcStatus &&
                             qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
                               <DropdownMenuItem
@@ -119,7 +135,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                                   });
                                 }}
                               >
-                                Review Test
+                                <Shield />
+                                Review
                               </DropdownMenuItem>
                             )}
                           {qcDatum.qcStatus && qcDatum.qcStatus === EnumResultStatus.FAILED && (
@@ -133,7 +150,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                                 })
                               }
                             >
-                              Reassign test
+                              <HandCoins />
+                              Reassign
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuGroup>

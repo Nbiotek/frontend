@@ -9,9 +9,9 @@ import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
 import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
 import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
+import { observer } from 'mobx-react-lite';
 
 const QCPendingView = () => {
-  const params: Partial<TTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
@@ -23,7 +23,7 @@ const QCPendingView = () => {
   const { data, isLoading } = useFetchPendingQC(queries.CONTROL_PENDING);
 
   useEffect(() => {
-    if (!isLoading && data != undefined) {
+    if (!isLoading && data !== undefined) {
       setResult(data);
     }
   }, [data, isLoading]);
@@ -47,4 +47,4 @@ const QCPendingView = () => {
   );
 };
 
-export default QCPendingView;
+export default observer(QCPendingView);

@@ -1,17 +1,18 @@
 'use client';
 import { EnumPatientForm } from '@/constants/mangle';
-import InsuranceForm from './components/Insurance';
-import ContactForm from './components/Contact';
-import PersonalForm from './components/Personal';
+import InsuranceForm from '@/app/auth/patient/components/Insurance';
+import ContactForm from '@/app/auth/patient/components/Contact';
+import PersonalForm from '@/app/auth/patient/components/Personal';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../validation';
+import { PatientInsuranceSchema, TPatientInsuranceSchema } from '@/app/auth/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
+import ProfileCard from './ProfileCard';
 
-const PatientRegView = () => {
+const RecptRegView = () => {
   const router = useRouter();
   const {
     PatientStore: { isLoading, setCurrentForm, currentForm, registerPatient, setInsuranceInfo }
@@ -60,7 +61,15 @@ const PatientRegView = () => {
         break;
     }
   };
-  return <>{switchDetails(currentForm)}</>;
+  return (
+    <div className="flex w-full max-w-4xl flex-col justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+      <div className="w-full overflow-clip rounded-lg bg-white md:w-[50%]">
+        <ProfileCard />
+      </div>
+
+      <div className="w-full md:w-[50%]">{switchDetails(currentForm)}</div>
+    </div>
+  );
 };
 
-export default observer(PatientRegView);
+export default observer(RecptRegView);

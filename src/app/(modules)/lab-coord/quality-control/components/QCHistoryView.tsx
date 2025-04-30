@@ -9,9 +9,10 @@ import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
 import { useStore } from '@/store';
 import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
 import { useFetchHistoryQC } from '@/hooks/qualityControl/useFetchHistoryQC';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 const QCHistoryView = () => {
-  const params: Partial<TTestQuery> = {};
   const [result, setResult] = useState<TQCTestResp>({
     requests: [],
     pagination
@@ -27,6 +28,8 @@ const QCHistoryView = () => {
       setResult(data);
     }
   }, [data, isLoading]);
+
+  console.log(toJS(queries.CONTROL_HISTORY));
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -47,4 +50,4 @@ const QCHistoryView = () => {
   );
 };
 
-export default QCHistoryView;
+export default observer(QCHistoryView);

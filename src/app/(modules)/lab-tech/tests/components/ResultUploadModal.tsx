@@ -25,6 +25,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Toast } from '@/atoms/Toast';
 import { postUploadResult } from '@/requests/test';
 import { labTech } from '@/hooks/labTech/FetchKeyFactory';
+import { qualityControl } from '@/hooks/qualityControl/FetchkeyFactory';
 
 const ResultUploadModal = () => {
   const {
@@ -43,6 +44,9 @@ const ResultUploadModal = () => {
     onSuccess: () => {
       toggleModals({});
       queryClient.invalidateQueries({ queryKey: labTech.getRecentActivities().keys() });
+      queryClient.invalidateQueries({
+        queryKey: qualityControl.getHistory({ limit: 10, page: 1 }).keys()
+      });
       Toast.success('Result upload successful!');
     }
   });

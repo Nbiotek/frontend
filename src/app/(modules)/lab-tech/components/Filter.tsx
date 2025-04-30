@@ -195,12 +195,7 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
           </div>
 
           <DropdownMenuItem className="w-[50%]">
-            <Button
-              variant="filled"
-              onClick={() => {
-                applyQuery(filter);
-              }}
-            >
+            <Button variant="filled" onClick={() => applyQuery(filter)}>
               Apply
             </Button>
           </DropdownMenuItem>

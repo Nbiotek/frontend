@@ -19,7 +19,7 @@ class LabCoordStore {
     [EnumLabCoordQueryType.INVENTORY]: { ...defaultQuery },
     [EnumLabCoordQueryType.STAFF]: { ...defaultQuery },
     [EnumLabCoordQueryType.CONTROL_HISTORY]: { ...defaultQuery },
-    [EnumLabCoordQueryType.CONTROL_PENDING]: { ...defaultQuery, status: EnumTestStatus.PENDING }
+    [EnumLabCoordQueryType.CONTROL_PENDING]: { ...defaultQuery }
   };
   inventoryQuery = {};
 

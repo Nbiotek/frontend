@@ -91,12 +91,12 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(
-                                `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', resultDatum.id)}`
+                                `${ROUTES.LAB_TECH_RESULT_DETAIL.path.replaceAll(':id', resultDatum.id)}`
                               )
                             }
                           >
                             <Eye />
-                            <p>View</p>
+                            <p>View Result</p>
                           </DropdownMenuItem>
 
                           {type === 'recent' && (
