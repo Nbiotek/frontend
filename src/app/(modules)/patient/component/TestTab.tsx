@@ -53,9 +53,11 @@ const TestSelectionPanel = observer(
 
       const term = searchTerm.toLowerCase().trim();
 
+      console.log(data.data);
+
       // Filter single tests
-      if (data.data.availableTests) {
-        const filtered = data.data.availableTests.filter(
+      if (data.data.requests) {
+        const filtered = data.data.requests.filter(
           (test) =>
             test.name.toLowerCase().includes(term) ||
             test.description?.toLowerCase().includes(term) ||
@@ -80,7 +82,6 @@ const TestSelectionPanel = observer(
       }
     }, [searchTerm, data, packageData]);
 
-    // View test details
     const handleViewDetails = (test: SingleTest | PackageTest) => {
       setSelectedTest(test);
       setDetailView(true);
@@ -159,7 +160,7 @@ const TestSelectionPanel = observer(
               {searchTerm && filteredSingleTests.length === 0 ? (
                 <EmptySearchResults searchTerm={searchTerm} />
               ) : (
-                (searchTerm ? filteredSingleTests : data.data.availableTests).map((test) => (
+                (searchTerm ? filteredSingleTests : data.data.requests).map((test) => (
                   <TestCard
                     key={test.id}
                     test={test}

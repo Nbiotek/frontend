@@ -17,12 +17,12 @@ class Route {
 
 class Routes {
   // landing
-  HOME = new Route('/', 'Nbiotek | Home', 'Home');
-  LAB_TEST = new Route('/lab-test', 'Lab Test', 'Lab Test');
-  SPECIAL_PACKAGES = new Route('/special-package', 'Special Package', 'Special Package');
-  ADVANCED_IMAGING = new Route('/advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
+  HOME = new Route('/', ' Home', 'Home');
+  LAB_TEST = new Route('#lab-test', 'Lab Test', 'Lab Test');
+  SPECIAL_PACKAGES = new Route('#special-package', 'Special Package', 'Special Package');
+  ADVANCED_IMAGING = new Route('#advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
   MOLECULAR_DIAGNOSTICS = new Route(
-    '/molecular-diagnostics',
+    '#molecular-diagnostics',
     'Molecular Diagnostics',
     'Molecular Diagnostics'
   );
@@ -178,8 +178,22 @@ class Routes {
     [EnumRole.LAB_TECHNICIAN]
   );
 
+  LAB_TECH_QUALITY_CONTROL_DETAILS = new Route(
+    '/lab-tech/qc/:id',
+    'Test Results',
+    'Lab Technician Single Test Result',
+    [EnumRole.LAB_CORDINATOR]
+  );
+
   LAB_TECH_RESULT_HISTORY = new Route(
     '/lab-tech/results',
+    'Result History',
+    'Lab Technician Tests Result',
+    [EnumRole.LAB_TECHNICIAN]
+  );
+
+  LAB_TECH_RESULT_DETAIL = new Route(
+    '/lab-tech/results/:id',
     'Result History',
     'Lab Technician Tests Result',
     [EnumRole.LAB_TECHNICIAN]
@@ -282,16 +296,33 @@ class Routes {
   LAB_COORD_SETTINGS = new Route('/lab-coord/settings', 'Settings', 'Lab Coordinator Settings', [
     EnumRole.LAB_CORDINATOR
   ]);
+  MARKETER = new Route('/marketer', 'Dashboard', 'Marketer Dashboard page', [EnumRole.MARKETER]);
+  MARKETER_FIELD_VISIT = new Route(
+    `/marketer/field-visits`,
+    'Field Visit',
+    'Marketer Field Visit',
+    [EnumRole.MARKETER]
+  );
+  MARKETER_SETTINGS = new Route('/marketer/settings', 'Settings', 'Marketer Settings', [
+    EnumRole.MARKETER
+  ]);
 
   // receptionist
   RECPTS = new Route('/recpst', 'Dashboard', 'Receptionist Dashboard page', [
     EnumRole.RECEPTIONIST
   ]);
 
-  RECPTS_PATIENT_REG = new Route(
-    '/recpst/patient-reg',
-    'Patient Reg.',
+  RECPTS_PATIENT = new Route(
+    '/recpst/patients',
+    'Patients',
     'Receptionist Patient Registration page',
+    [EnumRole.RECEPTIONIST]
+  );
+
+  RECPTS_PATIENT_DETAILS = new Route(
+    '/recpst/patients/:id',
+    'Patient Details',
+    'Receptionist Patient Details page',
     [EnumRole.RECEPTIONIST]
   );
 
@@ -327,6 +358,8 @@ class Routes {
         return this.LAB_COORD.path;
       case EnumRole.DOCTOR:
         return this.DOCTOR.path;
+      case EnumRole.MARKETER:
+        return this.MARKETER.path;
       // TODO: Add more modules authorization routing here.
       case EnumRole.RECEPTIONIST:
         return this.RECPTS.path;
@@ -384,6 +417,7 @@ export const roleAccessRules = {
   '/lab-tech': [EnumRole.LAB_TECHNICIAN],
   '/lab-coord': [EnumRole.LAB_CORDINATOR],
   '/doctor': [EnumRole.DOCTOR],
+  '/marketer': [EnumRole.MARKETER],
   [ROUTES.RECPTS.path]: [EnumRole.RECEPTIONIST]
 };
 

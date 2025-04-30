@@ -3,7 +3,9 @@ import Button from '@/atoms/Buttons';
 import { Toast } from '@/atoms/Toast';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { LAB_COORD } from '@/constants/api';
+import { labCoord } from '@/hooks/labCoord/FetchKeyFactory';
 import { useFetchAvailableLabTechs } from '@/hooks/labCoord/useFetchAvailableLabTech';
+import { qualityControl } from '@/hooks/qualityControl/FetchkeyFactory';
 import { postAssignLabTech, putReassignLabTech } from '@/requests/lab-coord';
 import { useStore } from '@/store';
 import { getInitials } from '@/utils';
@@ -29,7 +31,12 @@ const AvailableTechnicians = () => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [LAB_COORD.DASHBOARD] });
+      queryClient.invalidateQueries({ queryKey: labCoord.getDashboard().keys() });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          Array.isArray(query.queryKey) &&
+          query.queryKey[0] === qualityControl.getHistory({}).keys()[0]
+      });
       toast.success('Test successfully assigned!');
       toggleModals({});
     },

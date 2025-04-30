@@ -10,23 +10,20 @@ import TestimonialSlider from './components/Testimonials';
 import CTA from './components/CTA';
 import PartnerSection from './components/Partners';
 import Footer from '@/components/Footer';
+import ToggleHeader from '@/components/Header/ToggleHeader';
 const HomePageView = () => {
   return (
-    <div className="flex w-full  flex-col">
-      <Header />
-      <main>
-        <Hero />
-        <Services />
-        <EcommerceSection />
-        <WhatsNew />
-        <Discount />
-        <BioHub />
-        <TestimonialSlider />
-        <CTA />
-        <PartnerSection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <Services />
+      <EcommerceSection />
+      <WhatsNew />
+      <Discount />
+      <BioHub />
+      <TestimonialSlider />
+      <CTA />
+      <PartnerSection />
+    </>
   );
 };
 

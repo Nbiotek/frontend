@@ -58,6 +58,11 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
           </div>
 
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
+            {data?.qcStatus && (
+              <FieldSet legend="QC Status">
+                <Status variant={data.qcStatus} />
+              </FieldSet>
+            )}
             <FieldSet legend="Note" text={data?.notes || ''} />
             <FieldSet legend="Description" text={data?.test.description || ''} />
           </div>

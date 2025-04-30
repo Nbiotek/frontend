@@ -1,11 +1,18 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import Button from '@/atoms/Buttons';
 import InputSearch from '@/atoms/fields/InputSearch';
 import Image from 'next/image';
 import { defaultMenuConfig } from '@/config/menuItems';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
+import Link from 'next/link';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,24 +38,28 @@ const Header = () => {
           <InputSearch placeholder="Search" className="!w-[calc(100%-500px)] rounded-full" />
           <div className="flex w-[260px] space-x-2">
             <Button variant="filled">Contact us</Button>
-            <Button variant="outlined">Log in</Button>
+            <Button variant="outlined" onClick={() => router.push(ROUTES.LOGIN.path)}>
+              Log in
+            </Button>
           </div>
         </div>
       </div>
 
       <div
         className={`sticky top-0 z-50 transition-all duration-200 ${
-          scrolled ? 'bg-white shadow-md' : 'bg-blue-400/10'
+          scrolled ? 'bg-white shadow-md' : 'w-full bg-blue-400/10  '
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between p-4 ">
           {defaultMenuConfig.map((item, index) => (
-            <div
+            <ul
               key={index}
-              className="flex cursor-pointer items-center p-2 text-[#004AAD]/40 transition-colors hover:text-blue-200"
+              className="flex cursor-pointer items-center p-2 text-[#004AAD]/60 transition-colors hover:text-blue-200"
             >
-              <span>{item.title}</span>
-            </div>
+              <Link href={item.url} className="text-base">
+                {item.title}
+              </Link>
+            </ul>
           ))}
         </div>
       </div>

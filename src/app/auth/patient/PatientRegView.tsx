@@ -5,11 +5,27 @@ import ContactForm from './components/Contact';
 import PersonalForm from './components/Personal';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import Button from '@/atoms/Buttons';
 
 const PatientRegView = () => {
+  const router = useRouter();
   const {
-    PatientStore: { currentForm }
+    PatientStore: { isLoading, setCurrentForm, currentForm, registerPatient, setInsuranceInfo }
   } = useStore();
+  const methods = useForm<TPatientInsuranceSchema>({
+    mode: 'onSubmit',
+    resolver: zodResolver(PatientInsuranceSchema),
+    reValidateMode: 'onSubmit'
+  });
+
+  const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
+    setInsuranceInfo(formData, () => registerPatient((url) => router.replace(url)));
+  };
+
   const switchDetails = (key: EnumPatientForm) => {
     switch (key) {
       case EnumPatientForm.PEROSNAL:
@@ -17,12 +33,34 @@ const PatientRegView = () => {
       case EnumPatientForm.CONTACT:
         return <ContactForm />;
       case EnumPatientForm.INSURANCE:
-        return <InsuranceForm />;
+        return (
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <InsuranceForm />;
+              <div className="flex items-center justify-between space-x-2">
+                <Button
+                  type="button"
+                  variant="transparent"
+                  text="Prev"
+                  disabled={isLoading.regPatient}
+                  onClick={() => setCurrentForm(EnumPatientForm.CONTACT)}
+                />
+                <Button
+                  type="submit"
+                  variant="filled"
+                  text="Submit"
+                  isLoading={isLoading.regPatient}
+                  disabled={isLoading.regPatient}
+                />
+              </div>
+            </form>
+          </FormProvider>
+        );
       default:
         break;
     }
   };
-  return <> {switchDetails(currentForm)} </>;
+  return <>{switchDetails(currentForm)}</>;
 };
 
 export default observer(PatientRegView);

@@ -174,12 +174,17 @@ export const PatientInsuranceSchema = z
       .optional(),
     policyNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
     groupNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional(),
-    insurancePhoneNumber: z.string({ required_error: 'Phone number is required.' }).trim(),
-    policyHolder: z.object({
-      firstName: z.string({ required_error: 'First name is required.' }).trim().optional(),
-      lastName: z.string({ required_error: 'Last name is required.' }).trim().optional(),
-      phoneNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional()
-    })
+    insurancePhoneNumber: z
+      .string({ required_error: 'Phone number is required.' })
+      .trim()
+      .optional(),
+    policyHolder: z
+      .object({
+        firstName: z.string({ required_error: 'First name is required.' }).trim().optional(),
+        lastName: z.string({ required_error: 'Last name is required.' }).trim().optional(),
+        phoneNumber: z.string({ required_error: 'Phone number is required.' }).trim().optional()
+      })
+      .optional()
   })
   .superRefine((data, ctx) => {
     const { primaryInsuranceProvider } = data;
@@ -213,7 +218,7 @@ export const PatientInsuranceSchema = z
       }
 
       // Check policy holder information
-      if (!data.policyHolder.firstName) {
+      if (!data.policyHolder?.firstName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Policy holder first name is required when primary insurance is provided',
@@ -221,7 +226,7 @@ export const PatientInsuranceSchema = z
         });
       }
 
-      if (!data.policyHolder.lastName) {
+      if (!data.policyHolder?.lastName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Policy holder last name is required when primary insurance is provided',
@@ -229,7 +234,7 @@ export const PatientInsuranceSchema = z
         });
       }
 
-      if (!data.policyHolder.phoneNumber) {
+      if (!data.policyHolder?.phoneNumber) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Policy holder phone number is required when primary insurance is provided',
@@ -270,6 +275,9 @@ export const PatientInsuranceSchema = z
     }
   });
 
+export const PatientRegFormSchema =
+  PatientPersonalSchema.and(PatientContactSchema).and(PatientInsuranceSchema);
+
 export type TAuthLoginResponse = INBTServerResp<z.infer<typeof AuthLoginResponseSchema>>;
 export type TLogin = z.infer<typeof LoginValidationSchema>;
 export type TCreateAccount = z.infer<typeof CreateAccountValidationSchema>;
@@ -280,3 +288,4 @@ export type TForgotPwd = z.infer<typeof ForgotPwdSchema>;
 export type TPatientPersonalSchema = z.infer<typeof PatientPersonalSchema>;
 export type TPatientContactSchema = z.infer<typeof PatientContactSchema>;
 export type TPatientInsuranceSchema = z.infer<typeof PatientInsuranceSchema>;
+export type TPatientRegForm = z.infer<typeof PatientRegFormSchema>;

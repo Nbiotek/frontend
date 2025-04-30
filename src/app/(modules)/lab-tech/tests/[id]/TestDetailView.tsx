@@ -8,7 +8,7 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { ChevronLeft, Pause, Play, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import TestDetailsInfo from '@/app/(modules)/lab-coord/components/TestDetailsInfo';
+import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 
 interface ITestDetailModalProps {
   id: string;
