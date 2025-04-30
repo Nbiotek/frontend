@@ -23,7 +23,7 @@ export type PackageTest = {
 
 export type AllTestResponse = {
   data: {
-    availableTests: SingleTest[];
+    requests: SingleTest[];
   };
 };
 
