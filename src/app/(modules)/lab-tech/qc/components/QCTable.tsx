@@ -59,6 +59,7 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
               <TableHead>Date Requested</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Deadline</TableHead>
+              <TableHead>QC status</TableHead>
               <TableHead>Date submitted</TableHead>
               <TableHead>Result</TableHead>
               <TableHead className="w-[20px]"></TableHead>
@@ -83,6 +84,9 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                       <Status variant={qcDatum.status} />
                     </TableCell>
                     <TableCell>{formatTestDate(qcDatum.deadlineAt)}</TableCell>
+                    <TableCell>
+                      {qcDatum?.qcStatus && <Status variant={qcDatum.qcStatus} />}
+                    </TableCell>
                     <TableCell>{formatTestDate(qcDatum.completedAt)}</TableCell>
                     <TableCell>
                       <Status variant={qcDatum.resultStatus} />
@@ -97,7 +101,7 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(
-                                `${ROUTES.LAB_TECH_TEST_DETAILS.path.replaceAll(':id', qcDatum.id)}`
+                                `${ROUTES.LAB_TECH_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
                               )
                             }
                           >

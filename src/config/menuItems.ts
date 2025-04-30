@@ -180,7 +180,8 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_TECH_QUALITY_CONTROL.title,
       icon: ShieldCheck,
-      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path
+      url: ROUTES.LAB_TECH_QUALITY_CONTROL.path,
+      isNestable: true
     },
     {
       title: ROUTES.LAB_TECH_NOTIFICATION.title,
@@ -239,6 +240,23 @@ export const menuConfig: Record<string, MenuItem[]> = {
     {
       title: ROUTES.LAB_COORD_SETTINGS.title,
       url: ROUTES.LAB_COORD_SETTINGS.path,
+      icon: Settings
+    }
+  ],
+  [EnumRole.MARKETER]: [
+    {
+      title: ROUTES.MARKETER.title,
+      url: ROUTES.MARKETER.path,
+      icon: Home
+    },
+    {
+      title: ROUTES.MARKETER_FIELD_VISIT.title,
+      url: ROUTES.MARKETER_FIELD_VISIT.path,
+      icon: UsersIcon
+    },
+    {
+      title: ROUTES.MARKETER_SETTINGS.title,
+      url: ROUTES.MARKETER_SETTINGS.path,
       icon: Settings
     }
   ],
