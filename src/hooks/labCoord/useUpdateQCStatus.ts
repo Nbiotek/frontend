@@ -1,7 +1,7 @@
 import { patchQCStatusUpdate } from '@/requests/qc';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { labCoord } from './FetchKeyFactory';
+import { qualityControl } from '../qualityControl/FetchkeyFactory';
 
 export function useUpdateQCStatus(cbFn?: () => void) {
   const queryClient = useQueryClient();
@@ -13,7 +13,12 @@ export function useUpdateQCStatus(cbFn?: () => void) {
     },
     onSuccess: (data) => {
       toast.success(data.data.message);
-      queryClient.invalidateQueries({ queryKey: labCoord.getDashboard().keys() });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          Array.isArray(query.queryKey) &&
+          query.queryKey[0] === qualityControl.getHistory({}).keys()[0]
+      });
+
       cbFn?.();
     }
   });
