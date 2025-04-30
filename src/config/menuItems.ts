@@ -44,6 +44,11 @@ export interface MenuItem {
   }>;
 }
 
+export interface WebsiteMenu {
+  title: string;
+  url: string;
+}
+
 export const menuConfig: Record<string, MenuItem[]> = {
   [EnumRole.PATIENT]: [
     {
@@ -294,3 +299,38 @@ export const menuConfig: Record<string, MenuItem[]> = {
     }
   ]
 };
+
+export const defaultMenuConfig: WebsiteMenu[] = [
+  {
+    title: ROUTES.HOME.title,
+    url: ROUTES.HOME.path
+  },
+  {
+    title: ROUTES.LAB_TEST.title,
+    url: ROUTES.LAB_TEST.path
+  },
+  {
+    title: ROUTES.SPECIAL_PACKAGES.title,
+    url: ROUTES.SPECIAL_PACKAGES.path
+  },
+  {
+    title: ROUTES.ADVANCED_IMAGING.title,
+    url: ROUTES.ADVANCED_IMAGING.path
+  },
+  {
+    title: ROUTES.MOLECULAR_DIAGNOSTICS.title,
+    url: ROUTES.MOLECULAR_DIAGNOSTICS.path
+  },
+  {
+    title: ROUTES.BIO_HUB.title,
+    url: ROUTES.BIO_HUB.path
+  },
+  {
+    title: ROUTES.ECOMMERCE.title,
+    url: ROUTES.ECOMMERCE.path
+  },
+  {
+    title: ROUTES.WHATS_NEW.title,
+    url: ROUTES.WHATS_NEW.path
+  }
+];

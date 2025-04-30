@@ -1,13 +1,12 @@
 import ToggleHeader from '@/components/Header/ToggleHeader';
-import HomePageView from './(website)/home/HomepageView';
 import Footer from '@/components/Footer';
 
-export default function Page() {
+export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex w-full  flex-col">
         <ToggleHeader />
-        <HomePageView />
+        <main>{children}</main>
         <Footer />
       </div>
     </>
