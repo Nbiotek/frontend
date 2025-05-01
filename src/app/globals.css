@@ -37,42 +37,60 @@ body {
 
 @layer components {
   .button {
-    @apply flex cursor-pointer items-center justify-center px-2 font-roboto text-sm;
+    @apply flex cursor-pointer items-center justify-center px-3 py-1 font-roboto;
     @apply whitespace-nowrap transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:opacity-50;
   }
+
   .button-filled {
     @apply border-none bg-blue-400 text-white hover:opacity-80;
-    @apply h-[45px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
+
   .button-transparent {
     @apply border-none bg-bgGray text-black hover:bg-bgGray/50;
-    @apply h-[45px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
+
   .button-outlined {
     @apply border border-borderLine bg-white text-black hover:border-blue-400 hover:shadow;
-    @apply h-[45px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
+
   .button-light {
     @apply border-none bg-blue-400/10 text-blue-400 hover:bg-blue-400 hover:text-white;
-    @apply h-[45px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
+
   .button-underlined {
-    @apply flex w-fit items-center justify-start space-x-1 border-b border-blue-400 px-2 py-1 ease-in-out;
+    @apply flex w-fit items-center justify-start space-x-1 border-b border-blue-400 ease-in-out;
     @apply text-sm text-blue-400 transition-all duration-300 hover:bg-blue-400 hover:text-white;
   }
 
   .button-danger {
     @apply border-none bg-error-500 text-white hover:opacity-80;
-    @apply h-[45px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
+
   .button-danger-outlined {
     @apply border border-error-400 bg-white text-error-400  hover:opacity-80;
-    @apply h-[55px] w-full rounded-lg border font-medium;
+    @apply w-full rounded-lg border font-medium;
   }
 
   .button-secondary {
     @apply border-none bg-neutral-60 text-neutral-800 hover:bg-neutral-200/50;
-    @apply h-[45px] w-full rounded-md border font-medium;
+    @apply w-full rounded-md border font-medium;
+  }
+
+  .button-sm {
+    @apply h-7 text-xs;
+  }
+
+  .button-md {
+    @apply h-10 text-sm;
+  }
+
+  .button-lg {
+    @apply h-12 text-lg;
   }
 
   .status-badge {
