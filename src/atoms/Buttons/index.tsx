@@ -3,6 +3,7 @@ import { ClipLoader } from 'react-spinners';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
+  size?: 'sm' | 'md' | 'lg';
   variant:
     | 'filled'
     | 'transparent'
@@ -19,6 +20,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = ({
   text,
+  size = 'md',
   variant,
   className,
   children,
@@ -50,8 +52,21 @@ const Button = ({
     }
   }, [variant]);
 
+  const styleSize = useMemo(() => {
+    switch (size) {
+      case 'sm':
+        return 'button-sm';
+      case 'md':
+        return 'button-md';
+      case 'lg':
+        return 'button-lg';
+      default:
+        break;
+    }
+  }, [size]);
+
   return (
-    <button className={`button group cursor-pointer ${style} ${className}`} {...rest}>
+    <button className={`button group cursor-pointer ${style} ${styleSize} ${className}`} {...rest}>
       {isLoading ? (
         <ClipLoader color="#ffffff" size={20} aria-label="Loading Spinner" data-testid="loader" />
       ) : (

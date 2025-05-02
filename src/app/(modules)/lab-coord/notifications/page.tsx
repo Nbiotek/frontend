@@ -1,6 +1,6 @@
-import NotificationsView from './NotificationsView';
 import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
+import NotificationView from '@/components/common/NotificationView';
 
 const { title, description } = ROUTES.LAB_COORD_NOTIFICATIONS;
 
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function NotificationsPage() {
-  return <NotificationsView />;
+  return <NotificationView />;
 }

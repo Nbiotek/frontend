@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
+import NotificationView from '@/components/common/NotificationView';
 
 const { title, description } = ROUTES.RECPTS_NOTIFICATIONS;
 
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function NotificationPage() {
-  return <div>Notifications Page</div>;
+  return <NotificationView />;
 }

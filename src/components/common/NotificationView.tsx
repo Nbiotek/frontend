@@ -1,3 +1,4 @@
+'use client';
 import Button from '@/atoms/Buttons';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { Switch } from '@/components/ui/switch';

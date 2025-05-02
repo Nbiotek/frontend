@@ -1,4 +1,4 @@
-import NotificationView from './NotificationView';
+import NotificationView from '@/components/common/NotificationView';
 import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
 

@@ -1,13 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Profile from './components/Profile';
-import Security from './components/Security';
-import Others from './components/Others';
+import Profile from './Profile';
+import Security from './Security';
+import Others from './Others';
 
 const SettingsView = () => {
   return (
-    <div className="w-full rounded-lg bg-white p-4">
-      <Tabs defaultValue="profile" className="flex w-full flex-col space-y-4 divide-y">
-        <div className="mx-auto w-full max-w-fit">
+    <div className="w-full">
+      <Tabs defaultValue="profile" className="flex w-full flex-col space-y-4">
+        <div className=" w-full rounded-lg bg-white p-2">
           <TabsList>
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="security">Privacy & Security</TabsTrigger>
@@ -15,7 +15,7 @@ const SettingsView = () => {
           </TabsList>
         </div>
 
-        <div className="w-full py-8">
+        <div className="w-full rounded-lg bg-white p-2">
           <TabsContent className="w-full max-w-[650px]" value="profile">
             <Profile />
           </TabsContent>
