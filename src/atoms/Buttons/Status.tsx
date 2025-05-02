@@ -52,6 +52,9 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
       case EnumTestPriority.LOW:
         return 'status-teal';
 
+      case 'VERIFIED':
+        return 'status-green';
+
       // Result status | Quality Control
       case EnumResultStatus.PASSED:
         return 'status-green';
