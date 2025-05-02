@@ -2,10 +2,6 @@
 import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 import OverviewCard, { EnumOverviewIcon } from '@/components/dashboard/metric/OverviewCard';
 import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
-import { LAB_TECH } from '@/constants/api';
-import { getLabTechDashboard } from '@/requests/lab-tech';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 
 const card = [
   {
@@ -37,25 +33,12 @@ const card = [
   }
 ];
 
-const Analytics = () => {
-  const [overviewData, setOverviewData] = useState<TLabTechDashboardRes>({
-    totalPendingTests: 0,
-    totalCompletedTests: 0,
-    averageTurnaroundTime: 0,
-    totalMessages: 0,
-    recentTests: []
-  });
-  const { data, isLoading } = useQuery({
-    queryKey: [LAB_TECH.DASHBOARD],
-    queryFn: getLabTechDashboard
-  });
+interface IAnalyticsProps {
+  isLoading: boolean;
+  data: TLabTechDashboardRes;
+}
 
-  useEffect(() => {
-    if (!isLoading && data !== undefined) {
-      setOverviewData(data.data.data);
-    }
-  }, [data, isLoading]);
-
+const Analytics = ({ isLoading, data }: IAnalyticsProps) => {
   return (
     <OverviewContainer>
       {isLoading
@@ -64,7 +47,7 @@ const Analytics = () => {
             <OverviewCard
               key={el.tag}
               type={el.type}
-              stat={overviewData[el.tag as keyof Omit<TLabTechDashboardRes, 'recentTests'>]}
+              stat={data[el.tag as keyof Omit<TLabTechDashboardRes, 'recentTests'>]}
               title={el.title}
             />
           ))}

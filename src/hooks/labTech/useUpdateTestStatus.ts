@@ -1,4 +1,3 @@
-import { TEST } from '@/constants/api';
 import { putUpdateTestStatus, TTestStatusMutateParams } from '@/requests/lab-tech';
 import { parseError } from '@/utils/errorHandler';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -14,7 +13,11 @@ export function useUpdateTestStatus() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: labTech.getRecentActivities().keys()
+        queryKey: labTech.getDashboard().keys()
+      });
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          Array.isArray(query.queryKey) && query.queryKey[0] == labTech.getDashboard().keys()[0]
       });
       toast.success('Test status updated!');
     }
