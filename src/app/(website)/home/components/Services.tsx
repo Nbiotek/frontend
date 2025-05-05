@@ -76,15 +76,13 @@ const Services = () => {
         <p className="mx-auto mt-3 text-sm sm:text-base">
           Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit
           interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per
-          conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum
-          lobortis. Ut commodo efficitur neque. Ut diam quam, semper iaculis condimentum ac,
-          vestibulum eu nisl.
+          conubia nostra
         </p>
 
         {/* Individual Tests - */}
         <div className="mt-4 flex flex-wrap justify-between gap-4 sm:gap-5" id="lab-test">
           {tests.map((test, idx) => (
-            <div className="flex w-full flex-col space-y-2 md:w-[450px]" key={idx}>
+            <div className="flex w-full flex-col space-y-2 md:w-[300px] lg:w-[450px]" key={idx}>
               <p className="ml-auto w-fit rounded-lg bg-red-300 px-4 py-1.5 text-white">
                 ₦{test.price}
               </p>

@@ -49,22 +49,20 @@ const WhatsNew = () => {
               className="text-lg font-semibold text-[#02234D] sm:text-xl"
             />
             <p className="text-sm font-thin text-blue-400 sm:text-base">20 Sep 2023</p>
-            <div className="relative h-[200px] w-full overflow-hidden rounded-lg sm:h-[300px] md:h-[400px]">
+            <div className="relative h-[200px] w-full overflow-hidden border">
               <Image
                 src="/blog.png"
                 alt="Blog"
-                width={240}
-                height={240}
-                className="transition-transform duration-300 hover:scale-105"
+                width={630}
+                height={340}
+                className="transition-transform duration-300 hover:scale-105 "
               />
             </div>
             <p className="text-sm leading-relaxed sm:text-base">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus exercitationem
               quaerat unde quis incidunt. Dolorem eos libero ratione at voluptas ipsa nobis et,
               error, temporibus, repellat accusantium architecto iusto nihil. Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. Repellendus exercitationem quaerat unde quis
-              incidunt. Dolorem eos libero ratione at voluptas ipsa nobis et, error, temporibus,
-              repellat accusantium architecto iusto nihil.
+              amet consectetur adipisicing elit. R
             </p>
           </div>
 

@@ -70,7 +70,7 @@ const EcommerceSection = () => {
               key={idx}
             >
               <div className="relative h-[180px] w-full overflow-hidden sm:h-[200px]">
-                <Image src={product.image} width={180} height={180} alt={product.title} />
+                <Image src={product.image} width={320} height={180} alt={product.title} />
               </div>
               <div className="flex flex-1 flex-col justify-between p-4">
                 <div className="mb-3">
