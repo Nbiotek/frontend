@@ -34,7 +34,7 @@ const WhatsNew = () => {
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-8">
+    <div className="px-4 sm:px-6 md:px-8" id="whats-new">
       <div className="mx-auto max-w-7xl py-8">
         <Title text="What's New" className="text-center text-blue-400" />
         <p className="mx-auto mt-2 max-w-2xl text-center text-sm sm:text-base">
@@ -66,7 +66,6 @@ const WhatsNew = () => {
             </p>
           </div>
 
-          {/* More news section */}
           <div className="flex-1 space-y-4">
             <SubTitle
               text="More News"

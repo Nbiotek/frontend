@@ -32,7 +32,7 @@ const products = [
 
 const EcommerceSection = () => {
   return (
-    <div className="bg-[#D9D9D9] px-4 sm:px-6">
+    <div className="bg-[#D9D9D9] px-4 sm:px-6" id="ecommerce">
       <div className="mx-auto max-w-7xl py-4 sm:py-8">
         <div className="mb-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
           <div>
@@ -63,7 +63,6 @@ const EcommerceSection = () => {
             </div>
           </div>
 
-          {/* Product cards */}
           {products.map((product, idx) => (
             <div
               className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-sm"

@@ -1,5 +1,7 @@
+'use client';
 import Button from '@/atoms/Buttons';
 import { Title } from '@/atoms/typographys';
+import { useRouter } from 'next/navigation';
 
 const tests = [
   {
@@ -68,6 +70,7 @@ const packageTest = [
 ];
 
 const Services = () => {
+  const router = useRouter();
   return (
     <div className="space-y-12 px-4 py-10 sm:px-6 md:px-8">
       {/* Individual Tests Section */}
@@ -105,7 +108,11 @@ const Services = () => {
         </div>
 
         <div className="mt-6 sm:mt-8">
-          <Button variant="filled" className="rounded-sm font-semibold">
+          <Button
+            variant="filled"
+            className="rounded-sm font-semibold"
+            onClick={() => router.push('/lab-test')}
+          >
             View all Individual Test
           </Button>
         </div>
@@ -166,7 +173,11 @@ const Services = () => {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Button variant="filled" className="rounded-sm font-semibold">
+          <Button
+            variant="filled"
+            className="rounded-sm font-semibold"
+            onClick={() => router.push('/lab-test')}
+          >
             View all Package Tests
           </Button>
         </div>
@@ -204,6 +215,7 @@ const Services = () => {
                   <Button
                     variant="outlined"
                     className="rounded-sm border-none bg-green-400 text-sm text-white hover:bg-green-300/80"
+                    onClick={() => router.push('/lab-test')}
                   >
                     Request Test
                   </Button>
@@ -260,6 +272,7 @@ const Services = () => {
                   <Button
                     variant="outlined"
                     className="rounded-sm border-none bg-green-400 text-sm text-white hover:bg-green-300/80"
+                    onClick={() => router.push('/lab-test')}
                   >
                     Request Test
                   </Button>
