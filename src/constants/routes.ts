@@ -29,6 +29,7 @@ class Routes {
   BIO_HUB = new Route('/#bio-hub', 'Bio Hub', 'Bio Hub');
   ECOMMERCE = new Route('/#ecommerce', 'E-commerce', 'E-commerce');
   WHATS_NEW = new Route('/#whats-new', 'Whats New', 'Whats New');
+  CART = new Route('/cart', 'Nbiotek | Cart', 'Cart - Nbiotek');
   ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
   FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');
   PRIVACY_POLICY = new Route(

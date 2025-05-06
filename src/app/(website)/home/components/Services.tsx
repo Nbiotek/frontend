@@ -12,33 +12,6 @@ import { observer } from 'mobx-react-lite';
 import SingleTestCard from './tests/SingleTest';
 import PackageTestCard from './tests/PackageTest';
 
-const tests = [
-  {
-    title: 'Complete blood count (CBC)',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur totam iste quasi nisi iure fugiat ipsum inventore id ut sunt temporibus amet ',
-    price: 20
-  },
-  {
-    title: 'Liver Function Test (LFT)',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur totam iste quasi nisi iure fugiat ipsum inventore id ut sunt temporibus amet ',
-    price: 35
-  },
-  {
-    title: 'Lipid Profile',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur totam iste quasi nisi iure fugiat ipsum inventore id ut sunt temporibus amet',
-    price: 30
-  },
-  {
-    title: 'Thyroid Panel (T3, T4, TSH)',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur totam iste quasi nisi iure fugiat ipsum inventore id ut sunt temporibus amet',
-    price: 25
-  }
-];
-
 const packageTest = [
   {
     title: 'Basic Health Screening',

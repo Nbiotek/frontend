@@ -5,6 +5,9 @@ import Button from '@/atoms/Buttons';
 import ServicesLoadingState from '@/atoms/Loaders/ServiceLoader';
 import Spinner from '@/lib/utils/spinner';
 import { useRouter } from 'next/navigation';
+import { useStore } from '@/store';
+import { Toast } from '@/atoms/Toast';
+import { observer } from 'mobx-react-lite';
 
 interface SingleTestProps {
   singleTest: SingleTest[];
@@ -12,7 +15,12 @@ interface SingleTestProps {
 }
 
 const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
+  const {
+    CartStore: { addItem, clearCart, isInCart, removeItem }
+  } = useStore();
+
   const router = useRouter();
+
   return (
     <>
       {loading ? (
@@ -35,9 +43,24 @@ const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
                   <p className="text-lg font-medium sm:text-xl">{test.name}</p>
                   <p className="text-sm sm:text-base">{test.description}</p>
                   <div className="flex w-full space-x-3 sm:!w-[calc(100%-100px)] md:!w-[calc(100%-200px)]">
-                    <Button variant="filled" className="text-sm">
-                      Add to cart
-                    </Button>
+                    {!isInCart(test.id) ? (
+                      <Button
+                        variant="filled"
+                        className="text-sm"
+                        onClick={() => addItem(test, 'single')}
+                      >
+                        Add to cart
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        className="border-none bg-red-400 text-sm text-white hover:bg-red-300/80"
+                        onClick={() => removeItem(test.id)}
+                      >
+                        Remove from cart
+                      </Button>
+                    )}
+
                     <Button
                       variant="outlined"
                       className="border-none bg-green-400 text-sm text-white hover:bg-green-300/80"
@@ -71,4 +94,4 @@ const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
   );
 };
 
-export default SingleTestCard;
+export default observer(SingleTestCard);
