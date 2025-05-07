@@ -7,9 +7,8 @@ import {
 } from '@/app/auth/validation';
 import store from 'store2';
 import initializer from '@/utils/initializer';
-import { EnumPatientForm, EnumRole, Mangle } from '@/constants/mangle';
+import { EnumPatientForm, Mangle } from '@/constants/mangle';
 import { parseError } from '@/utils/errorHandler';
-import { Toast } from '@/atoms/Toast';
 import { postRegPatient, putRegPatient, TPatientRegPayload } from '@/requests/patient';
 import ROUTES from '@/constants/routes';
 import toast from 'react-hot-toast';
@@ -66,6 +65,7 @@ class PatientStore {
     del(Mangle.PATIENT_PERSONAL_INFO);
     del(Mangle.PATIENT_CONTACT_INFO);
     del(Mangle.PATIENT_INSURANCE_INFO);
+    del(Mangle.PATIENT_CURRENT_FORM);
   }
 
   setPersonalInfoPersist(payload: Partial<TPatientPersonalSchema>) {
@@ -112,7 +112,7 @@ class PatientStore {
       } = (yield postRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
 
       toast.success(message);
-
+      this.resetPatientStore();
       cb(ROUTES.PATIENT.path);
     } catch (error) {
       toast.error(parseError(error));
@@ -134,7 +134,7 @@ class PatientStore {
       } = (yield putRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
 
       toast.success(message);
-
+      this.resetPatientStore();
       cb(ROUTES.PATIENT.path);
     } catch (error) {
       toast.error(parseError(error));

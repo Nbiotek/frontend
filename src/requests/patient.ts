@@ -11,6 +11,7 @@ export type TPatientRegPayload = {
   personal: {
     firstName: string;
     lastName: string;
+    email: string;
     phoneNumber: string;
     maritalStatus: string;
     gender: string;
@@ -44,6 +45,9 @@ export const postRegPatient = (payload: TPatientRegPayload) => {
 // put
 export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   type TPatientPersonal = {
+    firstName: string;
+    lastName: string;
+    email: string;
     dob: string;
     gender: string;
     height: number;
@@ -85,6 +89,9 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   const patientInsurance: Partial<TPatientInsurance> = {};
   const patientPolicyHolder: Partial<TPatientPolicyHolder> = {};
 
+  if (payload.personal?.firstName) patientPersonal.dob = payload.personal.firstName;
+  if (payload.personal?.lastName) patientPersonal.dob = payload.personal.lastName;
+  if (payload.personal?.email) patientPersonal.dob = payload.personal.email;
   if (payload.personal?.dateOfBirth) patientPersonal.dob = payload.personal.dateOfBirth;
   if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
   if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);

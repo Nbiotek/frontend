@@ -18,6 +18,9 @@ const ModalsMap = {
   ),
   [AppModals.QC_STATUS_UPDATE]: dynamic(
     () => import('@/app/(modules)/lab-coord/components/modals/QCStatusModal')
+  ),
+  [AppModals.RECPTS_PATIENT_REG]: dynamic(
+    () => import('@/app/(modules)/recpst/components/modals/RegPatientModal')
   )
 };
 

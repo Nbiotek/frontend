@@ -35,7 +35,7 @@ function ContactForm() {
   }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
+      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6">
         <SubTitle className="!text-center" text="Contact Information" />
 
         <fieldset className="">

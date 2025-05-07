@@ -77,7 +77,7 @@ function PersonalForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
+      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6">
         <SubTitle className="!text-center" text="Personal Information" />
 
         <fieldset className="">
@@ -113,7 +113,7 @@ function PersonalForm() {
             label="Email"
             placeholder="johndoes@gmail.com"
             {...register('email')}
-            error={errors.lastName?.message}
+            error={errors.email?.message}
             disabled={disable}
           />
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
