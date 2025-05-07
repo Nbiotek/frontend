@@ -51,7 +51,7 @@ export const DOCTOR = {
     DETAILS: (id: string) => `/doctors/test-requests/${id}`
   },
   APPOINTMENT: {
-    ALL: '/doctors/appointments',
+    ALL: '/doctors/appointments/booked-by-doctor',
     CREATE: '/doctors/appointments'
   },
   REFERRALS: '/doctors/patients'
