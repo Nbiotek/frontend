@@ -1,5 +1,5 @@
 'use client';
-import { EnumPatientForm } from '@/constants/mangle';
+import { EnumPatientForm, EnumRole } from '@/constants/mangle';
 import InsuranceForm from './components/Insurance';
 import ContactForm from './components/Contact';
 import PersonalForm from './components/Personal';
@@ -10,12 +10,22 @@ import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
+import { useEffect, useState } from 'react';
 
 const PatientRegView = () => {
   const router = useRouter();
   const {
-    PatientStore: { isLoading, setCurrentForm, currentForm, registerPatient, setInsuranceInfo }
+    PatientStore: {
+      isLoading,
+      setCurrentForm,
+      currentForm,
+      registerPatient,
+      updatePatient,
+      setInsuranceInfo
+    },
+    AuthStore: { user }
   } = useStore();
+  const [update, setUpdate] = useState(false);
   const methods = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(PatientInsuranceSchema),
@@ -23,7 +33,10 @@ const PatientRegView = () => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => registerPatient((url) => router.replace(url)));
+    const cbFn = update
+      ? updatePatient((url) => router.replace(url))
+      : registerPatient((url) => router.replace(url));
+    setInsuranceInfo(formData, () => () => cbFn);
   };
 
   const switchDetails = (key: EnumPatientForm) => {
@@ -60,6 +73,10 @@ const PatientRegView = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    setUpdate(user && user.role === EnumRole.PATIENT);
+  }, []);
   return <>{switchDetails(currentForm)}</>;
 };
 

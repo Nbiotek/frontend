@@ -4,7 +4,7 @@ import {
   TPatientPersonalSchema
 } from '@/app/auth/validation';
 import server from '.';
-import { PATIENT } from '@/constants/api';
+import { AUTH, PATIENT } from '@/constants/api';
 import { toJS } from 'mobx';
 
 export type TPatientRegPayload = {
@@ -41,6 +41,101 @@ export const postRegPatient = (payload: TPatientRegPayload) => {
   return server.post<INBTServerResp<{ access_token: string }>>(PATIENT.PERSONAL_REG, payload);
 };
 
+// put
+export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
+  type TPatientPersonal = {
+    dob: string;
+    gender: string;
+    height: number;
+    weight: number;
+  };
+
+  type TPatientContact = {
+    homeAddress: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
+  };
+
+  type TPatientEmergencyContact = {
+    firstName: string;
+    lastName: string;
+    relationship: string;
+    phoneNumber: string;
+    address: string;
+  };
+
+  type TPatientInsurance = {
+    provider: string;
+    policyNumber: string;
+    expiryDate: string;
+  };
+
+  type TPatientPolicyHolder = {
+    firstName: string;
+    lastName: string;
+    relationship: string;
+    phoneNumber: string;
+  };
+
+  const patientPersonal: Partial<TPatientPersonal> = {};
+  const patientContact: Partial<TPatientContact> = {};
+  const patientEmergencyContact: Partial<TPatientEmergencyContact> = {};
+  const patientInsurance: Partial<TPatientInsurance> = {};
+  const patientPolicyHolder: Partial<TPatientPolicyHolder> = {};
+
+  if (payload.personal?.dateOfBirth) patientPersonal.dob = payload.personal.dateOfBirth;
+  if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
+  if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);
+  if (payload.personal?.weight) patientPersonal.weight = Number(payload.personal.weight);
+
+  if (payload.contact?.homeAddress) patientContact.homeAddress = payload.contact.homeAddress;
+  if (payload.contact?.city) patientContact.city = payload.contact.city;
+  if (payload.contact?.state) patientContact.state = payload.contact.state;
+  if (payload.contact?.zipCode) patientContact.zipCode = payload.contact.zipCode;
+
+  if (payload?.contact?.emergencyContact.firstName)
+    patientEmergencyContact.firstName = payload?.contact?.emergencyContact.firstName;
+  if (payload?.contact?.emergencyContact.lastName)
+    patientEmergencyContact.lastName = payload?.contact?.emergencyContact.lastName;
+  if (payload?.contact?.emergencyContact.phoneNumber)
+    patientEmergencyContact.phoneNumber = payload?.contact?.emergencyContact.phoneNumber;
+  if (payload?.contact?.emergencyContact.address)
+    patientEmergencyContact.address = payload?.contact?.emergencyContact.address;
+
+  if (payload.insurance?.primaryInsuranceProvider)
+    patientInsurance.provider = payload.insurance?.primaryInsuranceProvider;
+  if (payload.insurance?.policyNumber)
+    patientInsurance.policyNumber = payload.insurance.policyNumber;
+  if (payload.insurance?.groupNumber) patientInsurance.provider = payload.insurance?.groupNumber;
+  if (payload.insurance?.insurancePhoneNumber)
+    patientInsurance.policyNumber = payload.insurance.insurancePhoneNumber;
+
+  if (payload.insurance?.policyHolder?.firstName)
+    patientPolicyHolder.firstName = payload.insurance?.policyHolder?.firstName;
+  if (payload.insurance?.policyHolder?.lastName)
+    patientPolicyHolder.lastName = payload.insurance?.policyHolder.lastName;
+  if (payload.insurance?.policyHolder?.phoneNumber)
+    patientPolicyHolder.phoneNumber = payload.insurance?.policyHolder?.phoneNumber;
+
+  const finalPayload = {
+    personal: Object.keys(patientPersonal).length > 0 ? patientPersonal : undefined,
+    contact: Object.keys(patientContact).length > 0 ? patientContact : undefined,
+    emergencyContact:
+      Object.keys(patientEmergencyContact).length > 0 ? patientEmergencyContact : undefined,
+    insurance: Object.keys(patientInsurance).length > 0 ? patientInsurance : undefined,
+    policyHolder: Object.keys(patientPolicyHolder).length > 0 ? patientPolicyHolder : undefined
+  };
+
+  const cleanPayload = Object.fromEntries(
+    Object.entries(finalPayload).filter(([_, value]) => value !== undefined)
+  );
+
+  return server.put<INBTServerResp<string>>(AUTH.UPDATE_PATIENT_PROFILE, cleanPayload);
+};
+
+// get
 export const PatientDashboardService = async () => {
   const { data } = await server.get<TPatientDashboard>(PATIENT.DASHBOARD);
   return data;

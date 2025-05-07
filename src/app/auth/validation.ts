@@ -124,6 +124,7 @@ export const PatientPersonalSchema = z.object({
   firstName,
   lastName,
   phoneNumber,
+  email,
   maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
   gender: z.string({ required_error: 'Gender is required.' }).trim(),
   dateOfBirth: z.string({ required_error: 'Date of birth is required.' }).trim(),
