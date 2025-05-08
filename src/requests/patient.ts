@@ -128,7 +128,7 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
 
   const finalPayload = {
     patientPersonal: Object.keys(patientPersonal).length > 0 ? patientPersonal : undefined,
-    Personalcontact: Object.keys(patientContact).length > 0 ? patientContact : undefined,
+    personalContact: Object.keys(patientContact).length > 0 ? patientContact : undefined,
     patientEmergencyContact:
       Object.keys(patientEmergencyContact).length > 0 ? patientEmergencyContact : undefined,
     patientInsurance: Object.keys(patientInsurance).length > 0 ? patientInsurance : undefined,
