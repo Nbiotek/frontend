@@ -25,12 +25,12 @@ const MarketerDashboardView = () => {
   return (
     <div className="flex flex-col space-y-[24px]">
       <OverviewActivity overviewData={overviewData} isLoading={isLoading} />
-      <div className=" flex w-full flex-col items-start justify-between space-y-[24px] md:space-y-0 lg:flex-row lg:space-x-[24px] ">
-        <Cards className="bg-white p-3 lg:w-[70%]">
+      <div className=" flex w-full flex-col items-start justify-between  gap-4 lg:flex-row lg:space-x-[24px]">
+        <Cards className="w-full bg-white p-3 lg:w-[70%]">
           {/* here is my field task overview  */}
           <FieldTaskOverview />
         </Cards>
-        <Cards title="Quick Links" className="bg-white px-[12px] py-[23px] lg:w-[30%] ">
+        <Cards title="Quick Links" className="w-full bg-white px-[12px] py-[23px] lg:w-[30%] ">
           <QuickAction quickLink={MarketerQuickLinks} />
         </Cards>
       </div>
