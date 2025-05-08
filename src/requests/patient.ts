@@ -48,7 +48,7 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
     firstName: string;
     lastName: string;
     email: string;
-    dob: string;
+    dateOfBirth: string;
     gender: string;
     height: number;
     weight: number;
@@ -89,10 +89,10 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   const patientInsurance: Partial<TPatientInsurance> = {};
   const patientPolicyHolder: Partial<TPatientPolicyHolder> = {};
 
-  if (payload.personal?.firstName) patientPersonal.dob = payload.personal.firstName;
-  if (payload.personal?.lastName) patientPersonal.dob = payload.personal.lastName;
-  if (payload.personal?.email) patientPersonal.dob = payload.personal.email;
-  if (payload.personal?.dateOfBirth) patientPersonal.dob = payload.personal.dateOfBirth;
+  if (payload.personal?.firstName) patientPersonal.firstName = payload.personal.firstName;
+  if (payload.personal?.lastName) patientPersonal.lastName = payload.personal.lastName;
+  if (payload.personal?.email) patientPersonal.email = payload.personal.email;
+  if (payload.personal?.dateOfBirth) patientPersonal.dateOfBirth = payload.personal.dateOfBirth;
   if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
   if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);
   if (payload.personal?.weight) patientPersonal.weight = Number(payload.personal.weight);
@@ -127,12 +127,13 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
     patientPolicyHolder.phoneNumber = payload.insurance?.policyHolder?.phoneNumber;
 
   const finalPayload = {
-    personal: Object.keys(patientPersonal).length > 0 ? patientPersonal : undefined,
-    contact: Object.keys(patientContact).length > 0 ? patientContact : undefined,
-    emergencyContact:
+    patientPersonal: Object.keys(patientPersonal).length > 0 ? patientPersonal : undefined,
+    Personalcontact: Object.keys(patientContact).length > 0 ? patientContact : undefined,
+    patientEmergencyContact:
       Object.keys(patientEmergencyContact).length > 0 ? patientEmergencyContact : undefined,
-    insurance: Object.keys(patientInsurance).length > 0 ? patientInsurance : undefined,
-    policyHolder: Object.keys(patientPolicyHolder).length > 0 ? patientPolicyHolder : undefined
+    patientInsurance: Object.keys(patientInsurance).length > 0 ? patientInsurance : undefined,
+    patientPolicyHolder:
+      Object.keys(patientPolicyHolder).length > 0 ? patientPolicyHolder : undefined
   };
 
   const cleanPayload = Object.fromEntries(
