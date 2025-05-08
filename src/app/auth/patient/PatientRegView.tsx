@@ -10,22 +10,14 @@ import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
-import { useEffect, useState } from 'react';
+import { CardContent } from '@/components/ui/card';
 
 const PatientRegView = () => {
   const router = useRouter();
   const {
-    PatientStore: {
-      isLoading,
-      setCurrentForm,
-      currentForm,
-      registerPatient,
-      updatePatient,
-      setInsuranceInfo
-    },
+    PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo },
     AuthStore: { user }
   } = useStore();
-  const [update, setUpdate] = useState(false);
   const methods = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(PatientInsuranceSchema),
@@ -33,10 +25,7 @@ const PatientRegView = () => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    const cbFn = update
-      ? updatePatient((url) => router.replace(url))
-      : registerPatient((url) => router.replace(url));
-    setInsuranceInfo(formData, () => () => cbFn);
+    setInsuranceInfo(formData, () => () => updatePatient((url) => router.replace(url)));
   };
 
   const switchDetails = (key: EnumPatientForm) => {
@@ -74,10 +63,11 @@ const PatientRegView = () => {
     }
   };
 
-  useEffect(() => {
-    setUpdate(user && user.role === EnumRole.PATIENT);
-  }, []);
-  return <>{switchDetails(currentForm)}</>;
+  return (
+    <CardContent className="flex w-full flex-col space-y-4 rounded-lg bg-white p-4">
+      {switchDetails(currentForm)}
+    </CardContent>
+  );
 };
 
 export default observer(PatientRegView);

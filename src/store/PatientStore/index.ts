@@ -103,7 +103,7 @@ class PatientStore {
     cb();
   }
 
-  *registerPatient(cb: (url: string) => void) {
+  *registerPatient(cb: () => void) {
     this.isLoading.regPatient = true;
     try {
       const payload: TPatientRegPayload = {
@@ -117,7 +117,7 @@ class PatientStore {
 
       toast.success(message);
       this.resetPatientStore();
-      cb(ROUTES.PATIENT.path);
+      cb();
     } catch (error) {
       toast.error(parseError(error));
     } finally {
@@ -125,7 +125,7 @@ class PatientStore {
     }
   }
 
-  *updatePatient(cb: (url: string) => void) {
+  *updatePatient(cb?: (url: string) => void) {
     this.isLoading.regPatient = true;
     try {
       const payload: Partial<TPatientRegPayload> = {
@@ -139,7 +139,7 @@ class PatientStore {
 
       toast.success(message);
       this.resetPatientStore();
-      cb(ROUTES.PATIENT.path);
+      cb && cb(ROUTES.PATIENT.path);
     } catch (error) {
       toast.error(parseError(error));
     } finally {

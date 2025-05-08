@@ -1,5 +1,4 @@
 'use client';
-import { CardContent } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
@@ -76,11 +75,11 @@ function PersonalForm() {
   }, [isLoading, data, disable]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6">
-        <SubTitle className="!text-center" text="Personal Information" />
+    <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
+      <SubTitle className="!text-center" text="Personal Information" />
 
-        <fieldset className="">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className="w-full">
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
               required={true}
@@ -188,11 +187,12 @@ function PersonalForm() {
             </div>
           </div>
         </fieldset>
-      </CardContent>
-      <Button type="submit" variant="filled">
-        Next
-      </Button>
-    </form>
+
+        <Button type="submit" variant="filled">
+          Next
+        </Button>
+      </form>
+    </div>
   );
 }
 
