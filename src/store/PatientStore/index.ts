@@ -66,6 +66,7 @@ class PatientStore {
     del(Mangle.PATIENT_CONTACT_INFO);
     del(Mangle.PATIENT_INSURANCE_INFO);
     del(Mangle.PATIENT_CURRENT_FORM);
+    this.currentForm = EnumPatientForm.PEROSNAL;
   }
 
   setPersonalInfoPersist(payload: Partial<TPatientPersonalSchema>) {
