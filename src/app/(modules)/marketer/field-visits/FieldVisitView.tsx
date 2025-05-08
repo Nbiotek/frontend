@@ -3,10 +3,22 @@ import InputSearch from '@/atoms/fields/InputSearch';
 import SearchInput from '@/atoms/fields/SearchInput';
 import IconPod from '@/atoms/Icon/IconPod';
 import { ArrowUpDown, ListFilter } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FieldVisitTable from './components/FieldVisitTable';
 
+import { useFieldTaskOverview } from '@/hooks/marketer/useFieldTaskOverview';
 const FiedVisitView = () => {
+  const { data, isLoading } = useFieldTaskOverview();
+
+  const [fieldVisitData, setFieldVisitData] = useState<TFieldTestRespones>();
+  useEffect(() => {
+    if (!isLoading && data !== undefined) {
+      setFieldVisitData(data);
+    }
+  }, [isLoading, data]);
+
+  console.log('fieldVisitData', fieldVisitData);
+
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="flex w-full items-center justify-between space-x-2">
@@ -15,7 +27,8 @@ const FiedVisitView = () => {
 
         <IconPod Icon={ArrowUpDown} />
       </div>
-      <FieldVisitTable />
+
+      <FieldVisitTable loading={isLoading} fieldTask={fieldVisitData?.data.requests || []} />
     </div>
   );
 };

@@ -57,6 +57,15 @@ export const DOCTOR = {
   REFERRALS: '/doctors/patients'
 };
 
+export const MARKETER = {
+  DASHBOARD: '/marketer/dashboard',
+  FIELD_TASK_OVERVIEW: '/marketer/field-tasks/overview',
+  LOG_SAMPLES: {
+    All: '/marketer/field-tasks/overview',
+    POST_SAMPLES: (id: string) => `marketer/field-tasks/${id}/log-samples`
+  }
+};
+
 export const LAB_TECH = {
   DASHBOARD: '/lab-technicians/dashboard',
   RECENT_ACTIVITIES: '/lab-technicians/dashboard/recent-activities',
