@@ -3,6 +3,7 @@ import FieldSet from '@/atoms/fields/FieldSet';
 import ResultFieldHeader from '@/atoms/fields/ResultFields';
 import { Text } from '@/lib/utils/Text';
 import { useState, ChangeEvent } from 'react';
+import { useShowFieldTask } from '@/hooks/marketer/useFieldTask';
 
 // Define types
 interface Sample {

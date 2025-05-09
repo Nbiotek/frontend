@@ -1,3 +1,4 @@
+import { start } from 'repl';
 import server from '.';
 import { MARKETER } from '@/constants/api';
 
@@ -34,6 +35,28 @@ export const fieldTaskServices = {
     }
 
     const { data } = await server.get<TFieldTestRespones>(url);
+    return data;
+  },
+
+  getAllFIeldTasks: async () => {
+    const { data } = await server.get<TFieldTestRespones>(MARKETER.FIELD_TASK_OVERVIEW);
+    return data;
+  },
+
+  getFieldVisitById: async (id: string) => {
+    const url = MARKETER.FIELD_TASK_OVERVIEW.replace(':id', id);
+    const { data } = await server.get<TFieldTestRespones>(url);
+    return data;
+  },
+
+  getFieldTaskHistory: async () => {
+    const { data } = await server.get<TFieldTestRespones>(MARKETER.FIELD_TASK_OVERVIEW);
+    return data;
+  },
+
+  startFieldVisit: async (id: string, payload: { status: string }) => {
+    const url = MARKETER.LOG_SAMPLES.UPDATE_FIELD_VISIT.replace(':id', id);
+    const { data } = await server.put<TFieldTestRespones>(url, payload);
     return data;
   }
 };

@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Status from '@/atoms/Buttons/Status';
-import { EllipsisVertical, PlayCircle, Upload, UploadCloud, UploadIcon } from 'lucide-react';
+import { EllipsisVertical, PlayCircle, Upload, UploadCloud, UploadIcon, View } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import TableLoader from '@/atoms/Loaders/TableLoader';
@@ -29,8 +29,24 @@ interface FieldVisitTableProps {
   fieldTask: Array<TFieldTestRequest>;
 }
 
+import { useUpdateFieldVisit } from '@/hooks/marketer/useFieldTask';
+import { Toast } from '@/atoms/Toast';
+
 const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
   const router = useRouter();
+  const { mutate: startFieldVisit, isPending } = useUpdateFieldVisit();
+
+  const handleStartFieldVisit = (fieldVisitId: string) => {
+    startFieldVisit(
+      { fieldVisitId, status: 'IN_PROGRESS' },
+      {
+        onSuccess: () => {
+          Toast.success('Field visit started successfully');
+          router.push(ROUTES.MARKETER_FIELD_VISIT.path);
+        }
+      }
+    );
+  };
 
   return (
     <>
@@ -62,6 +78,7 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
                     <TableCell>
                       <Status variant={fieldVisit.status} />
                     </TableCell>
+
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -70,12 +87,28 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
-                            <span className="flex items-center ">
-                              {' '}
-                              Start Test <PlayCircle className="ml-2 w-4" color="#550000" />
-                            </span>
-                          </DropdownMenuItem>
+                          {fieldVisit.status === 'PENDING' ? (
+                            <DropdownMenuItem onClick={() => handleStartFieldVisit(fieldVisit.id)}>
+                              <span className="flex items-center ">
+                                {' '}
+                                Start Test <PlayCircle className="ml-2 w-4" color="#550000" />
+                              </span>
+                            </DropdownMenuItem>
+                          ) : fieldVisit.status === 'IN_PROGRESS' ? (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`)
+                              }
+                            >
+                              <span className="flex items-center ">
+                                {' '}
+                                Upload sample <UploadIcon className="ml-2 w-4" color="#008000" />
+                              </span>
+                            </DropdownMenuItem>
+                          ) : (
+                            ''
+                          )}
+
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`)
@@ -83,7 +116,7 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
                           >
                             <span className="flex items-center ">
                               {' '}
-                              Upload sample <UploadIcon className="ml-2 w-4" color="#008000" />
+                              View Sample <View className="ml-2 w-4" color="#FF2E2E" />
                             </span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
