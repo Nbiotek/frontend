@@ -28,7 +28,7 @@ export const useFieldTaskHistory = () => {
 };
 
 export const useShowFieldTask = (id: string) => {
-  return useQuery<TFieldTestRespones>({
+  return useQuery<TFieldTaskShowResponse>({
     queryKey: ['field-visit', id],
     queryFn: () => fieldTaskServices.getFieldVisitById(id)
   });

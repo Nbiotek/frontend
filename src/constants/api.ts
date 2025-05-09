@@ -61,9 +61,10 @@ export const MARKETER = {
   DASHBOARD: '/marketer/dashboard',
   FIELD_TASK_OVERVIEW: '/marketer/field-tasks/overview',
   FIELD_TASK_HISTORY: '/marketer/field-tasks/overview-history',
+  SHOW_FIELD_TASK: '/marketer/field-tasks/:id',
   LOG_SAMPLES: {
     All: '/marketer/field-tasks/overview',
-    POST_SAMPLES: (id: string) => `marketer/field-tasks/${id}/log-samples`,
+    UPLOAD: '/marketer/field-tasks/:id/log-samples',
     UPDATE_FIELD_VISIT: 'marketer/field-tasks/:id/status'
   }
 };

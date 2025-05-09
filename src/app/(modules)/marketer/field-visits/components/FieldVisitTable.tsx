@@ -31,6 +31,7 @@ interface FieldVisitTableProps {
 
 import { useUpdateFieldVisit } from '@/hooks/marketer/useFieldTask';
 import { Toast } from '@/atoms/Toast';
+import EmptyState from '@/components/EmptyState';
 
 const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
   const router = useRouter();
@@ -128,6 +129,7 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
             )
           )}
         </Table>
+        {!loading && fieldTask.length === 0 && <EmptyState />}
       </div>
     </>
   );

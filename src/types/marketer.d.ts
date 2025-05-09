@@ -41,3 +41,44 @@ interface TFieldTestRespones {
   statusCode: number;
   pagination: Pagination;
 }
+
+interface TLogSample {
+  testName: string;
+  sampleType: string;
+  requiredAmount: string;
+  collectionStatus: boolean;
+}
+
+interface TSampleCollectionData {
+  logSamples: LogSample[];
+  samplePhotos: string[];
+  collectionNotes: string;
+}
+
+interface Person {
+  id: string;
+  name: string;
+}
+
+interface TestInfo {
+  id: string;
+  name: string;
+}
+
+interface FieldTaskData {
+  id: string;
+  patient: Person;
+  technician: Person;
+  test: TestInfo;
+  package: any | null;
+  dateDue: string;
+  collectionDate: string;
+  requestAt: string;
+  createdAt: string;
+}
+
+interface TFieldTaskShowResponse {
+  data: FieldTaskData;
+  message: string;
+  statusCode: number;
+}

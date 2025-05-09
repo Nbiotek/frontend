@@ -44,19 +44,25 @@ export const fieldTaskServices = {
   },
 
   getFieldVisitById: async (id: string) => {
-    const url = MARKETER.FIELD_TASK_OVERVIEW.replace(':id', id);
-    const { data } = await server.get<TFieldTestRespones>(url);
+    const url = MARKETER.SHOW_FIELD_TASK.replace(':id', id);
+    const { data } = await server.get<TFieldTaskShowResponse>(url);
     return data;
   },
 
   getFieldTaskHistory: async () => {
-    const { data } = await server.get<TFieldTestRespones>(MARKETER.FIELD_TASK_OVERVIEW);
+    const { data } = await server.get<TFieldTestRespones>(MARKETER.FIELD_TASK_HISTORY);
     return data;
   },
 
   startFieldVisit: async (id: string, payload: { status: string }) => {
     const url = MARKETER.LOG_SAMPLES.UPDATE_FIELD_VISIT.replace(':id', id);
     const { data } = await server.put<TFieldTestRespones>(url, payload);
+    return data;
+  },
+
+  uploadSamples: async (id: string, payload: TSampleCollectionData) => {
+    const url = MARKETER.LOG_SAMPLES.UPLOAD.replace(':id', id);
+    const { data } = await server.post<TFieldTestRespones>(url, payload);
     return data;
   }
 };
