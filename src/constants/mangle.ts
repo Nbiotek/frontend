@@ -24,3 +24,8 @@ export enum EnumRole {
   MARKETER = 'MARKETER',
   TECHNICAL_COORDINATOR = 'TECHNICAL_COORDINATOR'
 }
+
+export enum EnumTestLocation {
+  CUSTOM = 'Custom',
+  LAB = 'Lab'
+}

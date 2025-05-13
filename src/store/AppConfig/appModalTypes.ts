@@ -6,7 +6,9 @@ export enum AppModals {
   AVAILABLE_TECHNICIANS = 'AVAILABLE_TECHNICIANS',
   ADD_INVENTORY = 'ADD_INVENTORY',
   QC_STATUS_UPDATE = 'QC_STATUS_UPDATE',
-  RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG'
+  RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG',
+  AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
+  SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT'
 }
 
 export type TAppModalsAction =
@@ -38,6 +40,21 @@ export type TAppModalsAction =
           open: true;
           testId: string;
           currentStatus: EnumResultStatus;
+        }
+      | { open?: false }
+    ))
+  | ({ name: AppModals.AVAILABLE_MARKETERS } & (
+      | {
+          open: true;
+          testId: string;
+          isReassign?: boolean;
+        }
+      | { open?: false }
+    ))
+  | ({ name: AppModals.SINGLE_APPOINTMENT } & (
+      | {
+          open: true;
+          id: string;
         }
       | { open?: false }
     ));

@@ -94,6 +94,9 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-green';
       case EnumTDoctorReview.FAILED:
         return 'status-red';
+
+      case 'APPROVED':
+        return 'bg-white text-blue';
     }
   }, [variant]);
 

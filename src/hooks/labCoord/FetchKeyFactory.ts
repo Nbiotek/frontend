@@ -37,6 +37,13 @@ export const labCoord = {
     };
   },
 
+  getAvailableMarketers() {
+    return {
+      path: LAB_COORD.AVAILABLE_MARKETERS,
+      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.AVAILABLE_MARKETERS] as const
+    };
+  },
+
   getLabInventory(query: Partial<TinventoryQuery>) {
     return {
       path: LAB_COORD.INVENTORY,

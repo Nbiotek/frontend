@@ -37,35 +37,41 @@ const actions = [
 const card = [
   {
     stat: 120,
-    title: 'Daily sample volume',
+    title: 'Total pending Tests',
     type: EnumOverviewIcon.TEST,
-    tag: 'dailySampleVolume'
+    tag: 'totalPendingTests'
   },
 
   {
     stat: 2,
     title: 'Turnaround Time',
     type: EnumOverviewIcon.TURN,
-    tag: 'avgTurnaroundTime'
+    tag: 'averageTurnaroundTime'
   },
 
   {
     stat: 1500,
-    title: 'Control Pass rate',
+    title: 'Completed tests',
     type: EnumOverviewIcon.SHIELD,
-    tag: 'qcPassRate'
+    tag: 'totalCompletedTests'
   },
 
   {
     stat: 2040,
-    title: 'Utilization Rate',
-    type: EnumOverviewIcon.TIMER,
-    tag: 'utilizationRate'
+    title: 'Total Messages',
+    type: EnumOverviewIcon.CHART,
+    tag: 'totalMessages'
   }
 ];
 
 const DashboardView = () => {
-  const [dashboard, setDashboard] = useState<TDashboardData>();
+  const [dashboard, setDashboard] = useState<TDashboardData>({
+    totalPendingTests: 0,
+    totalCompletedTests: 0,
+    averageTurnaroundTime: 0,
+    totalMessages: 0,
+    recentTests: []
+  });
   const { data, isLoading, status } = useFetchDashboard();
 
   useEffect(() => {
@@ -95,7 +101,17 @@ const DashboardView = () => {
       )}
       {status === 'success' && (
         <>
-          <CoordAnalytics {...{ card, summary: dashboard?.summary }} />
+          <CoordAnalytics
+            {...{
+              card,
+              summary: {
+                totalPendingTests: dashboard.totalPendingTests,
+                totalCompletedTests: dashboard.totalCompletedTests,
+                averageTurnaroundTime: dashboard.averageTurnaroundTime,
+                totalMessages: dashboard.averageTurnaroundTime
+              }
+            }}
+          />
           <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
             <div className="flex w-full flex-col space-y-4 divide-y divide-borderLine rounded-xl bg-white p-4 lg:w-[75%]">
               <div className="flex w-full items-center justify-between">
@@ -103,10 +119,10 @@ const DashboardView = () => {
                 <HyperLink href={ROUTES.LAB_COORD_QUALITY_CONTROL.path} hrefText="See all" />
               </div>
 
-              {dashboard?.pendingQualityControl && (
+              {dashboard.recentTests && (
                 <QCTable
                   isLoading={isLoading}
-                  resultsData={{ requests: dashboard.pendingQualityControl, pagination }}
+                  resultsData={{ requests: dashboard.recentTests, pagination }}
                 />
               )}
             </div>

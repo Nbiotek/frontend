@@ -112,6 +112,7 @@ class AuthStore {
       isAuthenticated: action.bound,
       fetchNewToken: action.bound,
 
+      grantAccess: flow.bound,
       getTokenFromCookie: flow.bound,
       logout: flow.bound,
       login: flow.bound,
@@ -204,6 +205,58 @@ class AuthStore {
       });
   }
 
+  *grantAccess(access_token: string, email_verified: boolean, cb?: (url: string) => void) {
+    this.accessToken = persist('token', access_token);
+    const decodedToken = decodeJWT(access_token);
+    this.isAuthenticated(access_token);
+    this.user = persist('user', {
+      first_name: decodedToken.first_name,
+      last_name: decodedToken.last_name,
+      email: decodedToken.email,
+      email_verified: decodedToken.email_verified,
+      role: decodedToken.role,
+      profile_pics: decodedToken.profile_pics,
+      uuid: decodedToken.uuid,
+      id: decodedToken.id,
+      isProfileCompleted: decodedToken.isProfileCompleted
+    });
+
+    if (!email_verified) {
+      Toast.info('Check your inbox to verify your account.');
+      persist('_um', this.user.email);
+      this.isLoading.login = false;
+      this.errors.login = '';
+      cb && cb(ROUTES.OTP.path);
+      return;
+    }
+
+    yield setSession({
+      token: access_token,
+      id: this.user.id ?? 0,
+      email: this.user.email ?? '',
+      role: this.user.role ?? '',
+      uuid: this.user.uuid ?? ''
+    });
+
+    del('_um');
+    this._pd = '';
+
+    if (this.user.role === EnumRole.PATIENT) {
+      if (decodedToken.isProfileCompleted) {
+        cb && cb(ROUTES.PATIENT.path);
+      } else {
+        this.rootStore.PatientStore.setPersonalInfoPersist({
+          firstName: this.user.first_name,
+          lastName: this.user.last_name,
+          email: this.user.email
+        });
+        cb && cb(ROUTES.PATIENT_REG_INFO.path);
+      }
+    } else {
+      cb && cb(ROUTES.getRedirectPathByRole(decodedToken.role as EnumRole));
+    }
+  }
+
   *getTokenFromCookie() {
     try {
       const res = (yield getSession()) as SessionPayload;
@@ -262,57 +315,7 @@ class AuthStore {
       } = (yield postLogin(payload)) as { data: TAuthLoginResponse };
 
       if (!data) throw new Error('Login failed with 40201');
-
-      this.accessToken = persist('token', data.access_token);
-      const decodedToken = decodeJWT(data.access_token);
-      this.isAuthenticated(data.access_token);
-      this.user = persist('user', {
-        first_name: decodedToken.first_name,
-        last_name: decodedToken.last_name,
-        email: decodedToken.email,
-        email_verified: decodedToken.email_verified,
-        role: decodedToken.role,
-        profile_pics: decodedToken.profile_pics,
-        uuid: decodedToken.uuid,
-        id: decodedToken.id,
-        isProfileCompleted: decodedToken.isProfileCompleted
-      });
-
-      if (!data?.email_verified) {
-        Toast.info('Check your inbox to verify your account.');
-        // do a session storage of the email
-        persist('_um', payload.email);
-        this.isLoading.login = false;
-        this.errors.login = '';
-        cb && cb(ROUTES.OTP.path);
-        return;
-      }
-
-      yield setSession({
-        token: data.access_token,
-        id: this.user.id ?? 0,
-        email: this.user.email ?? '',
-        role: this.user.role ?? '',
-        uuid: this.user.uuid ?? ''
-      });
-
-      del('_um');
-      this._pd = '';
-
-      if (this.user.role === EnumRole.PATIENT) {
-        if (decodedToken.isProfileCompleted) {
-          cb && cb(ROUTES.PATIENT.path);
-        } else {
-          this.rootStore.PatientStore.setPersonalInfoPersist({
-            firstName: this.user.first_name,
-            lastName: this.user.last_name,
-            email: this.user.email
-          });
-          cb && cb(ROUTES.PATIENT_REG_INFO.path);
-        }
-      } else {
-        cb && cb(ROUTES.getRedirectPathByRole(decodedToken.role as EnumRole));
-      }
+      this.grantAccess(data.access_token, data.email_verified, cb);
     } catch (error) {
       toast.error(parseError(error));
     } finally {
@@ -370,7 +373,7 @@ class AuthStore {
       }
 
       toast.success(message);
-      this.login({ email: get('_um'), password: this._pd }, cb);
+      this.grantAccess(data.access_token, data.email_verified, cb);
     } catch (error) {
       toast.error(parseError(error));
     } finally {

@@ -37,7 +37,7 @@ function ContactForm() {
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
       <SubTitle className="!text-center" text="Contact Information" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="border">
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         <fieldset className="">
           <Input
             required={true}
