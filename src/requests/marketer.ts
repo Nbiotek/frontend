@@ -39,7 +39,7 @@ export const fieldTaskServices = {
   },
 
   getAllFIeldTasks: async () => {
-    const { data } = await server.get<TFieldTestRespones>(MARKETER.FIELD_TASK_OVERVIEW);
+    const { data } = await server.get<TFieldTestRespones>(MARKETER.LOG_SAMPLES.All);
     return data;
   },
 

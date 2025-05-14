@@ -100,8 +100,6 @@ export const AppointmentService = {
 
   // Create appointment
   createAppointment: async (appointmentData: BookAppointmentDTO) => {
-    console.log('this is  creating an appointment');
-    console.log(appointmentData);
     const { data } = await server.post<Appointment>(PATIENT.APPOINTMENTS.CREATE, appointmentData);
     return data;
   },

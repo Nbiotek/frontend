@@ -37,12 +37,10 @@ const FieldTaskOverview = () => {
     }
   };
 
-  // State for filter params and pagination
   const [filters, setFilters] = useState<FieldTaskFilterParams & { page?: number; limit?: number }>(
     { ...getFilterParams('today'), page: 1, limit: 10 }
   );
 
-  // Get the query client for invalidation
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useFieldTaskOverview(filters);
@@ -50,7 +48,7 @@ const FieldTaskOverview = () => {
   useEffect(() => {
     setFilters((prev) => ({
       ...getFilterParams(activeTab),
-      page: 1, // Reset to first page on tab change
+      page: 1,
       limit: prev.limit
     }));
   }, [activeTab]);

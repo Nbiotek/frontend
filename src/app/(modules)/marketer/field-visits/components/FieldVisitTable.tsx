@@ -107,19 +107,17 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
                               </span>
                             </DropdownMenuItem>
                           ) : (
-                            ''
+                            <DropdownMenuItem
+                              onClick={() =>
+                                router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`)
+                              }
+                            >
+                              <span className="flex items-center ">
+                                {' '}
+                                View Sample <View className="ml-2 w-4" color="#FF2E2E" />
+                              </span>
+                            </DropdownMenuItem>
                           )}
-
-                          <DropdownMenuItem
-                            onClick={() =>
-                              router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`)
-                            }
-                          >
-                            <span className="flex items-center ">
-                              {' '}
-                              View Sample <View className="ml-2 w-4" color="#FF2E2E" />
-                            </span>
-                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

@@ -63,7 +63,7 @@ export const MARKETER = {
   FIELD_TASK_HISTORY: '/marketer/field-tasks/overview-history',
   SHOW_FIELD_TASK: '/marketer/field-tasks/:id',
   LOG_SAMPLES: {
-    All: '/marketer/field-tasks/overview',
+    All: '/marketer/field-tasks/overview?status=pending',
     UPLOAD: '/marketer/field-tasks/:id/log-samples',
     UPDATE_FIELD_VISIT: 'marketer/field-tasks/:id/status'
   }

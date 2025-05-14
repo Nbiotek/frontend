@@ -64,12 +64,27 @@ interface TestInfo {
   id: string;
   name: string;
 }
+interface testPhotos {
+  id: string;
+  url: string;
+  format: string;
+  file_name: string;
+}
+interface testSamples {
+  testName: string;
+  sampleType: string;
+  requiredAmount: string;
+  collectionStatus: boolean;
+}
 
 interface FieldTaskData {
   id: string;
   patient: Person;
   technician: Person;
   test: TestInfo;
+  logSamples: testSamples[];
+  samplePhotos: testPhotos[];
+  notes: string;
   package: any | null;
   dateDue: string;
   collectionDate: string;
