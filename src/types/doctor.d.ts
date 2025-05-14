@@ -1,4 +1,4 @@
-interface TDoctorDashboard {
+interface OverviewActivity {
   totalPatients: number;
   pendingTestResultReviews: number;
   completedTestResultReviews: number;
@@ -7,6 +7,10 @@ interface TDoctorDashboard {
     accepted: 0;
     acceptanceRate: 0;
   };
+}
+
+interface TDoctorDashboard {
+  data: OverviewActivity;
 }
 
 interface Tests {
