@@ -14,26 +14,20 @@ import { useQueryClient } from '@tanstack/react-query';
 import Pagination from '@/atoms/pagination';
 
 const TestResultView = () => {
-  // Default state
   const defaultFilters: TestResultFilterParams = {
     page: 1,
     limit: 10,
     sortOrder: 'DESC'
   };
 
-  // Filter state
   const [filters, setFilters] = useState<TestResultFilterParams>(defaultFilters);
 
-  // Get the query client for manual invalidation
   const queryClient = useQueryClient();
 
-  // Use the updated hook with filter params
   const { data, isLoading } = useTestResult(filters);
 
-  // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
 
-  // Calculate the number of active filters
   const getActiveFilterCount = () => {
     let count = 0;
     if (filters.fromDate) count++;
@@ -42,7 +36,6 @@ const TestResultView = () => {
     return count;
   };
 
-  // Pagination handlers
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({
       ...prev,
@@ -54,31 +47,28 @@ const TestResultView = () => {
     setFilters((prev) => ({
       ...prev,
       limit,
-      page: 1 // Reset to first page when changing limit
+      page: 1
     }));
   };
 
-  // Search handler with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
       if (filters.search !== searchInput) {
         setFilters((prev) => ({
           ...prev,
           search: searchInput,
-          page: 1 // Reset to first page when searching
+          page: 1
         }));
       }
-    }, 500); // 500ms debounce delay
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchInput, filters.search]);
 
-  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  // Handle filter changes (date range and sortBy)
   const handleFilterChange = (filterData: { fromDate?: Date; toDate?: Date; sortBy?: string }) => {
     // Format dates for API if they exist
     const formattedFilters: TestResultFilterParams = {};
@@ -98,11 +88,10 @@ const TestResultView = () => {
     setFilters((prev) => ({
       ...prev,
       ...formattedFilters,
-      page: 1 // Reset to first page when changing filters
+      page: 1
     }));
   };
 
-  // Handle sort order change
   const handleSortChange = (sortOrder: 'ASC' | 'DESC') => {
     setFilters((prev) => ({
       ...prev,
@@ -110,23 +99,19 @@ const TestResultView = () => {
     }));
   };
 
-  // Handle clearing all filters
   const handleClearFilters = () => {
     setFilters({
       ...defaultFilters,
-      page: filters.page, // Keep current page
-      limit: filters.limit // Keep current limit
+      page: filters.page,
+      limit: filters.limit
     });
     setSearchInput('');
   };
 
-  // Effect to refetch data when filters change
   useEffect(() => {
-    // Invalidate and refetch when filters change
     queryClient.invalidateQueries({ queryKey: ['test-result'] });
   }, [filters, queryClient]);
 
-  // Calculate pagination values
   const total = data?.data.pagination?.total || 0;
   const currentPage = filters.page || 1;
   const totalPages = data?.data.pagination?.totalPages || 1;
@@ -141,7 +126,6 @@ const TestResultView = () => {
           activeFilters={getActiveFilterCount()}
         />
 
-        {/* Search component */}
         <InputSearch
           className="!w-[calc(100%-80px)]"
           placeholder="Search for tests..."
@@ -149,14 +133,11 @@ const TestResultView = () => {
           onChange={handleSearchChange}
         />
 
-        {/* Sort component */}
         <SortComponent onSortChange={handleSortChange} />
       </div>
 
-      {/* Test result table */}
       <TestResultTable data={data?.data.results || []} loading={isLoading} />
 
-      {/* Pagination */}
       {!isLoading && data?.data.results && data.data.results.length > 0 && (
         <Pagination
           total={total}

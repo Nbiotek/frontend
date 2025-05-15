@@ -8,9 +8,16 @@ import { defaultMenuConfig } from '@/config/menuItems';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import Link from 'next/link';
+import { CartIcon } from '@/lib/utils/svg';
+import { useStore } from '@/store';
+import { observer, Observer } from 'mobx-react-lite';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  const {
+    CartStore: { itemCount }
+  } = useStore();
 
   const router = useRouter();
 
@@ -37,6 +44,12 @@ const Header = () => {
           <Image src="/logo.png" alt="Logo" width={150} height={100} />
           <InputSearch placeholder="Search" className="!w-[calc(100%-500px)] rounded-full" />
           <div className="flex w-[260px] space-x-2">
+            <button className="relative" onClick={() => router.push(ROUTES.CART.path)}>
+              <CartIcon />
+              <span className="absolute right-0 top-0 flex h-3 w-3 items-center justify-center rounded-full bg-blue-400 p-2 text-[10px] text-white">
+                {itemCount}
+              </span>
+            </button>
             <Button variant="filled">Contact us</Button>
             <Button variant="outlined" onClick={() => router.push(ROUTES.LOGIN.path)}>
               Log in
@@ -67,4 +80,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default observer(Header);
