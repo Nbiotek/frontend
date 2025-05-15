@@ -4,7 +4,7 @@ import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 
 interface OverviewProps {
   isLoading: boolean;
-  overviewData: TDoctorDashboard;
+  overviewData: OverviewActivity;
 }
 
 const card = [
@@ -31,6 +31,7 @@ const card = [
 ];
 
 const OverviewActivity = ({ isLoading, overviewData }: OverviewProps) => {
+  console.log(overviewData);
   return (
     <div className="grid w-full grid-cols-response gap-[20px]">
       {isLoading
@@ -39,7 +40,7 @@ const OverviewActivity = ({ isLoading, overviewData }: OverviewProps) => {
             <CardMetrics
               key={el.tag}
               icon={el.icon}
-              stat={overviewData[el.tag as keyof Omit<TDoctorDashboard, 'referralActivity'>] || 0}
+              stat={overviewData[el.tag as keyof Omit<OverviewActivity, 'referralActivity'>] || 0}
               title={el.title}
             />
           ))}

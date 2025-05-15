@@ -1,4 +1,4 @@
-interface TDoctorDashboard {
+interface OverviewActivity {
   totalPatients: number;
   pendingTestResultReviews: number;
   completedTestResultReviews: number;
@@ -7,6 +7,10 @@ interface TDoctorDashboard {
     accepted: 0;
     acceptanceRate: 0;
   };
+}
+
+interface TDoctorDashboard {
+  data: OverviewActivity;
 }
 
 interface Tests {
@@ -100,6 +104,29 @@ interface TTestRevDet {
   };
 }
 
+interface DoCAppointment {
+  id: string;
+  title: string;
+  description: string;
+  patientName: string;
+  location: {
+    type: LocationType;
+    address: string;
+  };
+  tests: Array<{
+    name: string;
+    description: string;
+    type: string;
+    status: string;
+  }>;
+  totalAmount: number;
+  appointmentDate: string;
+  status: string;
+  paymentStatus: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface TPatient {
   id: string;
   name: string;
@@ -112,7 +139,7 @@ interface TPatient {
 }
 interface TDoctorAppointment {
   data: {
-    patients: TPatient[];
+    appointments: DoCAppointment[];
     pagination: Pagination;
   };
 }
