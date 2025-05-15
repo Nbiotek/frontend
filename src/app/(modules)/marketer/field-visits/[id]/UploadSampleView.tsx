@@ -1,55 +1,121 @@
+// UploadSampleView.tsx
 'use client';
-import FieldSet from '@/atoms/fields/FieldSet';
-import ResultFieldHeader from '@/atoms/fields/ResultFields';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { useShowFieldTask } from '@/hooks/marketer/useFieldTask';
+import { useParams, useRouter } from 'next/navigation';
+import SampleCollectionSkeleton from './components/Loader';
 import { Text } from '@/lib/utils/Text';
-import { useState, ChangeEvent } from 'react';
+import { useFileUpload } from '@/hooks/fileUpload/useFileUpload';
+import { toast } from 'react-hot-toast';
+import { useUploadSample } from '@/hooks/marketer/useFieldTask';
 
-// Define types
+import PatientInfoSection from './components/PatientInfoSection';
+import TestDetailsSection from './components/TestDetailsSection';
+import SampleCollectionSection from './components/SampleCollectionSection';
+import PhotoUploadSection from './components/PhotoUploadSection';
+import NotesSection from './components/NotesSection';
+import ActionButtons from './components/ActionButtons';
+
 interface Sample {
-  id: number;
+  id: string;
   testName: string;
-  sampleCollected: boolean;
   sampleType: string;
-  units: string;
   requiredAmount: string;
+  collectionStatus: boolean;
 }
 
 const UploadSampleView = () => {
-  const [notes, setNotes] = useState<string>('');
-  const [samplePhoto, setSamplePhoto] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const { id } = useParams();
+  const router = useRouter();
+  const { data, isLoading } = useShowFieldTask(id as string);
 
-  const [samples, setSamples] = useState<Sample[]>([
-    {
-      id: 1,
-      testName: 'Complete Blood Count (CBC)',
-      sampleCollected: false,
-      sampleType: 'Blood',
-      units: 'mL',
-      requiredAmount: '5'
-    },
-    {
-      id: 2,
-      testName: 'Lipid Panel',
-      sampleCollected: false,
-      sampleType: 'Blood',
-      units: 'mL',
-      requiredAmount: '3'
-    },
-    {
-      id: 3,
-      testName: 'Urinalysis',
-      sampleCollected: false,
-      sampleType: 'Urine',
-      units: 'mL',
-      requiredAmount: '40'
+  const [fieldVisitData, setFieldVisitData] = useState<FieldTaskData>();
+
+  // File upload mutation
+  const { mutate: uploadFiles, isPending: isUploading, data: fileData } = useFileUpload();
+
+  // Sample collection mutation
+  const { mutate: submitForm, isPending: isSubmitting } = useUploadSample();
+
+  const submitSample = (id: string, payload: TSampleCollectionData) => {
+    submitForm(
+      { id, payload },
+      {
+        onSuccess: (response) => {
+          toast.success('Sample submitted successfully');
+        },
+        onError: (error) => {
+          toast.error(`Error submitting sample: ${error.message || 'Try again'}`);
+        }
+      }
+    );
+  };
+  const [samples, setSamples] = useState<Sample[]>([]);
+
+  useEffect(() => {
+    if (!isLoading && data !== undefined) {
+      const visitData = data.data;
+      setFieldVisitData(visitData);
+
+      setSamples([
+        {
+          id: Date.now().toString(),
+          testName: visitData.test?.name || '',
+          sampleType: 'blood',
+          requiredAmount: '3ml',
+          collectionStatus: false
+        }
+      ]);
     }
-  ]);
+  }, [isLoading, data]);
 
-  const handleSampleCollected = (id: number, isCollected: boolean): void => {
+  const [notes, setNotes] = useState<string>('');
+  const [samplePhotos, setSamplePhotos] = useState<File[]>([]);
+  const [photoPreviewUrls, setPhotoPreviewUrls] = useState<string[]>([]);
+
+  // Handler for adding new sample row
+  const handleAddSample = () => {
+    const newSample: Sample = {
+      id: Date.now().toString(),
+      testName: fieldVisitData?.test.name || '',
+      sampleType: 'blood',
+      requiredAmount: '3ml',
+      collectionStatus: false
+    };
+    setSamples([...samples, newSample]);
+  };
+
+  // Handler for removing a sample row
+  const handleRemoveSample = (id: string) => {
+    setSamples(samples.filter((sample) => sample.id !== id));
+  };
+
+  // Handler for updating sample test name
+  const handleTestNameChange = (id: string, value: string) => {
+    setSamples(
+      samples.map((sample) => (sample.id === id ? { ...sample, testName: value } : sample))
+    );
+  };
+
+  // Handler for updating sample type
+  const handleSampleTypeChange = (id: string, value: string) => {
+    setSamples(
+      samples.map((sample) => (sample.id === id ? { ...sample, sampleType: value } : sample))
+    );
+  };
+
+  // Handler for updating required amount
+  const handleRequiredAmountChange = (id: string, value: string) => {
+    setSamples(
+      samples.map((sample) => (sample.id === id ? { ...sample, requiredAmount: value } : sample))
+    );
+  };
+
+  // Handler for updating sample collection status
+  const handlecollectionStatus = (id: string, isCollected: boolean) => {
     setSamples(
       samples.map((sample) =>
-        sample.id === id ? { ...sample, sampleCollected: isCollected } : sample
+        sample.id === id ? { ...sample, collectionStatus: isCollected } : sample
       )
     );
   };
@@ -58,180 +124,132 @@ const UploadSampleView = () => {
     setNotes(e.target.value);
   };
 
+  // Handler for photo upload - supports multiple files
   const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setSamplePhoto(file);
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setSamplePhotos([...samplePhotos, ...newFiles]);
 
-      // Create a preview URL for the uploaded image
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      // Create preview URLs for all new files
+      const newPreviewUrls = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+      setPhotoPreviewUrls([...photoPreviewUrls, ...newPreviewUrls]);
     }
   };
 
-  const handleRemovePhoto = (): void => {
-    setSamplePhoto(null);
-    setPhotoPreview(null);
+  // Handler for removing a photo
+  const handleRemovePhoto = (index: number): void => {
+    const updatedPhotos = [...samplePhotos];
+    const updatedPreviewUrls = [...photoPreviewUrls];
+
+    URL.revokeObjectURL(updatedPreviewUrls[index]);
+
+    updatedPhotos.splice(index, 1);
+    updatedPreviewUrls.splice(index, 1);
+
+    setSamplePhotos(updatedPhotos);
+    setPhotoPreviewUrls(updatedPreviewUrls);
   };
+
+  useEffect(() => {
+    return () => {
+      photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
+
+  const handleSubmit = () => {
+    if (samples.every((sample) => !sample.collectionStatus)) {
+      toast.error('You must mark at least one sample as collected');
+      return;
+    }
+
+    if (samplePhotos.length > 0) {
+      uploadFiles(samplePhotos, {
+        onSuccess: (uploadResponse) => {
+          const fileIds = uploadResponse.data || [];
+
+          const formData = {
+            logSamples: samples.map(({ id, ...rest }) => rest),
+            collectionNotes: notes,
+            samplePhotos: fileIds
+          };
+          console.log('Form data:', formData);
+
+          submitSample(id as string, formData);
+        },
+        onError: (error: any) => {
+          toast.error(`Error uploading photos: ${error.message || 'Unknown error'}`);
+        }
+      });
+    } else {
+      const formData = {
+        logSamples: samples,
+        collectionNotes: notes,
+        samplePhotos: []
+      };
+
+      submitSample(id as string, formData);
+    }
+  };
+
+  if (isLoading) {
+    return <SampleCollectionSkeleton />;
+  }
+
+  if (!data) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Text variant="title" weight="semibold" className="text-red-500">
+          No data available
+        </Text>
+      </div>
+    );
+  }
+
+  const hasSubmittedLogSample =
+    fieldVisitData?.samplePhotos && fieldVisitData.samplePhotos.length > 0;
 
   return (
     <div className="space-y-4">
-      {/* Patient Information Section */}
-      <div className="bg-white p-6">
-        <Text variant="title" weight="semibold" className="mb-6 border-b pb-2">
-          Patient Information
-        </Text>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <FieldSet legend="Patient Name" text={'David Johnson'} />
-          <FieldSet legend="Test Ordered" text={'Multiple (3)'} />
-          <FieldSet legend="Collection Date" text={'15-04-2023'} />
-          <FieldSet legend="Patient ID" text={'PAT-2023-0456'} />
-        </div>
-      </div>
+      <PatientInfoSection fieldVisitData={fieldVisitData} />
 
-      {/* Test Ordered Section */}
-      <div className="bg-white p-6">
-        <Text variant="title" weight="semibold" className="mb-6 border-b pb-2">
-          Test Ordered
-        </Text>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <FieldSet legend="CBC" text={'Dr. Sarah Wilson'} />
-          <FieldSet legend="Lipid Panel" text={'Dr. Sarah Wilson'} />
-          <FieldSet legend="Urinalysis" text={'Dr. Sarah Wilson'} />
-          <FieldSet legend="Request Date" text={'10-04-2023'} />
-        </div>
-      </div>
+      <TestDetailsSection fieldVisitData={fieldVisitData} />
 
-      {/* Log Samples Section */}
       <div className="bg-white p-6">
         <Text variant="title" weight="semibold" className="mb-6 border-b pb-2">
           Log Samples
         </Text>
         <div className="space-y-4">
-          {/* Table Header */}
-          <div className="flex space-x-6 border-b pb-4 font-medium">
-            <ResultFieldHeader text="Test Name" head={true} className="w-1/4" />
-            <ResultFieldHeader text="Sample Type" head={true} className="w-1/5" />
-            <ResultFieldHeader text="Required Amount" head={true} className="w-1/5" />
-            <ResultFieldHeader text="Collection Status" head={true} className="w-1/3" />
-          </div>
+          <SampleCollectionSection
+            samples={samples}
+            onAddSample={handleAddSample}
+            onRemoveSample={handleRemoveSample}
+            onTestNameChange={handleTestNameChange}
+            onSampleTypeChange={handleSampleTypeChange}
+            onRequiredAmountChange={handleRequiredAmountChange}
+            onCollectionStatusChange={handlecollectionStatus}
+            fieldVisitData={fieldVisitData}
+          />
 
-          {/* Sample Collection Rows */}
-          {samples.map((sample) => (
-            <div
-              key={sample.id}
-              className="border-gray-200 flex items-start space-x-6 border-b-2 border-dotted pb-4"
-            >
-              <div className="w-1/4 font-medium">{sample.testName}</div>
-              <div className="w-1/5">{sample.sampleType}</div>
-              <div className="w-1/5">
-                {sample.requiredAmount} {sample.units}
-              </div>
-              <div className="w-1/3">
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id={`sample-${sample.id}`}
-                    checked={sample.sampleCollected}
-                    onChange={(e) => handleSampleCollected(sample.id, e.target.checked)}
-                    className="text-blue-600 h-5 w-5"
-                  />
-                  <label
-                    htmlFor={`sample-${sample.id}`}
-                    className="text-gray-700 text-sm font-medium"
-                  >
-                    {sample.sampleCollected ? 'Collected' : 'Mark as collected'}
-                  </label>
-                </div>
-              </div>
-            </div>
-          ))}
+          <PhotoUploadSection
+            photoPreviewUrls={photoPreviewUrls}
+            onRemovePhoto={handleRemovePhoto}
+            onPhotoUpload={handlePhotoUpload}
+            fieldVisitData={fieldVisitData}
+          />
 
-          {/* Photo Upload Section */}
-          <div className="mt-6 pt-2">
-            <Text variant="subtitle" weight="medium" className="mb-2">
-              Sample Photos
-            </Text>
+          <NotesSection
+            notes={notes}
+            onNotesChange={handleNoteChange}
+            fieldVisitData={fieldVisitData}
+          />
 
-            <div className="mt-2">
-              {photoPreview ? (
-                <div className="relative mt-2">
-                  <img
-                    src={photoPreview}
-                    alt="Sample vials"
-                    className="border-gray-300 max-h-48 rounded border"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemovePhoto}
-                    className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center  justify-center rounded-lg bg-neutral-100 p-6">
-                  <label htmlFor="photo-upload" className="flex w-full cursor-pointer items-center">
-                    <span className="text-gray-500 mb-1 block w-full border-2 border-dashed border-neutral-300 p-4 text-center text-sm font-semibold text-neutral-300">
-                      Upload a photo of the labeled sample vials.
-                    </span>
-
-                    <input
-                      id="photo-upload"
-                      name="photo-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoUpload}
-                      className="sr-only"
-                    />
-                  </label>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Collection Notes Section */}
-          <div className="mt-6 pt-2">
-            <Text variant="subtitle" weight="medium" className="mb-2">
-              Collection Notes
-            </Text>
-            <textarea
-              className="border-gray-300 min-h-[100px] w-full rounded border p-3"
-              placeholder="Add any notes about the sample collection process (e.g., patient condition, collection difficulties, etc.)"
-              value={notes}
-              onChange={handleNoteChange}
-            ></textarea>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="mt-6 flex justify-end space-x-4">
-            <button
-              className="border-gray-300 hover:bg-gray-50 rounded border px-4 py-2"
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              className="hover:bg-green-700 rounded bg-green-400 px-4 py-2 text-white"
-              type="button"
-            >
-              Confirm Collection
-            </button>
-          </div>
+          {!hasSubmittedLogSample && (
+            <ActionButtons
+              onCancel={() => router.back()}
+              onSubmit={handleSubmit}
+              isLoading={isUploading || isSubmitting}
+            />
+          )}
         </div>
       </div>
     </div>

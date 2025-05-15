@@ -57,6 +57,18 @@ export const DOCTOR = {
   REFERRALS: '/doctors/patients'
 };
 
+export const MARKETER = {
+  DASHBOARD: '/marketer/dashboard',
+  FIELD_TASK_OVERVIEW: '/marketer/field-tasks/overview',
+  FIELD_TASK_HISTORY: '/marketer/field-tasks/overview-history',
+  SHOW_FIELD_TASK: '/marketer/field-tasks/:id',
+  LOG_SAMPLES: {
+    All: '/marketer/field-tasks/overview?status=pending',
+    UPLOAD: '/marketer/field-tasks/:id/log-samples',
+    UPDATE_FIELD_VISIT: 'marketer/field-tasks/:id/status'
+  }
+};
+
 export const LAB_TECH = {
   DASHBOARD: '/lab-technicians/dashboard',
   RECENT_ACTIVITIES: '/lab-technicians/dashboard/recent-activities',
