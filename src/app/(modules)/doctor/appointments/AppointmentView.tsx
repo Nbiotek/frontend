@@ -154,7 +154,7 @@ const AppointmentView = () => {
   }, [filters, queryClient]);
 
   // Calculate pagination values for the pagination component
-  const appointments = appointmentList?.data.patients || [];
+  const appointments = appointmentList?.data.appointments || [];
   const total = appointmentList?.data.pagination?.total || 0;
   const currentPage = filters.page || 1;
   const totalPages = appointmentList?.data.pagination?.totalPages || 1;

@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 import { useQueryClient } from '@tanstack/react-query';
 import Pagination from '@/atoms/pagination';
 
-// Custom options for referrals
 const referralFilterOptions = {
   showStatus: true,
   statusOptions: [
@@ -29,26 +28,20 @@ const referralFilterOptions = {
 };
 
 const ReferralsView = () => {
-  // Default state
   const defaultFilters: FilterParams = {
     page: 1,
     limit: 10,
     sortOrder: 'DESC'
   };
 
-  // Filter state
   const [filters, setFilters] = useState<FilterParams>(defaultFilters);
 
-  // Get the query client for manual invalidation
   const queryClient = useQueryClient();
 
-  // Use the updated hook with filter params
   const { data: referPatientsList, isLoading } = useDoctorReferral(filters);
 
-  // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
 
-  // Calculate the number of active filters
   const getActiveFilterCount = () => {
     let count = 0;
     if (filters.fromDate) count++;
@@ -58,34 +51,30 @@ const ReferralsView = () => {
     return count;
   };
 
-  // Search handler with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
       if (filters.search !== searchInput) {
         setFilters((prev) => ({
           ...prev,
           search: searchInput,
-          page: 1 // Reset to first page when searching
+          page: 1
         }));
       }
-    }, 500); // 500ms debounce delay
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchInput, filters.search]);
 
-  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
 
-  // Handle filter changes (date range, sortBy, and status)
   const handleFilterChange = (filterData: {
     fromDate?: Date;
     toDate?: Date;
     sortBy?: string;
     status?: string;
   }) => {
-    // Format dates for API if they exist
     const formattedFilters: FilterParams = {};
 
     if (filterData.sortBy) {
@@ -100,7 +89,6 @@ const ReferralsView = () => {
       formattedFilters.toDate = format(filterData.toDate, 'yyyy-MM-dd');
     }
 
-    // Include status if provided
     if (filterData.status) {
       formattedFilters.status = filterData.status;
     }
@@ -108,11 +96,10 @@ const ReferralsView = () => {
     setFilters((prev) => ({
       ...prev,
       ...formattedFilters,
-      page: 1 // Reset to first page when changing filters
+      page: 1
     }));
   };
 
-  // Handle sort order change
   const handleSortChange = (sortOrder: 'ASC' | 'DESC') => {
     setFilters((prev) => ({
       ...prev,
@@ -120,17 +107,15 @@ const ReferralsView = () => {
     }));
   };
 
-  // Handle clearing all filters
   const handleClearFilters = () => {
     setFilters({
       ...defaultFilters,
-      page: filters.page, // Keep current page
-      limit: filters.limit // Keep current limit
+      page: filters.page,
+      limit: filters.limit
     });
     setSearchInput('');
   };
 
-  // Handle pagination
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({
       ...prev,
@@ -142,17 +127,14 @@ const ReferralsView = () => {
     setFilters((prev) => ({
       ...prev,
       limit,
-      page: 1 // Reset to first page when changing limit
+      page: 1
     }));
   };
 
-  // Effect to refetch data when filters change
   useEffect(() => {
-    // Invalidate and refetch when filters change
     queryClient.invalidateQueries({ queryKey: ['doctor-referrals'] });
   }, [filters, queryClient]);
 
-  // Calculate pagination values for the pagination component
   const referPatients = referPatientsList?.data.patients || [];
   const total = referPatientsList?.data.pagination?.total || 0;
   const currentPage = filters.page || 1;
@@ -161,7 +143,6 @@ const ReferralsView = () => {
   return (
     <div className="flex-col space-y-[24px]">
       <div className="flex flex-col space-x-2 sm:flex-row sm:items-center sm:justify-between">
-        {/* Enhanced Filter Component with status options */}
         <FilterComponent
           onFilterChange={handleFilterChange}
           onClearFilters={handleClearFilters}
@@ -169,7 +150,6 @@ const ReferralsView = () => {
           options={referralFilterOptions}
         />
 
-        {/* Search component */}
         <SearchInput
           className="!w-[calc(100%-80px)]"
           placeholder="Search referrals..."
@@ -177,14 +157,11 @@ const ReferralsView = () => {
           onChange={handleSearchChange}
         />
 
-        {/* Sort component */}
         <SortComponent onSortChange={handleSortChange} />
       </div>
 
-      {/* Referral Table */}
       <ReferralTable referPatientList={referPatients} loading={isLoading} />
 
-      {/* Pagination - only show if we have data */}
       {!isLoading && referPatients.length > 0 && (
         <Pagination
           total={total}

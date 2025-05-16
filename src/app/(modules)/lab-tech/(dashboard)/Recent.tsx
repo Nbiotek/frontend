@@ -1,38 +1,25 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
 import HyperLink from '@/atoms/Hyperlink';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
 import TestsTable from '../tests/TestsTable';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { pagination } from '@/constants/data';
-import { labTech } from '@/hooks/labTech/FetchKeyFactory';
 import { Switch } from '@/components/ui/switch';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import { putAvailablity } from '@/requests/lab-tech';
 import { AUTH } from '@/constants/api';
 import toast from 'react-hot-toast';
 
-const Recent = () => {
+interface IRecentActivityProps {
+  isLoading: boolean;
+  data: Array<TTestData>;
+}
+
+const Recent = ({ isLoading, data }: IRecentActivityProps) => {
   const { data: userProfile } = useFetchProfile();
-  const [activity, setActivity] = useState<TTestQuesRes>({
-    requests: [],
-    pagination
-  });
-
-  function select(res: INBTServerResp<Array<TTestData>>) {
-    return res.data;
-  }
-
-  const meta = labTech.getRecentActivities();
-  const memoizedSelect = useCallback(select, []);
 
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: meta.keys(),
-    meta,
-    select: memoizedSelect
-  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: putAvailablity,
@@ -53,12 +40,6 @@ const Recent = () => {
       queryClient.invalidateQueries({ queryKey: [AUTH.GET_PROFILE] });
     }
   });
-
-  useEffect(() => {
-    if (!isLoading && data !== undefined) {
-      setActivity((prev) => ({ ...prev, requests: data }));
-    }
-  }, [data, isLoading]);
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -81,9 +62,15 @@ const Recent = () => {
         </div>
       </div>
 
-      <TestsTable isLoading={isLoading} tests={activity} />
+      <TestsTable
+        isLoading={isLoading}
+        tests={{
+          requests: data,
+          pagination
+        }}
+      />
 
-      {activity.requests.length > 0 && (
+      {data.length > 0 && (
         <div className="flex w-full justify-end">
           <HyperLink href={ROUTES.LAB_TECH_TEST.path} hrefText="See tests" />
         </div>

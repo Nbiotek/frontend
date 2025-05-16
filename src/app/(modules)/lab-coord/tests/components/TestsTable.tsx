@@ -25,6 +25,7 @@ import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import Pagination from '@/atoms/pagination';
 import { toTitleCase } from '@/utils';
+import { EnumTestLocation } from '@/constants/mangle';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -47,8 +48,9 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
             <TableRow>
               <TableHead className="w-[280px]">Name</TableHead>
               <TableHead className="w-[280px]">Test</TableHead>
-              <TableHead className="w-[280px]">Type</TableHead>
+              <TableHead className="w-[80px]">Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
+              <TableHead className="w-[280px]">Location</TableHead>
               <TableHead className="w-[150px]">Date created</TableHead>
               <TableHead className="w-[150px]">Requested Date</TableHead>
               <TableHead className="w-[150px]">Deadline</TableHead>
@@ -57,7 +59,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
             </TableRow>
           </TableHeader>
           {isLoading ? (
-            <TableLoader rows={20} columns={10} />
+            <TableLoader rows={20} columns={11} />
           ) : (
             tests.requests.length !== 0 && (
               <TableBody>
@@ -74,6 +76,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     <TableCell>
                       <Status variant={test.priority} />
                     </TableCell>
+                    <TableCell>{test.location?.type}</TableCell>
                     <TableCell className="whitespace-nowrap">
                       {format(new Date(test.createdAt), 'dd MMM, yyyy')}
                     </TableCell>
@@ -103,7 +106,37 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                             <Eye />
                             <p>View Test</p>
                           </DropdownMenuItem>
-                          {test.technician && test.technician.id ? null : (
+                          {test.location?.type === EnumTestLocation.CUSTOM ? (
+                            test.marketer && test.marketer.id ? (
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  toggleModals({
+                                    name: AppModals.AVAILABLE_TECHNICIANS,
+                                    open: true,
+                                    testId: test.id
+                                  })
+                                }
+                              >
+                                <HandCoins />
+                                <p>Assign to lab</p>
+                              </DropdownMenuItem>
+                            ) : (
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  toggleModals({
+                                    name: AppModals.AVAILABLE_MARKETERS,
+                                    open: true,
+                                    testId: test.id
+                                  })
+                                }
+                              >
+                                <HandCoins />
+                                <p>Assign to Marketer</p>
+                              </DropdownMenuItem>
+                            )
+                          ) : null}
+
+                          {test.location?.type === EnumTestLocation.LAB && (
                             <DropdownMenuItem
                               onClick={() =>
                                 toggleModals({
@@ -114,7 +147,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                               }
                             >
                               <HandCoins />
-                              <p>Assign</p>
+                              <p>Assign to lab</p>
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>

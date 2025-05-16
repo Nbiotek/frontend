@@ -7,7 +7,8 @@ export const AUTH = {
   FORGOT_PWD: '/users/forgot-password',
   NEW_PWD: '/users/reset-password',
   CHANGE_PWD: '',
-  RESEND_EMAIL_VERIFICATION: '/users/resend-email-verification'
+  RESEND_EMAIL_VERIFICATION: '/users/resend-email-verification',
+  UPDATE_PATIENT_PROFILE: '/users/patient/update-profile'
 } as const;
 
 export const PATIENT = {
@@ -51,10 +52,22 @@ export const DOCTOR = {
     DETAILS: (id: string) => `/doctors/test-requests/${id}`
   },
   APPOINTMENT: {
-    ALL: '/doctors/appointments',
+    ALL: '/doctors/appointments/booked-by-doctor',
     CREATE: '/doctors/appointments'
   },
   REFERRALS: '/doctors/patients'
+};
+
+export const MARKETER = {
+  DASHBOARD: '/marketer/dashboard',
+  FIELD_TASK_OVERVIEW: '/marketer/field-tasks/overview',
+  FIELD_TASK_HISTORY: '/marketer/field-tasks/overview-history',
+  SHOW_FIELD_TASK: '/marketer/field-tasks/:id',
+  LOG_SAMPLES: {
+    All: '/marketer/field-tasks/overview?status=pending',
+    UPLOAD: '/marketer/field-tasks/:id/log-samples',
+    UPDATE_FIELD_VISIT: 'marketer/field-tasks/:id/status'
+  }
 };
 
 export const LAB_TECH = {
@@ -75,8 +88,7 @@ export const LAB_COORD = {
   DASHBOARD: '/lab-coordinator/dashboard',
   STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
   AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians',
-  ASSIGN_TECHNICIAN: '/lab-coordinator/test-requests-assign-technician',
-  REASSIGN_TECHNICIAN: '/lab-coordinator/reassign-technician',
+  AVAILABLE_MARKETERS: '/lab-coordinator/available-marketers',
   INVENTORY: '/lab-coordinator/inventory'
 } as const;
 
@@ -98,6 +110,13 @@ export const TEST = {
   UPLOAD_RESULT: '/tests/upload-test-result/:id',
   ASSIGN_TEST: '/tests/assign-technician',
   REASSIGN_TEST: '/tests/reassign-technician',
+  ASSIGN_MARKETER: '/tests/assign-marketer',
+  REASSIGN_MARKETER: '/tests/reassign-marketer',
   ASSIGNED_TESTS: '/tests/fetch-assigned-test',
   SINGLE_ASSIGNED_TESTS: '/tests/fetch-assigned-test/:id'
+};
+
+export const RECEPTIONIST = {
+  APPOINTMENTS: '/receptionist/appointments',
+  SINGLE_APPOINTMENT: '/receptionist/appointment/:id'
 };

@@ -34,10 +34,10 @@ function ContactForm() {
     reset(contactInfo);
   }, []);
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
-        <SubTitle className="!text-center" text="Contact Information" />
+    <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
+      <SubTitle className="!text-center" text="Contact Information" />
 
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         <fieldset className="">
           <Input
             required={true}
@@ -143,17 +143,18 @@ function ContactForm() {
             </div>
           </div>
         </fieldset>
-      </CardContent>
-      <div className="flex items-center justify-between space-x-2">
-        <Button
-          type="button"
-          variant="transparent"
-          text="Prev"
-          onClick={() => setCurrentForm(EnumPatientForm.PEROSNAL)}
-        />
-        <Button type="submit" variant="filled" text="Next" />
-      </div>
-    </form>
+
+        <div className="flex items-center justify-between space-x-2">
+          <Button
+            type="button"
+            variant="transparent"
+            text="Prev"
+            onClick={() => setCurrentForm(EnumPatientForm.PEROSNAL)}
+          />
+          <Button type="submit" variant="filled" text="Next" />
+        </div>
+      </form>
+    </div>
   );
 }
 

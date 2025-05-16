@@ -9,7 +9,7 @@ import RecentActivityTable from './components/RecentActivityTable';
 
 const DoctorDashboardView = () => {
   const { data, isLoading } = useDashboard();
-  const [overviewData, setOverviewData] = useState<TDoctorDashboard>({
+  const [overviewData, setOverviewData] = useState<OverviewActivity>({
     totalPatients: 0,
     pendingTestResultReviews: 0,
     completedTestResultReviews: 0,
@@ -22,7 +22,7 @@ const DoctorDashboardView = () => {
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
-      setOverviewData(data);
+      setOverviewData(data.data);
     }
   }, [isLoading, data]);
 

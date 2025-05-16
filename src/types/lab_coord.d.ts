@@ -1,8 +1,8 @@
 type TDashboardSummary = {
-  dailySampleVolume: number;
-  avgTurnaroundTime: number;
-  qcPassRate: number;
-  utilizationRate: number;
+  totalPendingTests: number;
+  totalCompletedTests: number;
+  averageTurnaroundTime: number;
+  totalMessages: number;
 };
 
 type TInventoryOverview = {
@@ -45,13 +45,10 @@ type TCurrentStaffShifts = {
 };
 
 type TDashboardData = {
-  summary: TDashboardSummary;
-  inventoryOverview: TInventoryOverview;
-  pendingQualityControl: Array<TTestData>;
-  currentStaffShifts: Array<TCurrentStaffShifts>;
-};
+  recentTests: Array<TTestData>;
+} & TDashboardSummary;
 
-type TAvailableLabTechs = {
+type TAvailableStaff = {
   id: string;
   name: string;
   email: string;
@@ -61,7 +58,12 @@ type TAvailableLabTechs = {
 };
 
 type TAvailableLabTechsData = {
-  technicians: Array<TAvailableLabTechs>;
+  technicians: Array<TAvailableStaff>;
+  total: number;
+};
+
+type TAvailableMarketerData = {
+  marketers: Array<TAvailableStaff>;
   total: number;
 };
 

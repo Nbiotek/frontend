@@ -20,6 +20,18 @@ interface INBTServerResp<T> {
   statusCode: number;
 }
 
+interface INBTPaginatedData<T> {
+  requests: Array<T>;
+  pagination: TPaginationResponse;
+}
+
+type TPaginationResponse = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
 type TGeneralPaginatedQuery = { page: number; limit: number };
 
 type TProfileInfo = {
@@ -36,7 +48,7 @@ type TProfileInfo = {
   created_at: string;
   role: string;
   status: string;
-  has_completed_profile: boolean;
+  isProfileCompleted: boolean;
 };
 
 interface SessionPayload extends Pick<TProfileInfo, 'id' | 'email' | 'role' | 'uuid'> {
@@ -50,10 +62,3 @@ interface IQueryHookResponse<T> {
   error: unknown;
   status: 'error' | 'success' | 'pending';
 }
-
-type TPaginationResponse = {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-};

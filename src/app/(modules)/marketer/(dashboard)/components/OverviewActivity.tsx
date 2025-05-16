@@ -4,7 +4,7 @@ import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
 
 interface OverviewProps {
   isLoading?: boolean;
-  overviewData: TMarketerDashboard;
+  overviewData: TFieldOfficerAnalytics;
 }
 
 const card = [
@@ -12,21 +12,21 @@ const card = [
     stat: 120,
     title: 'Samples Collected',
     icon: <AppointmentsIcon />,
-    tag: 'totalPatients'
+    tag: 'totalSamplesCollected'
   },
 
   {
     stat: 1500,
     title: 'Assigned Tasks',
     icon: <ResultIcon />,
-    tag: 'pendingTestResultReviews'
+    tag: 'totalAssignedTask'
   },
 
   {
     stat: 2,
     title: 'Uploaded Samples',
     icon: <MessagesIcon />,
-    tag: 'completedTestResultReviews:'
+    tag: 'totaluploadedSample'
   }
 ];
 
@@ -39,7 +39,7 @@ const OverviewActivity = ({ isLoading, overviewData }: OverviewProps) => {
             <CardMetrics
               key={el.tag}
               icon={el.icon}
-              stat={overviewData[el.tag as keyof Omit<TMarketerDashboard, 'referralActivity'>] || 0}
+              stat={overviewData[el.tag as keyof TFieldOfficerAnalytics] || 0}
               title={el.title}
             />
           ))}

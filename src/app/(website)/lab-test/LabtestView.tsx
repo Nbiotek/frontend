@@ -7,6 +7,7 @@ import { Search } from 'lucide-react';
 
 import TestCard from './components/TestCard';
 import PackageTestCard from './components/PackageTestCard';
+import { useStore } from '@/store';
 
 const labTests = [
   {
@@ -56,61 +57,6 @@ const labTests = [
       'Analyzes the content of urine to detect kidney disease, urinary tract infections, and diabetes.',
     price: 20,
     category: 'Microbiology'
-  }
-];
-
-const packageTests = [
-  {
-    id: 1,
-    title: 'Basic Health Screening',
-    description:
-      'A comprehensive health check that evaluates your overall health status with essential lab tests to identify health risks early.',
-    price: 120,
-    subtests: [
-      {
-        title: 'Complete Blood Count',
-        description:
-          'Evaluates overall health and detects a wide range of disorders, including anemia, infection, and leukemia.'
-      },
-      {
-        title: 'Lipid Profile',
-        description: 'Measures cholesterol levels to assess risk of cardiovascular disease.'
-      },
-      {
-        title: 'Liver Function Test',
-        description:
-          'Evaluates how well your liver is working by measuring liver enzymes and proteins.'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Executive Health Checkup',
-    description:
-      'A premium health assessment package designed for busy professionals, featuring comprehensive tests and personalized reports.',
-    price: 250,
-    subtests: [
-      {
-        title: 'Full Blood Panel',
-        description:
-          'Complete blood workup including CBC, comprehensive metabolic panel, and inflammation markers.'
-      },
-      {
-        title: 'Cardiovascular Assessment',
-        description:
-          'Advanced lipid profile, homocysteine levels, and other cardiac risk indicators.'
-      },
-      {
-        title: 'Hormone Panel',
-        description:
-          'Comprehensive evaluation of key hormones including thyroid, cortisol, and sex hormones.'
-      },
-      {
-        title: 'Nutritional Assessment',
-        description:
-          'Measures vitamin and mineral levels to identify deficiencies and optimize nutrition.'
-      }
-    ]
   }
 ];
 
@@ -217,18 +163,21 @@ const ViewAllButton = ({ testType }: { testType: string }) => (
 
 const LabTestView = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const {
+    TestStore: { singleTests, packageTests }
+  } = useStore();
 
   // Filter functions for each test type
-  const filteredLabTests = labTests.filter(
+  const filteredLabTests = singleTests.filter(
     (test) =>
-      test.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      test.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       test.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      test.category.toLowerCase().includes(searchQuery.toLowerCase())
+      test?.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const filteredPackageTests = packageTests.filter(
     (test) =>
-      test.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      test.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       test.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -346,9 +295,9 @@ const LabTestView = () => {
               <NoResults searchQuery={searchQuery} testType="package tests" />
             ) : (
               <div className="space-y-8">
-                {filteredPackageTests.map((test) => (
+                {/* {filteredPackageTests.map((test) => (
                   <PackageTestCard key={test.id} test={test} />
-                ))}
+                ))} */}
               </div>
             )}
 

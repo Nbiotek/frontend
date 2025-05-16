@@ -1,9 +1,6 @@
 'use client';
 import { forwardRef, type ReactNode, type InputHTMLAttributes, useState } from 'react';
-import { GoCheckCircleFill } from 'react-icons/go';
-import { RiErrorWarningFill } from 'react-icons/ri';
 import { PiEyeLight, PiEyeSlash } from 'react-icons/pi';
-import { ClipLoader } from 'react-spinners';
 
 interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: ReactNode;

@@ -8,3 +8,92 @@ interface TMarketerDashboard {
     acceptanceRate: number;
   };
 }
+
+interface TFieldOfficerAnalytics {
+  totalSamplesCollected: number;
+  totalAssignedTask: number;
+  totaluploadedSample: number;
+}
+interface TFieldOfficerDashboard {
+  data: TFieldOfficerAnalytics;
+}
+interface TFieldTestRequest {
+  id: string;
+  patientName: string;
+  testName: string;
+  testType: string;
+  notes: string;
+  location: {
+    type: string;
+    address: string;
+  };
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface TFieldTestRespones {
+  data: {
+    requests: FieldTestRequest[];
+    pagination: Pagination;
+  };
+  message: string;
+  statusCode: number;
+  pagination: Pagination;
+}
+
+interface TLogSample {
+  testName: string;
+  sampleType: string;
+  requiredAmount: string;
+  collectionStatus: boolean;
+}
+
+interface TSampleCollectionData {
+  logSamples: LogSample[];
+  samplePhotos: string[];
+  collectionNotes: string;
+}
+
+interface Person {
+  id: string;
+  name: string;
+}
+
+interface TestInfo {
+  id: string;
+  name: string;
+}
+interface testPhotos {
+  id: string;
+  url: string;
+  format: string;
+  file_name: string;
+}
+interface testSamples {
+  testName: string;
+  sampleType: string;
+  requiredAmount: string;
+  collectionStatus: boolean;
+}
+
+interface FieldTaskData {
+  id: string;
+  patient: Person;
+  technician: Person;
+  test: TestInfo;
+  logSamples: testSamples[];
+  samplePhotos: testPhotos[];
+  notes: string;
+  package: any | null;
+  dateDue: string;
+  collectionDate: string;
+  requestAt: string;
+  createdAt: string;
+}
+
+interface TFieldTaskShowResponse {
+  data: FieldTaskData;
+  message: string;
+  statusCode: number;
+}

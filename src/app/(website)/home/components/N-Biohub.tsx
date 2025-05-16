@@ -36,7 +36,7 @@ const bioHub = [
 
 const BioHub = () => {
   return (
-    <div className="bg-white px-4 sm:px-6">
+    <div className="bg-white px-4 sm:px-6" id="bio-hub">
       <div className="mx-auto max-w-7xl space-y-4 py-6 sm:py-8 md:py-10">
         <Title text="N- BioHbub" className="text-center" />
         <p className="mx-auto max-w-2xl text-center text-sm sm:text-base">

@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { SingleTest, PackageTest } from '@/types/test';
 import { RootStore } from '..';
+import { Toast } from '@/atoms/Toast';
 
 export type CartItemType = 'single' | 'package';
 
@@ -40,13 +41,15 @@ class CartStore {
         quantity: 1
       });
     }
-
+    // Show success message
+    Toast.success(`Added ${item.name} to your selection`);
     this.saveCart();
   };
 
   // remove item from cart
   removeItem = (id: string) => {
     this.items = this.items.filter((item) => item.id !== id);
+    Toast.info('Item removed from cart');
     this.saveCart();
   };
 
@@ -67,6 +70,7 @@ class CartStore {
   // Clear cart
   clearCart = () => {
     this.items = [];
+    Toast.info('Cart cleared');
     this.saveCart();
   };
 

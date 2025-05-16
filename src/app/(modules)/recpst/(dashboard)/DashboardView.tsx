@@ -5,6 +5,7 @@ import PatientsRegTable from '../components/PatientsRegTable';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubTitle } from '@/atoms/typographys';
+import { pagination } from '@/constants/data';
 
 const card = [
   {
@@ -50,7 +51,7 @@ const DashboardView = () => {
           </div>
         </div>
 
-        <ApptTodayTable />
+        <ApptTodayTable {...{ isLoading: false, appointment: { appointment: [], pagination } }} />
       </div>
 
       <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">

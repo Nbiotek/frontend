@@ -1,8 +1,3 @@
-interface INBTPaginatedData<T> {
-  requests: Array<T>;
-  pagination: TPaginationResponse;
-}
-
 type TLabTechDashboardRes = {
   totalPendingTests: number;
   totalCompletedTests: number;
@@ -41,6 +36,14 @@ type TTestData = {
     name: string;
   } | null;
   qcStatus?: string;
+  location: {
+    type: string;
+    address: string;
+  };
+  marketer: {
+    id: string;
+    name: string;
+  } | null;
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;

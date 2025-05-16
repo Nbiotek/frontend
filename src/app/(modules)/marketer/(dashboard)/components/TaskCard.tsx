@@ -1,100 +1,87 @@
 'use client';
+
 import { useState } from 'react';
 import Status from '@/atoms/Buttons/Status';
-export interface TaskCardProps {
-  title: string;
-  description: string;
-  date: string;
-  status: string;
-  onClick?: () => void;
-  className?: string;
-}
+import { dateTimeUTC } from '@/utils/date';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
+
 export interface TaskCardComponentProps {
-  task: Array<TaskCardProps>;
+  task: Array<TFieldTestRequest>;
+  loading?: boolean;
 }
 
-const TaskCard = ({ task }: TaskCardComponentProps) => {
-  // Track which card is active (null means no card is active)
+const TaskCard = ({ task, loading }: TaskCardComponentProps) => {
+  const router = useRouter();
+
   const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
 
-  // Toggle active state for a specific card
   const handleCardClick = (index: number) => {
     if (activeCardIndex === index) {
-      setActiveCardIndex(null); // Clicking active card again closes it
+      setActiveCardIndex(null);
     } else {
-      setActiveCardIndex(index); // Set this card as active
-    }
-  };
-
-  // Handle button clicks without triggering the card click
-  const handleButtonClick = (e: React.MouseEvent, action: string, taskIndex: number) => {
-    e.stopPropagation(); // Prevent the card's onClick from firing
-
-    // Implement your button action logic here
-    console.log(`${action} clicked for task: ${task[taskIndex].title}`);
-
-    if (action === 'complete') {
-      // Mark task as completed logic
-      console.log('Marking task as completed');
-    } else if (action === 'reschedule') {
-      // Reschedule task logic
-      console.log('Rescheduling task');
+      setActiveCardIndex(index);
     }
   };
 
   return (
-    <div className="relative mt-4 flex flex-col space-y-4">
-      {/* Overlay for background */}
-      {activeCardIndex !== null && (
-        <div
-          className="fixed inset-0 z-10 bg-black/30"
-          onClick={() => setActiveCardIndex(null)}
-        ></div>
+    <>
+      {loading && (
+        <>
+          {Array(2)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i} className="animate-pulse rounded-lg bg-neutral-200 p-6 shadow-sm"></div>
+            ))}
+        </>
       )}
+      <div className="relative mt-4 flex flex-col space-y-4">
+        {activeCardIndex !== null && (
+          <div
+            className="fixed inset-0 z-10 bg-black/30"
+            onClick={() => setActiveCardIndex(null)}
+          ></div>
+        )}
 
-      {/* Task cards */}
-      {task.map((taskItem, idx) => (
-        <div
-          className={`relative cursor-pointer rounded-lg bg-white p-4 shadow-md transition-all duration-200 ease-in-out hover:shadow-lg ${
-            activeCardIndex === idx ? 'z-50 scale-[1.02] shadow-xl' : 'z-0'
-          }`}
-          onClick={() => handleCardClick(idx)}
-          key={idx}
-        >
-          <div className="flex items-center space-x-3">
-            <h3 className="text-lg font-semibold">{taskItem.title}</h3>
-            <p className="text-gray-400 text-sm">{taskItem.date}</p>
-            <Status variant={taskItem.status} className="mt-2" />
-          </div>
-          <p className="text-gray-500 text-sm">{taskItem.description}</p>
-
-          {/* Show action buttons only for the active card */}
-          {activeCardIndex === idx && (
-            <div className="mt-2 flex items-center space-x-2">
-              <button
-                className="text-sm font-semibold text-red-500 hover:underline"
-                onClick={(e) => handleButtonClick(e, 'complete', idx)}
-              >
-                Start Task
-              </button>
-              <button
-                className="text-sm font-semibold text-blue-400 hover:underline"
-                onClick={(e) => handleButtonClick(e, 'view', idx)}
-              >
-                Upload Result
-              </button>
-
-              <button
-                className="text-sm font-semibold text-green-400 hover:underline"
-                onClick={(e) => handleButtonClick(e, 'reschedule', idx)}
-              >
-                Mark as Completed
-              </button>
+        {task.map((taskItem, idx) => (
+          <div
+            className={`relative cursor-pointer rounded-lg bg-white p-4 shadow-md transition-all duration-200 ease-in-out hover:shadow-lg ${
+              activeCardIndex === idx ? 'z-50 scale-[1.02] shadow-xl' : 'z-0'
+            }`}
+            onClick={() => handleCardClick(idx)}
+            key={idx}
+          >
+            <div className="flex items-center space-x-3">
+              <h3 className="text-lg font-semibold">{taskItem.testName}</h3>
+              <p className="text-gray-400 text-sm">{dateTimeUTC(taskItem.createdAt)}</p>
+              <Status variant={taskItem.status} />
             </div>
-          )}
+            <p className="text-lg font-semibold">{taskItem.patientName}</p>
+            <p className="text-gray-500 text-sm">{taskItem.location.address}</p>
+
+            {activeCardIndex === idx && (
+              <div className="mt-2 flex items-center space-x-2">
+                <button className="text-sm font-semibold text-red-500 hover:underline">
+                  Start Task
+                </button>
+                <button
+                  className="text-sm font-semibold text-blue-400 hover:underline"
+                  onClick={() => router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${taskItem.id}`)}
+                >
+                  Upload Result
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {task.length === 0 && !loading && (
+        <div className="border-gray-100 animate-pulse rounded-lg border bg-white p-8 text-center shadow-sm">
+          <p className="text-gray-500">No field tasks found</p>
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 };
 

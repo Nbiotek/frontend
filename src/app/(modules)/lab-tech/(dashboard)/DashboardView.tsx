@@ -1,10 +1,12 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Recent from './Recent';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { ChevronRight, ShieldAlert, ShieldCheck, TestTube2 } from 'lucide-react';
 import ROUTES from '@/constants/routes';
 import Link from 'next/link';
 import Analytics from './Analytics';
+import { useFetchDashboard } from '@/hooks/labTech/useFetchDashboard';
 
 const actions = [
   {
@@ -28,13 +30,28 @@ const actions = [
 ];
 
 const DashboardView = () => {
+  const [dashboard, setDashboard] = useState<TLabTechDashboardRes>({
+    totalPendingTests: 0,
+    totalCompletedTests: 0,
+    averageTurnaroundTime: 0,
+    totalMessages: 0,
+    recentTests: []
+  });
+  const { data, isLoading } = useFetchDashboard();
+
+  useEffect(() => {
+    if (!isLoading && data !== undefined) {
+      setDashboard(data);
+    }
+  }, [isLoading, data]);
+
   return (
     <div className="flex w-full flex-col space-y-4">
-      <Analytics />
+      <Analytics isLoading={isLoading} data={dashboard} />
 
       <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-2 lg:space-y-0">
         <div className="w-full rounded-xl bg-white p-4 lg:w-[75%]">
-          <Recent />
+          <Recent isLoading={isLoading} data={dashboard.recentTests} />
         </div>
         <div className="flex h-fit w-full flex-col space-y-2 rounded-xl bg-white p-4 lg:w-[25%]">
           <SubTitle text="Quick Actions" className="border-b pb-2" />

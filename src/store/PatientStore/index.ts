@@ -7,10 +7,9 @@ import {
 } from '@/app/auth/validation';
 import store from 'store2';
 import initializer from '@/utils/initializer';
-import { EnumPatientForm, EnumRole, Mangle } from '@/constants/mangle';
+import { EnumPatientForm, Mangle } from '@/constants/mangle';
 import { parseError } from '@/utils/errorHandler';
-import { Toast } from '@/atoms/Toast';
-import { postRegPatient, TPatientRegPayload } from '@/requests/patient';
+import { postRegPatient, putRegPatient, TPatientRegPayload } from '@/requests/patient';
 import ROUTES from '@/constants/routes';
 import toast from 'react-hot-toast';
 
@@ -50,12 +49,14 @@ class PatientStore {
       insuranceInfo: observable,
 
       resetPatientStore: action.bound,
+      setPersonalInfoPersist: action.bound,
       setCurrentForm: action.bound,
       setPersonalInfo: action.bound,
       setContactInfo: action.bound,
       setInsuranceInfo: action.bound,
 
-      registerPatient: flow.bound
+      registerPatient: flow.bound,
+      updatePatient: flow.bound
     });
     this.rootStore = _rootStore;
   }
@@ -64,6 +65,15 @@ class PatientStore {
     del(Mangle.PATIENT_PERSONAL_INFO);
     del(Mangle.PATIENT_CONTACT_INFO);
     del(Mangle.PATIENT_INSURANCE_INFO);
+    del(Mangle.PATIENT_CURRENT_FORM);
+    this.currentForm = EnumPatientForm.PEROSNAL;
+    this.personalInfo = {};
+    this.contactInfo = {};
+    this.insuranceInfo = {};
+  }
+
+  setPersonalInfoPersist(payload: Partial<TPatientPersonalSchema>) {
+    persist(Mangle.PATIENT_PERSONAL_INFO, payload);
   }
 
   setCurrentForm(_form: EnumPatientForm) {
@@ -93,7 +103,7 @@ class PatientStore {
     cb();
   }
 
-  *registerPatient(cb: (url: string) => void) {
+  *registerPatient(cb: () => void) {
     this.isLoading.regPatient = true;
     try {
       const payload: TPatientRegPayload = {
@@ -106,8 +116,30 @@ class PatientStore {
       } = (yield postRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
 
       toast.success(message);
+      this.resetPatientStore();
+      cb();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.regPatient = false;
+    }
+  }
 
-      cb(ROUTES.PATIENT.path);
+  *updatePatient(cb?: (url: string) => void) {
+    this.isLoading.regPatient = true;
+    try {
+      const payload: Partial<TPatientRegPayload> = {
+        personal: this.personalInfo as TPatientPersonalSchema,
+        contact: this.contactInfo as TPatientContactSchema,
+        insurance: this.insuranceInfo as TPatientInsuranceSchema
+      };
+      const {
+        data: { message }
+      } = (yield putRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
+
+      toast.success(message);
+      this.resetPatientStore();
+      cb && cb(ROUTES.PATIENT.path);
     } catch (error) {
       toast.error(parseError(error));
     } finally {

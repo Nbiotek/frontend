@@ -2,8 +2,6 @@ import { LucideIcon } from 'lucide-react';
 
 export type UserRole = 'patient';
 
-// | 'doctor' | 'lab_technician' | 'sub_admin' | 'super_admin'
-
 export interface MenuItem {
   title: string;
   url?: string;

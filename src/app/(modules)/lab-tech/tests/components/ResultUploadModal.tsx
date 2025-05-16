@@ -43,7 +43,7 @@ const ResultUploadModal = () => {
     },
     onSuccess: () => {
       toggleModals({});
-      queryClient.invalidateQueries({ queryKey: labTech.getRecentActivities().keys() });
+      queryClient.invalidateQueries({ queryKey: labTech.getDashboard().keys() });
       queryClient.invalidateQueries({
         queryKey: qualityControl.getHistory({ limit: 10, page: 1 }).keys()
       });
