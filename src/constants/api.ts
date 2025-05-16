@@ -8,7 +8,8 @@ export const AUTH = {
   NEW_PWD: '/users/reset-password',
   CHANGE_PWD: '',
   RESEND_EMAIL_VERIFICATION: '/users/resend-email-verification',
-  UPDATE_PATIENT_PROFILE: '/users/patient/update-profile'
+  UPDATE_PATIENT_PROFILE: '/users/patient/update-profile',
+  ALL_PATIENT: '/users/patient/all'
 } as const;
 
 export const PATIENT = {
