@@ -65,3 +65,48 @@ type TAppointmentQuery = {
   toDate: string;
   fromDate: string;
 } & TGeneralPaginatedQuery;
+
+type TReceptionistPatientItem = {
+  id: string;
+  email: string;
+  isProfileCompleted: boolean;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  profilePhoto: string;
+  createdAt: string;
+  updatedAt: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  maritalStatus: string;
+  profileStatus: string;
+  patientPersonal: {
+    id: string;
+    maritalStatus: string;
+    gender: string;
+    dateOfBirth: string;
+    weight: string;
+    height: string;
+    primaryCarePhysician?: string;
+  };
+  patientContact: {
+    id: string;
+    homeAddress: string;
+    city: string;
+    state: string;
+    landmark?: string;
+    zipCode?: string;
+  };
+  patientEmergencyContact: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    phoneNumber: string;
+  };
+};
+
+type TReceptAllPatientRes = {
+  patients: Array<TReceptionistPatientItem>;
+  pagination: TPaginationResponse;
+};
