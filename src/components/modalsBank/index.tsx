@@ -18,6 +18,15 @@ const ModalsMap = {
   ),
   [AppModals.QC_STATUS_UPDATE]: dynamic(
     () => import('@/app/(modules)/lab-coord/components/modals/QCStatusModal')
+  ),
+  [AppModals.RECPTS_PATIENT_REG]: dynamic(
+    () => import('@/app/(modules)/recpst/components/modals/RegPatientModal')
+  ),
+  [AppModals.AVAILABLE_MARKETERS]: dynamic(
+    () => import('@/app/(modules)/lab-coord/components/modals/MarketersModal')
+  ),
+  [AppModals.SINGLE_APPOINTMENT]: dynamic(
+    () => import('@/app/(modules)/recpst/appt/components/modals/SingleApptModal')
   )
 };
 

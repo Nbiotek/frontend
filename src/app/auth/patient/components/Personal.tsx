@@ -1,5 +1,4 @@
 'use client';
-import { CardContent } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
 import Input from '@/atoms/fields/Input';
@@ -11,12 +10,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import CustomDate from '@/atoms/fields/CustomDate';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { EnumRole } from '@/constants/mangle';
+import { toJS } from 'mobx';
+import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
 function PersonalForm() {
+  const { data, isLoading } = useFetchProfile();
   const {
-    PatientStore: { personalInfo, setPersonalInfo }
+    PatientStore: { personalInfo, setPersonalInfo },
+    AuthStore: { user }
   } = useStore();
+  const [disable, setDisable] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,6 +30,7 @@ function PersonalForm() {
     reset,
     formState: { errors }
   } = useForm<TPatientPersonalSchema>({
+    defaultValues: personalInfo,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
@@ -51,17 +57,29 @@ function PersonalForm() {
       setValue('height', String(personalInfo.height));
     }
 
+    setDisable(user && user.role === EnumRole.PATIENT);
+
     if (personalInfo.weight) {
       setValue('weight', String(personalInfo.weight));
     }
   }, []);
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
-      <CardContent className="flex flex-col space-y-4 rounded-lg bg-white py-6 shadow-lg">
-        <SubTitle className="!text-center" text="Personal Information" />
+  useEffect(() => {
+    if (disable) {
+      if (!isLoading && data) {
+        setValue('firstName', data.first_name as string);
+        setValue('lastName', data.last_name as string);
+        setValue('email', data.email as string);
+      }
+    }
+  }, [isLoading, data, disable]);
 
-        <fieldset className="">
+  return (
+    <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
+      <SubTitle className="!text-center" text="Personal Information" />
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className="w-full">
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
               required={true}
@@ -72,6 +90,7 @@ function PersonalForm() {
               placeholder="Adeolu"
               {...register('firstName')}
               error={errors.firstName?.message}
+              disabled={disable}
             />
             <Input
               required={true}
@@ -82,8 +101,20 @@ function PersonalForm() {
               placeholder="John"
               {...register('lastName')}
               error={errors.lastName?.message}
+              disabled={disable}
             />
           </div>
+
+          <Input
+            required={true}
+            type="text"
+            id="email"
+            label="Email"
+            placeholder="johndoes@gmail.com"
+            {...register('email')}
+            error={errors.email?.message}
+            disabled={disable}
+          />
           <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
             <Input
               required={true}
@@ -156,11 +187,12 @@ function PersonalForm() {
             </div>
           </div>
         </fieldset>
-      </CardContent>
-      <Button type="submit" variant="filled">
-        Next
-      </Button>
-    </form>
+
+        <Button type="submit" variant="filled">
+          Next
+        </Button>
+      </form>
+    </div>
   );
 }
 

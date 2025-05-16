@@ -1,23 +1,29 @@
-'use client';
-import { EnumPatientForm, EnumRole } from '@/constants/mangle';
-import InsuranceForm from './components/Insurance';
-import ContactForm from './components/Contact';
-import PersonalForm from './components/Personal';
+import { XModal } from '@/atoms/modal';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { useStore } from '@/store';
+import { EnumPatientForm } from '@/constants/mangle';
+import InsuranceForm from '@/app/auth/patient/components/Insurance';
+import ContactForm from '@/app/auth/patient/components/Contact';
+import PersonalForm from '@/app/auth/patient/components/Personal';
 import { observer } from 'mobx-react-lite';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { PatientInsuranceSchema, TPatientInsuranceSchema } from '../validation';
+import { PatientInsuranceSchema, TPatientInsuranceSchema } from '@/app/auth/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
-import { CardContent } from '@/components/ui/card';
 
-const PatientRegView = () => {
-  const router = useRouter();
+const LabTechModal = () => {
   const {
-    PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo },
-    AuthStore: { user }
+    AppConfigStore: { isOpen, toggleModals },
+    PatientStore: {
+      isLoading,
+      setCurrentForm,
+      currentForm,
+      registerPatient,
+      setInsuranceInfo,
+      resetPatientStore
+    }
   } = useStore();
+
   const methods = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(PatientInsuranceSchema),
@@ -25,7 +31,7 @@ const PatientRegView = () => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => () => updatePatient((url) => router.replace(url)));
+    setInsuranceInfo(formData, () => registerPatient(() => toggleModals({})));
   };
 
   const switchDetails = (key: EnumPatientForm) => {
@@ -64,10 +70,19 @@ const PatientRegView = () => {
   };
 
   return (
-    <CardContent className="flex w-full flex-col space-y-4 rounded-lg bg-white p-4">
-      {switchDetails(currentForm)}
-    </CardContent>
+    <XModal
+      closeModal={() => {
+        resetPatientStore();
+        toggleModals({ name: AppModals.RECPTS_PATIENT_REG, open: false });
+      }}
+      bgClose={false}
+      isOpen={isOpen.RECPTS_PATIENT_REG}
+      className="!max-w-[450px]"
+      title="Register Patients"
+    >
+      <div className="w-full">{switchDetails(currentForm)}</div>
+    </XModal>
   );
 };
 
-export default observer(PatientRegView);
+export default observer(LabTechModal);

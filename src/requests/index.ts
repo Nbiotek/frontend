@@ -45,16 +45,14 @@ const server = axios.create({
   baseURL: env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     'content-type': 'application/json'
-  },
-  withCredentials: true
+  }
 });
 
 export const serverwithoutInterceptor = axios.create({
   baseURL: env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     'content-type': 'application/json'
-  },
-  withCredentials: true
+  }
 });
 
 export const uninterceptedServer = axios.create({

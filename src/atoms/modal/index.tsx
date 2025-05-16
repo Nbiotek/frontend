@@ -38,7 +38,7 @@ export const XModal = ({
           <div className="fixed inset-0" />
         </TransitionChild>
 
-        <div className="fixed inset-0 z-[999] overflow-y-auto bg-black/80 backdrop-blur-[5px]">
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-black/80 backdrop-blur-[5px]">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <TransitionChild
               as={Fragment}

@@ -22,9 +22,17 @@ class AppConfigStore {
     testId: ''
   };
 
+  availableMarketers: { testId: string; isReassign?: boolean } = {
+    testId: ''
+  };
+
   qcStatusUpdate = {
     testId: '',
     currentStatus: EnumResultStatus.PENDING
+  };
+
+  singleAppt = {
+    id: ''
   };
 
   constructor(_rootStore: RootStore) {
@@ -34,6 +42,7 @@ class AppConfigStore {
       testDetails: observable,
       queryLimit: observable,
       availableLabTechnicians: observable,
+      availableMarketers: observable,
       qcStatusUpdate: observable,
 
       setModalOpenState: action.bound,
@@ -65,11 +74,27 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.AVAILABLE_MARKETERS:
+        if (modal.open) {
+          this.availableMarketers = {
+            testId: modal.testId,
+            isReassign: Boolean(modal.isReassign)
+          };
+        }
+        break;
       case AppModals.QC_STATUS_UPDATE:
         if (modal.open) {
           this.qcStatusUpdate = {
             testId: modal.testId,
             currentStatus: modal.currentStatus
+          };
+        }
+        break;
+
+      case AppModals.SINGLE_APPOINTMENT:
+        if (modal.open) {
+          this.singleAppt = {
+            id: modal.id
           };
         }
         break;

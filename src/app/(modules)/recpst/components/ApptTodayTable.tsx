@@ -1,7 +1,28 @@
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+'use client';
+import { useState } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table';
 import EmptyState from '@/components/EmptyState';
+import Pagination from '@/atoms/pagination';
+import TableLoader from '@/atoms/Loaders/TableLoader';
+import Status from '@/atoms/Buttons/Status';
 
-const ApptTodayTable = () => {
+interface IApptTodayTableProps {
+  isLoading: boolean;
+  appointment: TAppointmentResp;
+}
+
+const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
+  const pagination = appointment.pagination;
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(pagination.page);
+
   return (
     <div className="w-full overflow-clip rounded-lg bg-white">
       <Table>
@@ -15,9 +36,43 @@ const ApptTodayTable = () => {
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
+
+        {isLoading ? (
+          <TableLoader rows={20} columns={6} />
+        ) : (
+          appointment.appointment.length !== 0 && (
+            <TableBody>
+              {appointment.appointment.map((appt) => (
+                <TableRow key={appt.id}>
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {appt.appointmentDate}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.fullName}</TableCell>
+                  <TableCell>{appt.location?.type}</TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.location?.type}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <Status variant={appt.status} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
       </Table>
 
       <EmptyState title="No Pending Appointments." />
+
+      {isLoading || (
+        <Pagination
+          limit={pagination.limit}
+          setLimit={setLimit}
+          currentPage={pagination.page}
+          setPage={setPage}
+          total={pagination.total}
+          totalPages={pagination.totalPages}
+          siblingCount={1}
+        />
+      )}
     </div>
   );
 };

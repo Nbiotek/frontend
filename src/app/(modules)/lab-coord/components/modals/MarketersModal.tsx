@@ -1,25 +1,25 @@
 import { XModal } from '@/atoms/modal';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
-import AvailableTechnicians from '../AvailableTechnicians';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
+import AvailableMarketers from '../AvailableMarketers';
 
-const LabTechModal = () => {
+const MarketersModal = () => {
   const {
     AppConfigStore: { isOpen, toggleModals }
   } = useStore();
 
   return (
     <XModal
-      closeModal={() => toggleModals({ name: AppModals.AVAILABLE_TECHNICIANS, open: false })}
+      closeModal={() => toggleModals({ name: AppModals.AVAILABLE_MARKETERS, open: false })}
       bgClose={false}
-      isOpen={isOpen.AVAILABLE_TECHNICIANS}
+      isOpen={isOpen.AVAILABLE_MARKETERS}
       className="!max-w-[450px]"
-      title="Available Technicians"
+      title="Available marketers"
     >
-      <AvailableTechnicians />
+      <AvailableMarketers />
     </XModal>
   );
 };
 
-export default observer(LabTechModal);
+export default observer(MarketersModal);

@@ -11,11 +11,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
 import ProfileCard from './ProfileCard';
+import ROUTES from '@/constants/routes';
 
 const RecptRegView = () => {
   const router = useRouter();
   const {
-    PatientStore: { isLoading, setCurrentForm, currentForm, registerPatient, setInsuranceInfo }
+    PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo }
   } = useStore();
   const methods = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
@@ -24,7 +25,7 @@ const RecptRegView = () => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => registerPatient((url) => router.replace(url)));
+    setInsuranceInfo(formData, () => updatePatient());
   };
 
   const switchDetails = (key: EnumPatientForm) => {
@@ -37,7 +38,7 @@ const RecptRegView = () => {
         return (
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <InsuranceForm />;
+              <InsuranceForm />
               <div className="flex items-center justify-between space-x-2">
                 <Button
                   type="button"

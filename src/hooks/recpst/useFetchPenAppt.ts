@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
-import { qualityControl } from './FetchkeyFactory';
+import { recpst } from './FetchKeyFactory';
 import { useQuery } from '@tanstack/react-query';
 
-const select = (resp: INBTServerResp<TQCTestResp>) => resp.data;
+const select = (resp: INBTServerResp<TAppointmentResp>) => resp.data;
 
-export function useFetchHistoryQC(
-  query: Partial<TTestQuery>
-): IQueryHookResponse<TQCTestResp | undefined> {
-  const meta = qualityControl.getHistory(query);
+export function useFetchPendAppt(
+  query: Omit<Partial<TAppointmentQuery>, 'status'>
+): IQueryHookResponse<TAppointmentResp | undefined> {
+  const meta = recpst.getPendingAppointments(query);
   const memoizedSelect = useCallback(select, []);
 
   const { data, status, error, isLoading } = useQuery({
