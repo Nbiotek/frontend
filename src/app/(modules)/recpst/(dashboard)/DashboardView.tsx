@@ -54,7 +54,7 @@ const DashboardView = () => {
         <ApptTodayTable {...{ isLoading: false, appointment: { appointment: [], pagination } }} />
       </div>
 
-      <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
+      {/* <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
         <div className="flex w-full items-center justify-between border-b pb-2">
           <SubTitle text="Patients" className="whitespace-nowrap" />
 
@@ -64,7 +64,7 @@ const DashboardView = () => {
         </div>
 
         <PatientsRegTable />
-      </div>
+      </div> */}
     </div>
   );
 };
