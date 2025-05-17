@@ -246,7 +246,10 @@ const BookAppointmentView = observer(() => {
                           {item.item.name}{' '}
                           <span className="ml-5 text-red-200">
                             {' '}
-                            ₦{item.item.price.toLocaleString()}
+                            ₦
+                            {item.item.discountedPrice
+                              ? item.item.discountedPrice
+                              : item.item.price}
                           </span>
                         </p>
                         <CircleX

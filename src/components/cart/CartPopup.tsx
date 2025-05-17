@@ -1,3 +1,5 @@
+'use client';
+
 import { observer, Observer } from 'mobx-react-lite';
 import {
   Sheet,
@@ -10,15 +12,17 @@ import {
 } from '@/components/ui/sheet';
 import { X } from 'lucide-react';
 import { useStore } from '@/store';
-import { observe } from 'mobx';
 import { CartIcon } from '@/lib/utils/svg';
 import Button from '@/atoms/Buttons';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
 
 export const CartPopup = observer(() => {
   const {
     CartStore: { items, total, itemCount, removeItem }
   } = useStore();
+  const router = useRouter();
   return (
     <Sheet>
       <SheetTrigger asChild className="p-0">
@@ -110,7 +114,11 @@ export const CartPopup = observer(() => {
                   <span className="font-medium">Total ({items.length} Products)</span>
                   <span className="font-medium">₦{total.toLocaleString()}</span>
                 </div>
-                <Button className="w-full" variant="filled">
+                <Button
+                  className="w-full"
+                  variant="filled"
+                  onClick={() => router.push(`${ROUTES.PATIENT_BOOK_APPOINTMENTS.path}`)}
+                >
                   Proceed to Checkout
                 </Button>
               </div>

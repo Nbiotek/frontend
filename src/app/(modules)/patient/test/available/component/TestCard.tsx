@@ -33,7 +33,9 @@ const TestCard = observer(
             )}
 
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-blue-600 font-medium">₦{test.price.toLocaleString()}</span>
+              <span className="text-blue-600 font-medium">
+                ₦{test.discountedPrice ? test.discountedPrice : test.price}
+              </span>
               <div className="flex space-x-2">
                 <Button variant="outline" size="sm" onClick={onView}>
                   <Info className="mr-1 h-4 w-4" />

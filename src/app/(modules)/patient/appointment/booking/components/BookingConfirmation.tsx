@@ -44,6 +44,7 @@ const BonkingConfirmationDialog = ({
       bookAppointment(bookingData, {
         onSuccess: (response) => {
           toast.success('Booking confirmed');
+          clearCart();
           if (bookingData.paymentMethod === 'location') {
             router.push('/patient/appointment/pending');
           }
@@ -129,7 +130,9 @@ const BonkingConfirmationDialog = ({
                   {items.map((test) => (
                     <div key={test.id} className="flex justify-between text-sm">
                       <span>{test.item.name}</span>
-                      <span>₦{test.item.price.toLocaleString()}</span>
+                      <span>
+                        ₦{test.item.discountedPrice ? test.item.discountedPrice : test.item.price}
+                      </span>
                     </div>
                   ))}
 

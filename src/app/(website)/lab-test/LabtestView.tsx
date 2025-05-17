@@ -9,57 +9,6 @@ import TestCard from './components/TestCard';
 import PackageTestCard from './components/PackageTestCard';
 import { useStore } from '@/store';
 
-const labTests = [
-  {
-    id: 1,
-    title: 'Complete Blood Count (CBC)',
-    description:
-      'Measures the levels of red blood cells, white blood cells, and platelets in your blood to evaluate overall health and detect disorders.',
-    price: 20,
-    category: 'Hematology'
-  },
-  {
-    id: 2,
-    title: 'Lipid Profile',
-    description:
-      'Measures cholesterol levels to assess risk of cardiovascular disease including heart attacks and strokes.',
-    price: 30,
-    category: 'Biochemistry'
-  },
-  {
-    id: 3,
-    title: 'Liver Function Test (LFT)',
-    description:
-      'Evaluates how well your liver is working by measuring levels of proteins, liver enzymes, and bilirubin in your blood.',
-    price: 35,
-    category: 'Biochemistry'
-  },
-  {
-    id: 4,
-    title: 'Thyroid Panel',
-    description:
-      'Measures thyroid hormone levels to assess thyroid function and diagnose thyroid disorders.',
-    price: 45,
-    category: 'Endocrinology'
-  },
-  {
-    id: 5,
-    title: 'Blood Glucose Test',
-    description:
-      'Measures the amount of glucose in your blood to diagnose diabetes or monitor blood sugar levels.',
-    price: 15,
-    category: 'Biochemistry'
-  },
-  {
-    id: 6,
-    title: 'Urinalysis',
-    description:
-      'Analyzes the content of urine to detect kidney disease, urinary tract infections, and diabetes.',
-    price: 20,
-    category: 'Microbiology'
-  }
-];
-
 const imagingTests = [
   {
     id: 1,
@@ -150,14 +99,6 @@ const NoResults = ({ searchQuery, testType }: { searchQuery: string; testType: s
     <p className="text-gray-600 mt-2">
       We couldnt find any {testType} matching {searchQuery}. Try a different search term.
     </p>
-  </div>
-);
-
-const ViewAllButton = ({ testType }: { testType: string }) => (
-  <div className="mt-8 flex justify-center">
-    <button className="rounded-lg border border-blue-400 bg-white px-6 py-2 font-medium text-blue-400 transition-colors hover:bg-blue-50">
-      View All {testType}
-    </button>
   </div>
 );
 
@@ -255,7 +196,7 @@ const LabTestView = () => {
           </TabsList>
 
           {/* Individual Lab Tests Tab */}
-          <TabsContent value="lab-tests" className="mt-2">
+          <TabsContent value="lab-tests" className="mt-2 border">
             <div className="mb-6">
               <h2 className="text-gray-900 text-xl font-semibold sm:text-2xl">
                 Individual Lab Tests
@@ -275,8 +216,6 @@ const LabTestView = () => {
                 ))}
               </div>
             )}
-
-            {!searchQuery && <ViewAllButton testType="Individual Tests" />}
           </TabsContent>
 
           {/* Package Tests Tab */}
@@ -300,8 +239,6 @@ const LabTestView = () => {
                 ))} */}
               </div>
             )}
-
-            {!searchQuery && <ViewAllButton testType="Package Tests" />}
           </TabsContent>
 
           {/* Imaging Tests Tab */}
@@ -323,8 +260,6 @@ const LabTestView = () => {
                 ))}
               </div>
             )}
-
-            {!searchQuery && <ViewAllButton testType="Imaging Tests" />}
           </TabsContent>
 
           {/* Molecular Tests Tab */}
@@ -348,8 +283,6 @@ const LabTestView = () => {
                 ))}
               </div>
             )}
-
-            {!searchQuery && <ViewAllButton testType="Molecular Tests" />}
           </TabsContent>
         </Tabs>
       </div>
