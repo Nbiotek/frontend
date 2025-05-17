@@ -94,7 +94,6 @@ const TestSelectionPanel = observer(
         addItem(test, isPackage ? 'package' : 'single');
         Toast.success(`Added ${test.name} to your selection`);
       } catch (error) {
-        console.error('Error adding to cart:', error);
         Toast.error('Failed to add test to selection');
       }
     };
@@ -104,7 +103,6 @@ const TestSelectionPanel = observer(
         removeItem(id);
         Toast.success(`Removed ${name} from your selection`);
       } catch (error) {
-        console.error('Error removing from cart:', error);
         Toast.error('Failed to remove test from selection');
       }
     };

@@ -42,14 +42,14 @@ class CartStore {
       });
     }
     // Show success message
-    Toast.success(`Added ${item.name} to your selection`);
+    // Toast.success(`Added ${item.name} to your selection`);
     this.saveCart();
   };
 
   // remove item from cart
   removeItem = (id: string) => {
     this.items = this.items.filter((item) => item.id !== id);
-    Toast.info('Item removed from cart');
+    // Toast.info('Item removed from cart');
     this.saveCart();
   };
 
@@ -70,7 +70,6 @@ class CartStore {
   // Clear cart
   clearCart = () => {
     this.items = [];
-    Toast.info('Cart cleared');
     this.saveCart();
   };
 

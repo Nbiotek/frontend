@@ -45,7 +45,9 @@ const CartItemRow = ({ item, onRemove }: { item: CartItem; onRemove: () => void 
   <div className="flex items-center justify-between border-b py-2 last:border-0">
     <div className="min-w-0 flex-1">
       <p className="truncate font-medium">{item.item.name}</p>
-      <p className="text-gray-600 text-sm">₦{item.item.price.toLocaleString()}</p>
+      <p className="text-gray-600 text-sm">
+        ₦{item.item.discountedPrice ? item.item.discountedPrice : item.item.price}
+      </p>
     </div>
     <Button
       variant="ghost"

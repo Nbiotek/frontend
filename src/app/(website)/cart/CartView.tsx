@@ -8,22 +8,22 @@ import { useRouter } from 'next/navigation';
 
 const CartView = observer(() => {
   const {
-    CartStore: { removeItem, addItem, items }
+    CartStore: { removeItem, addItem, items, total }
   } = useStore();
   const router = useRouter();
 
-  const totalAmount = items.reduce((sum, item) => sum + (item.item.price || 0), 0);
+  const totalAmount = total;
 
   const handleRemoveItem = (itemId: string) => {
     removeItem(itemId);
   };
 
   const handleCheckout = () => {
-    router.push('/patient/booking');
+    router.push('/auth/register');
   };
 
   const handleContinueShopping = () => {
-    router.push('/lab-tests');
+    router.push('/lab-test');
   };
 
   if (items.length === 0) {
@@ -63,7 +63,9 @@ const CartView = observer(() => {
                   {item.item.description?.substring(0, 60)}...
                 </p>
               </div>
-              <div className="col-span-2 text-right">₦{item.item.price?.toLocaleString()}</div>
+              <div className="col-span-2 text-right">
+                ₦{item.item.discountedPrice ? item.item.discountedPrice : item.item.price}
+              </div>
               <div className="col-span-2 text-right">
                 <button
                   onClick={() => handleRemoveItem(item.id)}

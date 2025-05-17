@@ -2,16 +2,40 @@
 import Cards from '@/atoms/Cards';
 import QuickAction from '@/components/common/quick-links';
 import Link from 'next/link';
-
+import { useStore } from '@/store';
+import { useRouter } from 'next/navigation';
 import { PatientQuickLinks } from '@/config/quickActionItems';
-
 import { usePatientDashboard, usePatientRecentResult } from '@/hooks/patient/usePatientDashboard';
 import MetricsOverview from './component/MetricOverView';
 import RecentAppointment from './component/RecentAppointment';
 import RecentResultTable from './component/RecentResultTable';
 import { useEffect, useState } from 'react';
+import { EnumRole } from '@/constants/mangle';
+import ROUTES from '@/constants/routes';
 
 const PatientView = () => {
+  const router = useRouter();
+  const {
+    CartStore: { items, removeItem, total }
+  } = useStore();
+
+  const [showCartModal, setShowCartModal] = useState(false);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setShowCartModal(true);
+    }
+  }, [items.length]);
+
+  const handleProceedToBooking = () => {
+    router.push(`${ROUTES.PATIENT_BOOK_APPOINTMENTS.path}`);
+    setShowCartModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowCartModal(false);
+  };
+
   const { isLoading, data } = usePatientDashboard();
   const recentAppointments = data?.recentAppointments || [];
   const { isLoading: recentDataloading, data: recentResultData } = usePatientRecentResult();
@@ -40,6 +64,33 @@ const PatientView = () => {
 
   return (
     <div className="mt-[24px] flex w-full flex-col space-y-[24px]">
+      {/* Cart Modal */}
+      {showCartModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+            <h2 className="mb-4 text-xl font-bold">Items in Your Cart</h2>
+            <p className="mb-6">
+              You have {items.length} item{items.length !== 1 ? 's' : ''} in your cart. Would you
+              like to proceed to checkout?
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={handleCloseModal}
+                className="border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md border px-4 py-2"
+              >
+                Continue Browsing
+              </button>
+              <button
+                onClick={handleProceedToBooking}
+                className="hover:bg-blue-700 rounded-md bg-blue-400 px-4 py-2 text-white"
+              >
+                Proceed to Booking
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MetricsOverview overviewData={OverviewData} isLoading={isLoading} />
       <div className="flex flex-col-reverse space-y-2 space-y-reverse lg:flex-row lg:space-x-4 lg:space-y-0 ">
         <RecentAppointment isLoading={isLoading} recentAppointments={recentAppointments} />
