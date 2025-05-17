@@ -19,11 +19,11 @@ const CartView = observer(() => {
   };
 
   const handleCheckout = () => {
-    router.push('/patient/booking');
+    router.push('/auth/register');
   };
 
   const handleContinueShopping = () => {
-    router.push('/lab-tests');
+    router.push('/lab-test');
   };
 
   if (items.length === 0) {
