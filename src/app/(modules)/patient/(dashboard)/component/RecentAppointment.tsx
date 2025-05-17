@@ -1,3 +1,4 @@
+'use client';
 import Cards from '@/atoms/Cards';
 import { Text } from '@/lib/utils/Text';
 import Link from 'next/link';
