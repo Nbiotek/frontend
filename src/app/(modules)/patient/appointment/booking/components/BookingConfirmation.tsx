@@ -44,6 +44,7 @@ const BonkingConfirmationDialog = ({
       bookAppointment(bookingData, {
         onSuccess: (response) => {
           toast.success('Booking confirmed');
+          clearCart();
           if (bookingData.paymentMethod === 'location') {
             router.push('/patient/appointment/pending');
           }

@@ -70,7 +70,6 @@ class CartStore {
   // Clear cart
   clearCart = () => {
     this.items = [];
-    Toast.info('Cart cleared');
     this.saveCart();
   };
 
