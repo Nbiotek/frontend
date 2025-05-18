@@ -221,7 +221,7 @@ class AuthStore {
       isProfileCompleted: decodedToken.isProfileCompleted
     });
 
-    if (!email_verified) {
+    if (email_verified == false) {
       Toast.info('Check your inbox to verify your account.');
       persist('_um', this.user.email);
       this.isLoading.login = false;
@@ -241,19 +241,21 @@ class AuthStore {
     del('_um');
     this._pd = '';
 
-    if (this.user.role === EnumRole.PATIENT) {
-      if (decodedToken.isProfileCompleted) {
-        cb && cb(ROUTES.PATIENT.path);
+    if (this.user.email_verified) {
+      if (this.user.role === EnumRole.PATIENT) {
+        if (decodedToken.isProfileCompleted) {
+          cb && cb(ROUTES.PATIENT.path);
+        } else {
+          this.rootStore.PatientStore.setPersonalInfoPersist({
+            firstName: this.user.first_name,
+            lastName: this.user.last_name,
+            email: this.user.email
+          });
+          cb && cb(ROUTES.PATIENT_REG_INFO.path);
+        }
       } else {
-        this.rootStore.PatientStore.setPersonalInfoPersist({
-          firstName: this.user.first_name,
-          lastName: this.user.last_name,
-          email: this.user.email
-        });
-        cb && cb(ROUTES.PATIENT_REG_INFO.path);
+        cb && cb(ROUTES.getRedirectPathByRole(decodedToken.role as EnumRole));
       }
-    } else {
-      cb && cb(ROUTES.getRedirectPathByRole(decodedToken.role as EnumRole));
     }
   }
 
@@ -370,10 +372,10 @@ class AuthStore {
       if (!data.email_verified) {
         toast.error('Unable to verify account!');
         return;
+      } else {
+        toast.success(message);
+        this.grantAccess(data.access_token, data.email_verified, cb);
       }
-
-      toast.success(message);
-      this.grantAccess(data.access_token, data.email_verified, cb);
     } catch (error) {
       toast.error(parseError(error));
     } finally {
