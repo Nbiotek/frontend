@@ -12,7 +12,6 @@ import { useCountdown } from '@/hooks/useCountdown';
 import { EnumResendToken } from '@/store/AuthStore';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
-import ROUTES from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
 
 function OTPVerificationView() {
@@ -91,6 +90,7 @@ function OTPVerificationView() {
             ) : null}
           </div>
           <Button
+            type="submit"
             variant="filled"
             text="Continue"
             isLoading={isLoading.OTP}

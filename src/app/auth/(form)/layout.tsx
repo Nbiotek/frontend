@@ -13,10 +13,10 @@ export default function FormLayout({ children }: { children: React.ReactNode }) 
   } = useStore();
 
   useEffect(() => {
-    if (Boolean(user.role)) {
+    if (Boolean(user.role) && user.email_verified) {
       router.replace(ROUTES.getRedirectPathByRole(user.role as EnumRole));
     }
-  });
+  }, []);
 
   return <> {children} </>;
 }

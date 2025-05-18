@@ -8,12 +8,17 @@ import PageLoading from '@/atoms/Loaders/PageLoading';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import { EnumRole } from '@/constants/mangle';
+import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
 
 const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [userData, setUserData] = useState<Partial<TProfileInfo>>({});
-  const { data, status } = useFetchProfile();
+  const { data, status, isLoading } = useFetchProfile();
+  const {
+    AuthStore: { accessToken }
+  } = useStore();
 
   const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
   const allProtectedRoutes = allProtectedRoutesObj.keys();
@@ -23,7 +28,7 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
       if (pathname.startsWith(route)) {
         const role = allProtectedRoutesObj.get(route);
 
-        if (role && data) {
+        if (role && userData.email_verified) {
           if (role.includes(userData.role as EnumRole)) {
             return router.replace(pathname);
           } else {
@@ -35,19 +40,39 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   }, [pathname, userData]);
 
   useEffect(() => {
-    if (data !== undefined) {
-      setUserData(data);
+    if (!isLoading && data !== undefined) {
+      if (data.email_verified) {
+        setUserData(data);
+      } else {
+        return router.replace(ROUTES.LOGIN.path);
+      }
     }
-  }, [data]);
+  }, [data, isLoading]);
 
   useEffect(() => {
     checkAuthorization();
   }, [checkAuthorization]);
 
+  useEffect(() => {
+    if (!accessToken) {
+      return router.replace(ROUTES.LOGIN.path);
+    }
+
+    if (status === 'error') {
+      return router.replace(ROUTES.LOGIN.path);
+    }
+  }, [accessToken, status]);
+
+  if (!accessToken) {
+    return <PageLoading />;
+  }
+
   if (status === 'pending') {
     return <PageLoading />;
-  } else if (status === 'error') {
-    return redirect(ROUTES.LOGIN.path);
+  }
+
+  if (status === 'error') {
+    return <PageLoading />;
   }
 
   return (
@@ -63,4 +88,4 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Dashboardlayout;
+export default observer(Dashboardlayout);
