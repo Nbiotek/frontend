@@ -12,6 +12,7 @@ import EmptyState from '@/components/EmptyState';
 import Pagination from '@/atoms/pagination';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import Status from '@/atoms/Buttons/Status';
+import { formatTestDate } from '@/utils/date';
 
 interface IApptTodayTableProps {
   isLoading: boolean;
@@ -28,10 +29,9 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Time</TableHead>
+            <TableHead>Date</TableHead>
             <TableHead>Patient</TableHead>
-            <TableHead>Test</TableHead>
-            <TableHead>Technician</TableHead>
+            <TableHead>Number of Tests</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Status</TableHead>
           </TableRow>
@@ -45,10 +45,10 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
               {appointment.appointment.map((appt) => (
                 <TableRow key={appt.id}>
                   <TableCell className="whitespace-nowrap font-medium">
-                    {appt.appointmentDate}
+                    {formatTestDate(appt.appointmentDate)}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap">{appt.fullName}</TableCell>
-                  <TableCell>{appt.location?.type}</TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
+                  <TableCell>{appt.tests.length}</TableCell>
                   <TableCell className="whitespace-nowrap">{appt.location?.type}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Status variant={appt.status} />
@@ -60,7 +60,7 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
         )}
       </Table>
 
-      <EmptyState title="No Pending Appointments." />
+      {appointment.appointment.length === 0 && <EmptyState title="No Pending Appointments." />}
 
       {isLoading || (
         <Pagination

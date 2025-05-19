@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 const select = (resp: INBTServerResp<TAppointmentResp>) => resp.data;
 
 export function useFetchPendAppt(
-  query: Omit<Partial<TAppointmentQuery>, 'status'>
+  query: Omit<Partial<TAppointmentQuery>, 'status' | 'month'>
 ): IQueryHookResponse<TAppointmentResp | undefined> {
   const meta = recpst.getPendingAppointments(query);
   const memoizedSelect = useCallback(select, []);

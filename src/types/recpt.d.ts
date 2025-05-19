@@ -54,7 +54,7 @@ type TSingleAppointment = {
 };
 
 type TAppointmentResp = {
-  appointment: Array<TAppointmentItem>;
+  appointment: Array<TSingleAppointment>;
   pagination: TPaginationResponse;
 };
 
@@ -64,6 +64,7 @@ type TAppointmentQuery = {
   sortOrder: string;
   toDate: string;
   fromDate: string;
+  month: string;
 } & TGeneralPaginatedQuery;
 
 type TReceptionistPatientItem = {
@@ -109,4 +110,10 @@ type TReceptionistPatientItem = {
 type TReceptAllPatientRes = {
   patients: Array<TReceptionistPatientItem>;
   pagination: TPaginationResponse;
+};
+
+type TReceptUpdateApptPayload = {
+  paymentStatus: string;
+  status: string;
+  appointmentDate: string;
 };

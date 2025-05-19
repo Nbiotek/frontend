@@ -119,5 +119,6 @@ export const TEST = {
 
 export const RECEPTIONIST = {
   APPOINTMENTS: '/receptionist/appointments',
-  SINGLE_APPOINTMENT: '/receptionist/appointment/:id'
+  SINGLE_APPOINTMENT: '/receptionist/appointment/:id',
+  UPDATE_APPOINTMENT: '/receptionist/appointments/update/:id'
 };
