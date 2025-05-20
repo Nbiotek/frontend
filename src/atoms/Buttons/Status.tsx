@@ -96,7 +96,7 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-red';
 
       case 'APPROVED':
-        return 'bg-white text-blue';
+        return 'status-blue';
       case 'INCOMPLETED':
         return 'status-amber';
     }

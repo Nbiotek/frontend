@@ -117,3 +117,31 @@ type TReceptUpdateApptPayload = {
   status: string;
   appointmentDate: string;
 };
+
+type TPatientApptResp = {
+  appointments: Array<{
+    id: string;
+    title: string;
+    description: string;
+    tests: Array<{
+      name: string;
+      description: string;
+      type: string;
+      status: string;
+      priority: string;
+    }>;
+    location: {
+      type: string;
+      address: string;
+    };
+    appointmentDate: string;
+    status: string;
+    paymentStatus: string;
+    paymentMethod: string;
+    totalAmount: number;
+    createdAt: string;
+    updatedAt: string;
+  }>;
+
+  pagination: TPaginationResponse;
+};

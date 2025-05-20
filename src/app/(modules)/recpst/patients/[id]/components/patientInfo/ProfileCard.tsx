@@ -4,6 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { SubTitle } from '@/atoms/typographys';
+import { TPatientOverviewProfile } from './RecptRegView';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '@/store';
 
 function InfoField({ label, value }: { label: string; value: string }) {
   return (
@@ -14,16 +17,10 @@ function InfoField({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function ProfileCard() {
-  const [profile, setProfile] = useState({
-    name: 'Mr Oladayo Emmanuel',
-    id: 'SC300125',
-    gender: 'Male',
-    age: '50',
-    mobile: '+2348018402946',
-    address: '2nd Floor, Aditu Building, Ikeja, Lagos.'
-  });
-
+const ProfileCard = ({ profile }: { profile: TPatientOverviewProfile }) => {
+  const {
+    PatientStore: { personalInfo }
+  } = useStore();
   return (
     <div className="w-full overflow-hidden rounded-lg bg-white shadow-md">
       <div className="h-20 bg-blue-400"></div>
@@ -68,4 +65,6 @@ export default function ProfileCard() {
       </Card>
     </div>
   );
-}
+};
+
+export default observer(ProfileCard);

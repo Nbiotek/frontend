@@ -12,6 +12,15 @@ import TableLoader from '@/atoms/Loaders/TableLoader';
 import Pagination from '@/atoms/pagination';
 import Status from '@/atoms/Buttons/Status';
 import { formatTestDate } from '@/utils/date';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { EllipsisVertical } from 'lucide-react';
+import ROUTES from '@/constants/routes';
+import { useRouter } from 'next/navigation';
 
 interface IPatientsRegTableProps {
   isLoading: boolean;
@@ -30,6 +39,7 @@ const PatientsRegTable = ({
   setLimit,
   setPage
 }: IPatientsRegTableProps) => {
+  const router = useRouter();
   const pagination = patient.pagination;
 
   return (
@@ -42,7 +52,7 @@ const PatientsRegTable = ({
             <TableHead>Phone number</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Submitted on</TableHead>
-            {/* <TableHead className='w-5'>Action</TableHead> */}
+            <TableHead className="w-5"></TableHead>
           </TableRow>
         </TableHeader>
 
@@ -65,6 +75,28 @@ const PatientsRegTable = ({
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     {formatTestDate(patient.createdAt)}
+                  </TableCell>
+
+                  <TableCell className="whitespace-nowrap">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                      </DropdownMenuTrigger>
+
+                      <DropdownMenuContent className="">
+                        {patient.isProfileCompleted && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              router.push(
+                                `${ROUTES.RECPTS_PATIENT_DETAILS.path.replaceAll(':id', patient.id)}`
+                              )
+                            }
+                          >
+                            View
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}

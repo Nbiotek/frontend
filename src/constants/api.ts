@@ -9,7 +9,9 @@ export const AUTH = {
   CHANGE_PWD: '',
   RESEND_EMAIL_VERIFICATION: '/users/resend-email-verification',
   UPDATE_PATIENT_PROFILE: '/users/patient/update-profile',
-  ALL_PATIENT: '/users/patient/all'
+  ALL_PATIENT: '/users/patient/all',
+  SINGLE_PATIENT: '/users/patient/:id',
+  PATIENT_APPOINTMENTS: '/users/patients/:id/appointments'
 } as const;
 
 export const PATIENT = {
