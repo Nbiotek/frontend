@@ -74,3 +74,44 @@ export const theme = [
     value: 'dark'
   }
 ];
+
+export const AppointmentStatus = [
+  {
+    label: 'Approve',
+    value: 'APPROVED'
+  },
+
+  {
+    label: 'Pending',
+    value: 'PENDING'
+  },
+
+  {
+    label: 'Cancel',
+    value: 'CANCELLED'
+  }
+];
+
+export const PaymentStatus = [
+  {
+    label: 'Pending',
+    value: 'PENDING'
+  },
+  {
+    label: 'Processing',
+    value: 'PROCESSING'
+  },
+  {
+    label: 'Completed',
+    value: 'COMPLETED'
+  },
+  {
+    label: 'Failed',
+    value: 'FAILED'
+  },
+
+  {
+    label: 'Refunded',
+    value: 'REFUNDED'
+  }
+];

@@ -1,21 +1,29 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
+import { Calendar, DatesSetArg } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import renderEventContent from './EventView';
 import { useFetchAprvdAppt } from '@/hooks/recpst/useFetchAppApt';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { format } from 'date-fns';
 
 export type TEventInfo = { title: string; date: string; id: string };
 
 export default function BookedAppt() {
   const [events, setEvents] = useState<Array<TEventInfo>>([]);
-  const { data, isLoading } = useFetchAprvdAppt({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const { data, isLoading } = useFetchAprvdAppt({ month: format(currentDate, 'yyyy-MM') });
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
+
+  const handleDatesSet = (dateInfo: DatesSetArg) => {
+    setCurrentDate(dateInfo.view.currentStart);
+  };
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -31,7 +39,7 @@ export default function BookedAppt() {
   return (
     <div>
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         eventContent={renderEventContent}
         headerToolbar={{
@@ -44,6 +52,7 @@ export default function BookedAppt() {
           info.jsEvent.preventDefault();
           toggleModals({ name: AppModals.SINGLE_APPOINTMENT, open: true, id: info.event.id });
         }}
+        datesSet={handleDatesSet}
       />
     </div>
   );

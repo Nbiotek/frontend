@@ -8,7 +8,8 @@ export enum AppModals {
   QC_STATUS_UPDATE = 'QC_STATUS_UPDATE',
   RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG',
   AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
-  SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT'
+  SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
+  UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
 }
 
 export type TAppModalsAction =
@@ -51,7 +52,7 @@ export type TAppModalsAction =
         }
       | { open?: false }
     ))
-  | ({ name: AppModals.SINGLE_APPOINTMENT } & (
+  | ({ name: AppModals.SINGLE_APPOINTMENT | AppModals.UPDATE_APPOINTMENT } & (
       | {
           open: true;
           id: string;

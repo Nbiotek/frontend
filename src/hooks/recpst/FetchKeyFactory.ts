@@ -17,10 +17,10 @@ export const recpst = {
     };
   },
 
-  getSingleAppointment(id: string) {
+  getReceptAppointmentBase(id: string) {
     return {
       path: RECEPTIONIST.SINGLE_APPOINTMENT.replace(':id', id),
-      keys: () => [RECEPTIONIST.SINGLE_APPOINTMENT, id] as const
+      keys: () => [RECEPTIONIST.APPOINTMENTS, RECEPTIONIST.SINGLE_APPOINTMENT, id] as const
     };
   }
 };

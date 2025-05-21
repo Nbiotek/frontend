@@ -19,27 +19,18 @@ type TAppointmentItem = {
   updatedAt: string;
 };
 
-type TSingleAppointment = {
+type TReceptAppointmentBase = {
   id: string;
   title: string;
   description: string;
-  tests: [
-    {
-      name: string;
-      description: string;
-      type: string;
-      status: string;
-      priority: string;
-    },
-    {
-      name: string;
-      description: string;
-      type: string;
-      status: string;
-      priority: string;
-    }
-  ];
-  patientName: string;
+  tests: Array<{
+    name: string;
+    description: string;
+    type: string;
+    status: string;
+    priority: string;
+  }>;
+  patientName?: string;
   location: {
     type: string;
     address: string;
@@ -54,17 +45,18 @@ type TSingleAppointment = {
 };
 
 type TAppointmentResp = {
-  appointment: Array<TAppointmentItem>;
+  appointment: Array<TReceptAppointmentBase>;
   pagination: TPaginationResponse;
 };
 
-type TAppointmentQuery = {
+type TAppointmentQuery = TGeneralPaginatedQuery & {
   search: string;
   status: string;
   sortOrder: string;
   toDate: string;
   fromDate: string;
-} & TGeneralPaginatedQuery;
+  month: string;
+};
 
 type TReceptionistPatientItem = {
   id: string;
@@ -108,5 +100,17 @@ type TReceptionistPatientItem = {
 
 type TReceptAllPatientRes = {
   patients: Array<TReceptionistPatientItem>;
+  pagination: TPaginationResponse;
+};
+
+type TReceptUpdateApptPayload = {
+  paymentStatus?: string;
+  status?: string;
+  appointmentDate?: string;
+};
+
+type TPatientApptResp = {
+  appointments: Array<TReceptAppointmentBase>;
+
   pagination: TPaginationResponse;
 };

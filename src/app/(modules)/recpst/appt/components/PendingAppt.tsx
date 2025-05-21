@@ -16,7 +16,8 @@ export default function PendingAppt() {
     if (!isLoading && data != undefined) {
       setAppointment(data);
     }
-  }, []);
+  }, [isLoading, data]);
+
   return (
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white p-2">
       <div className="flex w-full items-center justify-between border-b pb-2">

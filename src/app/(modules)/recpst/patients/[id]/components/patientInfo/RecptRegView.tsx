@@ -11,10 +11,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
 import ProfileCard from './ProfileCard';
-import ROUTES from '@/constants/routes';
+import { useState } from 'react';
+import { differenceInYears } from 'date-fns';
 
-const RecptRegView = () => {
+export type TPatientOverviewProfile = {
+  name: string;
+  id: string;
+  gender: string;
+  age: string;
+  mobile: string;
+  address: string;
+};
+
+const RecptRegView = ({ patientData }: { patientData: TPatientInfoResp }) => {
   const router = useRouter();
+  const { homeAddress, city, state, landmark, zipCode } = patientData.patientContact;
+  const [profile, setProfile] = useState<TPatientOverviewProfile>({
+    name: `${patientData.firstName} ${patientData.lastName}`,
+    id: patientData.id,
+    gender: patientData.patientPersonal?.gender,
+    age: `${differenceInYears(new Date(), new Date(patientData.patientPersonal.dateOfBirth))} years`,
+    mobile: patientData.phoneNumber,
+    address: `${homeAddress} ${city} ${state} ${landmark ?? ''}, ${zipCode}`
+  });
   const {
     PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo }
   } = useStore();
@@ -65,10 +84,10 @@ const RecptRegView = () => {
   return (
     <div className="flex w-full max-w-4xl flex-col justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">
       <div className="w-full overflow-clip rounded-lg bg-white md:w-[50%]">
-        <ProfileCard />
+        <ProfileCard {...{ profile }} />
       </div>
 
-      <div className="w-full md:w-[50%]">{switchDetails(currentForm)}</div>
+      <div className="w-full rounded-lg bg-white p-4 md:w-[50%]">{switchDetails(currentForm)}</div>
     </div>
   );
 };
