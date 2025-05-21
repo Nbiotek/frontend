@@ -54,6 +54,7 @@ class PatientStore {
       setPersonalInfo: action.bound,
       setContactInfo: action.bound,
       setInsuranceInfo: action.bound,
+      receptSetPatientInfo: action.bound,
 
       registerPatient: flow.bound,
       updatePatient: flow.bound
@@ -101,6 +102,29 @@ class PatientStore {
     persist(Mangle.PATIENT_CURRENT_FORM, EnumPatientForm.INSURANCE);
 
     cb();
+  }
+
+  receptSetPatientInfo(info: TPatientInfoResp) {
+    this.personalInfo = {
+      firstName: info.firstName,
+      lastName: info.lastName,
+      phoneNumber: info.phoneNumber,
+      email: info.email,
+      maritalStatus: info.patientPersonal.maritalStatus,
+      gender: info.patientPersonal.gender,
+      dateOfBirth: '',
+      weight: info.patientPersonal.weight,
+      height: info.patientPersonal.height
+    };
+
+    this.contactInfo = {
+      ...info.patientContact,
+      emergencyContact: { ...info.patientEmergencyContact }
+    };
+
+    this.insuranceInfo = {
+      ...info.patientInsurance
+    };
   }
 
   *registerPatient(cb: () => void) {

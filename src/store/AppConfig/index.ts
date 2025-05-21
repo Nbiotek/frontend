@@ -90,8 +90,14 @@ class AppConfigStore {
           };
         }
         break;
-
       case AppModals.SINGLE_APPOINTMENT:
+        if (modal.open) {
+          this.singleAppt = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.UPDATE_APPOINTMENT:
         if (modal.open) {
           this.singleAppt = {
             id: modal.id

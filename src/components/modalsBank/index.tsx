@@ -27,6 +27,9 @@ const ModalsMap = {
   ),
   [AppModals.SINGLE_APPOINTMENT]: dynamic(
     () => import('@/app/(modules)/recpst/appt/components/modals/SingleApptModal')
+  ),
+  [AppModals.UPDATE_APPOINTMENT]: dynamic(
+    () => import('@/app/(modules)/recpst/appt/components/modals/UpdateApptModal')
   )
 };
 
