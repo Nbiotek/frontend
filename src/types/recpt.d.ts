@@ -19,27 +19,18 @@ type TAppointmentItem = {
   updatedAt: string;
 };
 
-type TSingleAppointment = {
+type TReceptAppointmentBase = {
   id: string;
   title: string;
   description: string;
-  tests: [
-    {
-      name: string;
-      description: string;
-      type: string;
-      status: string;
-      priority: string;
-    },
-    {
-      name: string;
-      description: string;
-      type: string;
-      status: string;
-      priority: string;
-    }
-  ];
-  patientName: string;
+  tests: Array<{
+    name: string;
+    description: string;
+    type: string;
+    status: string;
+    priority: string;
+  }>;
+  patientName?: string;
   location: {
     type: string;
     address: string;
@@ -54,18 +45,18 @@ type TSingleAppointment = {
 };
 
 type TAppointmentResp = {
-  appointment: Array<TSingleAppointment>;
+  appointment: Array<TReceptAppointmentBase>;
   pagination: TPaginationResponse;
 };
 
-type TAppointmentQuery = {
+type TAppointmentQuery = TGeneralPaginatedQuery & {
   search: string;
   status: string;
   sortOrder: string;
   toDate: string;
   fromDate: string;
   month: string;
-} & TGeneralPaginatedQuery;
+};
 
 type TReceptionistPatientItem = {
   id: string;
@@ -113,35 +104,13 @@ type TReceptAllPatientRes = {
 };
 
 type TReceptUpdateApptPayload = {
-  paymentStatus: string;
-  status: string;
-  appointmentDate: string;
+  paymentStatus?: string;
+  status?: string;
+  appointmentDate?: string;
 };
 
 type TPatientApptResp = {
-  appointments: Array<{
-    id: string;
-    title: string;
-    description: string;
-    tests: Array<{
-      name: string;
-      description: string;
-      type: string;
-      status: string;
-      priority: string;
-    }>;
-    location: {
-      type: string;
-      address: string;
-    };
-    appointmentDate: string;
-    status: string;
-    paymentStatus: string;
-    paymentMethod: string;
-    totalAmount: number;
-    createdAt: string;
-    updatedAt: string;
-  }>;
+  appointments: Array<TReceptAppointmentBase>;
 
   pagination: TPaginationResponse;
 };
