@@ -2,13 +2,10 @@
 import Button from '@/atoms/Buttons';
 import { Title } from '@/atoms/typographys';
 import { useRouter } from 'next/navigation';
-import { useTestsSingle } from '@/hooks/patient/useTest';
 import { useEffect, useState } from 'react';
-import { AllTestResponse } from '@/types/test';
 
 import { useStore } from '@/store';
-import { toJS } from 'mobx';
-import { observer } from 'mobx-react-lite';
+import { Observer, observer } from 'mobx-react-lite';
 import SingleTestCard from './tests/SingleTest';
 import PackageTestCard from './tests/PackageTest';
 
@@ -55,9 +52,8 @@ const Services = () => {
   const { TestStore } = useStore();
 
   const router = useRouter();
-  const [singleTest, setSingleTest] = useState<AllTestResponse>();
 
-  const { data: testsData, isLoading } = useTestsSingle();
+  console.log('david');
 
   return (
     <div className="space-y-12 px-4 py-10 sm:px-6 md:px-8">
@@ -208,4 +204,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default observer(Services);
