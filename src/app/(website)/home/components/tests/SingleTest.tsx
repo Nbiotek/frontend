@@ -35,6 +35,7 @@ const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
               {singleTest?.map((test, idx) => (
                 <div className="flex w-full flex-col space-y-2 md:w-[300px] lg:w-[450px]" key={idx}>
                   <p className="ml-auto w-fit rounded-lg bg-red-300 px-4 py-1.5 text-white">
+                    ₦
                     {test?.discountedPrice === 0 || test.discountedPrice === undefined
                       ? test.price
                       : test.discountedPrice}
