@@ -8,6 +8,8 @@ import { Search } from 'lucide-react';
 import TestCard from './components/TestCard';
 import PackageTestCard from './components/PackageTestCard';
 import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 
 const imagingTests = [
   {
@@ -16,7 +18,7 @@ const imagingTests = [
     description:
       'Non-invasive imaging using sound waves to visualize internal organs, tissues, and blood flow without radiation exposure.',
     price: 180,
-    subtests: [
+    tests: [
       {
         title: 'Abdominal Ultrasound',
         description:
@@ -196,7 +198,7 @@ const LabTestView = () => {
           </TabsList>
 
           {/* Individual Lab Tests Tab */}
-          <TabsContent value="lab-tests" className="mt-2 border">
+          <TabsContent value="lab-tests" className="mt-2 ">
             <div className="mb-6">
               <h2 className="text-gray-900 text-xl font-semibold sm:text-2xl">
                 Individual Lab Tests
@@ -234,16 +236,16 @@ const LabTestView = () => {
               <NoResults searchQuery={searchQuery} testType="package tests" />
             ) : (
               <div className="space-y-8">
-                {/* {filteredPackageTests.map((test) => (
+                {filteredPackageTests.map((test) => (
                   <PackageTestCard key={test.id} test={test} />
-                ))} */}
+                ))}
               </div>
             )}
           </TabsContent>
 
           {/* Imaging Tests Tab */}
           <TabsContent value="imaging-tests" className="mt-2">
-            <div className="mb-6">
+            {/* <div className="mb-6">
               <h2 className="text-gray-900 text-xl font-semibold sm:text-2xl">Advanced Imaging</h2>
               <p className="text-gray-600 mt-2">
                 State-of-the-art imaging services for accurate diagnosis and detailed visualization
@@ -259,30 +261,30 @@ const LabTestView = () => {
                   <PackageTestCard key={test.id} test={test} />
                 ))}
               </div>
-            )}
+            )} */}
           </TabsContent>
 
           {/* Molecular Tests Tab */}
           <TabsContent value="molecular-tests" className="mt-2">
-            <div className="mb-6">
-              <h2 className="text-gray-900 text-xl font-semibold sm:text-2xl">
-                Molecular Diagnostics
-              </h2>
-              <p className="text-gray-600 mt-2">
-                Advanced genetic and molecular testing for precise diagnosis and personalized
-                treatment planning.
-              </p>
-            </div>
-
-            {searchQuery && filteredMolecularTests.length === 0 ? (
-              <NoResults searchQuery={searchQuery} testType="molecular diagnostic tests" />
-            ) : (
-              <div className="space-y-8">
-                {filteredMolecularTests.map((test) => (
-                  <PackageTestCard key={test.id} test={test} />
-                ))}
+            {/* <div className="mb-6">
+                <h2 className="text-gray-900 text-xl font-semibold sm:text-2xl">
+                  Molecular Diagnostics
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  Advanced genetic and molecular testing for precise diagnosis and personalized
+                  treatment planning.
+                </p>
               </div>
-            )}
+
+              {searchQuery && filteredMolecularTests.length === 0 ? (
+                <NoResults searchQuery={searchQuery} testType="molecular diagnostic tests" />
+              ) : (
+                <div className="space-y-8">
+                  {filteredMolecularTests.map((test) => (
+                    <PackageTestCard key={test.id} test={test} />
+                  ))}
+                </div>
+              )} */}
           </TabsContent>
         </Tabs>
       </div>
@@ -312,4 +314,4 @@ const LabTestView = () => {
   );
 };
 
-export default LabTestView;
+export default observer(LabTestView);

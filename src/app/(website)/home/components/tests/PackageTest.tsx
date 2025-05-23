@@ -2,6 +2,8 @@ import Spinner from '@/lib/utils/spinner';
 import { PackageTest } from '@/types/test';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
+import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
 
 interface PackageTestCardProps {
   packageTests: PackageTest[];
@@ -10,6 +12,11 @@ interface PackageTestCardProps {
 
 const PackageTestCard = ({ packageTests, loading }: PackageTestCardProps) => {
   const router = useRouter();
+
+  const {
+    CartStore: { addItem, clearCart, isInCart, removeItem }
+  } = useStore();
+
   return (
     <>
       {loading ? (
@@ -37,9 +44,23 @@ const PackageTestCard = ({ packageTests, loading }: PackageTestCardProps) => {
                       <p className="text-sm sm:text-base">{test.description}</p>
                     </div>
                     <div className="flex w-full flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
-                      <Button variant="filled" className="rounded-sm text-sm">
-                        Add to cart
-                      </Button>
+                      {!isInCart(test.id) ? (
+                        <Button
+                          variant="filled"
+                          className="text-sm"
+                          onClick={() => addItem(test, 'package')}
+                        >
+                          Add to cart
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          className="border-none bg-red-400 text-sm text-white hover:bg-red-300/80"
+                          onClick={() => removeItem(test.id)}
+                        >
+                          Remove from cart
+                        </Button>
+                      )}
                       <Button
                         variant="outlined"
                         className="rounded-sm border-none bg-green-400 text-sm text-white hover:bg-green-300/80"
@@ -87,4 +108,4 @@ const PackageTestCard = ({ packageTests, loading }: PackageTestCardProps) => {
   );
 };
 
-export default PackageTestCard;
+export default observer(PackageTestCard);
