@@ -114,3 +114,31 @@ type TPatientApptResp = {
 
   pagination: TPaginationResponse;
 };
+
+type TReceptionistDashboardSummary = {
+  totalAppointments: number;
+  pendingAppointments: number;
+  totalRevenue: number;
+  totalPatients: number;
+  todayAppointments: number;
+};
+
+type TReceptionistDashboardAppointment = {
+  id: string;
+  patientName: string;
+  appointmentDate: string;
+  status: string;
+  tests: Array<{
+    name: string;
+    type: string;
+    price: number;
+  }>;
+  PaymentMethod: string;
+  totalAmount: number;
+};
+
+type TReceptionistDashboardResp = {
+  statistics: TReceptionistDashboardSummary & {
+    appointments: Array<TReceptionistDashboardAppointment>;
+  };
+};

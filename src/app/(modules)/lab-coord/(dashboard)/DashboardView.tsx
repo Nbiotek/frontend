@@ -45,7 +45,7 @@ const card = [
   {
     stat: 2,
     title: 'Turnaround Time',
-    type: EnumOverviewIcon.TURN,
+    type: EnumOverviewIcon.TIMER,
     tag: 'averageTurnaroundTime'
   },
 

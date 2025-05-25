@@ -2,7 +2,7 @@ import OverviewCard, { EnumOverviewIcon } from '@/components/dashboard/metric/Ov
 import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 
 interface ICoordAnalyticsProps {
-  summary?: TDashboardSummary;
+  summary?: TLabCoordDashboardSummary;
   card: Array<{
     stat: number;
     title: string;
@@ -18,7 +18,7 @@ const CoordAnalytics = ({ summary, card }: ICoordAnalyticsProps) => {
         <OverviewCard
           key={el.tag}
           type={el.type}
-          stat={summary ? summary[el.tag as keyof TDashboardSummary] : el.stat}
+          stat={summary ? summary[el.tag as keyof TLabCoordDashboardSummary] : el.stat}
           title={el.title}
         />
       ))}
