@@ -42,8 +42,7 @@ const PatientsView = () => {
             }
             resetQuery={() => resetQuery(EnumReceptionistQueryType.REG_PATIENTS)}
           />
-          <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for patients..." />
-          <IconPod Icon={ArrowUpDown} />
+          <SearchInput className="!w-[calc(100%-40px)]" placeholder="Search for patients..." />
         </div>
 
         <Button

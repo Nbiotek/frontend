@@ -52,7 +52,7 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
             </CollapsibleTrigger>
             <CollapsibleContent>
               <RadioGroup
-                defaultValue={query.status}
+                defaultValue={filter.status}
                 onValueChange={(status) => {
                   setFilter((prev) => ({ ...prev, status }));
                 }}
@@ -160,52 +160,37 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
             </CollapsibleContent>
           </Collapsible>
 
-          {(type === 'test' || type === 'result') && (
-            <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
-              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-                <div className="flex w-full items-center justify-between">
-                  <Paragraph className="text-lg !font-medium" text="Sort By" />
-                  <ChevronDown size={20} />
+          <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
+            <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+              <div className="flex w-full items-center justify-between">
+                <Paragraph className="text-lg !font-medium" text="Sort Order" />
+                <ChevronDown size={20} />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <RadioGroup
+                defaultValue={filter.sortOrder}
+                onValueChange={(value) => {
+                  setFilter((prev) => ({ ...prev, sortOrder: value }));
+                }}
+                className="flex flex-wrap items-center justify-start gap-2"
+              >
+                <div className="flex items-center justify-start space-x-1">
+                  <RadioGroupItem value="ASC" id="ASC" />
+                  <Label htmlFor="ASC" className="font-regular text-xs">
+                    Ascending
+                  </Label>
                 </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <RadioGroup
-                  defaultValue={query.sortBy}
-                  onValueChange={(sortBy) => {
-                    setFilter((prev) => ({ ...prev, sortBy }));
-                  }}
-                  className="flex flex-wrap items-center justify-start gap-2"
-                >
-                  <div className="flex items-center justify-start space-x-1">
-                    <RadioGroupItem
-                      value="createdAt"
-                      id="createdAt"
-                      onChange={(e) => {
-                        setFilter((prev) => ({ ...prev, sortBy: 'createdAt' }));
-                      }}
-                    />
-                    <Label htmlFor="createdAt" className="font-regular text-xs">
-                      Date Created
-                    </Label>
-                  </div>
-                  {(type === 'test' || type === 'result') && (
-                    <div className="flex items-center justify-start space-x-1">
-                      <RadioGroupItem
-                        value="deadlineAt"
-                        id="deadlineAt"
-                        onChange={(e) => {
-                          setFilter((prev) => ({ ...prev, sortBy: 'deadlineAt' }));
-                        }}
-                      />
-                      <Label htmlFor="deadlineAt" className="font-regular text-xs">
-                        Deadline
-                      </Label>
-                    </div>
-                  )}
-                </RadioGroup>
-              </CollapsibleContent>
-            </Collapsible>
-          )}
+
+                <div className="flex items-center justify-start space-x-1">
+                  <RadioGroupItem value="DESC" id="DESC" />
+                  <Label htmlFor="DESC" className="font-regular text-xs">
+                    Descending
+                  </Label>
+                </div>
+              </RadioGroup>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         <div className="flex items-center justify-between space-x-2">

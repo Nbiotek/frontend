@@ -23,6 +23,7 @@ import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
+import { EnumReceptionistQueryType } from '@/store/ReceptionistStore';
 
 interface IPatientsRegTableProps {
   isLoading: boolean;
@@ -105,9 +106,9 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
         {isLoading || (
           <Pagination
             limit={queries.REG_PATIENTS.limit ?? pagination.limit}
-            setLimit={setLimit}
+            setLimit={(_limit: number) => setLimit(_limit, EnumReceptionistQueryType.REG_PATIENTS)}
             currentPage={queries.REG_PATIENTS.page ?? pagination.page}
-            setPage={setPage}
+            setPage={(_page: number) => setPage(_page, EnumReceptionistQueryType.REG_PATIENTS)}
             total={pagination.total}
             totalPages={pagination.totalPages}
             siblingCount={1}
