@@ -16,7 +16,7 @@ const DashboardView = () => {
     totalPatients: 0,
     todayAppointments: 0
   });
-  const [appointment, setAppointment] = useState<Array<TReceptionistDashboardAppointment>>([]);
+  const [appointment, setAppointment] = useState<Array<TReceptAppointmentBase>>([]);
   const { data, isLoading } = useFetchReceptdashboard();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const DashboardView = () => {
           </div>
         </div>
 
-        <ApptTodayTable {...{ isLoading, appointment: { appointment: [], pagination } }} />
+        <ApptTodayTable {...{ isLoading, appointment: { appointment, pagination } }} />
       </div>
     </div>
   );

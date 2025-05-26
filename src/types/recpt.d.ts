@@ -123,22 +123,8 @@ type TReceptionistDashboardSummary = {
   todayAppointments: number;
 };
 
-type TReceptionistDashboardAppointment = {
-  id: string;
-  patientName: string;
-  appointmentDate: string;
-  status: string;
-  tests: Array<{
-    name: string;
-    type: string;
-    price: number;
-  }>;
-  PaymentMethod: string;
-  totalAmount: number;
-};
-
 type TReceptionistDashboardResp = {
   statistics: TReceptionistDashboardSummary & {
-    appointments: Array<TReceptionistDashboardAppointment>;
+    appointments: Array<TReceptAppointmentBase>;
   };
 };
