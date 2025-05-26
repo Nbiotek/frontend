@@ -21,26 +21,20 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
+import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
 
 interface IPatientsRegTableProps {
   isLoading: boolean;
   patient: TReceptAllPatientRes;
-  limit: number;
-  page: number;
-  setLimit: (val: number) => void;
-  setPage: (val: number) => void;
 }
 
-const PatientsRegTable = ({
-  isLoading,
-  patient,
-  limit,
-  page,
-  setLimit,
-  setPage
-}: IPatientsRegTableProps) => {
+const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
   const router = useRouter();
   const pagination = patient.pagination;
+  const {
+    ReceptionistStore: { setLimit, setPage, queries }
+  } = useStore();
 
   return (
     <div className="flex w-full flex-col space-y-6 overflow-clip rounded-lg bg-white">
@@ -110,9 +104,9 @@ const PatientsRegTable = ({
       <div className="p-4">
         {isLoading || (
           <Pagination
-            limit={pagination.limit}
+            limit={queries.REG_PATIENTS.limit ?? pagination.limit}
             setLimit={setLimit}
-            currentPage={pagination.page}
+            currentPage={queries.REG_PATIENTS.page ?? pagination.page}
             setPage={setPage}
             total={pagination.total}
             totalPages={pagination.totalPages}
@@ -124,4 +118,4 @@ const PatientsRegTable = ({
   );
 };
 
-export default PatientsRegTable;
+export default observer(PatientsRegTable);

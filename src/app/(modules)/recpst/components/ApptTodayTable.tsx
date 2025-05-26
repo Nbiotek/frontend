@@ -45,6 +45,8 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
           <TableRow>
             <TableHead>Date</TableHead>
             <TableHead>Patient</TableHead>
+            <TableHead>Phone Number</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Number of Tests</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Status</TableHead>
@@ -53,7 +55,7 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
         </TableHeader>
 
         {isLoading ? (
-          <TableLoader rows={20} columns={6} />
+          <TableLoader rows={20} columns={8} />
         ) : (
           appointment.appointment.length !== 0 && (
             <TableBody>
@@ -62,6 +64,8 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
                   <TableCell className="whitespace-nowrap font-medium">
                     {formatTestDate(appt.appointmentDate)}
                   </TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
                   <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
                   <TableCell>{appt.tests.length}</TableCell>
                   <TableCell className="whitespace-nowrap">{appt.location?.type}</TableCell>

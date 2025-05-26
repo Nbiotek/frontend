@@ -7,7 +7,7 @@ export const recpst = {
       keys: () => [RECEPTIONIST.DASHBOARD] as const
     };
   },
-  getApprovedAppointments(params: Omit<Partial<TAppointmentQuery>, 'status'>) {
+  getApprovedAppointments(params: Omit<Partial<TReceptionistQuery>, 'status'>) {
     return {
       path: RECEPTIONIST.APPOINTMENTS,
       keys: () => [RECEPTIONIST.DASHBOARD, RECEPTIONIST.APPOINTMENTS, 'APPROVED', params] as const,
@@ -15,7 +15,7 @@ export const recpst = {
     };
   },
 
-  getPendingAppointments(params: Omit<Partial<TAppointmentQuery>, 'status'>) {
+  getPendingAppointments(params: Omit<Partial<TReceptionistQuery>, 'status'>) {
     return {
       path: RECEPTIONIST.APPOINTMENTS,
       keys: () => [RECEPTIONIST.DASHBOARD, RECEPTIONIST.APPOINTMENTS, 'PENDING', params] as const,

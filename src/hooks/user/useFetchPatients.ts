@@ -7,7 +7,7 @@ function select(resp: INBTServerResp<TReceptAllPatientRes>) {
 }
 
 export function useFetchPatients(
-  query: TGeneralPaginatedQuery
+  query: Partial<TReceptionistQuery>
 ): IQueryHookResponse<TReceptAllPatientRes | undefined> {
   const meta = user.getPatients(query);
   const memoizedSelect = useCallback(select, []);

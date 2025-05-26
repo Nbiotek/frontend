@@ -49,7 +49,7 @@ type TAppointmentResp = {
   pagination: TPaginationResponse;
 };
 
-type TAppointmentQuery = TGeneralPaginatedQuery & {
+type TReceptionistQuery = TGeneralPaginatedQuery & {
   search: string;
   status: string;
   sortOrder: string;

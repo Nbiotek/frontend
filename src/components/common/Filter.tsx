@@ -1,5 +1,10 @@
 'use client';
-import Status, { EnumResultStatus, EnumTestPriority, EnumTestStatus } from '@/atoms/Buttons/Status';
+import Status, {
+  EnumPatientRegStatus,
+  EnumResultStatus,
+  EnumTestPriority,
+  EnumTestStatus
+} from '@/atoms/Buttons/Status';
 import IconPod from '@/atoms/Icon/IconPod';
 import { Paragraph } from '@/atoms/typographys';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -14,7 +19,7 @@ import Button from '@/atoms/Buttons';
 import { observer } from 'mobx-react-lite';
 
 interface ISearchFilterProps {
-  type: 'test' | 'result';
+  type: 'test' | 'result' | 'patient' | 'appointment';
   query: Partial<TTestQuery>;
   applyQuery: (_query: Partial<TTestQuery>) => void;
   resetQuery?: () => void;
@@ -72,42 +77,54 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
                       </Label>
                     </div>
                   ))}
+
+                {type === 'patient' &&
+                  Object.values(EnumPatientRegStatus).map((testStatus) => (
+                    <div key={testStatus} className="flex items-center justify-start space-x-1">
+                      <RadioGroupItem value={testStatus} id={testStatus} />
+                      <Label htmlFor={testStatus} className="font-regular text-xs">
+                        <Status variant={testStatus} />
+                      </Label>
+                    </div>
+                  ))}
               </RadioGroup>
             </CollapsibleContent>
           </Collapsible>
 
-          <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
-            <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-              <div className="flex w-full items-center justify-between">
-                <Paragraph className="text-lg !font-medium" text="Priority" />
-                <ChevronDown size={20} />
-              </div>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="flex flex-wrap items-center justify-start gap-2">
-              <RadioGroup
-                defaultValue={filter.priority}
-                onValueChange={(priority) => {
-                  setFilter((prev) => ({ ...prev, priority }));
-                }}
-                className="flex flex-wrap items-center justify-start gap-2"
-              >
-                {Object.values(EnumTestPriority).map((priority) => (
-                  <div key={priority} className="flex items-center justify-start space-x-1">
-                    <RadioGroupItem
-                      value={priority}
-                      id={priority}
-                      onChange={(e) => {
-                        setFilter((prev) => ({ ...prev, priority }));
-                      }}
-                    />
-                    <Label htmlFor={priority} className="font-regular text-xs">
-                      <Status variant={priority} />
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </CollapsibleContent>
-          </Collapsible>
+          {(type === 'test' || type === 'result') && (
+            <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
+              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                <div className="flex w-full items-center justify-between">
+                  <Paragraph className="text-lg !font-medium" text="Priority" />
+                  <ChevronDown size={20} />
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="flex flex-wrap items-center justify-start gap-2">
+                <RadioGroup
+                  defaultValue={filter.priority}
+                  onValueChange={(priority) => {
+                    setFilter((prev) => ({ ...prev, priority }));
+                  }}
+                  className="flex flex-wrap items-center justify-start gap-2"
+                >
+                  {Object.values(EnumTestPriority).map((priority) => (
+                    <div key={priority} className="flex items-center justify-start space-x-1">
+                      <RadioGroupItem
+                        value={priority}
+                        id={priority}
+                        onChange={(e) => {
+                          setFilter((prev) => ({ ...prev, priority }));
+                        }}
+                      />
+                      <Label htmlFor={priority} className="font-regular text-xs">
+                        <Status variant={priority} />
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
 
           <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
             <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
@@ -143,48 +160,52 @@ const SearchFilter = ({ type, query, applyQuery, resetQuery }: ISearchFilterProp
             </CollapsibleContent>
           </Collapsible>
 
-          <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
-            <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-              <div className="flex w-full items-center justify-between">
-                <Paragraph className="text-lg !font-medium" text="Sort By" />
-                <ChevronDown size={20} />
-              </div>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <RadioGroup
-                defaultValue={query.sortBy}
-                onValueChange={(sortBy) => {
-                  setFilter((prev) => ({ ...prev, sortBy }));
-                }}
-                className="flex flex-wrap items-center justify-start gap-2"
-              >
-                <div className="flex items-center justify-start space-x-1">
-                  <RadioGroupItem
-                    value="createdAt"
-                    id="createdAt"
-                    onChange={(e) => {
-                      setFilter((prev) => ({ ...prev, sortBy: 'createdAt' }));
-                    }}
-                  />
-                  <Label htmlFor="createdAt" className="font-regular text-xs">
-                    Date Created
-                  </Label>
+          {(type === 'test' || type === 'result') && (
+            <Collapsible className="flex w-full flex-col space-y-1" defaultOpen={true}>
+              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                <div className="flex w-full items-center justify-between">
+                  <Paragraph className="text-lg !font-medium" text="Sort By" />
+                  <ChevronDown size={20} />
                 </div>
-                <div className="flex items-center justify-start space-x-1">
-                  <RadioGroupItem
-                    value="deadlineAt"
-                    id="deadlineAt"
-                    onChange={(e) => {
-                      setFilter((prev) => ({ ...prev, sortBy: 'deadlineAt' }));
-                    }}
-                  />
-                  <Label htmlFor="deadlineAt" className="font-regular text-xs">
-                    Deadline
-                  </Label>
-                </div>
-              </RadioGroup>
-            </CollapsibleContent>
-          </Collapsible>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <RadioGroup
+                  defaultValue={query.sortBy}
+                  onValueChange={(sortBy) => {
+                    setFilter((prev) => ({ ...prev, sortBy }));
+                  }}
+                  className="flex flex-wrap items-center justify-start gap-2"
+                >
+                  <div className="flex items-center justify-start space-x-1">
+                    <RadioGroupItem
+                      value="createdAt"
+                      id="createdAt"
+                      onChange={(e) => {
+                        setFilter((prev) => ({ ...prev, sortBy: 'createdAt' }));
+                      }}
+                    />
+                    <Label htmlFor="createdAt" className="font-regular text-xs">
+                      Date Created
+                    </Label>
+                  </div>
+                  {(type === 'test' || type === 'result') && (
+                    <div className="flex items-center justify-start space-x-1">
+                      <RadioGroupItem
+                        value="deadlineAt"
+                        id="deadlineAt"
+                        onChange={(e) => {
+                          setFilter((prev) => ({ ...prev, sortBy: 'deadlineAt' }));
+                        }}
+                      />
+                      <Label htmlFor="deadlineAt" className="font-regular text-xs">
+                        Deadline
+                      </Label>
+                    </div>
+                  )}
+                </RadioGroup>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
         </div>
 
         <div className="flex items-center justify-between space-x-2">

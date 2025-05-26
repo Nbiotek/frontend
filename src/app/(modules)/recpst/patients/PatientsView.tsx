@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import SearchInput from '@/atoms/fields/SearchInput';
 import PatientsRegTable from '../components/PatientsRegTable';
 import IconPod from '@/atoms/Icon/IconPod';
-import { ArrowUpDown, ListFilter, User2Icon } from 'lucide-react';
+import { ArrowUpDown, User2Icon } from 'lucide-react';
+import SearchFilter from '@/components/common/Filter';
 import Button from '@/atoms/Buttons';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { useFetchPatients } from '@/hooks/user/useFetchPatients';
 import { pagination } from '@/constants/data';
+import { EnumReceptionistQueryType } from '@/store/ReceptionistStore';
 
 const PatientsView = () => {
   const [patient, setPatient] = useState<TReceptAllPatientRes>({
@@ -17,11 +19,10 @@ const PatientsView = () => {
     pagination
   });
   const {
-    AppConfigStore: { toggleModals, queryLimit }
+    AppConfigStore: { toggleModals, queryLimit },
+    ReceptionistStore: { queries, applyQuery, resetQuery }
   } = useStore();
-  const [limit, setLimit] = useState(queryLimit);
-  const [page, setPage] = useState(pagination.page);
-  const { data, isLoading } = useFetchPatients({ limit, page });
+  const { data, isLoading } = useFetchPatients(queries.REG_PATIENTS);
 
   useEffect(() => {
     if (!isLoading && data !== undefined) {
@@ -33,8 +34,15 @@ const PatientsView = () => {
     <div className="flex w-full flex-col space-y-4">
       <fieldset className="flex w-full flex-col justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
         <div className="flex items-center justify-start space-x-2">
-          <IconPod Icon={ListFilter} />
-          <SearchInput className="w-full md:w-72" placeholder="Search for patients..." />
+          <SearchFilter
+            type="patient"
+            query={queries.PENDING_APPOINTMENTS}
+            applyQuery={(_query: Partial<TTestQuery>) =>
+              applyQuery(_query, EnumReceptionistQueryType.REG_PATIENTS)
+            }
+            resetQuery={() => resetQuery(EnumReceptionistQueryType.REG_PATIENTS)}
+          />
+          <SearchInput className="!w-[calc(100%-80px)]" placeholder="Search for patients..." />
           <IconPod Icon={ArrowUpDown} />
         </div>
 
@@ -46,7 +54,7 @@ const PatientsView = () => {
           onClick={() => toggleModals({ name: AppModals.RECPTS_PATIENT_REG, open: true })}
         />
       </fieldset>
-      <PatientsRegTable {...{ isLoading, patient, limit, page, setLimit, setPage }} />
+      <PatientsRegTable {...{ isLoading, patient }} />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import LabTechStore from './LabTechStore';
 import LabCoordStore from './LabCoordStore';
 import CartStore from './CartStore';
 import TestStore from './TestStore';
+import ReceptionistStore from './ReceptionistStore';
 
 configure({
   enforceActions: 'observed',
@@ -26,6 +27,7 @@ export class RootStore {
   LabCoordStore: LabCoordStore;
   CartStore: CartStore;
   TestStore: TestStore;
+  ReceptionistStore: ReceptionistStore;
 
   constructor() {
     this.AppConfigStore = new AppConfigStore(this);
@@ -33,6 +35,7 @@ export class RootStore {
     this.PatientStore = new PatientStore(this);
     this.LabTechStore = new LabTechStore(this);
     this.LabCoordStore = new LabCoordStore(this);
+    this.ReceptionistStore = new ReceptionistStore(this);
     this.CartStore = new CartStore(this);
     this.TestStore = new TestStore(this);
   }
