@@ -3,7 +3,6 @@ import { Text } from '@/lib/utils/Text';
 import { Title } from '@/atoms/typographys';
 import Cards from '@/atoms/Cards';
 import Input from '@/atoms/fields/Input';
-import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
 import { observer } from 'mobx-react-lite';
 import { CircleX } from 'lucide-react';
@@ -19,6 +18,8 @@ import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 import BookingForSelfModal from './components/BookingSelfDialog';
+import InputDate from '@/atoms/fields/InputDate';
+import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -53,7 +54,7 @@ const BookAppointmentView = observer(() => {
       type: 'Lab' as LocationType,
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
-    availableDate: undefined as Date | undefined,
+    availableDate: new Date(),
     paymentMethod: 'via_card',
     testRequests: []
   });
@@ -199,7 +200,11 @@ const BookAppointmentView = observer(() => {
             />
             <div className="w-[100%]">
               <Label className="pb-10 font-normal">Available Date</Label>
-              <DatePickerDemo onChange={handleDateSelect} />
+              <DateTimePicker
+                value={formData.availableDate}
+                hourCycle={12}
+                onChange={handleDateSelect}
+              />
               {errors.availableDate && (
                 <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
               )}
