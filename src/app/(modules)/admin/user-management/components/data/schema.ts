@@ -10,9 +10,13 @@ export type UserStatus = z.infer<typeof userStatusSchema>;
 
 const userRoleSchema = z.union([
   z.literal('superadmin'),
-  z.literal('lab tech'),
-  z.literal('lab coord'),
-  z.literal('doctor')
+  z.literal('receptionist'),
+  z.literal('labcoordinator'),
+  z.literal('doctor'),
+  z.literal('referaldoctor'),
+  z.literal('labtechnician'),
+  z.literal('technicalcoordinator'),
+  z.literal('marketer')
 ]);
 
 const userSchema = z.object({

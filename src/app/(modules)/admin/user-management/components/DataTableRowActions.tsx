@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { User } from './data/schema';
-import { Edit, EllipsisVerticalIcon, TrashIcon } from 'lucide-react';
+import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
 
 interface DataTableRowActionsProps {
   row: Row<User>;
@@ -30,6 +30,13 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             Edit
             <DropdownMenuShortcut>
               <Edit size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => {}}>
+            Suspend
+            <DropdownMenuShortcut>
+              <ShieldBan size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

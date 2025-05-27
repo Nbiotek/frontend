@@ -74,7 +74,7 @@ export default async function middleware(request: NextRequest) {
     const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
     const allProtectedRoutes = allProtectedRoutesObj.keys();
 
-    for (let route of allProtectedRoutes) {
+    for (const route of allProtectedRoutes) {
       if (pathname.startsWith(route)) {
         console.log(route, allProtectedRoutesObj.get(route));
 

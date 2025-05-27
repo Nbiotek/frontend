@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { userTypes } from './data/data';
 import { DataTableFacetedFilter } from './DataTableFilter';
 import { DataTableViewOptions } from './DataTableViewOptions';
-import { CrossIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -50,7 +50,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             className="h-8 px-2 lg:px-3"
           >
             Reset
-            <CrossIcon className="ml-2 h-4 w-4" />
+            <X className="ml-2 h-4 w-4" />
           </Button>
         )}
       </div>
