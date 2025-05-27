@@ -41,6 +41,11 @@ export enum EnumTDoctorReview {
   FAILED = 'FAILED'
 }
 
+export enum EnumPatientRegStatus {
+  COMPLETED = 'COMPLETED',
+  IN_COMPLETED = 'INCOMPLETED'
+}
+
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {

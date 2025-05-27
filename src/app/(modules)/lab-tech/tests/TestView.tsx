@@ -6,7 +6,7 @@ import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import { useFetchTests } from '@/hooks/labTech/useFetchTests';
-import SearchFilter from '../components/Filter';
+import SearchFilter from '../../../../components/common/Filter';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 

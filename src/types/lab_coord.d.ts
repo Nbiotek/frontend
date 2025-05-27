@@ -1,4 +1,4 @@
-type TDashboardSummary = {
+type TLabCoordDashboardSummary = {
   totalPendingTests: number;
   totalCompletedTests: number;
   averageTurnaroundTime: number;
@@ -46,7 +46,7 @@ type TCurrentStaffShifts = {
 
 type TDashboardData = {
   recentTests: Array<TTestData>;
-} & TDashboardSummary;
+} & TLabCoordDashboardSummary;
 
 type TAvailableStaff = {
   id: string;

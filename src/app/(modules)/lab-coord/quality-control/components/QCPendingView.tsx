@@ -5,7 +5,7 @@ import QCTable from './QCTable';
 import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
-import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
+import SearchFilter from '@/components/common/Filter';
 import { useStore } from '@/store';
 import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
 import { useFetchPendingQC } from '@/hooks/qualityControl/useFetchPendingQC';
