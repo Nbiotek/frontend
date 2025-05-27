@@ -89,7 +89,7 @@ interface BookingForm {
     type: LocationType;
     address: string;
   };
-  availableDate: Date | undefined | string;
+  availableDate: Date;
   paymentMethod: 'via_card' | 'location';
 
   testRequests: Array<{

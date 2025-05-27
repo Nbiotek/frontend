@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import { recpst } from './FetchKeyFactory';
 import { useQuery } from '@tanstack/react-query';
 
-const select = (resp: INBTServerResp<TAppointmentResp>) => resp.data;
+const select = (resp: INBTServerResp<TReceptionistDashboardResp>) => resp.data;
 
-export function useFetchPendAppt(
-  query: Omit<Partial<TReceptionistQuery>, 'status' | 'month'>
-): IQueryHookResponse<TAppointmentResp | undefined> {
-  const meta = recpst.getPendingAppointments(query);
+export function useFetchReceptdashboard(): IQueryHookResponse<
+  TReceptionistDashboardResp | undefined
+> {
+  const meta = recpst.getDashboard();
   const memoizedSelect = useCallback(select, []);
 
   const { data, status, error, isLoading } = useQuery({

@@ -7,7 +7,7 @@ import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
 import { useFetchTestReqs } from '@/hooks/labCoord/useFetchTestReqs';
 import { useStore } from '@/store';
-import SearchFilter from '@/app/(modules)/lab-tech/components/Filter';
+import SearchFilter from '@/components/common/Filter';
 import { observer } from 'mobx-react-lite';
 
 const TestsView = () => {

@@ -49,7 +49,7 @@ type TAppointmentResp = {
   pagination: TPaginationResponse;
 };
 
-type TAppointmentQuery = TGeneralPaginatedQuery & {
+type TReceptionistQuery = TGeneralPaginatedQuery & {
   search: string;
   status: string;
   sortOrder: string;
@@ -113,4 +113,18 @@ type TPatientApptResp = {
   appointments: Array<TReceptAppointmentBase>;
 
   pagination: TPaginationResponse;
+};
+
+type TReceptionistDashboardSummary = {
+  totalAppointments: number;
+  pendingAppointments: number;
+  totalRevenue: number;
+  totalPatients: number;
+  todayAppointments: number;
+};
+
+type TReceptionistDashboardResp = {
+  statistics: TReceptionistDashboardSummary & {
+    appointments: Array<TReceptAppointmentBase>;
+  };
 };

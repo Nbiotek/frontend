@@ -8,7 +8,7 @@ import { pagination } from '@/constants/data';
 import { useQuery } from '@tanstack/react-query';
 import { LAB_TECH } from '@/constants/api';
 import { getRecentResult } from '@/requests/lab-tech';
-import SearchFilter from '../../components/Filter';
+import SearchFilter from '../../../../../components/common/Filter';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { EnumLabTechQueryType } from '@/store/LabTechStore';

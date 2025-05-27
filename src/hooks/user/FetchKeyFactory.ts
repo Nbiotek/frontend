@@ -8,7 +8,7 @@ export const user = {
     };
   },
 
-  getPatients(query: TGeneralPaginatedQuery) {
+  getPatients(query: Partial<TReceptionistQuery>) {
     return {
       path: AUTH.ALL_PATIENT,
       keys: () => [AUTH.ALL_PATIENT, query] as const,

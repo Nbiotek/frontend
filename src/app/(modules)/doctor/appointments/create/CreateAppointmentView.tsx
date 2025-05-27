@@ -3,7 +3,6 @@ import { Text } from '@/lib/utils/Text';
 import { Title } from '@/atoms/typographys';
 import Cards from '@/atoms/Cards';
 import Input from '@/atoms/fields/Input';
-import { DatePickerDemo } from '@/components/ui/date-picker';
 import Button from '@/atoms/Buttons';
 
 import { Label } from '@/components/ui/label';
@@ -14,6 +13,7 @@ import { useStore } from '@/store';
 
 import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';
+import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -39,7 +39,7 @@ const CreateAppointmentView = () => {
       type: 'Lab' as LocationType,
       address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
     },
-    availableDate: undefined as Date | undefined,
+    availableDate: new Date(),
     paymentMethod: 'via_card',
     testRequests: []
   });
@@ -152,7 +152,11 @@ const CreateAppointmentView = () => {
             />
             <div className="w-[100%]">
               <Label className="pb-10 font-normal">Available Date</Label>
-              <DatePickerDemo onChange={handleDateSelect} />
+              <DateTimePicker
+                value={formData.availableDate}
+                hourCycle={12}
+                onChange={handleDateSelect}
+              />
               {errors.availableDate && (
                 <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
               )}
