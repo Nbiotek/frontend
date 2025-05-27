@@ -67,7 +67,7 @@ const Header = () => {
           {defaultMenuConfig.map((item, index) => (
             <ul
               key={index}
-              className="flex cursor-pointer items-center p-2 text-[#004AAD]/60 transition-colors hover:text-blue-200"
+              className="flex cursor-pointer items-center p-2 text-[#004AAD]/90 transition-colors hover:text-blue-200"
             >
               <Link href={item.url} className="text-base">
                 {item.title}
