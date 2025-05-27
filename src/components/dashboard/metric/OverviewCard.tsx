@@ -8,6 +8,7 @@ import NBTTestTube from '@/app/assets/svgs/test_tube.svg';
 import NBTTurn from '@/app/assets/svgs/test_turnaround.svg';
 import NBTShield from '@/app/assets/svgs/shield.svg';
 import { Paragraph, Title } from '@/atoms/typographys';
+import { ccyFormatter } from '@/utils/currency';
 
 export enum EnumOverviewIcon {
   PEOPLE = 'PEOPLE',
@@ -38,12 +39,15 @@ const overviewCardIcon: Record<EnumOverviewIcon, string> = {
 const OverviewCard = forwardRef<HTMLDivElement, IOverviewCardProps>(
   ({ type, stat, title, ...props }, ref) => {
     return (
-      <div ref={ref} className="h-[100px] w-full rounded-[8px] bg-white py-3" {...props}>
+      <div ref={ref} className="h-28 w-full rounded-[8px] bg-white py-3" {...props}>
         <div className="mx-auto flex h-full w-[90%] items-center justify-between space-y-1">
           <div className="flex flex-col">
             <Paragraph className="!font-medium !text-neutral-400" text={title} />
             <div className="flex items-center justify-start space-x-1">
-              <Title className="!font-bold" text={stat.toString()} />
+              <Title
+                className="!font-bold"
+                text={type === EnumOverviewIcon.TURN ? ccyFormatter(stat) : stat.toString()}
+              />
               {type === EnumOverviewIcon.TIMER ? <p>hrs/test</p> : null}
             </div>
           </div>

@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 const select = (resp: INBTServerResp<TAppointmentResp>) => resp.data;
 
 export function useFetchAprvdAppt(
-  query: Omit<Partial<TAppointmentQuery>, 'status'>
+  query: Omit<Partial<TReceptionistQuery>, 'status'>
 ): IQueryHookResponse<TAppointmentResp | undefined> {
   const meta = recpst.getApprovedAppointments(query);
   const memoizedSelect = useCallback(select, []);
