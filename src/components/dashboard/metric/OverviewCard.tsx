@@ -9,6 +9,7 @@ import NBTTurn from '@/app/assets/svgs/test_turnaround.svg';
 import NBTShield from '@/app/assets/svgs/shield.svg';
 import { Paragraph, Title } from '@/atoms/typographys';
 import { ccyFormatter } from '@/utils/currency';
+import { Card } from '@/components/ui/card';
 
 export enum EnumOverviewIcon {
   PEOPLE = 'PEOPLE',
@@ -39,7 +40,7 @@ const overviewCardIcon: Record<EnumOverviewIcon, string> = {
 const OverviewCard = forwardRef<HTMLDivElement, IOverviewCardProps>(
   ({ type, stat, title, ...props }, ref) => {
     return (
-      <div ref={ref} className="h-28 w-full rounded-[8px] bg-white py-3" {...props}>
+      <Card ref={ref} className="h-28 w-full rounded-[8px] bg-white py-3" {...props}>
         <div className="mx-auto flex h-full w-[90%] items-center justify-between space-y-1">
           <div className="flex flex-col">
             <Paragraph className="!font-medium !text-neutral-400" text={title} />
@@ -56,7 +57,7 @@ const OverviewCard = forwardRef<HTMLDivElement, IOverviewCardProps>(
             <Image src={overviewCardIcon[type]} alt="" width={60} height={60} />
           </figure>
         </div>
-      </div>
+      </Card>
     );
   }
 );
