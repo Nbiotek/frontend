@@ -12,7 +12,7 @@ import { User } from './data/schema';
 import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
 
 interface DataTableRowActionsProps {
-  row: Row<User>;
+  row: Row<TAdminUsersItem>;
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {

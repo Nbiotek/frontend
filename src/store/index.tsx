@@ -9,6 +9,7 @@ import LabCoordStore from './LabCoordStore';
 import CartStore from './CartStore';
 import TestStore from './TestStore';
 import ReceptionistStore from './ReceptionistStore';
+import AdminStore from './AdminStore';
 
 configure({
   enforceActions: 'observed',
@@ -20,6 +21,7 @@ interface StoreProviderProps {
 }
 
 export class RootStore {
+  AdminStore: AdminStore;
   AppConfigStore: AppConfigStore;
   AuthStore: AuthStore;
   PatientStore: PatientStore;
@@ -30,6 +32,7 @@ export class RootStore {
   ReceptionistStore: ReceptionistStore;
 
   constructor() {
+    this.AdminStore = new AdminStore(this);
     this.AppConfigStore = new AppConfigStore(this);
     this.AuthStore = new AuthStore(this);
     this.PatientStore = new PatientStore(this);

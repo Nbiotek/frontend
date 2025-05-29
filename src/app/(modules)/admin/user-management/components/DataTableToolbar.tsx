@@ -1,7 +1,7 @@
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { userTypes } from './data/data';
+import { userStatus, userTypes } from './data/data';
 import { DataTableFacetedFilter } from './DataTableFilter';
 import { DataTableViewOptions } from './DataTableViewOptions';
 import { X } from 'lucide-react';
@@ -27,12 +27,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             <DataTableFacetedFilter
               column={table.getColumn('status')}
               title="Status"
-              options={[
-                { label: 'Active', value: 'active' },
-                { label: 'Inactive', value: 'inactive' },
-                { label: 'Invited', value: 'invited' },
-                { label: 'Suspended', value: 'suspended' }
-              ]}
+              options={userStatus}
             />
           )}
           {table.getColumn('role') && (

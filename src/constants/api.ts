@@ -125,3 +125,8 @@ export const RECEPTIONIST = {
   SINGLE_APPOINTMENT: '/receptionist/appointment/:id',
   UPDATE_APPOINTMENT: '/receptionist/appointments/update/:id'
 };
+
+export const SUPER_ADMIN = {
+  DASHBOARD: '/admin/growth-report',
+  USERS: '/admin/users'
+};

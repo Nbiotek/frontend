@@ -1,55 +1,75 @@
 import { Shield, Users } from 'lucide-react';
 import { UserStatus } from './schema';
+import { EnumRole, EnumUserStatus } from '@/constants/mangle';
 
 export const callTypes = new Map<UserStatus, string>([
-  ['active', 'bg-teal-100/30 text-teal-900 dark:text-teal-200 border-teal-200'],
-  ['inactive', 'bg-neutral-300/40 border-neutral-300'],
-  ['invited', 'bg-sky-200/40 text-sky-900 dark:text-sky-100 border-sky-300'],
+  [EnumUserStatus.ACTIVE, 'bg-teal-100/30 text-teal-900 dark:text-teal-200 border-teal-200'],
+  [EnumUserStatus.INACTIVE, 'bg-neutral-300/40 border-neutral-300'],
+  [EnumUserStatus.INVITED, 'bg-sky-200/40 text-sky-900 dark:text-sky-100 border-sky-300'],
   [
-    'suspended',
+    EnumUserStatus.SUSPENDED,
     'bg-destructive/10 dark:bg-destructive/50 text-destructive dark:text-primary border-destructive/10'
   ]
 ]);
 
+export const userStatus = [
+  {
+    label: 'Active',
+    value: EnumUserStatus.ACTIVE
+  },
+  {
+    label: 'Inactive',
+    value: EnumUserStatus.INACTIVE
+  },
+  {
+    label: 'Invited',
+    value: EnumUserStatus.INVITED
+  },
+  {
+    label: 'Suspended',
+    value: EnumUserStatus.SUSPENDED
+  }
+];
+
 export const userTypes = [
   {
     label: 'Super Admin',
-    value: 'superadmin',
+    value: EnumRole.SUPER_ADMIN,
     icon: Shield
   },
   {
     label: 'Receptionist',
-    value: 'receptionist',
+    value: EnumRole.RECEPTIONIST,
     icon: Users
   },
   {
     label: 'Lab Coordinator',
-    value: 'labcoordinator',
+    value: EnumRole.LAB_CORDINATOR,
     icon: Users
   },
   {
     label: 'Lab Technician',
-    value: 'labtechnician',
+    value: EnumRole.LAB_TECHNICIAN,
     icon: Users
   },
   {
     label: 'Marketer',
-    value: 'marketer',
+    value: EnumRole.MARKETER,
     icon: Users
   },
   {
     label: 'Referal Doctor',
-    value: 'referaldoctor',
+    value: EnumRole.REFERRAL_DOCTOR,
     icon: Users
   },
   {
     label: 'Doctor',
-    value: 'doctor',
+    value: EnumRole.DOCTOR,
     icon: Users
   },
   {
     label: 'Tech Coordinator',
-    value: 'technicalcoordinator',
+    value: EnumRole.TECHNICAL_COORDINATOR,
     icon: Users
   }
 ] as const;

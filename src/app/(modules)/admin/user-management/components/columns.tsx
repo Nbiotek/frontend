@@ -7,8 +7,10 @@ import { callTypes, userTypes } from './data/data';
 import { User } from './data/schema';
 import { DataTableColumnHeader } from './TableHeader';
 import { DataTableRowActions } from './DataTableRowActions';
+import { toTitleCase } from '@/utils';
+import { EnumUserStatus } from '@/constants/mangle';
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<TAdminUsersItem>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -29,21 +31,13 @@ export const columns: ColumnDef<User>[] = [
         className="translate-y-[2px]"
       />
     ),
-    enableSorting: false,
     enableHiding: false
   },
   {
-    accessorKey: 'username',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Username" />,
-    cell: ({ row }) => <LongText className="max-w-36">{row.getValue('username')}</LongText>,
-    enableHiding: false
-  },
-  {
-    id: 'fullName',
+    id: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
     cell: ({ row }) => {
-      const { firstName, lastName } = row.original;
-      const fullName = `${firstName} ${lastName}`;
+      const fullName = row.original.name;
       return <LongText className="max-w-36">{fullName}</LongText>;
     },
     meta: { className: 'w-36' }
@@ -54,7 +48,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => <div className="w-fit text-nowrap">{row.getValue('email')}</div>
   },
   {
-    accessorKey: 'phoneNumber',
+    accessorKey: 'phone Number',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Phone Number" />,
     cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
     enableSorting: false
@@ -64,7 +58,7 @@ export const columns: ColumnDef<User>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const { status } = row.original;
-      const badgeColor = callTypes.get(status);
+      const badgeColor = callTypes.get(status as EnumUserStatus);
       return (
         <div className="flex space-x-2">
           <Badge variant="outline" className={cn('capitalize', badgeColor)}>
@@ -76,7 +70,12 @@ export const columns: ColumnDef<User>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    enableHiding: false,
+    enableSorting: false
+  },
+  {
+    accessorKey: 'last Login',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Last login" />,
+    cell: ({ row }) => <div>{row.getValue('lastLogin')}</div>,
     enableSorting: false
   },
   {
@@ -93,14 +92,13 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className="flex items-center gap-x-2">
           {userType.icon && <userType.icon size={16} className="text-muted-foreground" />}
-          <span className="text-sm capitalize">{row.getValue('role')}</span>
+          <span className="text-sm capitalize">{toTitleCase(row.getValue('role'))}</span>
         </div>
       );
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    enableSorting: false,
     enableHiding: false
   },
   {
