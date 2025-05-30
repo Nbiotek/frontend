@@ -1,10 +1,10 @@
 import { SUPER_ADMIN } from '@/constants/api';
 
 export const superAdmin = {
-  getDashboard() {
+  getStats() {
     return {
-      path: SUPER_ADMIN.DASHBOARD,
-      keys: () => [SUPER_ADMIN.DASHBOARD] as const
+      path: SUPER_ADMIN.STATS,
+      keys: () => [SUPER_ADMIN.STATS] as const
     };
   },
 

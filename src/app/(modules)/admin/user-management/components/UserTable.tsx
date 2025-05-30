@@ -146,7 +146,7 @@ const UsersTable = ({ columns, data, pagination, isLoading }: DataTableProps) =>
             setLimit={setLimit}
             currentPage={queries.USERS.page ?? Number(pagination.page)}
             setPage={setPage}
-            total={pagination.total}
+            total={30}
             totalPages={pagination.totalPages}
             siblingCount={1}
           />
