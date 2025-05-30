@@ -349,6 +349,15 @@ class Routes {
     EnumRole.RECEPTIONIST
   ]);
 
+  // SUPER ADVANCED_IMAGING
+  SUPER_ADMIN = new Route('/admin', 'Dashboard', 'Super Admin dashboard', [EnumRole.SUPER_ADMIN]);
+  SUPER_ADMIN_USER_MANAGEMENT = new Route(
+    '/admin/user-management',
+    'User management',
+    'Super Admin user management',
+    [EnumRole.SUPER_ADMIN]
+  );
+
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {
       case EnumRole.LAB_TECHNICIAN:
@@ -364,6 +373,8 @@ class Routes {
       // TODO: Add more modules authorization routing here.
       case EnumRole.RECEPTIONIST:
         return this.RECPTS.path;
+      case EnumRole.SUPER_ADMIN:
+        return this.SUPER_ADMIN.path;
       default:
         return '';
     }
@@ -419,7 +430,8 @@ export const roleAccessRules = {
   '/lab-coord': [EnumRole.LAB_CORDINATOR],
   '/doctor': [EnumRole.DOCTOR],
   '/marketer': [EnumRole.MARKETER],
-  [ROUTES.RECPTS.path]: [EnumRole.RECEPTIONIST]
+  [ROUTES.RECPTS.path]: [EnumRole.RECEPTIONIST],
+  [ROUTES.SUPER_ADMIN.path]: [EnumRole.SUPER_ADMIN]
 };
 
 export default ROUTES;
