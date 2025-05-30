@@ -117,7 +117,7 @@ function Pagination({
               <option
                 key={option.value}
                 value={option.value}
-                className={`cursor-pointer text-secondary ${option.value > total ? 'hidden' : 'block'}`}
+                className={`cursor-pointer text-secondary ${option.value < total ? 'block' : 'hidden'}`}
               >
                 {option.label}
               </option>

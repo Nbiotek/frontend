@@ -25,6 +25,13 @@ export enum EnumRole {
   TECHNICAL_COORDINATOR = 'TECHNICAL_COORDINATOR'
 }
 
+export enum EnumUserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  INVITED = 'INVITED',
+  SUSPENDED = 'SUSPENDED'
+}
+
 export enum EnumTestLocation {
   CUSTOM = 'Custom',
   LAB = 'Lab'

@@ -115,7 +115,7 @@ const BillingHistoryView = () => {
   const transactionsData = data?.data.payments || [];
   const total = data?.data.pagination?.total || transactionsData.length || 0;
 
-  let totalPages = data?.data.pagination?.totalPages || 1;
+  const totalPages = data?.data.pagination?.totalPages || 1;
 
   const currentPage = filters.page || 1;
 
