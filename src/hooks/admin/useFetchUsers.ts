@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 import { superAdmin } from './FetchKeyFactory';
 import { useQuery } from '@tanstack/react-query';
 
-const select = (res: INBTServerResp<Array<TAdminUsersItem>>) => res.data;
+const select = (res: INBTServerResp<TAdminUsersResp>) => res.data;
 
 export function useFetchUsers(
   query: Partial<TGeneralPaginatedQuery>
-): IQueryHookResponse<Array<TAdminUsersItem> | undefined> {
+): IQueryHookResponse<TAdminUsersResp | undefined> {
   const meta = superAdmin.getUsers(query);
   const memoizedSelect = useCallback(select, []);
 

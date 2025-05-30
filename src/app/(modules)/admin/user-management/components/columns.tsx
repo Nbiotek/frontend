@@ -15,9 +15,7 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
+        checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
         className="translate-y-[2px]"
@@ -34,10 +32,18 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
     enableHiding: false
   },
   {
+    id: 'username',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Username" />,
+    cell: ({ row }) => {
+      return <LongText className="max-w-36">{row.original.username}</LongText>;
+    },
+    meta: { className: 'w-36' }
+  },
+  {
     id: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
     cell: ({ row }) => {
-      const fullName = row.original.name;
+      const fullName = `${row.original.firstName} ${row.original.lastName}`;
       return <LongText className="max-w-36">{fullName}</LongText>;
     },
     meta: { className: 'w-36' }
@@ -48,9 +54,9 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
     cell: ({ row }) => <div className="w-fit text-nowrap">{row.getValue('email')}</div>
   },
   {
-    accessorKey: 'phone Number',
+    accessorKey: 'phoneNumber',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Phone Number" />,
-    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
+    cell: ({ row }) => <div>{row.original.phoneNumber}</div>,
     enableSorting: false
   },
   {
@@ -70,12 +76,6 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    enableSorting: false
-  },
-  {
-    accessorKey: 'last Login',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Last login" />,
-    cell: ({ row }) => <div>{row.getValue('lastLogin')}</div>,
     enableSorting: false
   },
   {

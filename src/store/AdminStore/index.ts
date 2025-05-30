@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 import store from 'store2';
 
@@ -29,7 +29,12 @@ class AdminStore {
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       queries: observable,
-      defaultquery: observable
+      defaultquery: observable,
+
+      applyQuery: action.bound,
+      resetQuery: action.bound,
+      setLimit: action.bound,
+      setPage: action.bound
     });
 
     this.rootStore = _rootStore;

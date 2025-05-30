@@ -127,6 +127,6 @@ export const RECEPTIONIST = {
 };
 
 export const SUPER_ADMIN = {
-  DASHBOARD: '/admin/growth-report',
-  USERS: '/admin/users'
+  DASHBOARD: '/super-admin/dashboard/stats',
+  USERS: '/super-admin/users'
 };

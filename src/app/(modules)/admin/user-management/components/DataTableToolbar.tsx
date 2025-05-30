@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,15 +12,24 @@ interface DataTableToolbarProps<TData> {
 }
 
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    table.setGlobalFilter(searchValue);
+  }, [searchValue, table]);
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
         <Input
           placeholder="Filter users..."
-          value={(table.getColumn('username')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('username')?.setFilterValue(event.target.value)}
+          value={searchValue}
+          onChange={handleSearchChange}
           className="h-8 w-[150px] lg:w-[250px]"
         />
         <div className="flex gap-x-2">
@@ -38,10 +48,13 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             />
           )}
         </div>
-        {isFiltered && (
+        {table.getState().globalFilter && (
           <Button
             variant="ghost"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => {
+              table.resetGlobalFilter();
+              setSearchValue('');
+            }}
             className="h-8 px-2 lg:px-3"
           >
             Reset

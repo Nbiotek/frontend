@@ -26,6 +26,9 @@ import {
 import { User } from './data/schema';
 import { DataTableToolbar } from './DataTableToolbar';
 import TableLoader from '@/atoms/Loaders/TableLoader';
+import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
+import Pagination from '@/atoms/pagination';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,10 +40,14 @@ declare module '@tanstack/react-table' {
 interface DataTableProps {
   columns: ColumnDef<TAdminUsersItem>[];
   data: TAdminUsersItem[];
+  pagination: TPaginationResponse;
   isLoading: boolean;
 }
 
-export function UsersTable({ columns, data, isLoading }: DataTableProps) {
+const UsersTable = ({ columns, data, pagination, isLoading }: DataTableProps) => {
+  const {
+    AdminStore: { queries, setLimit, setPage }
+  } = useStore();
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -55,6 +62,7 @@ export function UsersTable({ columns, data, isLoading }: DataTableProps) {
       rowSelection,
       columnFilters
     },
+    manualPagination: true,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -67,6 +75,8 @@ export function UsersTable({ columns, data, isLoading }: DataTableProps) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues()
   });
+
+  console.log(table.getRowModel().rows?.length);
 
   return (
     <div className=" rounded-xl bg-white">
@@ -128,6 +138,22 @@ export function UsersTable({ columns, data, isLoading }: DataTableProps) {
           )}
         </Table>
       </div>
+
+      <div className="p-3">
+        {isLoading || (
+          <Pagination
+            limit={queries.USERS.limit ?? Number(pagination.limit)}
+            setLimit={setLimit}
+            currentPage={queries.USERS.page ?? Number(pagination.page)}
+            setPage={setPage}
+            total={pagination.total}
+            totalPages={pagination.totalPages}
+            siblingCount={1}
+          />
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default observer(UsersTable);

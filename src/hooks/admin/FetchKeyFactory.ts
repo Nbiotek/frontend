@@ -11,7 +11,7 @@ export const superAdmin = {
   getUsers(query: Partial<TGeneralPaginatedQuery>) {
     return {
       path: SUPER_ADMIN.USERS,
-      keys: () => [SUPER_ADMIN.USERS] as const,
+      keys: () => [SUPER_ADMIN.USERS, query] as const,
       params: query
     };
   }
