@@ -1,4 +1,4 @@
-import { action, flow, makeObservable, observable } from 'mobx';
+import { action, flow, makeObservable, observable, toJS } from 'mobx';
 import { RootStore } from '..';
 import {
   TPatientContactSchema,
@@ -83,24 +83,20 @@ class PatientStore {
   }
 
   setPersonalInfo(payload: TPatientPersonalSchema) {
-    this.personalInfo = payload;
+    this.personalInfo = persist(Mangle.PATIENT_PERSONAL_INFO, payload);
     this.currentForm = EnumPatientForm.CONTACT;
-    persist(Mangle.PATIENT_PERSONAL_INFO, payload);
     this.setCurrentForm(EnumPatientForm.CONTACT);
   }
 
   setContactInfo(payload: TPatientContactSchema) {
-    this.contactInfo = payload;
+    this.contactInfo = persist(Mangle.PATIENT_CONTACT_INFO, payload);
     this.currentForm = EnumPatientForm.INSURANCE;
-    persist(Mangle.PATIENT_CONTACT_INFO, payload);
     this.setCurrentForm(EnumPatientForm.INSURANCE);
   }
 
   setInsuranceInfo(payload: TPatientInsuranceSchema, cb: () => void) {
-    this.insuranceInfo = payload;
-    persist(Mangle.PATIENT_INSURANCE_INFO, payload);
+    this.insuranceInfo = persist(Mangle.PATIENT_INSURANCE_INFO, payload);
     persist(Mangle.PATIENT_CURRENT_FORM, EnumPatientForm.INSURANCE);
-
     cb();
   }
 

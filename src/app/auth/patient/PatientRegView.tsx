@@ -15,8 +15,7 @@ import { CardContent } from '@/components/ui/card';
 const PatientRegView = () => {
   const router = useRouter();
   const {
-    PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo },
-    AuthStore: { user }
+    PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo }
   } = useStore();
   const methods = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
@@ -25,7 +24,7 @@ const PatientRegView = () => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => () => updatePatient((url) => router.replace(url)));
+    setInsuranceInfo(formData, () => updatePatient((url) => router.replace(url)));
   };
 
   const switchDetails = (key: EnumPatientForm) => {
