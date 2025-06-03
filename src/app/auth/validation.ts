@@ -1,8 +1,10 @@
 import { upperCaseRegex, lowerCaseRegex, numberRegex, specialCharcterRegex } from '@/utils';
 import { z } from 'zod';
 
-const email = z.string({ required_error: 'Email is required.' }).email('Invalid email address.');
-const password = z
+export const email = z
+  .string({ required_error: 'Email is required.' })
+  .email('Invalid email address.');
+export const password = z
   .string({ required_error: 'Password is required.' })
   .min(8, {
     message: 'Must contain at least an uppercase, lowercase, special character and a number.'
@@ -14,21 +16,24 @@ const password = z
     'Password must contain at least a special character.'
   )
   .refine((value) => lowerCaseRegex.test(value), 'Password must contain atleast a lowercase.');
-const confirmPassword = z.string().trim().min(1, { message: 'Confirm password is required.' });
+export const confirmPassword = z
+  .string()
+  .trim()
+  .min(1, { message: 'Confirm password is required.' });
 
-const firstName = z
+export const firstName = z
   .string()
   .trim()
   .min(2, { message: 'First Name is required.' })
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
-const lastName = z
+export const lastName = z
   .string()
   .trim()
   .min(2, { message: 'Last Name is required.' })
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
-const phoneNumber = z
+export const phoneNumber = z
   .string({ required_error: 'Phone number is required.' })
   .trim()
   .superRefine((val, ctx) => {

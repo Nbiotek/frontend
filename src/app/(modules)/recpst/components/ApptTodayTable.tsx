@@ -23,6 +23,7 @@ import { formatTestDate } from '@/utils/date';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { capitalizeWord, toTitleCase } from '@/utils';
 
 interface IApptTodayTableProps {
   isLoading: boolean;
@@ -43,7 +44,7 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Date</TableHead>
+            <TableHead>Appointment Date</TableHead>
             <TableHead>Patient</TableHead>
             <TableHead>Phone Number</TableHead>
             <TableHead>Email</TableHead>
@@ -64,9 +65,11 @@ const ApptTodayTable = ({ isLoading, appointment }: IApptTodayTableProps) => {
                   <TableCell className="whitespace-nowrap font-medium">
                     {formatTestDate(appt.appointmentDate)}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
-                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
-                  <TableCell className="whitespace-nowrap">{appt.patientName}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {capitalizeWord(appt.patient?.patientName ?? '')}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">{appt.patient?.patientNumber}</TableCell>
+                  <TableCell className="whitespace-nowrap">{}</TableCell>
                   <TableCell>{appt.tests.length}</TableCell>
                   <TableCell className="whitespace-nowrap">{appt.location?.type}</TableCell>
                   <TableCell className="whitespace-nowrap">

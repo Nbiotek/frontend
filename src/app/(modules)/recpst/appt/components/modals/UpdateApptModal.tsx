@@ -20,11 +20,28 @@ import { formatTestDate } from '@/utils/date';
 import { useEffect, useMemo } from 'react';
 import { recpst } from '@/hooks/recpst/FetchKeyFactory';
 
-export const ApptInfoSchema = z.object({
-  paymentStatus: z.string().optional(),
-  status: z.string().optional(),
-  appointmentDate: z.date().optional()
-});
+export const ApptInfoSchema = z
+  .object({
+    paymentStatus: z.string().optional(),
+    status: z.string().optional(),
+    appointmentDate: z.date().optional()
+  })
+  .superRefine((data, ctx) => {
+    const { appointmentDate } = data;
+
+    if (appointmentDate) {
+      const currentDate = new Date().getTime();
+      const appointmentTime = new Date(appointmentDate).getTime();
+
+      if (currentDate > appointmentTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Set a future date pls.',
+          path: ['appointmentDate']
+        });
+      }
+    }
+  });
 
 export type TApptInfoSchema = z.infer<typeof ApptInfoSchema>;
 
@@ -178,6 +195,7 @@ const UpdateApptModal = () => {
                       yearRange={0}
                       value={field.value}
                       onChange={field.onChange}
+                      hidden={{ before: new Date() }}
                     />
                     {data && <small>{formatTestDate(data.appointmentDate)}</small>}
                   </div>

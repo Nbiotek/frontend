@@ -9,7 +9,8 @@ export enum AppModals {
   RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG',
   AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
   SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
-  UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
+  UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT',
+  ADMIN_ADD_USER = 'ADMIN_ADD_USER'
 }
 
 export type TAppModalsAction =
@@ -18,7 +19,13 @@ export type TAppModalsAction =
       name: '';
       open?: boolean;
     }
-  | ({ name: AppModals.LOG_OUT_MODAL | AppModals.ADD_INVENTORY | AppModals.RECPTS_PATIENT_REG } & {
+  | ({
+      name:
+        | AppModals.LOG_OUT_MODAL
+        | AppModals.ADD_INVENTORY
+        | AppModals.RECPTS_PATIENT_REG
+        | AppModals.ADMIN_ADD_USER;
+    } & {
       open: boolean;
     })
   | ({ name: AppModals.RESULT_UPLOAD_MODAL } & (

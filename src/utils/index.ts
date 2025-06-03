@@ -51,6 +51,15 @@ export function toTitleCase(p: string) {
   return `${p[0].toUpperCase()}${p.slice(1).toLowerCase()}`;
 }
 
+export function capitalizeWord(p: string, delimiter: string = ' ') {
+  const words = p.split(delimiter);
+  const sentence = words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+
+  return sentence;
+}
+
 export function snakeCaseToSentenceCase(input: string): string {
   const words = input.split('_');
 

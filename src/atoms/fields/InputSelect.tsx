@@ -50,7 +50,7 @@ const InputSelect = forwardRef<HTMLInputElement, IInputSelectProps>(
         )}
         <Select onValueChange={(value) => handleSetValue(props.name || '', value)}>
           <SelectTrigger
-            className={`w-full data-[placeholder]:text-neutral-400 ${error ? 'bg-red-100/50 ring-red-200' : ''}`}
+            className={`w-full border-none bg-neutral-50 data-[placeholder]:text-neutral-400 ${error ? 'bg-red-100/50 ring-red-200' : ''}`}
           >
             <SelectValue placeholder={props.placeholder} />
           </SelectTrigger>

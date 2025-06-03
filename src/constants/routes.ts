@@ -357,6 +357,12 @@ class Routes {
     'Super Admin user management',
     [EnumRole.SUPER_ADMIN]
   );
+  SUPER_ADMIN_CONTENT_MANAGEMENT = new Route(
+    '/admin/content-management',
+    'Content management',
+    'Super Admin Content management',
+    [EnumRole.SUPER_ADMIN]
+  );
 
   getRedirectPathByRole(_role: EnumRole) {
     switch (_role) {

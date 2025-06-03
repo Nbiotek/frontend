@@ -25,7 +25,8 @@ import {
   UserCircle2Icon,
   NotebookIcon,
   SettingsIcon,
-  User2Icon
+  User2Icon,
+  FolderPenIcon
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -312,6 +313,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.SUPER_ADMIN_USER_MANAGEMENT.title,
       url: ROUTES.SUPER_ADMIN_USER_MANAGEMENT.path,
       icon: User2Icon
+    },
+    {
+      title: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.title,
+      url: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.path,
+      icon: FolderPenIcon
     }
   ]
 };

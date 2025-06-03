@@ -1,6 +1,12 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, flow, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 import store from 'store2';
+import { TAdminAdduserSchema } from '@/app/(modules)/admin/user-management/validation';
+import initializer from '@/utils/initializer';
+import { parseError } from '@/utils/errorHandler';
+import toast from 'react-hot-toast';
+import { postAdduser } from '@/requests/admin';
+import { AxiosResponse } from 'axios';
 
 export enum EnumAdminQueryType {
   USERS = 'USERS'
@@ -19,12 +25,18 @@ const del = (key: string) => {
   return store.namespace('admin').session.remove(key);
 };
 
+const INIT_IS_LOADING = {
+  add_user: false
+};
+
 class AdminStore {
   rootStore: RootStore;
   defaultquery = { limit: 10, page: 1 };
   queries: Record<EnumAdminQueryType, Partial<TGeneralPaginatedQuery>> = {
     [EnumAdminQueryType.USERS]: { ...this.defaultquery }
   };
+  isLoading = { ...INIT_IS_LOADING };
+  errors = initializer(this.isLoading, '');
 
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
@@ -34,7 +46,9 @@ class AdminStore {
       applyQuery: action.bound,
       resetQuery: action.bound,
       setLimit: action.bound,
-      setPage: action.bound
+      setPage: action.bound,
+
+      addUser: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -58,6 +72,22 @@ class AdminStore {
 
   setLimit(_limit: number, dataType: EnumAdminQueryType = EnumAdminQueryType.USERS) {
     this.queries[dataType].limit = _limit;
+  }
+
+  *addUser(_payload: TAdminAdduserSchema, cb?: () => void) {
+    this.isLoading.add_user = true;
+    this.errors.add_user = '';
+    try {
+      const resp = (yield postAdduser(_payload)) as AxiosResponse<INBTServerResp<string>>;
+      toast.success(resp.data.message);
+
+      cb?.();
+    } catch (error) {
+      this.errors.add_user = parseError(error);
+      toast.error(this.errors.add_user);
+    } finally {
+      this.isLoading.add_user = false;
+    }
   }
 }
 
