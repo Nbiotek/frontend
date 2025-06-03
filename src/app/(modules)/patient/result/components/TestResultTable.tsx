@@ -62,7 +62,7 @@ const TestResultTable = ({ data, loading }: TestResultProps) => {
                 <TableRow key={test.id}>
                   <TableCell>{test.testId}</TableCell>
                   <TableCell>{test.testName}</TableCell>
-                  <TableCell>{dateTimeUTC(test.createdAt, false)}</TableCell>
+                  <TableCell>{dateTimeUTC(test.conductedAt, false)}</TableCell>
                   <TableCell>
                     <Status variant={test.resultStatus} />
                   </TableCell>

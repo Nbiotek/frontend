@@ -248,6 +248,7 @@ interface Test {
   type: string;
   test?: TestReqDet;
   createdAt: string;
+  conductedAt: string;
   status: string;
   resultStatus: string;
   patient: Patient;
