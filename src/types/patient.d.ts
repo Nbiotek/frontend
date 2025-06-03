@@ -235,12 +235,19 @@ interface TestResult {
   reference: string | null;
 }
 
+interface TestReqDet {
+  name: string;
+  category: string;
+  description: string;
+}
+
 interface Test {
   id: string;
   testId: string;
   testName: string;
   type: string;
-  conductedAt: string;
+  test?: TestReqDet;
+  createdAt: string;
   status: string;
   resultStatus: string;
   patient: Patient;
