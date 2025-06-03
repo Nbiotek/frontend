@@ -36,7 +36,14 @@ const bioHub = [
 
 const BioHub = () => {
   return (
-    <div className="bg-white px-4 sm:px-6" id="bio-hub">
+    <section
+      id="bio-hub"
+      className="flex min-h-screen flex-col justify-center bg-white px-4 py-20 sm:px-6 md:px-8"
+      style={{
+        paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
+        minHeight: 'calc(100vh - var(--header-height, 80px))'
+      }}
+    >
       <div className="mx-auto max-w-7xl space-y-4 py-6 sm:py-8 md:py-10">
         <Title text="N- BioHbub" className="text-center" />
         <p className="mx-auto max-w-2xl text-center text-sm sm:text-base">
@@ -78,7 +85,7 @@ const BioHub = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

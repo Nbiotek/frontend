@@ -157,6 +157,7 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --header-height: 40px;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -211,7 +212,9 @@ body {
 
   --sidebar-width-mobile: 20rem;
 }
-
+section {
+  scroll-margin-top: var(--header-height);
+}
 .custom-table {
   border-radius: 14px 14px 0px 0px;
   border: 0.3px solid #d5d5d5;

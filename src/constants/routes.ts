@@ -20,7 +20,7 @@ class Routes {
   HOME = new Route('/', ' Home', 'Home');
   LAB_TEST = new Route('/#lab-test', 'Lab Test', 'Lab Test');
   SPECIAL_PACKAGES = new Route('/#special-package', 'Special Package', 'Special Package');
-  ADVANCED_IMAGING = new Route('#/advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
+  ADVANCED_IMAGING = new Route('#advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
   MOLECULAR_DIAGNOSTICS = new Route(
     '/#molecular-diagnostics',
     'Molecular Diagnostics',

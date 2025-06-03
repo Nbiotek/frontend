@@ -34,7 +34,14 @@ const WhatsNew = () => {
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-8" id="whats-new">
+    <section
+      id="whats-new"
+      className="flex min-h-screen flex-col justify-center px-4 py-20 sm:px-6 md:px-8"
+      style={{
+        paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
+        minHeight: 'calc(100vh - var(--header-height, 80px))'
+      }}
+    >
       <div className="mx-auto max-w-7xl py-8">
         <Title text="What's New" className="text-center text-blue-400" />
         <p className="mx-auto mt-2 max-w-2xl text-center text-sm sm:text-base">
@@ -103,7 +110,7 @@ const WhatsNew = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
