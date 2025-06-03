@@ -42,7 +42,7 @@ export const PATIENT = {
 
   TEST_RESULTS: {
     ALL: 'tests/test-results' as string,
-    DETAILS: (id: string) => `/tests/test-results/${id}`,
+    DETAILS: (id: string) => `/tests/patient-test-results/${id}`,
     SUITE_DETAILS: (id: string) => `/patients/APPOINTMENTS/${id}/details`
   }
 } as const;

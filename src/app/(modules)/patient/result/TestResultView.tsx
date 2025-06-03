@@ -12,6 +12,8 @@ import SortComponent from '../component/SortCP';
 import { format } from 'date-fns';
 import { useQueryClient } from '@tanstack/react-query';
 import Pagination from '@/atoms/pagination';
+import CustomDate from '@/atoms/fields/CustomDate';
+import { MyDatePicker } from '@/atoms/Date';
 
 const TestResultView = () => {
   const defaultFilters: TestResultFilterParams = {
@@ -118,6 +120,7 @@ const TestResultView = () => {
 
   return (
     <div className="flex w-full flex-col space-y-4">
+      {/* <MyDatePicker /> */}
       <div className="flex w-full items-center justify-between space-x-2">
         {/* Filter component with active filter count */}
         <FilterComponent
