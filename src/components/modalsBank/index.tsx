@@ -30,6 +30,9 @@ const ModalsMap = {
   ),
   [AppModals.UPDATE_APPOINTMENT]: dynamic(
     () => import('@/app/(modules)/recpst/appt/components/modals/UpdateApptModal')
+  ),
+  [AppModals.ADMIN_ADD_USER]: dynamic(
+    () => import('@/app/(modules)/admin/user-management/components/modal/AddUserModal')
   )
 };
 

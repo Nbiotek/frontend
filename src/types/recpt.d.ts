@@ -30,7 +30,10 @@ type TReceptAppointmentBase = {
     status: string;
     priority: string;
   }>;
-  patientName?: string;
+  patient?: {
+    patientName: string;
+    patientNumber?: string;
+  };
   location: {
     type: string;
     address: string;

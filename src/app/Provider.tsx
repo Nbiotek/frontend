@@ -11,7 +11,7 @@ export default function AppProvider({ children }: { children: React.ReactNode })
       <Toaster position="top-right" reverseOrder={false} />
       <ReactQueryProvider>
         {children}
-        <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />
         <ModalsBank />
       </ReactQueryProvider>
     </StoreProvider>

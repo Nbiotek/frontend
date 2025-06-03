@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { EnumReceptionistQueryType } from '@/store/ReceptionistStore';
+import { capitalizeWord } from '@/utils';
 
 interface IPatientsRegTableProps {
   isLoading: boolean;
@@ -45,6 +46,7 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone number</TableHead>
+            <TableHead>Gender</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Submitted on</TableHead>
             <TableHead className="w-5"></TableHead>
@@ -52,18 +54,21 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
         </TableHeader>
 
         {isLoading ? (
-          <TableLoader rows={20} columns={5} />
+          <TableLoader rows={20} columns={7} />
         ) : (
           patient.patients.length !== 0 && (
             <TableBody>
               {patient.patients.map((patient) => (
                 <TableRow key={patient.id}>
                   <TableCell className="whitespace-nowrap font-medium">
-                    {patient.firstName} {patient.lastName}
+                    {capitalizeWord(`${patient.firstName} ${patient.lastName}`)}
                   </TableCell>
                   <TableCell className="whitespace-nowrap">{patient.email}</TableCell>
                   <TableCell className="whitespace-nowrap font-medium">
-                    {patient.phoneNumber}
+                    {patient.phoneNumber ?? '-'}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {patient?.patientPersonal?.gender ?? '-'}
                   </TableCell>
                   <TableCell>
                     <Status variant={patient.profileStatus} />

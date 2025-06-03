@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { userStatus, userTypes } from './data/data';
 import { DataTableFacetedFilter } from './DataTableFilter';
 import { DataTableViewOptions } from './DataTableViewOptions';
-import { X } from 'lucide-react';
+import { UserRoundPlus, X } from 'lucide-react';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

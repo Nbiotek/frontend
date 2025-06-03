@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { pagination } from '@/constants/data';
 import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
+import AddUser from './components/AddUser';
 
 const UserManagementView = () => {
   const [data, setData] = useState<Array<TAdminUsersItem>>([]);
@@ -26,6 +26,7 @@ const UserManagementView = () => {
   return (
     <div className="w-full">
       <UsersTable {...{ data, pagination: dataPagination, isLoading, columns }} />
+      <AddUser />
     </div>
   );
 };

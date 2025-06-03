@@ -11,7 +11,7 @@ import { PatientInsuranceSchema, TPatientInsuranceSchema } from '@/app/auth/vali
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
 
-const LabTechModal = () => {
+const RegPatientModal = () => {
   const {
     AppConfigStore: { isOpen, toggleModals },
     PatientStore: {
@@ -85,4 +85,4 @@ const LabTechModal = () => {
   );
 };
 
-export default observer(LabTechModal);
+export default observer(RegPatientModal);

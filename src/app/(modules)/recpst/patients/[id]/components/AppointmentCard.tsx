@@ -34,7 +34,7 @@ const AppointmentCard = forwardRef<HTMLDivElement, IAppointmentCardProps>(
         <CardHeader className="w-full pb-2">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center justify-start space-x-2">
-              <CardTitle>{datum?.patientName ?? datum.title}</CardTitle>
+              <CardTitle>{datum?.patient?.patientName ?? datum.title}</CardTitle>
               <CardDescription>| {formatTestDate(datum.appointmentDate)}</CardDescription>
             </div>
 

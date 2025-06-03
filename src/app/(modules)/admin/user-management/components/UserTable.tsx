@@ -76,8 +76,6 @@ const UsersTable = ({ columns, data, pagination, isLoading }: DataTableProps) =>
     getFacetedUniqueValues: getFacetedUniqueValues()
   });
 
-  console.log(table.getRowModel().rows?.length);
-
   return (
     <div className=" rounded-xl bg-white">
       <div className="p-3">
