@@ -72,10 +72,10 @@ const SingleTestCard = ({ singleTest, loading }: SingleTestProps) => {
                 </div>
               ))}
             </div>
-            <div className="mt-6 sm:mt-8">
+            <div className="mt-6 w-full sm:mt-8">
               <Button
                 variant="filled"
-                className="rounded-sm font-semibold"
+                className="w-full rounded-sm p-3 font-semibold"
                 onClick={() => router.push('/lab-test')}
               >
                 View all Individual Test

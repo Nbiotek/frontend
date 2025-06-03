@@ -78,7 +78,7 @@ const Services = () => {
       {/* Individual Tests Section */}
       <section
         id="lab-test"
-        className="flex min-h-screen flex-col justify-center border-2 px-4 py-16 sm:px-6 md:px-8"
+        className="flex flex-col justify-center px-4 py-16 sm:px-6 md:px-8 lg:min-h-screen"
         style={{
           paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
           minHeight: 'calc(100vh - var(--header-height, 80px))'
@@ -94,7 +94,7 @@ const Services = () => {
             </p>
           </div>
 
-          <div className="flex flex-1 items-center">
+          <div className="flex flex-1 flex-col items-center">
             <SingleTestCard
               singleTest={TestStore.singleTests || []}
               loading={TestStore.isLoadingSingleTests}
@@ -106,7 +106,7 @@ const Services = () => {
       {/* Special Packages Section */}
       <section
         id="special-package"
-        className="flex min-h-screen flex-col justify-center px-4 py-20 sm:px-6 md:px-8"
+        className="mx-auto flex max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 md:px-8 lg:min-h-screen"
         style={{
           paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
           minHeight: 'calc(100vh - var(--header-height, 80px))'
@@ -128,7 +128,7 @@ const Services = () => {
       {/* Advanced Imaging Section */}
       <section
         id="advanced-imaging"
-        className="flex min-h-screen flex-col justify-center px-4 py-20 sm:px-6 md:px-8"
+        className="mx-auto flex max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 md:px-8 lg:min-h-screen"
         style={{
           paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
           minHeight: 'calc(100vh - var(--header-height, 80px))'
@@ -223,7 +223,7 @@ const Services = () => {
       {/* Molecular Diagnostics Section */}
       <section
         id="molecular-diagnostics"
-        className="flex min-h-screen flex-col justify-center px-4 py-20 sm:px-6 md:px-8"
+        className="mx-auto flex  max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 md:px-8 lg:min-h-screen"
         style={{
           paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
           minHeight: 'calc(100vh - var(--header-height, 80px))'
