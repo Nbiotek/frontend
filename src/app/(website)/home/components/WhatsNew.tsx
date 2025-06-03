@@ -36,7 +36,7 @@ const WhatsNew = () => {
   return (
     <section
       id="whats-new"
-      className="flex min-h-screen flex-col justify-center px-4 py-20 sm:px-6 md:px-8"
+      className="flex flex-col justify-center px-4 py-20 sm:px-6 md:px-8 lg:min-h-screen"
       style={{
         paddingTop: 'calc(var(--header-height, 80px) + 2rem)',
         minHeight: 'calc(100vh - var(--header-height, 80px))'
