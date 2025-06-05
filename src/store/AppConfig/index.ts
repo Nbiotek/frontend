@@ -104,6 +104,13 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.ADMIN_SINGLE_TEST:
+        if (modal.open) {
+          this.testDetails = {
+            testId: modal.testId
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;

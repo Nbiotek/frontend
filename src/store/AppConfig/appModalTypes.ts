@@ -10,7 +10,8 @@ export enum AppModals {
   AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
   SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
   UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT',
-  ADMIN_ADD_USER = 'ADMIN_ADD_USER'
+  ADMIN_ADD_USER = 'ADMIN_ADD_USER',
+  ADMIN_SINGLE_TEST = 'ADMIN_SINGLE_TEST'
 }
 
 export type TAppModalsAction =
@@ -28,7 +29,7 @@ export type TAppModalsAction =
     } & {
       open: boolean;
     })
-  | ({ name: AppModals.RESULT_UPLOAD_MODAL } & (
+  | ({ name: AppModals.RESULT_UPLOAD_MODAL | AppModals.ADMIN_SINGLE_TEST } & (
       | {
           open: true;
           testId: string;

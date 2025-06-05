@@ -31,3 +31,20 @@ type TAdminDashboardStats = {
   marketer: number;
   technicalCoordinator: number;
 };
+
+type TAdminTestItemBase = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  requirements: Array<string>;
+  category: string;
+  discountedPrice: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TAdminTestItem = TAdminTestItemBase & {
+  tests?: Array<TAdminTestItemBase>;
+};
