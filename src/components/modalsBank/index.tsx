@@ -33,6 +33,9 @@ const ModalsMap = {
   ),
   [AppModals.ADMIN_ADD_USER]: dynamic(
     () => import('@/app/(modules)/admin/user-management/components/modal/AddUserModal')
+  ),
+  [AppModals.ADMIN_SINGLE_TEST]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/TestModal')
   )
 };
 
