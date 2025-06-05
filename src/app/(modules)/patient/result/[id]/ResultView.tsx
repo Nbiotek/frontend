@@ -132,8 +132,8 @@ const ResultView = () => {
         <div className="flex flex-col space-y-[24px]">
           <div className="flex gap-[24px]">
             <FieldSet legend="Name" text={data?.data.patient.name} />
-            <FieldSet legend="Test Ordered" text={data?.data.testName} />
-            <FieldSet legend="Test Date" text={dateTimeUTC(data?.data.conductedAt, false)} />
+            <FieldSet legend="Test Ordered" text={data?.data.test?.name} />
+            <FieldSet legend="Test Date" text={dateTimeUTC(data?.data.createdAt, false)} />
           </div>
           <FieldSet legend="Technician Name" text={data?.data.technician.name} />
         </div>

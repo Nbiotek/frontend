@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calendar, ListFilter } from 'lucide-react';
+import { ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -12,11 +12,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Calendar as CalendarComponent } from '@/components/ui/calendar';
-import { format } from 'date-fns';
 import { Label } from '@/components/ui/label';
 import IconPod from '@/atoms/Icon/IconPod';
 import { Badge } from '@/components/ui/badge';
+import { DatePickerDemo } from '@/components/ui/date-picker'; // Import the new component
 
 // Filter options for different contexts
 export interface FilterOptions {
@@ -86,7 +85,6 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   };
 
   const handleClearFilters = () => {
-    // Clear local state
     setFromDate(undefined);
     setToDate(undefined);
     setSortBy(undefined);
@@ -161,49 +159,9 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
           <div className="space-y-2">
             <Label>Date Range</Label>
             <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left font-normal"
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {fromDate ? format(fromDate, 'PPP') : <span>From date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarComponent
-                      mode="single"
-                      selected={fromDate}
-                      onSelect={setFromDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <DatePickerDemo value={fromDate} onChange={setFromDate} placeholder="From date" />
 
-              <div className="flex items-center space-x-2">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left font-normal"
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {toDate ? format(toDate, 'PPP') : <span>To date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarComponent
-                      mode="single"
-                      selected={toDate}
-                      onSelect={setToDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <DatePickerDemo value={toDate} onChange={setToDate} placeholder="To date" />
             </div>
           </div>
 
