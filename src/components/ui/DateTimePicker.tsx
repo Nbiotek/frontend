@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { DayPicker, DayPickerProps } from 'react-day-picker';
+import { DayPicker, DayPickerProps, Matcher } from 'react-day-picker';
 
 // ---------- utils start ----------
 /**
@@ -233,7 +233,7 @@ function Calendar({
   showOutsideDays = true,
   yearRange = 50,
   ...props
-}: DayPickerProps & { yearRange?: number }) {
+}: DayPickerProps & { yearRange?: number; hidden?: Matcher }) {
   const MONTHS = React.useMemo(() => {
     let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = enUS;
     const { options, localize, formatLong } = props.locale || {};
@@ -363,6 +363,7 @@ function Calendar({
           );
         }
       }}
+      hidden
       {...props}
     />
   );
@@ -668,6 +669,7 @@ type DateTimePickerProps = {
    * Show the default month and time when popup the calendar. Default is the current Date().
    **/
   defaultPopupValue?: Date;
+  hidden?: Matcher;
 } & Pick<DayPickerProps, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
 
 type DateTimePickerRef = {
