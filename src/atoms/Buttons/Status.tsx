@@ -56,7 +56,6 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-amber';
       case EnumTestPriority.LOW:
         return 'status-teal';
-
       case 'VERIFIED':
         return 'status-green';
 
@@ -77,8 +76,6 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-violet';
       case EnumTestStatus.IN_PROGRESS:
         return 'status-amber';
-      default:
-        break;
 
       // Patient Test Result
       case EnumTPatientResult.PENDING:
@@ -104,6 +101,11 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-blue';
       case 'INCOMPLETED':
         return 'status-amber';
+      case 'ACTIVE':
+        return 'status-blue';
+
+      default:
+        return '';
     }
   }, [variant]);
 
