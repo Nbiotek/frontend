@@ -129,5 +129,9 @@ export const RECEPTIONIST = {
 export const SUPER_ADMIN = {
   STATS: '/super-admin/dashboard/stats',
   USERS: '/super-admin/users',
-  ADD_USER: '/super-admin/add-user'
+  ADD_USER: '/super-admin/add-user',
+  SINGLE_TEST: '/tests/all-tests',
+  PACKAGE_TEST: '/tests/package-tests',
+  TEST_ID: '/admin/tests/:id',
+  CREATE_SINGLE_TEST: '/admin/tests'
 };

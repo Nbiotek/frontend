@@ -115,3 +115,25 @@ export const PaymentStatus = [
     value: 'REFUNDED'
   }
 ];
+
+export const testCategory = [
+  {
+    label: 'Basic',
+    value: 'BASIC_TEST'
+  },
+
+  {
+    label: 'Molecular',
+    value: 'MOLECULAR'
+  },
+
+  {
+    label: 'Blood',
+    value: 'BLOOD'
+  },
+
+  {
+    label: 'Advance imaging',
+    value: 'ADVANCE_IMAGING'
+  }
+];
