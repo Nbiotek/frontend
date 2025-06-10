@@ -1,4 +1,4 @@
-import Status from '@/atoms/Buttons/Status';
+import { EnumTestAvailability } from '@/atoms/Buttons/Status';
 import {
   Card,
   CardContent,
@@ -14,14 +14,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@radix-ui/react-collapsible';
-import { Banknote, CreditCard, EllipsisVertical, MapPin } from 'lucide-react';
-import { formatTestDate } from '@/utils/date';
+import { EllipsisVertical } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, HTMLAttributes } from 'react';
 import { useStore } from '@/store';
 import { format } from 'date-fns';
 import { ccyFormatter } from '@/utils/currency';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { toTitleCase } from '@/utils';
+import { Badge } from '@/components/ui/badge';
 
 interface ITestCardProps extends HTMLAttributes<HTMLDivElement> {
   datum: TAdminTestItem;
@@ -39,7 +40,11 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
           </div>
 
           <div className="flex items-center justify-start space-x-2">
-            <Status variant={datum.status} />
+            <Badge
+              variant={datum.status === EnumTestAvailability.ACTIVE ? 'default' : 'destructive'}
+            >
+              {toTitleCase(datum.status)}
+            </Badge>
 
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -50,6 +55,11 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
                 <DropdownMenuItem
                   onClick={() => {
                     if (datum.tests) {
+                      toggleModals({
+                        name: AppModals.ADMIN_PACKAGE_TEST,
+                        open: true,
+                        testId: datum.id
+                      });
                       return;
                     } else {
                       toggleModals({
@@ -62,7 +72,22 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
                 >
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    toggleModals({
+                      open: true,
+                      name: AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY,
+                      id: datum.id,
+                      status:
+                        datum.status === EnumTestAvailability.ACTIVE
+                          ? EnumTestAvailability.IN_ACTIVE
+                          : EnumTestAvailability.ACTIVE,
+                      type: datum?.tests ? 'package' : 'single'
+                    });
+                  }}
+                >
+                  {datum.status === EnumTestAvailability.ACTIVE ? 'Deactivate' : 'Activate'}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -137,7 +162,6 @@ const TestCard = forwardRef<HTMLDivElement, ITestCardProps>(({ datum, ...props }
                           >
                             Edit
                           </DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>

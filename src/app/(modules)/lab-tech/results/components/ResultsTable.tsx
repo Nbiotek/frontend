@@ -69,7 +69,9 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                 {resultsData.results.map((resultDatum) => (
                   <TableRow key={resultDatum.id}>
                     <TableCell className="font-medium">{resultDatum.patientName}</TableCell>
-                    <TableCell>{resultDatum.testType}</TableCell>
+                    <TableCell>
+                      <Status variant={resultDatum.testType} />
+                    </TableCell>
                     <TableCell>
                       <Status variant={resultDatum.priority} />
                     </TableCell>

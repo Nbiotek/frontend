@@ -5,7 +5,7 @@ import { useFetchSingleTest } from '@/hooks/admin/useFetchSingleTest';
 import TestCard from './TestCard';
 
 const SingleTests = () => {
-  const { data, status } = useFetchSingleTest();
+  const { data, status } = useFetchSingleTest({});
 
   return (
     <div className="flex h-[80vh] w-full flex-col space-y-4 overflow-y-scroll">

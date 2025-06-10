@@ -11,7 +11,11 @@ export enum AppModals {
   SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
   UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT',
   ADMIN_ADD_USER = 'ADMIN_ADD_USER',
-  ADMIN_SINGLE_TEST = 'ADMIN_SINGLE_TEST'
+  ADMIN_SINGLE_TEST = 'ADMIN_SINGLE_TEST',
+  ADMIN_PACKAGE_TEST = 'ADMIN_PACKAGE_TEST',
+  ADMIN_DELETE_USER = 'ADMIN_DELETE_USER',
+  ADMIN_SUSPEND_USER = 'ADMIN_SUSPEND_USER',
+  ADMIN_TOGGLE_TEST_AVAILABILITY = 'ADMIN_TOGGLE_TEST_AVAILABILITY'
 }
 
 export type TAppModalsAction =
@@ -29,7 +33,12 @@ export type TAppModalsAction =
     } & {
       open: boolean;
     })
-  | ({ name: AppModals.RESULT_UPLOAD_MODAL | AppModals.ADMIN_SINGLE_TEST } & (
+  | ({
+      name:
+        | AppModals.RESULT_UPLOAD_MODAL
+        | AppModals.ADMIN_SINGLE_TEST
+        | AppModals.ADMIN_PACKAGE_TEST;
+    } & (
       | {
           open: true;
           testId: string;
@@ -60,10 +69,27 @@ export type TAppModalsAction =
         }
       | { open?: false }
     ))
-  | ({ name: AppModals.SINGLE_APPOINTMENT | AppModals.UPDATE_APPOINTMENT } & (
+  | ({
+      name:
+        | AppModals.SINGLE_APPOINTMENT
+        | AppModals.UPDATE_APPOINTMENT
+        | AppModals.ADMIN_DELETE_USER
+        | AppModals.ADMIN_SUSPEND_USER;
+    } & (
       | {
           open: true;
           id: string;
+        }
+      | { open?: false }
+    ))
+  | ({
+      name: AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY;
+    } & (
+      | {
+          open: true;
+          id: string;
+          status: string;
+          type: string;
         }
       | { open?: false }
     ));

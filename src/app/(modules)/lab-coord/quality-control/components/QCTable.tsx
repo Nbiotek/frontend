@@ -60,106 +60,112 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
         ) : (
           resultsData.requests.length !== 0 && (
             <TableBody>
-              {resultsData.requests.map((qcDatum) => (
-                <TableRow key={qcDatum.id}>
-                  <TableCell>{qcDatum.patientName}</TableCell>
-                  <TableCell>{qcDatum.testName}</TableCell>
-                  <TableCell>
-                    <Status variant={qcDatum.status} />
-                  </TableCell>
-                  <TableCell>{qcDatum.testType}</TableCell>
-                  <TableCell>
-                    <Status variant={qcDatum.priority} />
-                  </TableCell>
-                  <TableCell>{formatTestDate(qcDatum.preferredAt)}</TableCell>
-                  <TableCell>
-                    <Status variant={qcDatum.resultStatus} />
-                  </TableCell>
-                  <TableCell>{formatTestDate(qcDatum.deadlineAt)}</TableCell>
-                  <TableCell>{qcDatum.qcStatus && <Status variant={qcDatum.qcStatus} />}</TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
-                      </DropdownMenuTrigger>
+              {resultsData.requests.map((qcDatum) => {
+                return (
+                  <TableRow key={qcDatum.id}>
+                    <TableCell>{qcDatum.patientName}</TableCell>
+                    <TableCell>{qcDatum.testName}</TableCell>
+                    <TableCell>
+                      <Status variant={qcDatum.status} />
+                    </TableCell>
+                    <TableCell>
+                      <Status variant={qcDatum.testType} />
+                    </TableCell>
+                    <TableCell>
+                      <Status variant={qcDatum.priority} />
+                    </TableCell>
+                    <TableCell>{formatTestDate(qcDatum.preferredAt)}</TableCell>
+                    <TableCell>
+                      <Status variant={qcDatum.resultStatus} />
+                    </TableCell>
+                    <TableCell>{formatTestDate(qcDatum.deadlineAt)}</TableCell>
+                    <TableCell>
+                      {qcDatum.qcStatus && <Status variant={qcDatum.qcStatus} />}
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                        </DropdownMenuTrigger>
 
-                      <DropdownMenuContent className="">
-                        <DropdownMenuGroup>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              router.push(
-                                `${ROUTES.LAB_COORD_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
-                              )
-                            }
-                          >
-                            <Eye />
-                            View
-                          </DropdownMenuItem>
-                          {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
+                        <DropdownMenuContent className="">
+                          <DropdownMenuGroup>
                             <DropdownMenuItem
                               onClick={() =>
-                                qcStatusMutate({
-                                  payload: { status: EnumResultStatus.UNDER_REVIEW },
-                                  id: qcDatum.id
-                                })
+                                router.push(
+                                  `${ROUTES.LAB_COORD_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
+                                )
                               }
                             >
-                              <Play />
-                              Start
+                              <Eye />
+                              View
                             </DropdownMenuItem>
-                          )}
-                          {qcDatum.qcStatus &&
-                            qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
+                            {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
                               <DropdownMenuItem
                                 onClick={() =>
                                   qcStatusMutate({
-                                    payload: { status: EnumResultStatus.PENDING },
+                                    payload: { status: EnumResultStatus.UNDER_REVIEW },
                                     id: qcDatum.id
                                   })
                                 }
                               >
-                                {' '}
-                                <Pause />
-                                Pause
+                                <Play />
+                                Start
                               </DropdownMenuItem>
                             )}
-                          {qcDatum.qcStatus &&
-                            qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
+                            {qcDatum.qcStatus &&
+                              qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
+                                <DropdownMenuItem
+                                  onClick={() =>
+                                    qcStatusMutate({
+                                      payload: { status: EnumResultStatus.PENDING },
+                                      id: qcDatum.id
+                                    })
+                                  }
+                                >
+                                  {' '}
+                                  <Pause />
+                                  Pause
+                                </DropdownMenuItem>
+                              )}
+                            {qcDatum.qcStatus &&
+                              qcDatum.qcStatus === EnumResultStatus.UNDER_REVIEW && (
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    toggleModals({
+                                      open: true,
+                                      name: AppModals.QC_STATUS_UPDATE,
+                                      testId: qcDatum.id,
+                                      currentStatus: qcDatum.qcStatus as EnumResultStatus
+                                    });
+                                  }}
+                                >
+                                  <Shield />
+                                  Review
+                                </DropdownMenuItem>
+                              )}
+                            {qcDatum.qcStatus && qcDatum.qcStatus === EnumResultStatus.FAILED && (
                               <DropdownMenuItem
-                                onClick={() => {
+                                onClick={() =>
                                   toggleModals({
+                                    name: AppModals.AVAILABLE_TECHNICIANS,
                                     open: true,
-                                    name: AppModals.QC_STATUS_UPDATE,
                                     testId: qcDatum.id,
-                                    currentStatus: qcDatum.qcStatus as EnumResultStatus
-                                  });
-                                }}
+                                    isReassign: true
+                                  })
+                                }
                               >
-                                <Shield />
-                                Review
+                                <HandCoins />
+                                Reassign
                               </DropdownMenuItem>
                             )}
-                          {qcDatum.qcStatus && qcDatum.qcStatus === EnumResultStatus.FAILED && (
-                            <DropdownMenuItem
-                              onClick={() =>
-                                toggleModals({
-                                  name: AppModals.AVAILABLE_TECHNICIANS,
-                                  open: true,
-                                  testId: qcDatum.id,
-                                  isReassign: true
-                                })
-                              }
-                            >
-                              <HandCoins />
-                              Reassign
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           )
         )}
