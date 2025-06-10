@@ -1,462 +1,485 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blood Test Result - Johnatan Doe</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            padding: 20px;
-            font-size: 14px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+        font-size: 14px;
+      }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            display: flex;
-            flex-direction: column;
-        }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        display: flex;
+        flex-direction: column;
+      }
 
-        /* Header Section */
+      /* Header Section */
+      .header-section {
+        display: flex;
+        background: #b8dce8;
+        min-height: 200px;
+      }
+
+      .left-panel {
+        width: 280px;
+
+        background: #b8dce8;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .logo {
+        font-size: 48px;
+        margin-bottom: 15px;
+      }
+
+      .lab-name {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .lab-details {
+        text-align: center;
+        color: #333;
+        line-height: 1.4;
+      }
+
+      .lab-details div {
+        margin-bottom: 3px;
+      }
+
+      .right-panel {
+        flex: 1;
+        padding: 30px;
+        background: white;
+      }
+
+      .report-title {
+        font-size: 48px;
+        color: #5bb3d1;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .patient-processing {
+        display: flex;
+        gap: 80px;
+      }
+
+      .patient-info,
+      .processing-info {
+        flex: 1;
+      }
+
+      .info-title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .info-row {
+        display: flex;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .info-label {
+        width: 80px;
+        color: #333;
+      }
+
+      .info-value {
+        color: #333;
+      }
+
+      /* Test Sections */
+      .test-section {
+        display: flex;
+        margin-top: 0;
+      }
+
+      .section-header {
+        width: 280px;
+        background: #b8dce8;
+        padding: 20px 30px;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .section-tests {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .section-tests div {
+        margin-bottom: 8px;
+      }
+
+      .section-content {
+        flex: 1;
+        background: white;
+      }
+
+      .test-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .test-table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        font-weight: bold;
+        font-size: 12px;
+        color: #333;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .test-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        font-size: 13px;
+        color: #333;
+      }
+
+      .test-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .elevated-row {
+        background-color: #fff5f5 !important;
+      }
+
+      .elevated-row td {
+        color: #d32f2f;
+        font-weight: bold;
+      }
+
+      .normal-status {
+        color: #2e7d32;
+      }
+
+      .elevated-status {
+        color: #d32f2f;
+        font-weight: bold;
+      }
+
+      /* Footer */
+      .footer {
+        display: flex;
+      }
+
+      .footer-left {
+        width: 280px;
+        background: #b8dce8;
+        padding: 20px 30px;
+      }
+
+      .footer-right {
+        flex: 1;
+        background: white;
+        padding: 20px;
+        text-align: right;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+
+      .page-number {
+        font-size: 14px;
+        color: #666;
+      }
+
+      @media (max-width: 768px) {
         .header-section {
-            display: flex;
-            background: #b8dce8;
-            min-height: 200px;
+          flex-direction: column;
         }
 
         .left-panel {
-            width: 280px;
-            background: #b8dce8;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+          width: 100%;
         }
 
-        .logo {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .lab-name {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .lab-details {
-            text-align: center;
-            color: #333;
-            line-height: 1.4;
-        }
-
-        .lab-details div {
-            margin-bottom: 3px;
-        }
-
-        .right-panel {
-            flex: 1;
-            padding: 30px;
-            background: white;
-        }
-
-        .report-title {
-            font-size: 48px;
-            color: #5bb3d1;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
-
-        .patient-processing {
-            display: flex;
-            gap: 80px;
-        }
-
-        .patient-info, .processing-info {
-            flex: 1;
-        }
-
-        .info-title {
-            font-weight: bold;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .info-row {
-            display: flex;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .info-label {
-            width: 80px;
-            color: #333;
-        }
-
-        .info-value {
-            color: #333;
-        }
-
-        /* Test Sections */
         .test-section {
-            display: flex;
-            margin-top: 0;
+          flex-direction: column;
         }
 
         .section-header {
-            width: 280px;
-            background: #b8dce8;
-            padding: 20px 30px;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .section-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        .section-tests {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        .section-tests div {
-            margin-bottom: 8px;
+          width: 100%;
         }
 
-        .section-content {
-            flex: 1;
-            background: white;
+        .patient-processing {
+          flex-direction: column;
+          gap: 20px;
         }
 
-        .test-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .test-table th {
-            background: #f5f5f5;
-            padding: 12px;
-            text-align: left;
-            font-weight: bold;
-            font-size: 12px;
-            color: #333;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .test-table td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .test-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .elevated-row {
-            background-color: #fff5f5 !important;
-        }
-
-        .elevated-row td {
-            color: #d32f2f;
-            font-weight: bold;
-        }
-
-        .normal-status {
-            color: #2e7d32;
-        }
-
-        .elevated-status {
-            color: #d32f2f;
-            font-weight: bold;
-        }
-
-        /* Footer */
         .footer {
-            display: flex;
+          flex-direction: column;
         }
 
         .footer-left {
-            width: 280px;
-            background: #b8dce8;
-            padding: 20px 30px;
+          width: 100%;
         }
-
-        .footer-right {
-            flex: 1;
-            background: white;
-            padding: 20px;
-            text-align: right;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-        .page-number {
-            font-size: 14px;
-            color: #666;
-        }
-
-        @media (max-width: 768px) {
-            .header-section {
-                flex-direction: column;
-            }
-            
-            .left-panel {
-                width: 100%;
-            }
-            
-            .test-section {
-                flex-direction: column;
-            }
-            
-            .section-header {
-                width: 100%;
-            }
-            
-            .patient-processing {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .footer {
-                flex-direction: column;
-            }
-            
-            .footer-left {
-                width: 100%;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <!-- Header Section -->
-        <div class="header-section">
-            <div class="left-panel">
-                <img class="logo"  src="https://i.ibb.co/KcTKHmnc/logo.png" width="150"/>
-                <div class="lab-name"></div>
-                <div class="lab-details">
-                    <div><strong>Nbiotek Medical Laboratory Services</strong></div>
-                    <div>1No 1b, Hospital Lane, Akure; No 1, Opopoola Oshinle, Akure.</div>
-                    <div class="contact">Tel: 07039261396, 09063625525, 08033825691 E-mail: nbiotek@gmail.com</div>
-                </div>
+      <!-- Header Section -->
+      <div class="header-section">
+        <div class="left-panel">
+          <img class="logo" src="https://i.ibb.co/KcTKHmnc/logo.png" width="150" />
+          <div class="lab-name"></div>
+          <div class="lab-details">
+            <div><strong>Nbiotek Medical Laboratory Services</strong></div>
+            <div>1No 1b, Hospital Lane, Akure; No 1, Opopoola Oshinle, Akure.</div>
+            <div class="contact">
+              Tel: 07039261396, 09063625525, 08033825691 E-mail: nbiotek@gmail.com
             </div>
-            <div class="right-panel">
-                <div class="report-title">Blood Test Result</div>
-                <div class="patient-processing">
-                    <div class="patient-info">
-                        <div class="info-title">Johnatan Doe</div>
-                        <div class="info-row">
-                            <span class="info-label">Age:</span>
-                            <span class="info-value">30</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Gender:</span>
-                            <span class="info-value">Male</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Email:</span>
-                            <span class="info-value">johndoe@example.com</span>
-                        </div>
-                    </div>
-                    <div class="processing-info">
-                        <div class="info-title">Processing Details</div>
-                        <div class="info-row">
-                            <span class="info-label">Sample:</span>
-                            <span class="info-value">7/23/2024, 12:51 PM</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Results:</span>
-                            <span class="info-value">7/23/2024, 12:51 PM</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Verified by:</span>
-                            <span class="info-value">Dr. Emily Johnson</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="right-panel">
+          <div class="report-title">Blood Test Result</div>
+          <div class="patient-processing">
+            <div class="patient-info">
+              <div class="info-title">Johnatan Doe</div>
+              <div class="info-row">
+                <span class="info-label">Age:</span>
+                <span class="info-value">30</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Gender:</span>
+                <span class="info-value">Male</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">johndoe@example.com</span>
+              </div>
+            </div>
+            <div class="processing-info">
+              <div class="info-title">Processing Details</div>
+              <div class="info-row">
+                <span class="info-label">Sample:</span>
+                <span class="info-value">7/23/2024, 12:51 PM</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Results:</span>
+                <span class="info-value">7/23/2024, 12:51 PM</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Verified by:</span>
+                <span class="info-value">Dr. Emily Johnson</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Hematology Section -->
-        <div class="test-section">
-            <div class="section-content">
-                <table class="test-table">
-                    <thead>
-                        <tr>
-                            <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold;">Hematology</th>
-                            <th>RESULT</th>
-                            <th>UNIT</th>
-                            <th>NORMAL RANGE</th>
-                            <th>RESULT STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">White Blood Cell Count</td>
-                            <td>7.2</td>
-                            <td>x10⁹/L</td>
-                            <td>4 - 11</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr class="elevated-row">
-                            <td style="background: #b8dce8; font-weight: normal; color: #333;">Red Blood Cell Count</td>
-                            <td>14.5</td>
-                            <td>x10¹²/L</td>
-                            <td>4.2 - 5.9</td>
-                            <td class="elevated-status">Elevated</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Hemoglobin</td>
-                            <td>13.5</td>
-                            <td>g/dL</td>
-                            <td>13.2 - 16.6</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Hematocrit</td>
-                            <td>40.1</td>
-                            <td>%</td>
-                            <td>38.3 - 48.6</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Platelet Count</td>
-                            <td>250</td>
-                            <td>x10⁹/L</td>
-                            <td>150 - 450</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                             <td style="background: #b8dce8; font-weight: normal;">Comment </td>
-                             <td colspan="4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod voluptatibus nisi labore ipsum soluta veritatis in voluptatum culpa modi quidem fugiat illo aperiam ullam rerum dolorem earum, deserunt numquam? Nam!</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <!-- Hematology Section -->
+      <div class="test-section">
+        <div class="section-content">
+          <table class="test-table">
+            <thead>
+              <tr>
+                <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold">
+                  Hematology
+                </th>
+                <th>RESULT</th>
+                <th>UNIT</th>
+                <th>NORMAL RANGE</th>
+                <th>RESULT STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">White Blood Cell Count</td>
+                <td>7.2</td>
+                <td>x10⁹/L</td>
+                <td>4 - 11</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr class="elevated-row">
+                <td style="background: #b8dce8; font-weight: normal; color: #333">
+                  Red Blood Cell Count
+                </td>
+                <td>14.5</td>
+                <td>x10¹²/L</td>
+                <td>4.2 - 5.9</td>
+                <td class="elevated-status">Elevated</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Hemoglobin</td>
+                <td>13.5</td>
+                <td>g/dL</td>
+                <td>13.2 - 16.6</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Hematocrit</td>
+                <td>40.1</td>
+                <td>%</td>
+                <td>38.3 - 48.6</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Platelet Count</td>
+                <td>250</td>
+                <td>x10⁹/L</td>
+                <td>150 - 450</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Comment</td>
+                <td colspan="4">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod voluptatibus nisi
+                  labore ipsum soluta veritatis in voluptatum culpa modi quidem fugiat illo aperiam
+                  ullam rerum dolorem earum, deserunt numquam? Nam!
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <div class="test-section">
-            <div class="section-content">
-                <table class="test-table">
-                    <thead>
-                        <tr>
-                            <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold;">Hematology</th>
-                            <th>RESULT</th>
-                            <th>UNIT</th>
-                            <th>NORMAL RANGE</th>
-                            <th>RESULT STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">White Blood Cell Count</td>
-                            <td>7.2</td>
-                            <td>x10⁹/L</td>
-                            <td>4 - 11</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr class="elevated-row">
-                            <td style="background: #b8dce8; font-weight: normal; color: #333;">Red Blood Cell Count</td>
-                            <td>14.5</td>
-                            <td>x10¹²/L</td>
-                            <td>4.2 - 5.9</td>
-                            <td class="elevated-status">Elevated</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Hemoglobin</td>
-                            <td>13.5</td>
-                            <td>g/dL</td>
-                            <td>13.2 - 16.6</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Hematocrit</td>
-                            <td>40.1</td>
-                            <td>%</td>
-                            <td>38.3 - 48.6</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Platelet Count</td>
-                            <td>250</td>
-                            <td>x10⁹/L</td>
-                            <td>150 - 450</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                             <td style="background: #b8dce8; font-weight: normal;">Comment </td>
-                             <td colspan="4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod voluptatibus nisi labore ipsum soluta veritatis in voluptatum culpa modi quidem fugiat illo aperiam ullam rerum dolorem earum, deserunt numquam? Nam!</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="test-section">
+        <div class="section-content">
+          <table class="test-table">
+            <thead>
+              <tr>
+                <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold">
+                  Hematology
+                </th>
+                <th>RESULT</th>
+                <th>UNIT</th>
+                <th>NORMAL RANGE</th>
+                <th>RESULT STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">White Blood Cell Count</td>
+                <td>7.2</td>
+                <td>x10⁹/L</td>
+                <td>4 - 11</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr class="elevated-row">
+                <td style="background: #b8dce8; font-weight: normal; color: #333">
+                  Red Blood Cell Count
+                </td>
+                <td>14.5</td>
+                <td>x10¹²/L</td>
+                <td>4.2 - 5.9</td>
+                <td class="elevated-status">Elevated</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Hemoglobin</td>
+                <td>13.5</td>
+                <td>g/dL</td>
+                <td>13.2 - 16.6</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Hematocrit</td>
+                <td>40.1</td>
+                <td>%</td>
+                <td>38.3 - 48.6</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Platelet Count</td>
+                <td>250</td>
+                <td>x10⁹/L</td>
+                <td>150 - 450</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Comment</td>
+                <td colspan="4">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod voluptatibus nisi
+                  labore ipsum soluta veritatis in voluptatum culpa modi quidem fugiat illo aperiam
+                  ullam rerum dolorem earum, deserunt numquam? Nam!
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <!-- Thyroid Function Section -->
-        <div class="test-section">
-            <div class="section-content">
-                <table class="test-table">
-                    <thead>
-                        <tr>
-                            <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold;">Thyrod function</th>
-                            <th>RESULT</th>
-                            <th>UNIT</th>
-                            <th>NORMAL RANGE</th>
-                            <th>RESULT STATUS</th>
-                        </tr>
-                        <tr>
-                            <th style="background: #b8dce8;">TEST</th>
-                            <th>RESULT</th>
-                            <th>UNIT</th>
-                            <th>NORMAL RANGE</th>
-                            <th>RESULT STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Thyroid Stimulating Hormone</td>
-                            <td>2.1</td>
-                            <td>μIU/mL</td>
-                            <td>0.5 - 4.5</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                        <tr>
-                            <td style="background: #b8dce8; font-weight: normal;">Free Thyroxine (FT4)</td>
-                            <td>1.2</td>
-                            <td>ng/dL</td>
-                            <td>0.9 - 1.7</td>
-                            <td class="normal-status">Normal</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <!-- Thyroid Function Section -->
+      <div class="test-section">
+        <div class="section-content">
+          <table class="test-table">
+            <thead>
+              <tr>
+                <th style="background: #b8dce8; width: 280px; font-size: 22px; font-weight: bold">
+                  Thyrod function
+                </th>
+                <th>RESULT</th>
+                <th>UNIT</th>
+                <th>NORMAL RANGE</th>
+                <th>RESULT STATUS</th>
+              </tr>
+              <tr>
+                <th style="background: #b8dce8">TEST</th>
+                <th>RESULT</th>
+                <th>UNIT</th>
+                <th>NORMAL RANGE</th>
+                <th>RESULT STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">
+                  Thyroid Stimulating Hormone
+                </td>
+                <td>2.1</td>
+                <td>μIU/mL</td>
+                <td>0.5 - 4.5</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+              <tr>
+                <td style="background: #b8dce8; font-weight: normal">Free Thyroxine (FT4)</td>
+                <td>1.2</td>
+                <td>ng/dL</td>
+                <td>0.9 - 1.7</td>
+                <td class="normal-status">Normal</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-left"></div>
-            <div class="footer-right">
-            </div>
-        </div>
+      <!-- Footer -->
+      <div class="footer">
+        <div class="footer-left"></div>
+        <div class="footer-right"></div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
