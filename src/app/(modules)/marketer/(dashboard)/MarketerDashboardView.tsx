@@ -27,7 +27,6 @@ const MarketerDashboardView = () => {
       <OverviewActivity overviewData={overviewData} isLoading={isLoading} />
       <div className=" flex w-full flex-col items-start justify-between  gap-4 lg:flex-row lg:space-x-[24px]">
         <Cards className="w-full bg-white p-3 lg:w-[70%]">
-          {/* here is my field task overview  */}
           <FieldTaskOverview />
         </Cards>
         <Cards title="Quick Links" className="w-full bg-white px-[12px] py-[23px] lg:w-[30%] ">
