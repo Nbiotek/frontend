@@ -1,5 +1,10 @@
-import { firstName } from '@/app/auth/validation';
 import { z } from 'zod';
+
+export const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional()
+});
 
 export const AdminSingleTestSchema = z
   .object({
@@ -43,4 +48,19 @@ export const AdminSingleTestSchema = z
     }
   });
 
+export const AdminPackageTestSchema = z.object({
+  name: z
+    .string({ required_error: 'Test name is required.' })
+    .trim()
+    .min(2, { message: 'Test name is required.' }),
+  description: z
+    .string({ required_error: 'Test description is required.' })
+    .trim()
+    .min(2, { message: 'Test description is required.' }),
+  requirements: z.string().trim().optional(),
+  testIds: z.array(optionSchema, { required_error: 'Tests is required' })
+});
+
 export type TAdminSingleTestSchema = z.infer<typeof AdminSingleTestSchema>;
+
+export type TAdminPackageTestSchema = z.infer<typeof AdminPackageTestSchema>;

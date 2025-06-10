@@ -10,12 +10,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { User } from './data/schema';
 import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
+import { useStore } from '@/store';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { observer } from 'mobx-react-lite';
 
 interface DataTableRowActionsProps {
   row: Row<TAdminUsersItem>;
 }
 
-export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
+  const {
+    AppConfigStore: { toggleModals }
+  } = useStore();
   return (
     <>
       <DropdownMenu modal={false}>
@@ -26,21 +32,23 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem onClick={() => {}}>
-            Edit
-            <DropdownMenuShortcut>
-              <Edit size={16} />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => {}}>
+          <DropdownMenuItem
+            onClick={() =>
+              toggleModals({ name: AppModals.ADMIN_SUSPEND_USER, open: true, id: row.original.id })
+            }
+          >
             Suspend
             <DropdownMenuShortcut>
               <ShieldBan size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => {}} className="text-red-500!">
+          <DropdownMenuItem
+            onClick={() =>
+              toggleModals({ name: AppModals.ADMIN_DELETE_USER, open: true, id: row.original.id })
+            }
+            className="text-red-500!"
+          >
             Delete
             <DropdownMenuShortcut>
               <TrashIcon size={16} />
@@ -50,4 +58,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       </DropdownMenu>
     </>
   );
-}
+};
+
+export default observer(DataTableRowActions);

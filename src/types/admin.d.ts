@@ -30,6 +30,8 @@ type TAdminDashboardStats = {
   receptionist: number;
   marketer: number;
   technicalCoordinator: number;
+  totalAppointments: number;
+  totalRevenue: string;
 };
 
 type TAdminTestItemBase = {

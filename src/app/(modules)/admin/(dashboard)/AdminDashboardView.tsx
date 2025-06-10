@@ -32,6 +32,13 @@ const card = [
     title: 'Total Packages',
     type: EnumOverviewIcon.PEOPLE,
     tag: 'totalPackages'
+  },
+
+  {
+    stat: 24,
+    title: 'Total Revenues',
+    type: EnumOverviewIcon.TURN,
+    tag: 'totalRevenue'
   }
 ];
 
@@ -46,7 +53,9 @@ const AdminDashboardView = () => {
               <OverviewCard
                 key={el.tag}
                 type={el.type}
-                stat={data ? data[el.tag as keyof TAdminDashboardStats] : el.stat}
+                stat={
+                  data ? parseInt(data[el.tag as keyof TAdminDashboardStats].toString()) : el.stat
+                }
                 title={el.title}
               />
             ))}
