@@ -59,19 +59,36 @@ const TaskCard = ({ task, loading }: TaskCardComponentProps) => {
             <p className="text-lg font-semibold">{taskItem.patientName}</p>
             <p className="text-gray-500 text-sm">{taskItem.location.address}</p>
 
-            {activeCardIndex === idx && (
-              <div className="mt-2 flex items-center space-x-2">
-                <button className="text-sm font-semibold text-red-500 hover:underline">
-                  Start Task
-                </button>
-                <button
-                  className="text-sm font-semibold text-blue-400 hover:underline"
-                  onClick={() => router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${taskItem.id}`)}
-                >
-                  Upload Result
-                </button>
-              </div>
-            )}
+            {activeCardIndex === idx &&
+              (taskItem.status === 'PENDING' ? (
+                <>
+                  <button className="text-sm font-semibold text-red-500 hover:underline">
+                    Start Task
+                  </button>
+                </>
+              ) : taskItem.status === 'IN_PROGRESS' ? (
+                <>
+                  <button
+                    className="text-sm font-semibold text-blue-400 hover:underline"
+                    onClick={() =>
+                      router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${taskItem.id}`)
+                    }
+                  >
+                    Upload Result
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="text-sm font-semibold text-blue-400 hover:underline"
+                    onClick={() =>
+                      router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${taskItem.id}`)
+                    }
+                  >
+                    View Sample Result
+                  </button>
+                </>
+              ))}
           </div>
         ))}
       </div>
