@@ -38,6 +38,11 @@ export const fieldTaskServices = {
     return data;
   },
 
+  updateMarketerAvailability: async (payload: { status: string }) => {
+    const { data } = await server.put<TAvailabiltyData>(MARKETER.UPDATE_AVAILABILITY, payload);
+    return data;
+  },
+
   getAllFIeldTasks: async () => {
     const { data } = await server.get<TFieldTestRespones>(MARKETER.LOG_SAMPLES.All);
     return data;
