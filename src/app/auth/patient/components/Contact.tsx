@@ -1,8 +1,6 @@
 'use client';
-import { CardContent } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
-import Input from '@/atoms/fields/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { PatientContactSchema, TPatientContactSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
@@ -10,17 +8,15 @@ import { useStore } from '@/store';
 import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EnumPatientForm } from '@/constants/mangle';
+import { Form, FormField } from '@/components/ui/form';
+import InputField from '@/atoms/fields/NewInput';
+import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 
 function ContactForm() {
   const {
     PatientStore: { contactInfo, setContactInfo, setCurrentForm }
   } = useStore();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<TPatientContactSchema>({
+  const form = useForm<TPatientContactSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(PatientContactSchema),
     reValidateMode: 'onSubmit'
@@ -31,129 +27,193 @@ function ContactForm() {
   };
 
   useEffect(() => {
-    reset(contactInfo);
+    form.reset(contactInfo);
   }, []);
   return (
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
       <SubTitle className="!text-center" text="Contact Information" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="">
-        <fieldset className="">
-          <Input
-            required={true}
-            type="text"
-            id="emailAddress"
-            label="Home address"
-            placeholder="No 65 Block B1 Westros Est."
-            {...register('homeAddress')}
-            error={errors.homeAddress?.message}
-          />
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="fname"
-              label="City"
-              placeholder="Akure"
-              {...register('city')}
-              error={errors.city?.message}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+          <fieldset className="">
+            <FormField
+              control={form.control}
+              name="homeAddress"
+              render={({ field }) => (
+                <div>
+                  <InputField
+                    required
+                    className="md:mb-0 md:w-[50%]"
+                    type="text"
+                    id="fname"
+                    label="Home address"
+                    placeholder="No 65 Block B1 Westros Est."
+                    {...field}
+                  />
+                </div>
+              )}
             />
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="lname"
-              label="State"
-              placeholder="Ondo"
-              {...register('state')}
-              error={errors.state?.message}
-            />
-          </div>
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-            <Input
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="fname"
-              label="Landmark"
-              placeholder="behind C.B.N Office"
-              {...register('landMark')}
-              error={errors.landMark?.message}
-            />
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="lname"
-              label="Zip code"
-              placeholder="0000"
-              {...register('zipCode')}
-              error={errors.zipCode?.message}
-            />
-          </div>
-
-          <label className="mb-3 font-medium">
-            <div className="flex items-center justify-start space-x-1">
-              <label className="">Emergency Contact</label>
-              <span className="text-red-300">*</span>
-            </div>
-          </label>
-
-          <div className="mt-3">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                required={true}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="fname"
-                placeholder="First Name"
-                {...register('emergencyContact.firstName')}
-                error={errors.emergencyContact?.firstName?.message}
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      required
+                      type="text"
+                      id="fname"
+                      label="City"
+                      placeholder="Akure"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
-              <Input
-                required={true}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                placeholder="Last Name"
-                {...register('emergencyContact.lastName')}
-                error={errors.emergencyContact?.lastName?.message}
+
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      required
+                      type="text"
+                      id="fname"
+                      label="State"
+                      placeholder="Ondo"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
             </div>
-
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                required={true}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="fname"
-                placeholder="Address"
-                {...register('emergencyContact.address')}
-                error={errors.emergencyContact?.address?.message}
+              <FormField
+                control={form.control}
+                name="landMark"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      type="text"
+                      id="fname"
+                      label="Landmark"
+                      placeholder="behind C.B.N Office"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
-              <Input
-                required={true}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                placeholder="Phone Number"
-                {...register('emergencyContact.phoneNumber')}
-                error={errors.emergencyContact?.phoneNumber?.message}
+
+              <FormField
+                control={form.control}
+                name="zipCode"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputNumPatternField
+                      id="zipCode"
+                      label="Zip code"
+                      format="%%%%%%"
+                      patternChar="%"
+                      maxLength={6}
+                      required
+                      {...field}
+                    />
+                  </div>
+                )}
               />
             </div>
-          </div>
-        </fieldset>
 
-        <div className="flex items-center justify-between space-x-2">
-          <Button
-            type="button"
-            variant="transparent"
-            text="Prev"
-            onClick={() => setCurrentForm(EnumPatientForm.PEROSNAL)}
-          />
-          <Button type="submit" variant="filled" text="Next" />
-        </div>
-      </form>
+            <label className="mb-3 font-medium">
+              <div className="flex items-center justify-start space-x-1">
+                <label className="">Emergency Contact</label>
+                <span className="text-red-300">*</span>
+              </div>
+            </label>
+
+            <div className="mt-3">
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <FormField
+                  control={form.control}
+                  name="emergencyContact.firstName"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputField
+                        required
+                        type="text"
+                        id="emergencyContact.firstName"
+                        label="First Name"
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="emergencyContact.lastName"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputField
+                        required
+                        type="text"
+                        id="emergencyContact.lastName"
+                        label="Last Name"
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <FormField
+                  control={form.control}
+                  name="emergencyContact.address"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputField
+                        required
+                        type="text"
+                        id="emergencyContact.address"
+                        label="Address"
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="emergencyContact.phoneNumber"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputNumPatternField
+                        label="Phone Number"
+                        format="(+234) ### #### ###"
+                        allowEmptyFormatting
+                        mask=" "
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <div className="flex items-center justify-between space-x-2">
+            <Button
+              type="button"
+              variant="transparent"
+              text="Prev"
+              onClick={() => setCurrentForm(EnumPatientForm.PEROSNAL)}
+            />
+            <Button type="submit" variant="filled" text="Next" />
+          </div>
+        </form>
+      </Form>
     </div>
   );
 }

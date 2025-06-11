@@ -233,7 +233,7 @@ function Calendar({
   showOutsideDays = true,
   yearRange = 50,
   ...props
-}: DayPickerProps & { yearRange?: number; hidden?: Matcher }) {
+}: DayPickerProps & { yearRange?: number; hidden?: Matcher; showTime?: boolean }) {
   const MONTHS = React.useMemo(() => {
     let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = enUS;
     const { options, localize, formatLong } = props.locale || {};
@@ -670,6 +670,7 @@ type DateTimePickerProps = {
    **/
   defaultPopupValue?: Date;
   hidden?: Matcher;
+  showTime?: boolean;
 } & Pick<DayPickerProps, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
 
 type DateTimePickerRef = {
@@ -688,6 +689,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
       yearRange = 50,
       disabled = false,
       displayFormat,
+      showTime = true,
       granularity = 'second',
       placeholder = 'Pick a date',
       className,
@@ -788,7 +790,11 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
             {displayDate ? (
               format(
                 displayDate,
-                hourCycle === 24 ? initHourFormat.hour24 : initHourFormat.hour12,
+                showTime
+                  ? hourCycle === 24
+                    ? initHourFormat.hour24
+                    : initHourFormat.hour12
+                  : 'dd MMM, yy',
                 {
                   locale: loc
                 }

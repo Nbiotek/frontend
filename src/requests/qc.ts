@@ -4,7 +4,7 @@ import { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 export const patchQCStatusUpdate = (params: {
   id: string;
-  payload: { status: EnumResultStatus };
+  payload: { status: EnumResultStatus; reason?: string };
 }) => {
   const { id, payload } = params;
   return server.patch<INBTServerResp<string>>(

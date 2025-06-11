@@ -34,37 +34,11 @@ export const lastName = z
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
 export const phoneNumber = z
-  .string({ required_error: 'Phone number is required.' })
+  .string({ required_error: 'Enter Phone Number.' })
   .trim()
-  .superRefine((val, ctx) => {
-    if (upperCaseRegex.test(val)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone Number can not contain uppercase letters.'
-      });
-    }
-
-    if (lowerCaseRegex.test(val)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone Number can not contain lowercase letters.'
-      });
-    }
-    if (specialCharcterRegex.test(val)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone Number can not contain special letters.'
-      });
-    }
-
-    if (val.length > 15) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone number can not be more than 15 digits.'
-      });
-    }
-  });
-
+  .transform((val) => val.replace(/[^0-9]/g, ''))
+  .refine((val) => val !== '', { message: 'Enter price.' })
+  .refine((val) => !val.startsWith('0'), { message: "Phone number can't start with 0." });
 export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),
   email_verified: z.boolean()
@@ -79,14 +53,49 @@ export const CreateAccountValidationSchema = z
   .object({
     firstName,
     lastName,
-    email,
+    email: z.string().optional(),
+    phoneNumber: z
+      .string({ required_error: 'Enter Phone Number.' })
+      .trim()
+      .transform((val) => val.replace(/[^0-9]/g, ''))
+      .refine((val) => val !== '', { message: 'Enter price.' })
+      .refine((val) => !val.startsWith('0'), { message: "Phone number can't start with 0." }),
     role: z.string({ required_error: 'Select a role' }).trim().min(1, { message: 'Select role.' }),
     password,
     confirmPassword
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match.',
-    path: ['confirmPassword']
+  .superRefine((data, ctx) => {
+    const { password, confirmPassword, phoneNumber } = data;
+
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Passwords do not match.',
+        path: ['confirmPassword']
+      });
+    }
+
+    if (data.email) {
+      try {
+        email.parse(data.email);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Provide valid email.',
+            path: ['email']
+          });
+        }
+      }
+    }
+
+    if (!phoneNumber && !data.email) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Provide email/phone number.',
+        path: ['email', 'phoneNumber']
+      });
+    }
   });
 
 export const CreatePatientAcctValidationSchema = z
@@ -125,18 +134,44 @@ export const ForgotPwdSchema = z.object({
   email
 });
 
-export const PatientPersonalSchema = z.object({
-  firstName,
-  lastName,
-  phoneNumber,
-  email,
-  maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
-  gender: z.string({ required_error: 'Gender is required.' }).trim(),
-  dateOfBirth: z.string({ required_error: 'Date of birth is required.' }).trim(),
-  weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-  height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-  primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
-});
+export const PatientPersonalSchema = z
+  .object({
+    firstName,
+    lastName,
+    email: z.string().optional(),
+    phoneNumber,
+    maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
+    gender: z.string({ required_error: 'Gender is required.' }).trim(),
+    dateOfBirth: z.date({ required_error: 'Date of birth is required.' }),
+    weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
+    height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
+    primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
+  })
+  .superRefine((data, ctx) => {
+    const { phoneNumber } = data;
+
+    if (!phoneNumber && !data.email) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Provide email/phone number.',
+        path: ['email', 'phoneNumber']
+      });
+    }
+
+    if (data.email) {
+      try {
+        email.parse(data.email);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Provide valid email.',
+            path: ['email']
+          });
+        }
+      }
+    }
+  });
 
 export const PatientContactSchema = z.object({
   homeAddress: z

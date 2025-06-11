@@ -17,7 +17,7 @@ const PatientRegView = () => {
   const {
     PatientStore: { isLoading, setCurrentForm, currentForm, updatePatient, setInsuranceInfo }
   } = useStore();
-  const methods = useForm<TPatientInsuranceSchema>({
+  const form = useForm<TPatientInsuranceSchema>({
     mode: 'onSubmit',
     resolver: zodResolver(PatientInsuranceSchema),
     reValidateMode: 'onSubmit'
@@ -35,9 +35,9 @@ const PatientRegView = () => {
         return <ContactForm />;
       case EnumPatientForm.INSURANCE:
         return (
-          <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <InsuranceForm />;
+          <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <InsuranceForm />
               <div className="flex items-center justify-between space-x-2">
                 <Button
                   type="button"

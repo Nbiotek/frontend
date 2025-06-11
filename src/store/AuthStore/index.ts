@@ -134,6 +134,7 @@ class AuthStore {
     this.errors = initializer(this.isLoading, '');
     del('user');
     this.user = {};
+    del('token');
   }
 
   clearError(errorItem: keyof typeof this.errors, delay = 3000) {
@@ -153,6 +154,7 @@ class AuthStore {
   resetStores() {
     this.reset();
     this.rootStore.AppConfigStore.toggleModals();
+    this.sessionCleanup();
   }
 
   setAccessToken(_token: string) {
@@ -223,7 +225,6 @@ class AuthStore {
 
     if (email_verified == false) {
       Toast.info('Check your inbox to verify your account.');
-      persist('_um', this.user.email);
       this.isLoading.login = false;
       this.errors.login = '';
       cb && cb(ROUTES.OTP.path);
@@ -238,7 +239,6 @@ class AuthStore {
       uuid: this.user.uuid ?? ''
     });
 
-    del('_um');
     this._pd = '';
 
     if (this.user.email_verified) {
@@ -342,7 +342,6 @@ class AuthStore {
 
       this.accessToken = persist('token', data?.access_token as string);
       this.isAuthenticated(data?.access_token);
-      persist('_um', payload.email);
       this._pd = payload.password;
 
       toast.success('Registration successful!');
@@ -361,8 +360,6 @@ class AuthStore {
 
     try {
       const payload: TVerifyOTPPayload = {
-        email: get('_um'),
-        phoneNumber: '',
         otp
       };
       const {

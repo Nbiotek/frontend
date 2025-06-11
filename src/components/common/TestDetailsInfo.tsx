@@ -57,11 +57,11 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
             </FieldSet>
             <FieldSet
               legend="Requested Date"
-              text={format(new Date(data?.createdAt || ''), 'MMM dd, yyyy')}
+              text={data?.createdAt ? format(new Date(data?.createdAt), 'MMM dd, yyyy') : ''}
             />
             <FieldSet
               legend="Deadline"
-              text={format(new Date(data?.deadlineAt || ''), 'MMM dd, yyyy')}
+              text={data?.deadlineAt ? format(new Date(data?.deadlineAt), 'MMM dd, yyyy') : ''}
             />
           </div>
 
