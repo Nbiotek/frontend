@@ -16,6 +16,15 @@ export const maritalStatus = [
   {
     label: 'Married',
     value: 'married'
+  },
+
+  {
+    label: 'Divorced',
+    value: 'divorced'
+  },
+  {
+    label: 'Widowed',
+    value: 'widowed'
   }
 ];
 

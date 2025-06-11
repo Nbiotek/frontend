@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { EnumReceptionistQueryType } from '@/store/ReceptionistStore';
-import { capitalizeWord } from '@/utils';
+import { capitalizeWord, toTitleCase } from '@/utils';
 
 interface IPatientsRegTableProps {
   isLoading: boolean;
@@ -63,12 +63,10 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
                   <TableCell className="whitespace-nowrap font-medium">
                     {capitalizeWord(`${patient.firstName} ${patient.lastName}`)}
                   </TableCell>
-                  <TableCell className="whitespace-nowrap">{patient.email}</TableCell>
-                  <TableCell className="whitespace-nowrap font-medium">
-                    {patient.phoneNumber ?? '-'}
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap font-medium">
-                    {patient?.patientPersonal?.gender ?? '-'}
+                  <TableCell className="whitespace-nowrap">{patient.email ?? '-'}</TableCell>
+                  <TableCell className="whitespace-nowrap">{patient.phoneNumber ?? '-'}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {toTitleCase(patient?.patientPersonal?.gender ?? '-')}
                   </TableCell>
                   <TableCell>
                     <Status variant={patient.profileStatus} />

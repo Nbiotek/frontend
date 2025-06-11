@@ -11,11 +11,11 @@ export type TPatientRegPayload = {
   personal: {
     firstName: string;
     lastName: string;
-    email: string;
+    email?: string;
     phoneNumber: string;
     maritalStatus: string;
     gender: string;
-    dateOfBirth: string;
+    dateOfBirth: Date;
     weight?: string | number;
     height?: string | number;
     primaryCarePhysician?: string | undefined;
@@ -92,7 +92,8 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   if (payload.personal?.firstName) patientPersonal.firstName = payload.personal.firstName;
   if (payload.personal?.lastName) patientPersonal.lastName = payload.personal.lastName;
   if (payload.personal?.email) patientPersonal.email = payload.personal.email;
-  if (payload.personal?.dateOfBirth) patientPersonal.dateOfBirth = payload.personal.dateOfBirth;
+  if (payload.personal?.dateOfBirth)
+    patientPersonal.dateOfBirth = payload.personal.dateOfBirth.toDateString();
   if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
   if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);
   if (payload.personal?.weight) patientPersonal.weight = Number(payload.personal.weight);

@@ -105,10 +105,10 @@ class PatientStore {
       firstName: info.firstName,
       lastName: info.lastName,
       phoneNumber: info.phoneNumber,
-      email: info.email,
+      email: info?.email ?? '',
       maritalStatus: info.patientPersonal.maritalStatus,
       gender: info.patientPersonal.gender,
-      dateOfBirth: '',
+      dateOfBirth: new Date(info.patientPersonal.dateOfBirth),
       weight: info.patientPersonal.weight,
       height: info.patientPersonal.height
     };

@@ -16,7 +16,6 @@ import InputNumberField from '@/atoms/fields/NumberInput';
 import { useFetchSingleTestId } from '@/hooks/admin/useFetchSingleTestId';
 import { SUPER_ADMIN } from '@/constants/api';
 import { useEffect } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const AdminTestModal = () => {
   const {
