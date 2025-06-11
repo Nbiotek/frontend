@@ -4,6 +4,7 @@ import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 import { GrowthChart } from './components/GrowthChart';
 import { useFetchStats } from '@/hooks/admin/useFetchStats';
 import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
+import { UsersBarchart } from './components/UsersChart';
 
 const card = [
   {
@@ -60,7 +61,7 @@ const AdminDashboardView = () => {
               />
             ))}
       </OverviewContainer>
-
+      <UsersBarchart {...{ data, isLoading }} />
       <GrowthChart />
     </div>
   );
