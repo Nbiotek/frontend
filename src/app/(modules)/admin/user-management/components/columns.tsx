@@ -6,7 +6,7 @@ import LongText from '@/components/common/longText';
 import { callTypes, userTypes } from './data/data';
 import { User } from './data/schema';
 import { DataTableColumnHeader } from './TableHeader';
-import { DataTableRowActions } from './DataTableRowActions';
+import DataTableRowActions from './DataTableRowActions';
 import { toTitleCase } from '@/utils';
 import { EnumUserStatus } from '@/constants/mangle';
 

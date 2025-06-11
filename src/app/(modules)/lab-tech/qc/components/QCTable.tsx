@@ -75,7 +75,9 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                   <TableRow key={qcDatum.id}>
                     <TableCell>{qcDatum.patientName}</TableCell>
                     <TableCell>{qcDatum.testName}</TableCell>
-                    <TableCell>{qcDatum.testType}</TableCell>
+                    <TableCell>
+                      <Status variant={qcDatum.testType} />
+                    </TableCell>
                     <TableCell>
                       <Status variant={qcDatum.priority} />
                     </TableCell>

@@ -27,7 +27,7 @@ const TestContents = () => {
               toggleModals({ name: AppModals.ADMIN_SINGLE_TEST, open: true, testId: '' })
             }
           >
-            <PlusIcon /> Add Test
+            <PlusIcon /> Single
           </Button>
         </div>
 

@@ -133,7 +133,29 @@ export const testCategory = [
   },
 
   {
-    label: 'Advance imaging',
-    value: 'ADVANCE_IMAGING'
+    label: 'Advanced imaging',
+    value: 'ADVANCED_IMAGING'
+  }
+];
+
+export const testResultStatus = [
+  {
+    label: 'Low',
+    value: 'Low'
+  },
+
+  {
+    label: 'Medium',
+    value: 'Medium'
+  },
+
+  {
+    label: 'High',
+    value: 'High'
+  },
+
+  {
+    label: 'Normal',
+    value: 'Normal'
   }
 ];

@@ -16,10 +16,11 @@ export const superAdmin = {
     };
   },
 
-  getSingleTest() {
+  getSingleTest(query: Partial<TGeneralPaginatedQuery>) {
     return {
       path: SUPER_ADMIN.SINGLE_TEST,
-      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST] as const
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST],
+      params: query
     };
   },
 
@@ -33,7 +34,14 @@ export const superAdmin = {
   getTestById(id: string) {
     return {
       path: SUPER_ADMIN.TEST_ID.replace(':id', id),
-      keys: () => [SUPER_ADMIN.TEST_ID, id] as const
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.TEST_ID, id] as const
+    };
+  },
+
+  getPackageTestById(id: string) {
+    return {
+      path: SUPER_ADMIN.SINGLE_PACKAGE_TEST.replace(':id', id),
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_PACKAGE_TEST, id] as const
     };
   }
 };

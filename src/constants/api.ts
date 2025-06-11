@@ -132,6 +132,14 @@ export const SUPER_ADMIN = {
   ADD_USER: '/super-admin/add-user',
   SINGLE_TEST: '/tests/all-tests',
   PACKAGE_TEST: '/tests/package-tests',
-  TEST_ID: '/admin/tests/:id',
-  CREATE_SINGLE_TEST: '/admin/tests'
+  SINGLE_PACKAGE_TEST: '/tests/single-package-tests/:id',
+  TEST_ID: '/tests/single/:id',
+  CREATE_SINGLE_TEST: '/tests/create',
+  CREATE_PACKAGE_TEST: '/admin/package-tests',
+  DELETE_USER: '/super-admin/users/:id',
+  SUSPEND_USER: '/super-admin/users/:id/suspend',
+  TOGGLE_TEST_AVAILABILITY: '/tests/toggle-status/:id',
+  UPDATE_SINGLE_TEST: '/tests/update/:id',
+  UPDATE_PACKAGE_TEST: '/admin/package-tests/:id',
+  TOGGLE_PACKAGE_TEST: 'admin/package-tests/:id/toggle-status'
 };
