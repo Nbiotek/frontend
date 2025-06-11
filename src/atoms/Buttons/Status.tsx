@@ -46,6 +46,18 @@ export enum EnumPatientRegStatus {
   IN_COMPLETED = 'INCOMPLETED'
 }
 
+export enum EnumTestAvailability {
+  ACTIVE = 'ACTIVE',
+  IN_ACTIVE = 'INACTIVE'
+}
+
+export enum EnumTestTypes {
+  BASIC_TEST = 'BASIC_TEST',
+  MOLECULAR = 'MOLECULAR',
+  BLOOD = 'BLOOD',
+  ADVANCED_IMAGING = 'ADVANCED_IMAGING'
+}
+
 const Status = ({ variant, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
@@ -101,8 +113,17 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-blue';
       case 'INCOMPLETED':
         return 'status-amber';
-      case 'ACTIVE':
+      case EnumTestAvailability.ACTIVE:
         return 'status-blue';
+
+      case EnumTestTypes.BLOOD:
+        return 'status-red';
+      case EnumTestTypes.MOLECULAR:
+        return 'status-violet';
+      case EnumTestTypes.BASIC_TEST:
+        return 'status-green';
+      case EnumTestTypes.ADVANCED_IMAGING:
+        return 'status-amber';
 
       default:
         return '';

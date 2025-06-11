@@ -36,6 +36,18 @@ const ModalsMap = {
   ),
   [AppModals.ADMIN_SINGLE_TEST]: dynamic(
     () => import('@/app/(modules)/admin/content-management/components/modals/TestModal')
+  ),
+  [AppModals.ADMIN_PACKAGE_TEST]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/PackageTestModal')
+  ),
+  [AppModals.ADMIN_DELETE_USER]: dynamic(
+    () => import('@/app/(modules)/admin/user-management/components/modal/DeleteModal')
+  ),
+  [AppModals.ADMIN_SUSPEND_USER]: dynamic(
+    () => import('@/app/(modules)/admin/user-management/components/modal/SuspendModal')
+  ),
+  [AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/ToggleTestModal')
   )
 };
 

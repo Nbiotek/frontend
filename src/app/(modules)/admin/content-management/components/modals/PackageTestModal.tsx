@@ -4,79 +4,68 @@ import { observer } from 'mobx-react-lite';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
-import { AdminSingleTestSchema, TAdminSingleTestSchema } from './validation';
-import InputSelect from '@/atoms/fields/NewInputSelect';
-import { testCategory } from '@/constants/data';
+import { AdminPackageTestSchema, TAdminPackageTestSchema } from './validation';
 import Input from '@/atoms/fields/NewInput';
 import { Button } from '@/components/ui/button';
 import { Loader } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import TextareaField from '@/atoms/fields/TextAreaField';
-import InputNumberField from '@/atoms/fields/NumberInput';
-import { useFetchSingleTestId } from '@/hooks/admin/useFetchSingleTestId';
 import { SUPER_ADMIN } from '@/constants/api';
-import { useEffect } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useEffect, useState } from 'react';
+import InputMultiSelect from '@/atoms/fields/InputMultiSelect';
+import { Option } from '@/components/ui/multi-select';
+import { useFetchInfiniteSingleTest } from '@/hooks/admin/useFetchSingleTest';
+import { useInView } from '@/hooks/useInView';
+import { useFetchPackageTestId } from '@/hooks/admin/useFetchPackageTestId';
 
-const AdminTestModal = () => {
+const AdminPackageTest = () => {
   const {
     AppConfigStore: { isOpen, toggleModals, testDetails },
-    AdminStore: { addSingleTest, updateSingleTest, isLoading }
+    AdminStore: { addPackageTest, updatePackageTest, isLoading }
   } = useStore();
+
+  const { ref, inView } = useInView();
+
+  const [tests, setTests] = useState<Array<Option>>([]);
+  const {
+    processedData,
+    isLoading: isTestDataLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useFetchInfiniteSingleTest({ limit: 20, page: 1 });
 
   const queryClient = useQueryClient();
   const isEditMode = testDetails.testId !== '';
 
-  const { data, status, error } = useFetchSingleTestId(testDetails.testId);
+  const { data, status } = useFetchPackageTestId(testDetails.testId);
 
-  const form = useForm<TAdminSingleTestSchema>({
+  const form = useForm<TAdminPackageTestSchema>({
     defaultValues: {
       name: '',
       description: '',
-      price: '',
-      discountedPrice: '',
       requirements: '',
-      category: ''
+      testIds: []
     },
     mode: 'onSubmit',
-    resolver: zodResolver(AdminSingleTestSchema),
+    resolver: zodResolver(AdminPackageTestSchema),
     reValidateMode: 'onSubmit'
   });
 
-  useEffect(() => {
-    if (isEditMode && data) {
-      form.reset({
-        name: data.name || '',
-        description: data.description || '',
-        price: data.price?.toString() || '',
-        discountedPrice: data.discountedPrice?.toString() || '',
-        requirements: data.requirements?.join(', ') || '',
-        category: data.category || ''
-      });
-    } else if (!isEditMode) {
-      form.reset({
-        name: '',
-        description: '',
-        price: '',
-        discountedPrice: '',
-        requirements: '',
-        category: ''
-      });
-    }
-  }, [isEditMode, data, form]);
-
-  const onSubmit: SubmitHandler<TAdminSingleTestSchema> = (formData) => {
+  const onSubmit: SubmitHandler<TAdminPackageTestSchema> = (formData) => {
     const cbFn = () => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === SUPER_ADMIN.STATS
       });
       toggleModals();
     };
+
     if (isEditMode) {
-      updateSingleTest(testDetails.testId, formData, cbFn);
-      return;
+      updatePackageTest(testDetails.testId, formData, cbFn);
+    } else {
+      addPackageTest(formData, cbFn);
     }
-    addSingleTest(formData, cbFn);
   };
 
   const handleCloseModal = () => {
@@ -84,14 +73,44 @@ const AdminTestModal = () => {
     toggleModals();
   };
 
+  useEffect(() => {
+    if (isEditMode && data) {
+      form.reset({
+        name: data.name || '',
+        description: data.description || '',
+        requirements: data.requirements?.join(', ') || '',
+        testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? []
+      });
+    } else if (!isEditMode) {
+      form.reset({
+        name: '',
+        description: '',
+        requirements: '',
+        testIds: []
+      });
+    }
+  }, [isEditMode, data, form]);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, inView, fetchNextPage]);
+
+  useEffect(() => {
+    if (!isTestDataLoading && processedData.length > 0) {
+      setTests(processedData);
+    }
+  }, [isTestDataLoading, processedData]);
+
   if (isEditMode && status === 'pending') {
     return (
       <XModal
         closeModal={handleCloseModal}
         bgClose={false}
-        isOpen={isOpen.ADMIN_SINGLE_TEST}
+        isOpen={isOpen.ADMIN_PACKAGE_TEST}
         className="!max-w-[350px]"
-        title="Single Test"
+        title="Package Test"
       >
         <div className="flex items-center justify-center py-8">
           <Loader className="h-6 w-6 animate-spin" />
@@ -106,9 +125,9 @@ const AdminTestModal = () => {
       <XModal
         closeModal={handleCloseModal}
         bgClose={false}
-        isOpen={isOpen.ADMIN_SINGLE_TEST}
+        isOpen={isOpen.ADMIN_PACKAGE_TEST}
         className="!max-w-[350px]"
-        title="Single Test"
+        title="Package Test"
       >
         <div className="flex flex-col items-center justify-center py-8 text-center">
           <p className="mb-4 text-red-500">Failed to load test data. Please try again.</p>
@@ -124,14 +143,14 @@ const AdminTestModal = () => {
     <XModal
       closeModal={handleCloseModal}
       bgClose={false}
-      isOpen={isOpen.ADMIN_SINGLE_TEST}
+      isOpen={isOpen.ADMIN_PACKAGE_TEST}
       className="!max-w-[350px]"
-      title="Single Test"
+      title="Package Test"
     >
       <div className="w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-4">
-            <fieldset disabled={isLoading.single_test} className="w-full">
+            <fieldset disabled={isLoading.package_test} className="w-full">
               <FormField
                 control={form.control}
                 name="name"
@@ -141,6 +160,27 @@ const AdminTestModal = () => {
                   </div>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="testIds"
+                render={({ field }) => (
+                  <InputMultiSelect
+                    {...field}
+                    label={'Add Tests'}
+                    isLoading={true}
+                    options={tests}
+                    placeholder="Add tests to package..."
+                    lastElementRef={ref}
+                    emptyIndicator={
+                      <p className="text-gray-600 dark:text-gray-400 text-center text-lg leading-10">
+                        No Tests available.
+                      </p>
+                    }
+                  />
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="description"
@@ -169,66 +209,19 @@ const AdminTestModal = () => {
                   </div>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <div>
-                    <InputNumberField
-                      label="Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      prefix="₦"
-                      placeholder="₦10,000.00"
-                      required
-                      {...field}
-                    />
-                  </div>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="discountedPrice"
-                render={({ field }) => (
-                  <div>
-                    <InputNumberField
-                      label="Discounted Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      prefix="₦"
-                      placeholder="₦10,000.00"
-                      {...field}
-                    />
-                  </div>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <div>
-                    <InputSelect
-                      label="Category"
-                      placeholder="Select a category"
-                      items={testCategory}
-                      {...field}
-                    />
-                  </div>
-                )}
-              />
             </fieldset>
 
             <div className="flex items-center justify-end space-x-2">
               <Button
-                disabled={isLoading.single_test}
+                disabled={isLoading.package_test}
                 type="button"
                 variant="outline"
                 onClick={handleCloseModal}
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-400" disabled={isLoading.single_test}>
-                {isLoading.single_test && <Loader className="animate-spin" />}
+              <Button type="submit" className="bg-blue-400" disabled={isLoading.package_test}>
+                {isLoading.package_test && <Loader className="animate-spin" />}
                 {isEditMode ? 'Update' : 'Create'}
               </Button>
             </div>
@@ -239,4 +232,4 @@ const AdminTestModal = () => {
   );
 };
 
-export default observer(AdminTestModal);
+export default observer(AdminPackageTest);

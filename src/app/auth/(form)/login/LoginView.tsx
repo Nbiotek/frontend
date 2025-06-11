@@ -60,8 +60,8 @@ function LoginView() {
 
           <div className="">
             <Input
-              type="email"
-              label="Email Address"
+              type="string"
+              label="Email / Phone"
               placeholder="adeolu@gmail.com"
               {...register('email')}
               error={errors.email?.message}

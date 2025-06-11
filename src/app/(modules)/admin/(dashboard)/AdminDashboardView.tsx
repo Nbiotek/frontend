@@ -4,6 +4,7 @@ import OverviewContainer from '@/components/dashboard/metric/OverviewContainer';
 import { GrowthChart } from './components/GrowthChart';
 import { useFetchStats } from '@/hooks/admin/useFetchStats';
 import OverviewCardLoader from '@/atoms/Loaders/OverviewCardLoader';
+import { UsersBarchart } from './components/UsersChart';
 
 const card = [
   {
@@ -32,6 +33,13 @@ const card = [
     title: 'Total Packages',
     type: EnumOverviewIcon.PEOPLE,
     tag: 'totalPackages'
+  },
+
+  {
+    stat: 24,
+    title: 'Total Revenues',
+    type: EnumOverviewIcon.TURN,
+    tag: 'totalRevenue'
   }
 ];
 
@@ -46,12 +54,14 @@ const AdminDashboardView = () => {
               <OverviewCard
                 key={el.tag}
                 type={el.type}
-                stat={data ? data[el.tag as keyof TAdminDashboardStats] : el.stat}
+                stat={
+                  data ? parseInt(data[el.tag as keyof TAdminDashboardStats].toString()) : el.stat
+                }
                 title={el.title}
               />
             ))}
       </OverviewContainer>
-
+      <UsersBarchart {...{ data, isLoading }} />
       <GrowthChart />
     </div>
   );

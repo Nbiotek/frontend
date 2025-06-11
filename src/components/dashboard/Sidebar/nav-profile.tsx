@@ -8,6 +8,8 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { env } from '@/env';
+import { Badge } from '@/components/ui/badge';
+import { toTitleCase } from '@/utils';
 
 const ProfileSide = () => {
   const { data } = useFetchProfile();
@@ -36,6 +38,7 @@ const ProfileSide = () => {
             text={`${data?.first_name} ${data?.last_name}`}
           />
           <Paragraph className="!text-neutral-400 " text={data?.email ?? ''} />
+          <Badge variant="outline">{toTitleCase(data?.role ?? '')}</Badge>
         </div>
       </div>
       <Button
