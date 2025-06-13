@@ -106,7 +106,7 @@ const CreateAppointmentView = () => {
       ...prev,
       location: {
         type: value as LocationType,
-        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : 'Select location'
+        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : 'Enter Address'
       }
     }));
   };
@@ -228,7 +228,22 @@ const CreateAppointmentView = () => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="Custom" id="r2" />
                   <Label htmlFor="r2">Custom</Label>
-                  <div className="rounded-md bg-neutral-300/30 p-3">Select location</div>
+                  <div className="w-80  rounded-md pt-4">
+                    <Input
+                      type="text"
+                      placeholder="Enter your location"
+                      value={formData.location.type === 'Custom' ? formData.location.address : ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          location: {
+                            ...prev.location,
+                            address: e.target.value
+                          }
+                        }))
+                      }
+                    />
+                  </div>
                 </div>
               </RadioGroup>
             </div>

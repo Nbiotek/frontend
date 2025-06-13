@@ -45,7 +45,7 @@ const AppointmentConfirmation = ({
         onSuccess: (response) => {
           toast.success('Booking confirmed');
           if (bookingData.paymentMethod === 'location') {
-            router.push('/patient/appointment/pending');
+            router.push('/doctor/appointments');
           }
           if (response?.data?.paymentLink) {
             setPaymentLink(response.data.paymentLink);
