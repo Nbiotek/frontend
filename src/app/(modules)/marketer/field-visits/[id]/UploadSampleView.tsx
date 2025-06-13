@@ -15,6 +15,8 @@ import SampleCollectionSection from './components/SampleCollectionSection';
 import PhotoUploadSection from './components/PhotoUploadSection';
 import NotesSection from './components/NotesSection';
 import ActionButtons from './components/ActionButtons';
+import { Arrow } from '@radix-ui/react-dropdown-menu';
+import { ArrowLeft } from 'lucide-react';
 
 interface Sample {
   id: string;
@@ -210,6 +212,15 @@ const UploadSampleView = () => {
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between bg-white p-4 shadow-sm">
+        <Text variant="title" weight="semibold">
+          Upload Sample
+        </Text>
+        <button onClick={() => router.back()} className="text-blue-600 hover:underline">
+          <ArrowLeft className="mr-2 inline-block" />
+          Back
+        </button>
+      </div>
       <PatientInfoSection fieldVisitData={fieldVisitData} />
 
       <TestDetailsSection fieldVisitData={fieldVisitData} />
