@@ -1,19 +1,20 @@
 'use client';
 import Button from '@/atoms/Buttons';
 import { SubTitle } from '@/atoms/typographys';
-import Input from '@/atoms/fields/Input';
-import InputSelect from '@/atoms/fields/InputSelect';
 import { gender, maritalStatus } from '@/constants/data';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { PatientPersonalSchema, TPatientPersonalSchema } from '../../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import CustomDate from '@/atoms/fields/CustomDate';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { EnumRole } from '@/constants/mangle';
-import { toJS } from 'mobx';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
+import { Form, FormField } from '@/components/ui/form';
+import InputField from '@/atoms/fields/NewInput';
+import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
+import InputDate from '@/atoms/fields/InputDate';
+import InputSelect from '@/atoms/fields/NewInputSelect';
 
 function PersonalForm() {
   const { data, isLoading } = useFetchProfile();
@@ -22,14 +23,7 @@ function PersonalForm() {
     AuthStore: { user }
   } = useStore();
   const [disable, setDisable] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    clearErrors,
-    reset,
-    formState: { errors }
-  } = useForm<TPatientPersonalSchema>({
+  const form = useForm<TPatientPersonalSchema>({
     defaultValues: personalInfo,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
@@ -40,36 +34,25 @@ function PersonalForm() {
     setPersonalInfo(formData);
   };
 
-  const handleSetValue = (key: string, value: string) => {
-    const _typeKey = key as keyof TPatientPersonalSchema;
-    setValue(_typeKey, value);
-    clearErrors(_typeKey);
-  };
-
-  const handleSetDate = (val: Date) => {
-    setValue('dateOfBirth', val.toISOString());
-    clearErrors('dateOfBirth');
-  };
-
   useEffect(() => {
-    reset(personalInfo);
+    form.reset(personalInfo);
     if (personalInfo.height) {
-      setValue('height', String(personalInfo.height));
+      form.setValue('height', String(personalInfo.height));
     }
 
     setDisable(user && user.role === EnumRole.PATIENT);
 
     if (personalInfo.weight) {
-      setValue('weight', String(personalInfo.weight));
+      form.setValue('weight', String(personalInfo.weight));
     }
   }, []);
 
   useEffect(() => {
     if (disable) {
       if (!isLoading && data) {
-        setValue('firstName', data.first_name as string);
-        setValue('lastName', data.last_name as string);
-        setValue('email', data.email as string);
+        form.setValue('firstName', data.first_name as string);
+        form.setValue('lastName', data.last_name as string);
+        form.setValue('email', data.email as string);
       }
     }
   }, [isLoading, data, disable]);
@@ -78,120 +61,189 @@ function PersonalForm() {
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
       <SubTitle className="!text-center" text="Personal Information" />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="w-full">
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="fname"
-              label="First Name"
-              placeholder="Adeolu"
-              {...register('firstName')}
-              error={errors.firstName?.message}
-              disabled={disable}
-            />
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="lname"
-              label="Last Name"
-              placeholder="John"
-              {...register('lastName')}
-              error={errors.lastName?.message}
-              disabled={disable}
-            />
-          </div>
-
-          <Input
-            required={true}
-            type="text"
-            id="email"
-            label="Email"
-            placeholder="johndoes@gmail.com"
-            {...register('email')}
-            error={errors.email?.message}
-            disabled={disable}
-          />
-          <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-            <Input
-              required={true}
-              className="md:mb-0 md:w-[50%]"
-              type="text"
-              id="phone_number"
-              label="Phone Number"
-              placeholder="08123456789"
-              {...register('phoneNumber')}
-              error={errors.phoneNumber?.message}
-            />
-
-            <div className="md:w-[50%]">
-              <CustomDate
-                required={true}
-                id="dateOfBirth"
-                label="Date of Birth"
-                showTime={false}
-                error={errors.dateOfBirth?.message}
-                placeholder="Jan 1, 2000"
-                handleSetDate={handleSetDate}
-              />
-            </div>
-          </div>
-
-          <div className="">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <fieldset className="w-full">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <InputSelect
-                required={true}
-                className="md:w-[50%]"
-                id="gender"
-                label="Gender"
-                name="gender"
-                items={gender}
-                handleSetValue={handleSetValue}
-                error={errors.gender?.message}
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      required
+                      className="md:mb-0 md:w-[50%]"
+                      type="text"
+                      id="fname"
+                      label="First Name"
+                      placeholder="Adeolu"
+                      disabled={disable}
+                      {...field}
+                    />
+                  </div>
+                )}
               />
 
-              <InputSelect
-                required={true}
-                className="md:w-[50%]"
-                id="marital_status"
-                label="Marital status"
-                name="maritalStatus"
-                items={maritalStatus}
-                handleSetValue={handleSetValue}
-                error={errors.maritalStatus?.message}
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      required
+                      className="md:mb-0 md:w-[50%]"
+                      type="text"
+                      id="lname"
+                      label="Last Name"
+                      placeholder="John"
+                      disabled={disable}
+                      {...field}
+                    />
+                  </div>
+                )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <div>
+                  <InputField
+                    type="text"
+                    id="email"
+                    label="Email"
+                    placeholder="johndoes@gmail.com"
+                    {...field}
+                  />
+                </div>
+              )}
+            />
 
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="weight"
-                label="Weight (kg)"
-                placeholder="120"
-                {...register('weight')}
-                error={errors.weight?.message}
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputNumPatternField
+                      label="Phone Number"
+                      format="(+234) ### #### ###"
+                      allowEmptyFormatting
+                      mask=" "
+                      required
+                      {...field}
+                    />
+                  </div>
+                )}
               />
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="height"
-                label="Height (cm)"
-                placeholder="178"
-                {...register('height')}
-                error={errors.height?.message}
+
+              <FormField
+                control={form.control}
+                name="dateOfBirth"
+                render={({ field }) => (
+                  <div className="md:w-[50%]">
+                    <InputDate
+                      label="Date of Birth"
+                      placeholder="Jan 1, 2000"
+                      granularity="day"
+                      hourCycle={12}
+                      displayFormat={{ hour24: 'yyyy/MM/dd' }}
+                      value={field.value}
+                      onChange={field.onChange}
+                      hidden={{ after: new Date() }}
+                      showTime={false}
+                      required
+                    />
+                  </div>
+                )}
               />
             </div>
-          </div>
-        </fieldset>
 
-        <Button type="submit" variant="filled">
-          Next
-        </Button>
-      </form>
+            <div className="">
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <div className="md:w-[50%]">
+                      <InputSelect
+                        label="Gender"
+                        placeholder="Select a gender"
+                        items={gender}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maritalStatus"
+                  render={({ field }) => (
+                    <div className="md:w-[50%]">
+                      <InputSelect
+                        label="Marital status"
+                        placeholder="Select a status"
+                        items={maritalStatus}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <FormField
+                  control={form.control}
+                  name="weight"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputNumPatternField
+                        id="weight"
+                        label="Weight (kg)"
+                        format="%%%"
+                        patternChar="%"
+                        max={700}
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="height"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputNumPatternField
+                        id="height"
+                        label="Height (cm)"
+                        format="%%%"
+                        patternChar="%"
+                        max={300}
+                        required
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <Button type="submit" variant="filled">
+            Next
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }

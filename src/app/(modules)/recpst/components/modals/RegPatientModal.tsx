@@ -44,7 +44,7 @@ const RegPatientModal = () => {
         return (
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <InsuranceForm />;
+              <InsuranceForm />
               <div className="flex items-center justify-between space-x-2">
                 <Button
                   type="button"

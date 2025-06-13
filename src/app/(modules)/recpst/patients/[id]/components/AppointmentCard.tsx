@@ -20,6 +20,7 @@ import { observer } from 'mobx-react-lite';
 import { forwardRef, HTMLAttributes } from 'react';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { format } from 'date-fns';
 
 interface IAppointmentCardProps extends HTMLAttributes<HTMLDivElement> {
   datum: TReceptAppointmentBase;
@@ -35,7 +36,9 @@ const AppointmentCard = forwardRef<HTMLDivElement, IAppointmentCardProps>(
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center justify-start space-x-2">
               <CardTitle>{datum?.patient?.patientName ?? datum.title}</CardTitle>
-              <CardDescription>| {formatTestDate(datum.appointmentDate)}</CardDescription>
+              <CardDescription>
+                | {format(new Date(datum.appointmentDate), 'dd MMM, yy')}
+              </CardDescription>
             </div>
 
             <div className="flex items-center justify-start space-x-2">

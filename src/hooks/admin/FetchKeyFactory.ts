@@ -14,5 +14,34 @@ export const superAdmin = {
       keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.USERS, query] as const,
       params: query
     };
+  },
+
+  getSingleTest(query: Partial<TGeneralPaginatedQuery>) {
+    return {
+      path: SUPER_ADMIN.SINGLE_TEST,
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST],
+      params: query
+    };
+  },
+
+  getPackageTest() {
+    return {
+      path: SUPER_ADMIN.PACKAGE_TEST,
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PACKAGE_TEST] as const
+    };
+  },
+
+  getTestById(id: string) {
+    return {
+      path: SUPER_ADMIN.TEST_ID.replace(':id', id),
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.TEST_ID, id] as const
+    };
+  },
+
+  getPackageTestById(id: string) {
+    return {
+      path: SUPER_ADMIN.SINGLE_PACKAGE_TEST.replace(':id', id),
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_PACKAGE_TEST, id] as const
+    };
   }
 };

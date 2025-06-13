@@ -1,8 +1,8 @@
 'use client';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
-import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
-import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
+// import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
+// import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
 import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
@@ -14,17 +14,16 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { EnumRole } from '@/constants/mangle';
+import { Form, FormField } from '@/components/ui/form';
+import InputField from '@/atoms/fields/NewInput';
+import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 
 function PatientRegView() {
   const router = useRouter();
   const {
     AuthStore: { createAcct, isLoading }
   } = useStore();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<TCreateAccount>({
+  const form = useForm<TCreateAccount>({
     defaultValues: { role: EnumRole.PATIENT },
     mode: 'onSubmit',
     resolver: zodResolver(CreateAccountValidationSchema),
@@ -40,12 +39,13 @@ function PatientRegView() {
       <CardHeader className="text-center">
         <CardTitle>Create your account</CardTitle>
       </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset
-          disabled={isLoading.register}
-          className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
-        >
-          <div className="flex flex-col space-y-2">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <fieldset
+            disabled={isLoading.register}
+            className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
+          >
+            {/* <div className="flex flex-col space-y-2">
             <GoogleBtn />
             <FacebookBtn />
           </div>
@@ -54,68 +54,101 @@ function PatientRegView() {
             <div className="h-[1px] w-[45%] bg-neutral-100"></div>
             <p>or</p>
             <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-          </div>
+          </div> */}
 
-          <div className="">
-            <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="fname"
-                label="First Name"
-                placeholder="Adeolu"
-                {...register('firstName')}
-                error={errors.firstName?.message}
+            <div className="">
+              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputField label="first Name" placeholder="John" required {...field} />
+                    </div>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <div className="md:mb-0 md:w-[50%]">
+                      <InputField label="Last Name" placeholder="Doe" required {...field} />
+                    </div>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <div>
+                    <InputField
+                      type="email"
+                      label="Email Address"
+                      placeholder="adeolu@gmail.com"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
-              <Input
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                label="Last Name"
-                placeholder="John"
-                {...register('lastName')}
-                error={errors.lastName?.message}
+
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <div>
+                    <InputNumPatternField
+                      label="Phone Number"
+                      format="(+234) ### #### ###"
+                      allowEmptyFormatting
+                      mask=" "
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <div>
+                    <InputField type="password" label="Password" {...field} />
+                  </div>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <div>
+                    <InputField type="password" label="Confirm Password" {...field} />
+                  </div>
+                )}
               />
             </div>
-            <Input
-              type="email"
-              label="Email Address"
-              placeholder="adeolu@gmail.com"
-              {...register('email')}
-              error={errors.email?.message}
-            />
-            <Input
-              type="password"
-              label="Password"
-              {...register('password')}
-              error={errors.password?.message}
-            />
-            <Input
-              type="password"
-              label="Confirm Password"
-              {...register('confirmPassword')}
-              error={errors.confirmPassword?.message}
-            />
-          </div>
-          <Button
-            type="submit"
-            variant="filled"
-            isLoading={isLoading.register}
-            disabled={isLoading.register}
-          >
-            Continue
-          </Button>
-          <div className="flex flex-col items-center justify-center">
-            <HyperLink
-              className="my-2 !w-full justify-end"
-              info="Already have an account ?"
-              hrefText="Log in"
-              href={ROUTES.LOGIN.path}
-            />
-          </div>
-        </fieldset>
-      </form>
-
+            <Button
+              type="submit"
+              variant="filled"
+              isLoading={isLoading.register}
+              disabled={isLoading.register}
+            >
+              Continue
+            </Button>
+            <div className="flex flex-col items-center justify-center">
+              <HyperLink
+                className="my-2 !w-full justify-end"
+                info="Already have an account ?"
+                hrefText="Log in"
+                href={ROUTES.LOGIN.path}
+              />
+            </div>
+          </fieldset>
+        </form>
+      </Form>
       <div className="my-6 flex flex-col items-center justify-center">
         <InputCheck
           showInput={false}

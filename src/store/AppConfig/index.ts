@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, toJS } from 'mobx';
 import { RootStore } from '..';
 import { AppModals, TAppModalsAction } from './appModalTypes';
 import initializer from '@/utils/initializer';
@@ -35,6 +35,16 @@ class AppConfigStore {
     id: ''
   };
 
+  data = {
+    id: ''
+  };
+
+  testAvailability = {
+    id: '',
+    status: '',
+    type: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -44,6 +54,8 @@ class AppConfigStore {
       availableLabTechnicians: observable,
       availableMarketers: observable,
       qcStatusUpdate: observable,
+      data: observable,
+      testAvailability: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound
@@ -101,6 +113,43 @@ class AppConfigStore {
         if (modal.open) {
           this.singleAppt = {
             id: modal.id
+          };
+        }
+        break;
+      case AppModals.ADMIN_SINGLE_TEST:
+        if (modal.open) {
+          this.testDetails = {
+            testId: modal.testId
+          };
+        }
+        break;
+      case AppModals.ADMIN_PACKAGE_TEST:
+        if (modal.open) {
+          this.testDetails = {
+            testId: modal.testId
+          };
+        }
+        break;
+      case AppModals.ADMIN_DELETE_USER:
+        if (modal.open) {
+          this.data = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.ADMIN_SUSPEND_USER:
+        if (modal.open) {
+          this.data = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY:
+        if (modal.open) {
+          this.testAvailability = {
+            id: modal.id,
+            status: modal.status,
+            type: modal.type
           };
         }
         break;

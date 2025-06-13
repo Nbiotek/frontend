@@ -8,6 +8,8 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { env } from '@/env';
+import { EnumRole } from '@/constants/mangle';
+import Status from '@/atoms/Buttons/Status';
 
 const ProfileSide = () => {
   const { data } = useFetchProfile();
@@ -15,6 +17,7 @@ const ProfileSide = () => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
+
   return (
     <div className="mb-5 space-y-4 border-t ">
       <Text weight="semibold" variant="body" className="mt-5 text-neutral-500">
@@ -36,6 +39,10 @@ const ProfileSide = () => {
             text={`${data?.first_name} ${data?.last_name}`}
           />
           <Paragraph className="!text-neutral-400 " text={data?.email ?? ''} />
+
+          {data?.role && data?.role !== EnumRole.PATIENT && (
+            <Status type="secondary" variant={data.role} />
+          )}
         </div>
       </div>
       <Button

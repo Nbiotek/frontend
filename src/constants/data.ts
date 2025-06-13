@@ -16,6 +16,15 @@ export const maritalStatus = [
   {
     label: 'Married',
     value: 'married'
+  },
+
+  {
+    label: 'Divorced',
+    value: 'divorced'
+  },
+  {
+    label: 'Widowed',
+    value: 'widowed'
   }
 ];
 
@@ -113,5 +122,49 @@ export const PaymentStatus = [
   {
     label: 'Refunded',
     value: 'REFUNDED'
+  }
+];
+
+export const testCategory = [
+  {
+    label: 'Basic',
+    value: 'BASIC_TEST'
+  },
+
+  {
+    label: 'Molecular',
+    value: 'MOLECULAR'
+  },
+
+  {
+    label: 'Blood',
+    value: 'BLOOD'
+  },
+
+  {
+    label: 'Advanced imaging',
+    value: 'ADVANCED_IMAGING'
+  }
+];
+
+export const testResultStatus = [
+  {
+    label: 'Low',
+    value: 'Low'
+  },
+
+  {
+    label: 'Medium',
+    value: 'Medium'
+  },
+
+  {
+    label: 'High',
+    value: 'High'
+  },
+
+  {
+    label: 'Normal',
+    value: 'Normal'
   }
 ];

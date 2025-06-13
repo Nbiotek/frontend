@@ -48,7 +48,9 @@ const RecentActivityTable = () => {
                     <TableCell>{recentTest.testName}</TableCell>
                     <TableCell>{recentTest.patientName}</TableCell>
 
-                    <TableCell>{recentTest.type}</TableCell>
+                    <TableCell>
+                      <Status variant={recentTest.type} />
+                    </TableCell>
                     <TableCell>{dateTimeUTC(recentTest.createdAt, false)}</TableCell>
                     <TableCell>
                       <Status variant={recentTest.status} />

@@ -6,9 +6,10 @@ import LongText from '@/components/common/longText';
 import { callTypes, userTypes } from './data/data';
 import { User } from './data/schema';
 import { DataTableColumnHeader } from './TableHeader';
-import { DataTableRowActions } from './DataTableRowActions';
+import DataTableRowActions from './DataTableRowActions';
 import { toTitleCase } from '@/utils';
 import { EnumUserStatus } from '@/constants/mangle';
+import Status from '@/atoms/Buttons/Status';
 
 export const columns: ColumnDef<TAdminUsersItem>[] = [
   {
@@ -64,14 +65,7 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const { status } = row.original;
-      const badgeColor = callTypes.get(status as EnumUserStatus);
-      return (
-        <div className="flex space-x-2">
-          <Badge variant="outline" className={cn('capitalize', badgeColor)}>
-            {row.getValue('status')}
-          </Badge>
-        </div>
-      );
+      return <Status variant={status} />;
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));

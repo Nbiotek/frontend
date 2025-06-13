@@ -59,7 +59,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
             </TableRow>
           </TableHeader>
           {isLoading ? (
-            <TableLoader rows={20} columns={11} />
+            <TableLoader rows={20} columns={9} />
           ) : (
             tests.requests.length !== 0 && (
               <TableBody>
@@ -70,21 +70,20 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
                     <TableCell className="whitespace-nowrap">
-                      {' '}
-                      {toTitleCase(test.testType)}
+                      <Status variant={test.testType} />
                     </TableCell>
                     <TableCell>
                       <Status variant={test.priority} />
                     </TableCell>
                     <TableCell>{test.location?.type}</TableCell>
                     <TableCell className="whitespace-nowrap">
-                      {format(new Date(test.createdAt), 'dd MMM, yyyy')}
+                      {format(new Date(test.createdAt), 'MMM dd, yyyy')}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">
-                      {format(new Date(test.preferredAt), 'dd MMM, yyyy')}
+                      {format(new Date(test.preferredAt), 'MMM dd, yyyy')}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">
-                      {format(new Date(test.deadlineAt), 'dd MMM, yyyy')}
+                      {format(new Date(test.deadlineAt), 'MMM dd, yyyy')}
                     </TableCell>
                     <TableCell>
                       <Status variant={test.status} />

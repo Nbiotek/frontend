@@ -1,7 +1,11 @@
+import { Badge } from '@/components/ui/badge';
+import { EnumRole, EnumUserStatus } from '@/constants/mangle';
+import { cn } from '@/lib/utils';
 import { toTitleCase } from '@/utils';
 import { HTMLAttributes, useMemo } from 'react';
 
 interface IButtonProps extends HTMLAttributes<HTMLDivElement> {
+  type?: 'default' | 'secondary' | 'destructive' | 'outline' | null | undefined;
   variant: string;
 }
 
@@ -46,7 +50,21 @@ export enum EnumPatientRegStatus {
   IN_COMPLETED = 'INCOMPLETED'
 }
 
-const Status = ({ variant, className, ...rest }: IButtonProps) => {
+export enum EnumTestAvailability {
+  ACTIVE = 'ACTIVE',
+  IN_ACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  AVAILABLE = 'AVAILABLE'
+}
+
+export enum EnumTestTypes {
+  BASIC_TEST = 'BASIC_TEST',
+  MOLECULAR = 'MOLECULAR',
+  BLOOD = 'BLOOD',
+  ADVANCED_IMAGING = 'ADVANCED_IMAGING'
+}
+
+const Status = ({ variant, type, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
       // Test priority
@@ -56,7 +74,6 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-amber';
       case EnumTestPriority.LOW:
         return 'status-teal';
-
       case 'VERIFIED':
         return 'status-green';
 
@@ -77,8 +94,6 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-violet';
       case EnumTestStatus.IN_PROGRESS:
         return 'status-amber';
-      default:
-        break;
 
       // Patient Test Result
       case EnumTPatientResult.PENDING:
@@ -104,13 +119,55 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
         return 'status-blue';
       case 'INCOMPLETED':
         return 'status-amber';
+      case EnumTestAvailability.ACTIVE:
+        return 'status-blue';
+
+      case EnumTestTypes.BLOOD:
+        return 'status-red';
+      case EnumTestTypes.MOLECULAR:
+        return 'status-violet';
+      case EnumTestTypes.BASIC_TEST:
+        return 'status-green';
+      case EnumTestTypes.ADVANCED_IMAGING:
+        return 'status-amber';
+
+      case EnumRole.DOCTOR:
+        return 'status-violet';
+      case EnumRole.LAB_CORDINATOR:
+        return 'status-green';
+      case EnumRole.LAB_TECHNICIAN:
+        return 'status-blue';
+      case EnumRole.MARKETER:
+        return 'status-amber';
+      case EnumRole.RECEPTIONIST:
+        return 'status-red';
+      case EnumRole.REFERRAL_DOCTOR:
+        return 'status-violet';
+      case EnumRole.SUPER_ADMIN:
+        return 'status-violet';
+      case EnumRole.TECHNICAL_COORDINATOR:
+        return 'status-amber';
+
+      case EnumUserStatus.INACTIVE:
+        return 'status-red';
+      case EnumUserStatus.ACTIVE:
+        return 'status-green';
+      case EnumUserStatus.INVITED:
+        return 'status-violet';
+      case EnumUserStatus.AVAILABLE:
+        return 'status-green';
+      case EnumUserStatus.SUSPENDED:
+        return 'status-red';
+
+      default:
+        return '';
     }
   }, [variant]);
 
   return (
-    <div className={`status-badge group ${style} ${className}`} {...rest}>
+    <Badge variant={type || 'outline'} className={cn('capitalize', style)} {...rest}>
       {toTitleCase(variant)}
-    </div>
+    </Badge>
   );
 };
 

@@ -1,6 +1,7 @@
 import Status from '@/atoms/Buttons/Status';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Paragraph } from '@/atoms/typographys';
+import { dateTimeUTC } from '@/utils/date';
 import { format } from 'date-fns';
 import React from 'react';
 
@@ -22,7 +23,12 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
           </div>
 
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
-            <FieldSet legend="Date of Birth" text={data?.patient?.dateOfBirth || 'Nill'} />
+            <FieldSet
+              legend="Date of Birth"
+              text={
+                data?.patient?.dateOfBirth ? dateTimeUTC(data?.patient?.dateOfBirth, false) : 'Nill'
+              }
+            />
             <FieldSet
               legend="Age"
               text={data?.patient?.age ? data?.patient.age.toString() : 'Nill'}
@@ -37,7 +43,9 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
         <div className="flex w-full flex-col space-y-1 ">
           <div className="flex w-full flex-col items-start justify-between gap-2 md:flex-row">
             <FieldSet legend="Name" text={data?.test.name} />
-            <FieldSet legend="Type" text={data?.type} />
+            <FieldSet legend="Type">
+              <Status variant={data?.type || ''} />
+            </FieldSet>
             <FieldSet legend="Priority">
               <Status variant={data?.priority || ''} />
             </FieldSet>
@@ -49,11 +57,11 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
             </FieldSet>
             <FieldSet
               legend="Requested Date"
-              text={format(new Date(data?.createdAt || ''), 'dd MMM, yyyy')}
+              text={data?.createdAt ? format(new Date(data?.createdAt), 'MMM dd, yyyy') : ''}
             />
             <FieldSet
               legend="Deadline"
-              text={format(new Date(data?.deadlineAt || ''), 'dd MMM, yyyy')}
+              text={data?.deadlineAt ? format(new Date(data?.deadlineAt), 'MMM dd, yyyy') : ''}
             />
           </div>
 

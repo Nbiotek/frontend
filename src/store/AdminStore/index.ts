@@ -5,8 +5,20 @@ import { TAdminAdduserSchema } from '@/app/(modules)/admin/user-management/valid
 import initializer from '@/utils/initializer';
 import { parseError } from '@/utils/errorHandler';
 import toast from 'react-hot-toast';
-import { postAdduser } from '@/requests/admin';
+import {
+  postAdduser,
+  postAddSingleTest,
+  IPostAddSingleTest,
+  IPostAddPackageTest,
+  postAddPackageTest,
+  putUpdateSingleTest,
+  putUpdatePackageTest
+} from '@/requests/admin';
 import { AxiosResponse } from 'axios';
+import {
+  TAdminPackageTestSchema,
+  TAdminSingleTestSchema
+} from '@/app/(modules)/admin/content-management/components/modals/validation';
 
 export enum EnumAdminQueryType {
   USERS = 'USERS'
@@ -26,7 +38,9 @@ const del = (key: string) => {
 };
 
 const INIT_IS_LOADING = {
-  add_user: false
+  add_user: false,
+  single_test: false,
+  package_test: false
 };
 
 class AdminStore {
@@ -48,7 +62,11 @@ class AdminStore {
       setLimit: action.bound,
       setPage: action.bound,
 
-      addUser: flow.bound
+      addUser: flow.bound,
+      addSingleTest: flow.bound,
+      updateSingleTest: flow.bound,
+      addPackageTest: flow.bound,
+      updatePackageTest: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -87,6 +105,94 @@ class AdminStore {
       toast.error(this.errors.add_user);
     } finally {
       this.isLoading.add_user = false;
+    }
+  }
+
+  *addSingleTest(_payload: TAdminSingleTestSchema, cb?: () => void) {
+    this.isLoading.single_test = true;
+    this.errors.single_test = '';
+    try {
+      const payload: IPostAddSingleTest = {
+        name: _payload.name,
+        description: _payload.description,
+        category: _payload.category,
+        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
+        discountedPrice: _payload.discountedPrice
+          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
+          : 0,
+        requirements: _payload.requirements?.split(',') || []
+      };
+
+      yield postAddSingleTest(payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.single_test = false;
+    }
+  }
+
+  *updateSingleTest(id: string, _payload: TAdminSingleTestSchema, cb?: () => void) {
+    this.isLoading.single_test = true;
+    this.errors.single_test = '';
+    try {
+      const payload: IPostAddSingleTest = {
+        name: _payload.name,
+        description: _payload.description,
+        category: _payload.category,
+        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
+        discountedPrice: _payload.discountedPrice
+          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
+          : 0,
+        requirements: _payload.requirements?.split(',') || []
+      };
+
+      yield putUpdateSingleTest({ id, payload });
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.single_test = false;
+    }
+  }
+
+  *addPackageTest(_payload: TAdminPackageTestSchema, cb?: () => void) {
+    this.isLoading.package_test = true;
+    this.errors.package_test = '';
+    try {
+      const payload: IPostAddPackageTest = {
+        name: _payload.name,
+        description: _payload.description,
+        requirements: _payload.requirements?.split(',') || [],
+        testIds: _payload.testIds.map((test) => test.value)
+      };
+
+      yield postAddPackageTest(payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.package_test = false;
+    }
+  }
+
+  *updatePackageTest(id: string, _payload: TAdminPackageTestSchema, cb?: () => void) {
+    this.isLoading.package_test = true;
+    this.errors.package_test = '';
+    try {
+      const payload: IPostAddPackageTest = {
+        name: _payload.name,
+        description: _payload.description,
+        requirements: _payload.requirements?.split(',') || [],
+        testIds: _payload.testIds.map((test) => test.value)
+      };
+
+      yield putUpdatePackageTest({ id, payload });
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.package_test = false;
     }
   }
 }
