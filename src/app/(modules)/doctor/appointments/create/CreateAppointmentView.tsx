@@ -156,6 +156,7 @@ const CreateAppointmentView = () => {
                 value={formData.availableDate}
                 hourCycle={12}
                 onChange={handleDateSelect}
+                hidden={{ before: new Date() }}
               />
               {errors.availableDate && (
                 <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
