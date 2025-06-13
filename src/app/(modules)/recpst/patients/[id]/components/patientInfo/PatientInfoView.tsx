@@ -21,6 +21,7 @@ const PatientInfoView = ({ id }: { id: string }) => {
       receptSetPatientInfo(data);
     }
   }, [data, isLoading]);
+
   return (
     <>
       {isLoading ? (

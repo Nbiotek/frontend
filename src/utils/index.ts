@@ -44,11 +44,14 @@ export const getAllParams = (params: Partial<TTestQuery>) => {
 };
 
 export function toTitleCase(p: string) {
-  if (p.includes('_')) {
-    return snakeCaseToSentenceCase(p);
-  }
+  if (p) {
+    if (p.includes('_')) {
+      return snakeCaseToSentenceCase(p);
+    }
 
-  return `${p[0].toUpperCase()}${p.slice(1).toLowerCase()}`;
+    return `${p[0].toUpperCase()}${p.slice(1).toLowerCase()}`;
+  }
+  return '';
 }
 
 export function capitalizeWord(p: string, delimiter: string = ' ') {

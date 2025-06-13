@@ -7,8 +7,6 @@ export const uploadFile = async (files: File[]) => {
     formData.append('files', file);
   }
 
-  console.log(formData);
-
   const response = await server.post('file-manager/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'

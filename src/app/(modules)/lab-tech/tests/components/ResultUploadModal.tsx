@@ -83,27 +83,12 @@ const ResultUploadModal = () => {
       title="Result Upload"
     >
       <div className="flex w-full flex-col space-y-8">
-        <div className="flex w-full flex-col space-y-3">
-          {status === 'success' && (
-            <Collapsible className="w-full">
-              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-                <div className="flex w-full items-center justify-between">
-                  <Paragraph className="text-lg !font-medium" text="Test" />
-                  <ChevronsDown />
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <TestDetailsInfo data={data} />
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-1">
             <Paragraph className="text-lg !font-medium" text="Test Result" />
 
             <fieldset disabled={isPending} className="flex w-full flex-col space-y-1">
-              <div className="h-auto max-h-[450px] w-full overflow-y-scroll">
+              <div className="h-auto max-h-[250px] w-full overflow-y-scroll">
                 <Table className="relative">
                   <TableHeader className="sticky top-0 z-30">
                     <TableRow>
@@ -229,6 +214,22 @@ const ResultUploadModal = () => {
             </fieldset>
           </form>
         </Form>
+
+        <div className="flex w-full flex-col space-y-3">
+          {status === 'success' && (
+            <Collapsible className="w-full">
+              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                <div className="flex w-full items-center justify-between">
+                  <Paragraph className="text-lg !font-medium" text="Test" />
+                  <ChevronsDown />
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <TestDetailsInfo data={data} />
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+        </div>
       </div>
     </XModal>
   );

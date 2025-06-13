@@ -57,9 +57,9 @@ const DashboardView = () => {
           <SubTitle text="Quick Actions" className="border-b pb-2" />
 
           <div className="flex w-full flex-col divide-y">
-            {actions.map((action) => {
+            {actions.map((action, id) => {
               return (
-                <Link key={action.url} href={action.url}>
+                <Link key={id} href={action.url}>
                   <div className="flex w-full cursor-pointer items-center justify-between py-4">
                     <div className="flex items-center justify-start space-x-4">
                       <div className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-neutral-50">

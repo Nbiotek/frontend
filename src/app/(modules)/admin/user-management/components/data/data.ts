@@ -3,13 +3,13 @@ import { UserStatus } from './schema';
 import { EnumRole, EnumUserStatus } from '@/constants/mangle';
 
 export const callTypes = new Map<UserStatus, string>([
-  [EnumUserStatus.ACTIVE, 'bg-teal-100/30 text-teal-900 dark:text-teal-200 border-teal-200'],
+  [EnumUserStatus.ACTIVE, 'bg-blue-300/40 text-blue-400 dark:text-blue-200 border-blue-200'],
   [EnumUserStatus.INACTIVE, 'bg-neutral-300/40 border-neutral-300'],
-  [EnumUserStatus.INVITED, 'bg-sky-200/40 text-sky-900 dark:text-sky-100 border-sky-300'],
   [
-    EnumUserStatus.SUSPENDED,
-    'bg-destructive/10 dark:bg-destructive/50 text-destructive dark:text-primary border-destructive/10'
-  ]
+    EnumUserStatus.INVITED,
+    'bg-violet-200/40 text-violet-900 dark:text-violet-100 border-violet-300'
+  ],
+  [EnumUserStatus.SUSPENDED, 'bg-red-500/40 dark:bg-red-500/50 text-red-500 border-red-500/10']
 ]);
 
 export const userStatus = [

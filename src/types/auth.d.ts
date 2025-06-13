@@ -1,4 +1,4 @@
-type TVerifyOTPPayload = { email: string; phoneNumber: string; otp: string };
+type TVerifyOTPPayload = { otp: string };
 type TGetProfile = INBTServerResp<TProfileInfo>;
 
 type TPatientInfoResp = {
