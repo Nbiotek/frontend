@@ -15,11 +15,11 @@ const HomePageView = () => {
   return (
     <>
       <Hero />
-      <Services />
-      <EcommerceSection />
-      <WhatsNew />
-      <Discount />
-      <BioHub />
+      {/* <Services /> */}
+      {/* <EcommerceSection /> */}
+      {/* <WhatsNew /> */}
+      {/* <Discount /> */}
+      {/* <BioHub /> */}
       <TestimonialSlider />
       <CTA />
       <PartnerSection />

@@ -18,17 +18,21 @@ class Route {
 class Routes {
   // landing
   HOME = new Route('/', ' Home', 'Home');
-  LAB_TEST = new Route('/#lab-test', 'Lab Test', 'Lab Test');
-  SPECIAL_PACKAGES = new Route('/#special-package', 'Special Package', 'Special Package');
-  ADVANCED_IMAGING = new Route('#advanced-imaging', 'Advanced Imaging', 'Advanced Imaging');
+  LAB_TEST = new Route('/lab-test?tab=lab-tests', 'Lab Test', 'Individual Tests');
+  SPECIAL_PACKAGES = new Route('/lab-test?tab=package-tests', 'Special Package', 'Special Package');
+  ADVANCED_IMAGING = new Route(
+    '/lab-test?tab=imaging-tests',
+    'Advanced Imaging',
+    'Advanced Imaging'
+  );
   MOLECULAR_DIAGNOSTICS = new Route(
-    '/#molecular-diagnostics',
+    '/lab-test?tab=molecular-tests',
     'Molecular Diagnostics',
     'Molecular Diagnostics'
   );
-  BIO_HUB = new Route('/#bio-hub', 'Bio Hub', 'Bio Hub');
-  ECOMMERCE = new Route('/#ecommerce', 'E-commerce', 'E-commerce');
-  WHATS_NEW = new Route('/#whats-new', 'Whats New', 'Whats New');
+  BIO_HUB = new Route('/bio-hub', 'Bio Hub', 'Bio Hub');
+  ECOMMERCE = new Route('/ecommerce', 'E-commerce', 'E-commerce');
+  WHATS_NEW = new Route('/whats-new', 'Whats New', 'Whats New');
   CART = new Route('/cart', 'Nbiotek | Cart', 'Cart - Nbiotek');
   ABOUT = new Route('/about', 'NbioTek | About page.', 'About - Nbiotek');
   FAQS = new Route('/faqs', 'Nbiotek | FAQs', 'FAQs - Nbiotek');

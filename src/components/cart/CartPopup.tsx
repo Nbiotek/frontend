@@ -1,6 +1,6 @@
 'use client';
 
-import { observer, Observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import {
   Sheet,
   SheetContent,
@@ -17,14 +17,23 @@ import Button from '@/atoms/Buttons';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
+import { use, useState } from 'react';
+import { set } from 'date-fns';
 
 export const CartPopup = observer(() => {
   const {
     CartStore: { items, total, itemCount, removeItem }
   } = useStore();
   const router = useRouter();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleBookingForm = () => {
+    setIsOpen(false);
+    router.push(`${ROUTES.PATIENT_BOOK_APPOINTMENTS.path}`);
+  };
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild className="p-0">
         <Button variant="filled" className="relative border-2 bg-transparent">
           <CartIcon />
@@ -71,31 +80,6 @@ export const CartPopup = observer(() => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {/* <Button
-                                                variant="filled"
-                                                //   size="icon"
-                                                onClick={() =>
-                                                    cartStore.updateQuantity(
-                                                        cartItem.id,
-                                                        cartItem.quantity - 1
-                                                    )
-                                                }
-                                            >
-                                                <Minus className="h-4 w-4" />
-                                            </Button>
-                                            <span className="w-8 text-center">{cartItem.quantity}</span>
-                                            <Button
-                                                variant="filled"
-                                                //   size="icon"
-                                                onClick={() =>
-                                                    cartStore.updateQuantity(
-                                                        cartItem.id,
-                                                        cartItem.quantity + 1
-                                                    )
-                                                }
-                                            >
-                                                <Plus className="h-4 w-4" />
-                                            </Button> */}
                     <Button
                       variant="outlined"
                       className="h-7 w-7 rounded-full  "
@@ -114,11 +98,7 @@ export const CartPopup = observer(() => {
                   <span className="font-medium">Total ({items.length} Products)</span>
                   <span className="font-medium">₦{total.toLocaleString()}</span>
                 </div>
-                <Button
-                  className="w-full"
-                  variant="filled"
-                  onClick={() => router.push(`${ROUTES.PATIENT_BOOK_APPOINTMENTS.path}`)}
-                >
+                <Button className="w-full" variant="filled" onClick={handleBookingForm}>
                   Proceed to Checkout
                 </Button>
               </div>
