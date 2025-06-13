@@ -70,7 +70,8 @@ export const MARKETER = {
     All: '/marketer/field-tasks/overview?status=pending',
     UPLOAD: '/marketer/field-tasks/:id/log-samples',
     UPDATE_FIELD_VISIT: 'marketer/field-tasks/:id/status'
-  }
+  },
+  UPDATE_AVAILABILITY: '/marketer/update-availability'
 };
 
 export const LAB_TECH = {

@@ -42,25 +42,19 @@ export const DoctorsQuickLinks: QuickActionProps[] = [
     icon: <TestTube2 />,
     titleLink: 'Review Test Result',
     subTitle: 'View All Assigned Test',
-    href: '/'
+    href: '/doctor/review-test'
   },
   {
     icon: <MapPinCheck />,
     titleLink: 'Refer patient',
     subTitle: 'Refer patient to our lab',
-    href: '/'
+    href: '/doctor/appointments/create'
   },
   {
     icon: <HiOutlineSpeakerphone />,
-    titleLink: 'Nottification',
+    titleLink: 'Notification',
     subTitle: 'View Notifications',
-    href: '/'
-  },
-  {
-    icon: <Settings2 />,
-    titleLink: 'Settings',
-    subTitle: 'Edit Profile',
-    href: '/'
+    href: '#'
   }
 ];
 
