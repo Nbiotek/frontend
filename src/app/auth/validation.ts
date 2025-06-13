@@ -44,10 +44,19 @@ export const AuthLoginResponseSchema = z.object({
   email_verified: z.boolean()
 });
 
-export const LoginValidationSchema = z.object({
+export const EmailLoginValidationSchema = z.object({
   email,
   password
 });
+
+export const PhoneNumberLoginValidationSchema = z.object({
+  phoneNumber,
+  password
+});
+
+export const LoginValidationSchema = EmailLoginValidationSchema.or(
+  PhoneNumberLoginValidationSchema
+);
 
 export const CreateAccountValidationSchema = z
   .object({
@@ -320,6 +329,8 @@ export const PatientRegFormSchema =
   PatientPersonalSchema.and(PatientContactSchema).and(PatientInsuranceSchema);
 
 export type TAuthLoginResponse = INBTServerResp<z.infer<typeof AuthLoginResponseSchema>>;
+export type TEmailLogin = z.infer<typeof EmailLoginValidationSchema>;
+export type TPhoneNumberLogin = z.infer<typeof PhoneNumberLoginValidationSchema>;
 export type TLogin = z.infer<typeof LoginValidationSchema>;
 export type TCreateAccount = z.infer<typeof CreateAccountValidationSchema>;
 export type TCreatePatientAcct = z.infer<typeof CreatePatientAcctValidationSchema>;
