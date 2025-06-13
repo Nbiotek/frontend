@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, Filter, SortAsc } from 'lucide-react';
@@ -10,8 +10,45 @@ import PackageTestCard from './components/PackageTestCard';
 import { PackageTestSkeleton, TestCardSkeleton } from './components/TestCardSkeleton';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
-import { useSearchParams } from 'next/navigation';
 import Button from '@/atoms/Buttons';
+import { useSearchParams } from 'next/navigation';
+
+const LabTestViewFallback = () => {
+  return (
+    <div className="bg-gray-50 min-h-screen w-full">
+      <div className="bg-gradient-to-br from-blue-400 to-blue-400 py-12 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mx-auto mb-6 h-12 w-3/4 animate-pulse rounded-lg bg-blue-300"></div>
+            <div className="mx-auto mb-8 h-8 w-2/3 animate-pulse rounded-lg bg-blue-200"></div>
+            <div className="mx-auto mb-8 h-16 w-full animate-pulse rounded-full bg-white/20"></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="bg-gray-200 mb-8 h-12 w-full animate-pulse rounded-lg"></div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-gray-200 h-64 animate-pulse rounded-lg"></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LoadingState = ({ type }: { type: 'individual' | 'package' }) => (
+  <div
+    className={
+      type === 'individual' ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3' : 'space-y-8'
+    }
+  >
+    {Array.from({ length: type === 'individual' ? 6 : 3 }, (_, i) =>
+      type === 'individual' ? <TestCardSkeleton key={i} /> : <PackageTestSkeleton key={i} />
+    )}
+  </div>
+);
 
 const NoResults = ({ searchQuery, testType }: { searchQuery: string; testType: string }) => (
   <div className="flex flex-col items-center justify-center rounded-lg bg-white p-12 text-center shadow-sm">
@@ -32,19 +69,7 @@ const NoResults = ({ searchQuery, testType }: { searchQuery: string; testType: s
   </div>
 );
 
-const LoadingState = ({ type }: { type: 'individual' | 'package' }) => (
-  <div
-    className={
-      type === 'individual' ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3' : 'space-y-8'
-    }
-  >
-    {Array.from({ length: type === 'individual' ? 6 : 3 }, (_, i) =>
-      type === 'individual' ? <TestCardSkeleton key={i} /> : <PackageTestSkeleton key={i} />
-    )}
-  </div>
-);
-
-const LabTestView = () => {
+const LabTestContent = () => {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
 
@@ -62,7 +87,6 @@ const LabTestView = () => {
     }
   }, [tabFromUrl]);
 
-  // Simulate initial loading for better UX
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -70,7 +94,6 @@ const LabTestView = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Filter functions for each test type
   const filteredLabTests = singleTests.filter(
     (test) =>
       test.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -148,7 +171,7 @@ const LabTestView = () => {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="mb-8 flex w-full flex-col shadow-blue-400/30 lg:flex-row lg:items-center lg:justify-between">
-            <TabsList className="mb-4 flex  h-fit w-full  flex-wrap   gap-2 rounded-xl border bg-white p-4 shadow-sm lg:mb-0 ">
+            <TabsList className="mb-4 flex h-fit w-full flex-wrap gap-2 rounded-xl border bg-white p-4 shadow-sm lg:mb-0">
               <TabsTrigger
                 value="lab-tests"
                 className="text-md rounded-lg px-6 py-3 font-semibold transition-all data-[state=active]:bg-blue-400 data-[state=active]:text-white data-[state=active]:shadow-md"
@@ -177,6 +200,7 @@ const LabTestView = () => {
           </div>
 
           <TabsContent value="lab-tests" className="mt-0">
+            {/* Lab tests content */}
             <div className="mb-8 text-center lg:text-left">
               <h2 className="text-gray-900 mb-3 text-2xl font-bold sm:text-3xl">
                 Individual Laboratory Tests
@@ -201,6 +225,7 @@ const LabTestView = () => {
           </TabsContent>
 
           <TabsContent value="package-tests" className="mt-0">
+            {/* Package tests content */}
             <div className="mb-8 text-center lg:text-left">
               <h2 className="text-gray-900 mb-3 text-2xl font-bold sm:text-3xl">
                 Comprehensive Test Packages
@@ -298,6 +323,14 @@ const LabTestView = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const LabTestView = () => {
+  return (
+    <Suspense fallback={<LabTestViewFallback />}>
+      <LabTestContent />
+    </Suspense>
   );
 };
 
