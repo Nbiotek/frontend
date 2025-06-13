@@ -27,10 +27,13 @@ const InputSelect = forwardRef<HTMLInputElement, ISelectFormProps>(
   ({ description, label, items, placeholder, ...props }, ref) => {
     return (
       <FormItem className="w-full">
-        <FormLabel>{label}</FormLabel>
+        <FormLabel>
+          {label}
+          {props.required && label != '' && <span className="text-red-300">*</span>}
+        </FormLabel>
         <Select {...{ ref }} {...props}>
           <FormControl className="w-full">
-            <SelectTrigger className="bg-neutral-50">
+            <SelectTrigger className="h-11 bg-neutral-50">
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
           </FormControl>

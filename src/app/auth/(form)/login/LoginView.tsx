@@ -1,8 +1,8 @@
 'use client';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
-import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
-import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
+// import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
+// import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
 import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
@@ -47,7 +47,7 @@ function LoginView() {
           disabled={isLoading.login}
           className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
         >
-          <div className="flex flex-col space-y-2">
+          {/* <div className="flex flex-col space-y-2">
             <GoogleBtn />
             <FacebookBtn />
           </div>
@@ -56,7 +56,7 @@ function LoginView() {
             <div className="h-[1px] w-[45%] bg-neutral-100"></div>
             <p>or</p>
             <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-          </div>
+          </div> */}
 
           <div className="">
             <Input

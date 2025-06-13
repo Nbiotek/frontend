@@ -16,15 +16,19 @@ import {
 interface IInputProps extends DateTimePickerProps {
   label: string;
   description?: ReactNode;
+  required?: boolean;
 }
 
 const InputDate = forwardRef<DateTimePickerRef, IInputProps>(
-  ({ description, label, ...props }, ref) => {
+  ({ description, label, required, ...props }, ref) => {
     return (
       <FormItem>
-        <FormLabel>{label}</FormLabel>
+        <FormLabel>
+          {label}
+          {required && <span className="text-red-300">*</span>}
+        </FormLabel>
         <FormControl>
-          <DateTimePicker {...{ ref }} {...props} />
+          <DateTimePicker {...{ ref }} {...props} className="h-11 bg-neutral-50" />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />

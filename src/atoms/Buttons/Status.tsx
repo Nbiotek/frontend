@@ -1,7 +1,11 @@
+import { Badge } from '@/components/ui/badge';
+import { EnumRole, EnumUserStatus } from '@/constants/mangle';
+import { cn } from '@/lib/utils';
 import { toTitleCase } from '@/utils';
 import { HTMLAttributes, useMemo } from 'react';
 
 interface IButtonProps extends HTMLAttributes<HTMLDivElement> {
+  type?: 'default' | 'secondary' | 'destructive' | 'outline' | null | undefined;
   variant: string;
 }
 
@@ -48,7 +52,9 @@ export enum EnumPatientRegStatus {
 
 export enum EnumTestAvailability {
   ACTIVE = 'ACTIVE',
-  IN_ACTIVE = 'INACTIVE'
+  IN_ACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  AVAILABLE = 'AVAILABLE'
 }
 
 export enum EnumTestTypes {
@@ -58,7 +64,7 @@ export enum EnumTestTypes {
   ADVANCED_IMAGING = 'ADVANCED_IMAGING'
 }
 
-const Status = ({ variant, className, ...rest }: IButtonProps) => {
+const Status = ({ variant, type, className, ...rest }: IButtonProps) => {
   const style = useMemo(() => {
     switch (variant) {
       // Test priority
@@ -125,15 +131,43 @@ const Status = ({ variant, className, ...rest }: IButtonProps) => {
       case EnumTestTypes.ADVANCED_IMAGING:
         return 'status-amber';
 
+      case EnumRole.DOCTOR:
+        return 'status-violet';
+      case EnumRole.LAB_CORDINATOR:
+        return 'status-green';
+      case EnumRole.LAB_TECHNICIAN:
+        return 'status-blue';
+      case EnumRole.MARKETER:
+        return 'status-amber';
+      case EnumRole.RECEPTIONIST:
+        return 'status-red';
+      case EnumRole.REFERRAL_DOCTOR:
+        return 'status-violet';
+      case EnumRole.SUPER_ADMIN:
+        return 'status-violet';
+      case EnumRole.TECHNICAL_COORDINATOR:
+        return 'status-amber';
+
+      case EnumUserStatus.INACTIVE:
+        return 'status-red';
+      case EnumUserStatus.ACTIVE:
+        return 'status-green';
+      case EnumUserStatus.INVITED:
+        return 'status-violet';
+      case EnumUserStatus.AVAILABLE:
+        return 'status-green';
+      case EnumUserStatus.SUSPENDED:
+        return 'status-red';
+
       default:
         return '';
     }
   }, [variant]);
 
   return (
-    <div className={`status-badge group ${style} ${className}`} {...rest}>
+    <Badge variant={type || 'outline'} className={cn('capitalize', style)} {...rest}>
       {toTitleCase(variant)}
-    </div>
+    </Badge>
   );
 };
 

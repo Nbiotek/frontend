@@ -6,22 +6,20 @@ import { TPatientInsuranceSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useEffect } from 'react';
+import { FormField } from '@/components/ui/form';
+import InputField from '@/atoms/fields/NewInput';
+import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 
 function InsuranceForm() {
   const {
     PatientStore: { isLoading, insuranceInfo }
   } = useStore();
-  const {
-    register,
-    reset,
-    watch,
-    formState: { errors }
-  } = useFormContext<TPatientInsuranceSchema>();
+  const form = useFormContext<TPatientInsuranceSchema>();
 
-  const provider = watch('primaryInsuranceProvider');
+  const provider = form.watch('primaryInsuranceProvider');
 
   useEffect(() => {
-    reset(insuranceInfo);
+    form.reset(insuranceInfo);
   }, []);
 
   return (
@@ -29,57 +27,108 @@ function InsuranceForm() {
       <SubTitle className="!text-center" text="Insurance Information" />
 
       <fieldset disabled={isLoading.regPatient} className="">
-        <Input
-          type="text"
-          id="emailAddress"
-          label="Primary insurance provider"
-          placeholder="United Health"
-          {...register('primaryInsuranceProvider')}
-          error={errors.primaryInsuranceProvider?.message}
+        <FormField
+          control={form.control}
+          name="primaryInsuranceProvider"
+          render={({ field }) => (
+            <div>
+              <InputField
+                type="text"
+                id="primaryInsuranceProvider"
+                label="Primary insurance provider"
+                placeholder="United Health"
+                {...field}
+              />
+            </div>
+          )}
         />
 
         <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-          <Input
-            className="md:mb-0 md:w-[50%]"
-            disabled={Boolean(!provider)}
-            type="text"
-            id="fname"
-            label="Insurance plan"
-            placeholder="Health"
-            {...register('insurancePlanName')}
-            error={errors.insurancePlanName?.message}
+          <FormField
+            control={form.control}
+            name="insurancePlanName"
+            render={({ field }) => (
+              <div className="md:mb-0 md:w-[50%]">
+                <InputField
+                  disabled={Boolean(!provider)}
+                  type="text"
+                  id="insurancePlanName"
+                  label="Insurance plan"
+                  placeholder="Health"
+                  {...field}
+                />
+              </div>
+            )}
           />
-          <Input
-            disabled={Boolean(!provider)}
-            className="md:mb-0 md:w-[50%]"
-            type="text"
-            id="lname"
-            label="Insurance Phone number"
-            placeholder="08123456789"
-            {...register('insurancePhoneNumber')}
-            error={errors.insurancePhoneNumber?.message}
+
+          <FormField
+            control={form.control}
+            name="insurancePlanName"
+            render={({ field }) => (
+              <div className="md:mb-0 md:w-[50%]">
+                <InputField
+                  disabled={Boolean(!provider)}
+                  type="text"
+                  id="insurancePlanName"
+                  label="Insurance plan"
+                  placeholder="Health"
+                  {...field}
+                />
+              </div>
+            )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="insurancePhoneNumber"
+          render={({ field }) => (
+            <div>
+              <InputNumPatternField
+                disabled={Boolean(!provider)}
+                label="Phone number"
+                format="(+234) ### #### ###"
+                allowEmptyFormatting
+                mask=" "
+                {...field}
+              />
+            </div>
+          )}
+        />
         <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-          <Input
-            disabled={Boolean(!provider)}
-            className="md:mb-0 md:w-[50%]"
-            type="text"
-            id="fname"
-            label="Policy No"
-            placeholder="0054689"
-            {...register('policyNumber')}
-            error={errors.policyNumber?.message}
+          <FormField
+            control={form.control}
+            name="policyNumber"
+            render={({ field }) => (
+              <div className="md:mb-0 md:w-[50%]">
+                <InputNumPatternField
+                  disabled={Boolean(!provider)}
+                  id="policyNo"
+                  label="Policy No"
+                  format="%%%"
+                  patternChar="%"
+                  required
+                  {...field}
+                />
+              </div>
+            )}
           />
-          <Input
-            disabled={Boolean(!provider)}
-            className="md:mb-0 md:w-[50%]"
-            type="text"
-            id="lname"
-            label="Group No"
-            placeholder="97657"
-            {...register('groupNumber')}
-            error={errors.groupNumber?.message}
+
+          <FormField
+            control={form.control}
+            name="groupNumber"
+            render={({ field }) => (
+              <div className="md:mb-0 md:w-[50%]">
+                <InputNumPatternField
+                  disabled={Boolean(!provider)}
+                  id="policyNo"
+                  label="Group No"
+                  format="%%%"
+                  patternChar="%"
+                  required
+                  {...field}
+                />
+              </div>
+            )}
           />
         </div>
 
@@ -88,31 +137,55 @@ function InsuranceForm() {
 
           <div className="mt-3">
             <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <Input
-                disabled={Boolean(!provider)}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="fname"
-                placeholder="First name"
-                {...register('policyHolder.firstName')}
-                error={errors.policyHolder?.firstName?.message}
+              <FormField
+                control={form.control}
+                name="policyHolder.firstName"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      disabled={Boolean(!provider)}
+                      type="text"
+                      id="insurancePlanName"
+                      label="First Name"
+                      placeholder="First name"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
-              <Input
-                disabled={Boolean(!provider)}
-                className="md:mb-0 md:w-[50%]"
-                type="text"
-                id="lname"
-                placeholder="Last Name"
-                {...register('policyHolder.lastName')}
-                error={errors.policyHolder?.lastName?.message}
+
+              <FormField
+                control={form.control}
+                name="policyHolder.lastName"
+                render={({ field }) => (
+                  <div className="md:mb-0 md:w-[50%]">
+                    <InputField
+                      disabled={Boolean(!provider)}
+                      type="text"
+                      id="policyHolder.lastName"
+                      label="Last Name"
+                      placeholder="Last name"
+                      {...field}
+                    />
+                  </div>
+                )}
               />
             </div>
-            <Input
-              disabled={Boolean(!provider)}
-              type="text"
-              placeholder="Phone number"
-              {...register('policyHolder.phoneNumber')}
-              error={errors.policyHolder?.phoneNumber?.message}
+
+            <FormField
+              control={form.control}
+              name="policyHolder.phoneNumber"
+              render={({ field }) => (
+                <div>
+                  <InputNumPatternField
+                    label="Phone Number"
+                    format="(+234) ### #### ###"
+                    allowEmptyFormatting
+                    mask=" "
+                    {...field}
+                  />
+                </div>
+              )}
             />
           </div>
         </fieldset>

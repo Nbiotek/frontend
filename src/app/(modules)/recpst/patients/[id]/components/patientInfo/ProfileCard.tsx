@@ -22,7 +22,7 @@ const ProfileCard = ({ profile }: { profile: TPatientOverviewProfile }) => {
     PatientStore: { personalInfo }
   } = useStore();
   return (
-    <div className="w-full overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="w-full overflow-hidden rounded-lg bg-white">
       <div className="h-20 bg-blue-400"></div>
 
       <div className="mb-8">
@@ -56,7 +56,7 @@ const ProfileCard = ({ profile }: { profile: TPatientOverviewProfile }) => {
 
       <Card className="mx-4 mb-6 border-none shadow-none">
         <CardContent className="p-0">
-          <InfoField label="ID" value={profile.id} />
+          <InfoField label="ID" value={`${profile.id.slice(0, 3)}...${profile.id.slice(-3)}`} />
           <InfoField label="Gender" value={profile.gender} />
           <InfoField label="Age" value={profile.age} />
           <InfoField label="Mobile" value={profile.mobile} />

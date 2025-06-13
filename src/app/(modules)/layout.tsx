@@ -1,11 +1,12 @@
 'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/dashboard/Sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import MenuHeader from '@/components/dashboard/Header/menu-header';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import PageLoading from '@/atoms/Loaders/PageLoading';
-import { redirect, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import { EnumRole } from '@/constants/mangle';
 import { useStore } from '@/store';
@@ -14,7 +15,10 @@ import { observer } from 'mobx-react-lite';
 const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const [userData, setUserData] = useState<Partial<TProfileInfo>>({});
+  const [authStatus, setAuthStatus] = useState<'pending' | 'authorized' | 'unauthorized'>(
+    'pending'
+  );
+
   const { data, status, isLoading } = useFetchProfile();
   const {
     AuthStore: { accessToken }
@@ -23,55 +27,56 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
   const allProtectedRoutes = allProtectedRoutesObj.keys();
 
-  const checkAuthorization = useCallback(() => {
-    for (let route of allProtectedRoutes) {
-      if (pathname.startsWith(route)) {
-        const role = allProtectedRoutesObj.get(route);
-
-        if (role && userData.email_verified) {
-          if (role.includes(userData.role as EnumRole)) {
-            return router.replace(pathname);
-          } else {
-            return router.replace(ROUTES.DENIED.path);
+  const checkAuthorization = useCallback(
+    (profile: Partial<TProfileInfo>) => {
+      for (let route of allProtectedRoutes) {
+        if (pathname.startsWith(route)) {
+          const requiredRoles = allProtectedRoutesObj.get(route);
+          if (requiredRoles && profile.email_verified) {
+            if (requiredRoles.includes(profile.role as EnumRole)) {
+              setAuthStatus('authorized');
+              return;
+            } else {
+              router.replace(ROUTES.DENIED.path);
+              return;
+            }
           }
         }
       }
-    }
-  }, [pathname, userData]);
+    },
+    [pathname, allProtectedRoutes, allProtectedRoutesObj, router]
+  );
 
   useEffect(() => {
+    if (!accessToken || status === 'error') {
+      router.replace(ROUTES.LOGIN.path);
+      return;
+    }
+
     if (!isLoading && data !== undefined) {
       if (data.email_verified) {
-        setUserData(data);
+        for (let route of allProtectedRoutes) {
+          if (pathname.startsWith(route)) {
+            const requiredRoles = allProtectedRoutesObj.get(route);
+            if (requiredRoles) {
+              if (requiredRoles.includes(data.role as EnumRole)) {
+                setAuthStatus('authorized');
+                return;
+              } else {
+                router.replace(ROUTES.DENIED.path);
+                return;
+              }
+            }
+          }
+        }
+        setAuthStatus('authorized');
       } else {
-        return router.replace(ROUTES.LOGIN.path);
+        router.replace(ROUTES.LOGIN.path);
       }
     }
-  }, [data, isLoading]);
+  }, [accessToken, status, data, isLoading, pathname]);
 
-  useEffect(() => {
-    checkAuthorization();
-  }, [checkAuthorization]);
-
-  useEffect(() => {
-    if (!accessToken) {
-      return router.replace(ROUTES.LOGIN.path);
-    }
-
-    if (status === 'error') {
-      return router.replace(ROUTES.LOGIN.path);
-    }
-  }, [accessToken, status]);
-
-  if (!accessToken) {
-    return <PageLoading />;
-  }
-
-  if (status === 'pending') {
-    return <PageLoading />;
-  }
-
-  if (status === 'error') {
+  if (authStatus === 'pending') {
     return <PageLoading />;
   }
 

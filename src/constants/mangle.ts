@@ -26,10 +26,11 @@ export enum EnumRole {
 }
 
 export enum EnumUserStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  INVITED = 'INVITED',
-  SUSPENDED = 'SUSPENDED'
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  INVITED = 'invited',
+  SUSPENDED = 'suspended',
+  AVAILABLE = 'Available'
 }
 
 export enum EnumTestLocation {
