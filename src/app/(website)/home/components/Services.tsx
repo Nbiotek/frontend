@@ -53,7 +53,6 @@ const Services = () => {
   const { TestStore } = useStore();
   const router = useRouter();
 
-  // State to track which tests have their prices revealed
   const [revealedPrices, setRevealedPrices] = useState<{ [key: string]: boolean }>({});
 
   const togglePriceVisibility = (testId: string) => {
@@ -64,13 +63,7 @@ const Services = () => {
   };
 
   const handleViewDetails = (testId: string) => {
-    // Navigate to test details page or open modal
     router.push(`/tests/${testId}`);
-  };
-
-  const handleRequestQuote = () => {
-    // Navigate to contact/quote page
-    router.push('/contact?request=quote');
   };
 
   return (
@@ -188,7 +181,7 @@ const Services = () => {
                     <Button
                       variant="filled"
                       className="rounded-sm text-sm"
-                      onClick={handleRequestQuote}
+                      // onClick={handleRequestQuote}
                     >
                       Request Quote
                     </Button>
@@ -283,7 +276,7 @@ const Services = () => {
                     <Button
                       variant="filled"
                       className="rounded-sm text-sm"
-                      onClick={handleRequestQuote}
+                      // onClick={handleRequestQuote}
                     >
                       Request Quote
                     </Button>
