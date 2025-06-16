@@ -13,6 +13,7 @@ import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';
+import { EnumUserStatus } from '@/constants/mangle';
 
 interface DataTableRowActionsProps {
   row: Row<TAdminUsersItem>;
@@ -32,17 +33,25 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem
-            onClick={() =>
-              toggleModals({ name: AppModals.ADMIN_SUSPEND_USER, open: true, id: row.original.id })
-            }
-          >
-            Suspend
-            <DropdownMenuShortcut>
-              <ShieldBan size={16} />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {row.original.status !== EnumUserStatus.SUSPENDED && (
+            <>
+              <DropdownMenuItem
+                onClick={() =>
+                  toggleModals({
+                    name: AppModals.ADMIN_SUSPEND_USER,
+                    open: true,
+                    id: row.original.id
+                  })
+                }
+              >
+                Suspend
+                <DropdownMenuShortcut>
+                  <ShieldBan size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem
             onClick={() =>
               toggleModals({ name: AppModals.ADMIN_DELETE_USER, open: true, id: row.original.id })

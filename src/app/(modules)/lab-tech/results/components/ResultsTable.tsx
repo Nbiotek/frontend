@@ -100,20 +100,6 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                             <Eye />
                             <p>View Result</p>
                           </DropdownMenuItem>
-
-                          {type === 'recent' && (
-                            <DropdownMenuItem onClick={() => {}}>
-                              <Archive />
-                              <p>Archive</p>
-                            </DropdownMenuItem>
-                          )}
-
-                          {type === 'archived' && (
-                            <DropdownMenuItem onClick={() => {}}>
-                              <ArchiveRestore />
-                              <p>Archive Restore</p>
-                            </DropdownMenuItem>
-                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

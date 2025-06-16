@@ -17,7 +17,7 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { testResultsSchema, TTestResultsTypeSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
-import { ChevronsDown, Plus, Trash } from 'lucide-react';
+import { ChevronsDown, Plus, Trash, Upload } from 'lucide-react';
 import { useFetchTestByID } from '@/hooks/labTech/useFetchTestByID';
 import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -74,6 +74,11 @@ const ResultUploadModal = () => {
     control: form.control,
     name: 'data'
   });
+
+  const handlerFn = (_files: File[]) => {
+    toggleModals({ name: AppModals.FILE_UPLOAD_MODAL, open: false });
+  };
+
   return (
     <XModal
       closeModal={() => toggleModals({ name: AppModals.RESULT_UPLOAD_MODAL, open: false })}
@@ -84,7 +89,10 @@ const ResultUploadModal = () => {
     >
       <div className="flex w-full flex-col space-y-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-1">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full flex-col space-y-1 overflow-x-scroll"
+          >
             <Paragraph className="text-lg !font-medium" text="Test Result" />
 
             <fieldset disabled={isPending} className="flex w-full flex-col space-y-1">
@@ -190,6 +198,23 @@ const ResultUploadModal = () => {
                 </Table>
               </div>
 
+              <div className="mt-4 w-fit">
+                <Button
+                  variant="filled"
+                  type="button"
+                  text="upload"
+                  className="!h-[35px] !w-auto !text-xs"
+                  leftIcon={<Upload size={15} />}
+                  onClick={() =>
+                    toggleModals({
+                      open: true,
+                      name: AppModals.FILE_UPLOAD_MODAL,
+                      handlerFn
+                    })
+                  }
+                />
+              </div>
+
               <div className="flex items-center justify-between space-x-2">
                 <Button
                   disabled={isPending}
@@ -197,7 +222,7 @@ const ResultUploadModal = () => {
                   className="!h-[35px] !w-auto !text-xs"
                   variant="light"
                   text="Add Parameter"
-                  leftIcon={<Plus />}
+                  leftIcon={<Plus size={15} />}
                   onClick={() =>
                     append({ parameter: '', result: '', range: '', unit: '', reference: '' })
                   }
@@ -215,7 +240,7 @@ const ResultUploadModal = () => {
           </form>
         </Form>
 
-        <div className="flex w-full flex-col space-y-3">
+        <div className="flex w-full flex-col space-y-3 overflow-x-clip">
           {status === 'success' && (
             <Collapsible className="w-full">
               <CollapsibleTrigger className="w-full bg-neutral-50 p-2">

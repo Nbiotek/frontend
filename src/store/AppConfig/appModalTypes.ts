@@ -15,7 +15,8 @@ export enum AppModals {
   ADMIN_PACKAGE_TEST = 'ADMIN_PACKAGE_TEST',
   ADMIN_DELETE_USER = 'ADMIN_DELETE_USER',
   ADMIN_SUSPEND_USER = 'ADMIN_SUSPEND_USER',
-  ADMIN_TOGGLE_TEST_AVAILABILITY = 'ADMIN_TOGGLE_TEST_AVAILABILITY'
+  ADMIN_TOGGLE_TEST_AVAILABILITY = 'ADMIN_TOGGLE_TEST_AVAILABILITY',
+  FILE_UPLOAD_MODAL = 'FILE_UPLOAD_MODAL'
 }
 
 export type TAppModalsAction =
@@ -91,5 +92,9 @@ export type TAppModalsAction =
           status: string;
           type: string;
         }
+      | { open?: false }
+    ))
+  | ({ name: AppModals.FILE_UPLOAD_MODAL } & (
+      | { open: true; handlerFn: (files: File[]) => void }
       | { open?: false }
     ));
