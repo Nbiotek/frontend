@@ -63,3 +63,24 @@ interface IQueryHookResponse<T> {
   error: unknown;
   status: 'error' | 'success' | 'pending';
 }
+
+interface IMedia {
+  checksum: string;
+  file_url: string;
+  mime_type: string;
+  file_size: number;
+  bucket: string;
+  file_name: string;
+  metadata: {
+    w: number;
+    h: number;
+    duration: number;
+  };
+}
+
+interface IMediaResp extends IMedia {
+  id: number;
+  uuid: string;
+  create_time: string;
+  update_time: string;
+}

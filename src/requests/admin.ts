@@ -58,6 +58,9 @@ export const putUpdatePackageTest = async ({
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));
 
+export const unSuspendUser = async (id: string) => {
+  return server.put(SUPER_ADMIN.UNSUSPEND_USER.replace(':id', id), { status: 'active' });
+};
 export const toggleTestAvailability = async (arg: {
   type: string;
   id: string;

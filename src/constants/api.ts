@@ -139,8 +139,14 @@ export const SUPER_ADMIN = {
   CREATE_PACKAGE_TEST: '/admin/package-tests',
   DELETE_USER: '/super-admin/users/:id',
   SUSPEND_USER: '/super-admin/users/:id/suspend',
+  UNSUSPEND_USER: '/super-admin/users/:id/status',
   TOGGLE_TEST_AVAILABILITY: '/tests/toggle-status/:id',
   UPDATE_SINGLE_TEST: '/tests/update/:id',
   UPDATE_PACKAGE_TEST: '/admin/package-tests/:id',
   TOGGLE_PACKAGE_TEST: 'admin/package-tests/:id/toggle-status'
 };
+
+export const UPLOADS = {
+  ADD: '/file/upload',
+  DELETE: '/file/delete'
+} as const;

@@ -149,6 +149,13 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.ADMIN_UNSUSPEND_USER:
+        if (modal.open) {
+          this.data = {
+            id: modal.id
+          };
+        }
+        break;
       case AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY:
         if (modal.open) {
           this.testAvailability = {

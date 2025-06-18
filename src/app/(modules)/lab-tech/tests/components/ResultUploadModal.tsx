@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/table';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { testResultsSchema, TTestResultsTypeSchema } from './validation';
+import { testResultsSchema, TRemoteFile, TTestResultsTypeSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
 import { ChevronsDown, Plus, Trash, Upload } from 'lucide-react';
@@ -29,10 +29,12 @@ import InputField from '@/atoms/fields/NewInput';
 import { Form, FormField } from '@/components/ui/form';
 import InputSelect from '@/atoms/fields/NewInputSelect';
 import { testResultStatus } from '@/constants/data';
+import FilePreview from '@/components/common/FileUpload/FilePreview';
 
 const ResultUploadModal = () => {
   const {
-    AppConfigStore: { isOpen, toggleModals, testDetails }
+    AppConfigStore: { isOpen, toggleModals, testDetails },
+    LabTechStore: { addTestFiles, testFiles, removeTestFiles }
   } = useStore();
 
   const { data, status } = useFetchTestByID(testDetails.testId);
@@ -63,20 +65,51 @@ const ResultUploadModal = () => {
     reValidateMode: 'onChange'
   });
 
-  const onSubmit: SubmitHandler<TTestResultsTypeSchema> = async (formData) => {
-    // TODO: Never upload an empty row.s
-    if (data?.id) {
-      mutate({ testRequestId: data.id, result: formData });
-    }
-  };
-
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'data'
   });
 
+  const {
+    fields: mediaFields,
+    append: mediaAppend,
+    remove: mediaRemove,
+    update: mediaUpdate
+  } = useFieldArray({
+    control: form.control,
+    name: 'media'
+  });
+
+  const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
+    mediaUpdate(index, { file: remoteFile });
+
+    if (!testFiles.find((file) => file.uuid === remoteFile.uuid)) {
+      addTestFiles(remoteFile);
+    }
+  };
+
+  const handleRemove = (idx: number, media_uuid?: string) => {
+    if (media_uuid) {
+      removeTestFiles(media_uuid);
+    }
+    mediaRemove(idx);
+  };
+
   const handlerFn = (_files: File[]) => {
+    mediaAppend(_files.map((file) => ({ file })));
     toggleModals({ name: AppModals.FILE_UPLOAD_MODAL, open: false });
+  };
+
+  const onSubmit: SubmitHandler<TTestResultsTypeSchema> = async (formData) => {
+    // TODO: Never upload an empty row.s
+    console.log(formData);
+    // if (data?.id) {
+    //   mutate({ testRequestId: data.id, result: formData });
+    // }
+  };
+
+  const allUploadsCompleted = () => {
+    return testFiles.length === fields.length;
   };
 
   return (
@@ -198,43 +231,59 @@ const ResultUploadModal = () => {
                 </Table>
               </div>
 
-              <div className="mt-4 w-fit">
-                <Button
-                  variant="filled"
-                  type="button"
-                  text="upload"
-                  className="!h-[35px] !w-auto !text-xs"
-                  leftIcon={<Upload size={15} />}
-                  onClick={() =>
-                    toggleModals({
-                      open: true,
-                      name: AppModals.FILE_UPLOAD_MODAL,
-                      handlerFn
-                    })
-                  }
-                />
+              <div className="flex items-center justify-between space-x-2">
+                <div className="mt-4 w-fit">
+                  <Button
+                    variant="filled"
+                    type="button"
+                    text="upload"
+                    className="!h-[35px] !w-auto !text-xs"
+                    leftIcon={<Upload size={15} />}
+                    onClick={() =>
+                      toggleModals({
+                        open: true,
+                        name: AppModals.FILE_UPLOAD_MODAL,
+                        handlerFn
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Button
+                    disabled={isPending}
+                    type="button"
+                    className="!h-[35px] !w-auto !text-xs"
+                    variant="light"
+                    text="Add Parameter"
+                    leftIcon={<Plus size={15} />}
+                    onClick={() =>
+                      append({ parameter: '', result: '', range: '', unit: '', reference: '' })
+                    }
+                  />
+                  <Button
+                    className="!h-[35px] !w-auto !text-xs"
+                    variant="filled"
+                    text="Submit Result"
+                    type="submit"
+                    disabled={!allUploadsCompleted() || isPending || !testFiles?.length}
+                    isLoading={isPending}
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center justify-between space-x-2">
-                <Button
-                  disabled={isPending}
-                  type="button"
-                  className="!h-[35px] !w-auto !text-xs"
-                  variant="light"
-                  text="Add Parameter"
-                  leftIcon={<Plus size={15} />}
-                  onClick={() =>
-                    append({ parameter: '', result: '', range: '', unit: '', reference: '' })
-                  }
-                />
-                <Button
-                  className="!h-[35px] !w-auto !text-xs"
-                  variant="filled"
-                  text="Submit Result"
-                  type="submit"
-                  disabled={isPending}
-                  isLoading={isPending}
-                />
+              <div className="flex flex-col">
+                <div className="mt-4 flex w-full flex-wrap justify-start gap-5">
+                  {mediaFields.map(({ id, file }, idx) => (
+                    <FilePreview
+                      key={id}
+                      {...{ file, id, idx, bucket: 'cloudinary' }}
+                      remove={handleRemove}
+                      update={handleUpdate}
+                      error={form.formState.errors?.media?.[idx]?.message}
+                    />
+                  ))}
+                </div>
               </div>
             </fieldset>
           </form>
