@@ -30,6 +30,7 @@ import { Form, FormField } from '@/components/ui/form';
 import InputSelect from '@/atoms/fields/NewInputSelect';
 import { testResultStatus } from '@/constants/data';
 import FilePreview from '@/components/common/FileUpload/FilePreview';
+import { toJS } from 'mobx';
 
 const ResultUploadModal = () => {
   const {
@@ -83,7 +84,7 @@ const ResultUploadModal = () => {
   const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
     mediaUpdate(index, { file: remoteFile });
 
-    if (!testFiles.find((file) => file.uuid === remoteFile.uuid)) {
+    if (testFiles.length && !testFiles.find((file) => file.uuid === remoteFile.uuid)) {
       addTestFiles(remoteFile);
     }
   };
@@ -101,15 +102,9 @@ const ResultUploadModal = () => {
   };
 
   const onSubmit: SubmitHandler<TTestResultsTypeSchema> = async (formData) => {
-    // TODO: Never upload an empty row.s
-    console.log(formData);
-    // if (data?.id) {
-    //   mutate({ testRequestId: data.id, result: formData });
-    // }
-  };
-
-  const allUploadsCompleted = () => {
-    return testFiles.length === fields.length;
+    if (data?.id) {
+      mutate({ testRequestId: data.id, result: formData });
+    }
   };
 
   return (
@@ -266,7 +261,7 @@ const ResultUploadModal = () => {
                     variant="filled"
                     text="Submit Result"
                     type="submit"
-                    disabled={!allUploadsCompleted() || isPending || !testFiles?.length}
+                    disabled={mediaFields.length === 0 || isPending}
                     isLoading={isPending}
                   />
                 </div>

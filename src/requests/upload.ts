@@ -2,7 +2,7 @@ import { UPLOADS } from '@/constants/api';
 import server from '.';
 
 export const postUploadedFile = async (payload: Partial<IMedia>) =>
-  server.post<INBTServerResp<IMediaResp>>(UPLOADS.ADD, payload);
+  server.post<INBTServerResp<IMediaResp>>(UPLOADS.MEDIA, payload);
 
-export const delUploadedFile = async (payload: { publicId: string }) =>
-  server.delete<INBTServerResp<string>>(UPLOADS.DELETE, { data: payload });
+export const delMediaFile = async (uuid: string) =>
+  server.delete<INBTServerResp<string>>(UPLOADS.DELETE.replace(':uuid', uuid));

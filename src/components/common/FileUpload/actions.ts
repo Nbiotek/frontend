@@ -57,25 +57,20 @@ export async function getSignedURL({
 }
 
 export async function deleteFromBucket({
-  checksum,
-  file_name,
-  ...rest
-}: Omit<IGetSignedURLParams, 'metadata'>) {
+  file_name
+}: {
+  file_name: string;
+}): Promise<{ success?: string; failure?: string }> {
   try {
     const command = new DeleteObjectCommand({
       Bucket: env.NEXT_PUBLIC_S3_LAB_BUCKET_NAME,
       Key: file_name
     });
 
-    const url = await getSignedUrl(S3, command, {
-      expiresIn: IMAGE_FILE_TYPES.includes(rest.file_type) ? 60 * 5 : 60 * 30 // 5 minutes for images, 30 minutes for others
-      // unhoistableHeaders: new Set(Object.keys(rest.metadata).map((k) => `x-amz-meta-${k}`))
-    });
+    await S3.send(command);
 
-    return url;
+    return { success: `${file_name} deleted successfully.` };
   } catch (error: any) {
     return { failure: error.message };
-  } finally {
-    console.timeEnd('delete from bucket.');
   }
 }

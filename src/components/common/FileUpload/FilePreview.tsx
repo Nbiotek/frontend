@@ -8,14 +8,15 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '@/store';
 import { IMAGE_FILE_TYPES } from '@/constants';
-import { postUploadedFile } from '@/requests/upload';
+import { delMediaFile, postUploadedFile } from '@/requests/upload';
 import ProgressBar from '@/components/common/Progress';
 import { Toast } from '@/atoms/Toast';
 import VideoPlayer from '@/components/common/VideoPlayer';
 import { GoX } from 'react-icons/go';
 import { computeSHA256 } from '@/utils/media';
-import { getSignedURL } from './actions';
+import { deleteFromBucket, getSignedURL } from './actions';
 import axios from 'axios';
+import { env } from '@/env';
 
 interface IFilePreviewProps {
   file: TTestResultsTypeSchema['media'][number]['file'];
@@ -32,7 +33,6 @@ interface IFileObj extends TRemoteFile {
   file_name: string;
   file_size: number;
   type: 'image' | 'video';
-  id: number;
   uuid: string;
 }
 
@@ -58,7 +58,6 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
             mime_type: remoteFile.mime_type,
             type: IMAGE_FILE_TYPES.includes(remoteFile.mime_type) ? 'image' : 'video',
             file: remoteFile.file,
-            id: (remoteFile as any).id ?? idx,
             uuid: remoteFile.uuid
           });
           return;
@@ -75,7 +74,6 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
           mime_type: _file.type,
           type: IMAGE_FILE_TYPES.includes(_file.type) ? 'image' : 'video',
           file: URL.createObjectURL(_file),
-          id: idx,
           uuid: ''
         });
 
@@ -131,27 +129,27 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
             }
           });
 
-          // await postUploadedFile({
-          //   bucket,
-          //   checksum,
-          //   file_size: _file.size,
-          //   file_url: env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL.concat(name),
-          //   mime_type: _file.type,
-          //   file_name: _file.name
-          // })
-          //   .then((data) => {
-          //     update(idx, {
-          //       bucket,
-          //       mime_type: _file.type,
-          //       file: env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL.concat(name),
-          //       id: data.data.data.id,
-          //       uuid: data.data.data.uuid
-          //     });
-          //   })
-          //   .catch((err) => {
-          //     Toast.error('E401::Error uploading file');
-          //     remove(idx);
-          //   });
+          await postUploadedFile({
+            bucket,
+            checksum,
+            file_size: _file.size,
+            file_url: env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL.concat(name),
+            mime_type: _file.type,
+            file_name: _file.name
+          })
+            .then((res) => {
+              const data = res?.data?.data;
+              if (res.status === 201 && data?.file) {
+                const { bucket, mime_type, file, uuid } = data;
+                update(idx, { bucket, mime_type, file, uuid });
+              } else {
+                throw new Error('Unexpected response structure.');
+              }
+            })
+            .catch((err) => {
+              Toast.error('E401::Error uploading file');
+              remove(idx);
+            });
         } catch (error: any) {
           setError(error.message);
           Toast.error(`${_file.name}: ${signedURLRes.failure}`);
@@ -163,11 +161,15 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
       handleFile();
     }, [decodedToken, file, idx, isLocal, remove, update]);
 
-    const handleRemove = () => {
+    const handleRemove = async () => {
       if (isLocal) {
         URL.revokeObjectURL(preview?.file ?? '');
       }
       remove(idx, preview?.uuid);
+      if (preview?.uuid) {
+        await delMediaFile(preview.uuid);
+        await deleteFromBucket({ file_name: preview.file_name });
+      }
     };
 
     return (
@@ -176,17 +178,16 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
         ref={ref}
         className="data-[bucket=catalogue]:max-w-thumbnail group relative block aspect-landscape w-1/6 overflow-hidden rounded-lg data-[bucket=catalogue]:md:w-1/5 data-[bucket=conversation]:md:w-1/6"
       >
-        {
-          <div className="absolute right-2 top-2 z-20 flex items-center justify-center rounded-full bg-red-300">
-            <button
-              type="button"
-              onClick={handleRemove}
-              className="bg-error flex h-full w-full cursor-pointer items-center justify-center rounded-full p-1"
-            >
-              <GoX className="text-white" />
-            </button>
-          </div>
-        }
+        <div className="absolute right-2 top-2 z-20 flex items-center justify-center rounded-full bg-red-300">
+          <button
+            type="button"
+            onClick={handleRemove}
+            className="bg-error flex h-full w-full cursor-pointer items-center justify-center rounded-full p-1"
+          >
+            <GoX className="text-white" />
+          </button>
+        </div>
+
         <ProgressBar
           value={!isLocal || error ? 100 : progress}
           className={`absolute top-0 z-10 w-full ${

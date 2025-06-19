@@ -35,8 +35,6 @@ const MediaUploadModal = () => {
     }
   }, [form.watch('file')]);
 
-  console.log(form.watch('file'), form.formState.errors.file?.message);
-
   return (
     <XModal
       isOpen={isOpen.FILE_UPLOAD_MODAL}

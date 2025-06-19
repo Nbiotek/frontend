@@ -49,7 +49,6 @@ export const fileSchema = z.instanceof(File).superRefine((file, ctx) => {
 });
 
 export const fileObjectSchema = z.object({
-  id: z.number(),
   file: z.string(),
   mime_type: z.string(),
   bucket: z.string(),

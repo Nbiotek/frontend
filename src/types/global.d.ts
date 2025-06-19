@@ -78,9 +78,9 @@ interface IMedia {
   };
 }
 
-interface IMediaResp extends IMedia {
-  id: number;
+interface IMediaResp {
+  bucket: string;
   uuid: string;
-  create_time: string;
-  update_time: string;
+  file: string;
+  mime_type: string;
 }

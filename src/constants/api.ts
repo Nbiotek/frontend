@@ -147,6 +147,6 @@ export const SUPER_ADMIN = {
 };
 
 export const UPLOADS = {
-  ADD: '/file/upload',
-  DELETE: '/file/delete'
+  MEDIA: '/file-manager/media',
+  DELETE: '/file-manager/media/:uuid'
 } as const;

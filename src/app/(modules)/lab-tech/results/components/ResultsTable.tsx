@@ -12,8 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuGroup
+  DropdownMenuContent
 } from '@/components/ui/dropdown-menu';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import EmptyState from '@/components/EmptyState';
@@ -57,12 +56,13 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
               <TableHead>Status</TableHead>
               <TableHead>Deadline</TableHead>
               <TableHead>Result Status</TableHead>
+              <TableHead>QC Status</TableHead>
               <TableHead className="w-[20px]"></TableHead>
             </TableRow>
           </TableHeader>
 
           {isLoading ? (
-            <TableLoader rows={20} columns={8} />
+            <TableLoader rows={20} columns={9} />
           ) : (
             resultsData.results.length !== 0 && (
               <TableBody>
@@ -82,6 +82,9 @@ const ResultsTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
                     <TableCell>{formatTestDate(resultDatum.deadlineAt)}</TableCell>
                     <TableCell>
                       <Status variant={resultDatum.resultStatus} />
+                    </TableCell>
+                    <TableCell>
+                      {resultDatum?.qcStatus && <Status variant={resultDatum.qcStatus} />}
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
