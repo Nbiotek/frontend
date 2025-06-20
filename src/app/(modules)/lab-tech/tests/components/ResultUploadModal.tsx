@@ -107,6 +107,10 @@ const ResultUploadModal = () => {
     }
   };
 
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'data'
+  });
   return (
     <XModal
       closeModal={() => toggleModals({ name: AppModals.RESULT_UPLOAD_MODAL, open: false })}
@@ -117,6 +121,7 @@ const ResultUploadModal = () => {
     >
       <div className="flex w-full flex-col space-y-8">
         <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-1">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full flex-col space-y-1 overflow-x-scroll"
@@ -227,6 +232,25 @@ const ResultUploadModal = () => {
               </div>
 
               <div className="flex items-center justify-between space-x-2">
+                <Button
+                  disabled={isPending}
+                  type="button"
+                  className="!h-[35px] !w-auto !text-xs"
+                  variant="light"
+                  text="Add Parameter"
+                  leftIcon={<Plus />}
+                  onClick={() =>
+                    append({ parameter: '', result: '', range: '', unit: '', reference: '' })
+                  }
+                />
+                <Button
+                  className="!h-[35px] !w-auto !text-xs"
+                  variant="filled"
+                  text="Submit Result"
+                  type="submit"
+                  disabled={isPending}
+                  isLoading={isPending}
+                />
                 <div className="mt-4 w-fit">
                   <Button
                     variant="filled"
@@ -284,6 +308,7 @@ const ResultUploadModal = () => {
           </form>
         </Form>
 
+        <div className="flex w-full flex-col space-y-3">
         <div className="flex w-full flex-col space-y-3 overflow-x-clip">
           {status === 'success' && (
             <Collapsible className="w-full">

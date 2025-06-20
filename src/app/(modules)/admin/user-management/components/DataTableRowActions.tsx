@@ -9,6 +9,10 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { User } from './data/schema';
+import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
+import { useStore } from '@/store';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
+import { observer } from 'mobx-react-lite';
 import { Edit, EllipsisVerticalIcon, ShieldBan, ShieldCheck, TrashIcon } from 'lucide-react';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
@@ -32,6 +36,30 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuItem
+            onClick={() =>
+              toggleModals({ name: AppModals.ADMIN_SUSPEND_USER, open: true, id: row.original.id })
+            }
+          >
+            Suspend
+            <DropdownMenuShortcut>
+              <ShieldBan size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() =>
+              toggleModals({ name: AppModals.ADMIN_DELETE_USER, open: true, id: row.original.id })
+            }
+            className="text-red-500!"
+          >
+            Delete
+            <DropdownMenuShortcut>
+              <TrashIcon size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
         {row.original.role !== EnumRole.SUPER_ADMIN && (
           <DropdownMenuContent align="end" className="w-[160px]">
             {row.original.status !== EnumUserStatus.SUSPENDED && (

@@ -76,10 +76,17 @@ const LabTestContent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(tabFromUrl || 'lab-tests');
   const [isLoading, setIsLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
 
-  const {
-    TestStore: { singleTests, packageTests, isLoadingSingleTests, isLoadingPackageTests }
-  } = useStore();
+  const { TestStore } = useStore();
+
+  useEffect(() => {
+    if (!dataFetched) {
+      TestStore.fetchPackageTests();
+      TestStore.fetchSingleTests();
+      setDataFetched(true);
+    }
+  }, [TestStore, dataFetched]);
 
   useEffect(() => {
     if (tabFromUrl) {
@@ -87,10 +94,13 @@ const LabTestContent = () => {
     }
   }, [tabFromUrl]);
 
+  const { singleTests, packageTests, isLoadingSingleTests, isLoadingPackageTests } = TestStore;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -100,6 +110,8 @@ const LabTestContent = () => {
       test.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       test?.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  console.log(singleTests);
 
   const filteredPackageTests = packageTests.filter(
     (test) =>
@@ -171,7 +183,7 @@ const LabTestContent = () => {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="mb-8 flex w-full flex-col shadow-blue-400/30 lg:flex-row lg:items-center lg:justify-between">
-            <TabsList className="mb-4 flex h-fit w-full flex-wrap gap-2 rounded-xl border bg-white p-4 shadow-sm lg:mb-0">
+            <TabsList className="mb-4  hidden h-fit w-full flex-wrap gap-2 rounded-xl border bg-white p-4 shadow-sm lg:mb-0">
               <TabsTrigger
                 value="lab-tests"
                 className="text-md rounded-lg px-6 py-3 font-semibold transition-all data-[state=active]:bg-blue-400 data-[state=active]:text-white data-[state=active]:shadow-md"
@@ -293,28 +305,37 @@ const LabTestContent = () => {
               medical history.
             </p>
 
-            <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-              <div className="rounded-lg bg-white p-6 shadow-sm">
-                <div className="text-blue-600 mb-2 text-3xl font-bold">24/7</div>
-                <div className="text-gray-600">Expert Support Available</div>
+            <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:mb-8 lg:gap-6">
+              <div className="rounded-lg bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+                <div className="text-blue-600 mb-1.5 text-2xl font-bold sm:mb-2 lg:text-3xl">
+                  24/7
+                </div>
+                <div className="text-gray-600 text-sm sm:text-base">Expert Support Available</div>
               </div>
-              <div className="rounded-lg bg-white p-6 shadow-sm">
-                <div className="text-green-600 mb-2 text-3xl font-bold">Free</div>
-                <div className="text-gray-600">Initial Consultation</div>
+              <div className="rounded-lg bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+                <div className="text-green-600 mb-1.5 text-2xl font-bold sm:mb-2 lg:text-3xl">
+                  Free
+                </div>
+                <div className="text-gray-600 text-sm sm:text-base">Initial Consultation</div>
               </div>
-              <div className="rounded-lg bg-white p-6 shadow-sm">
-                <div className="text-purple-600 mb-2 text-3xl font-bold">Fast</div>
-                <div className="text-gray-600">Test Results</div>
+              <div className="rounded-lg bg-white p-4 shadow-sm sm:col-span-2 sm:p-5 md:col-span-1 lg:p-6">
+                <div className="text-purple-600 mb-1.5 text-2xl font-bold sm:mb-2 lg:text-3xl">
+                  Fast
+                </div>
+                <div className="text-gray-600 text-sm sm:text-base">Test Results</div>
               </div>
             </div>
 
-            <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-6 sm:space-y-0">
-              <Button variant="filled" className="w-full px-8 py-4 text-lg font-semibold sm:w-auto">
+            <div className="flex flex-col items-center justify-center space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0 md:space-x-6">
+              <Button
+                variant="filled"
+                className="w-full rounded-md px-4 py-3 text-base font-semibold sm:w-auto md:px-6 md:py-3.5 lg:px-8 lg:py-4 lg:text-lg"
+              >
                 Book Free Consultation
               </Button>
               <Button
                 variant="outlined"
-                className="text-blue-600 w-full border-blue-400 px-8 py-4 text-lg hover:bg-blue-50 sm:w-auto"
+                className="text-blue-600 w-full rounded-md border-blue-400 px-4 py-3 text-base font-semibold hover:bg-blue-50 sm:w-auto md:px-6 md:py-3.5 lg:px-8 lg:py-4 lg:text-lg"
               >
                 Contact Our Experts
               </Button>

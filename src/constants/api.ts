@@ -34,8 +34,8 @@ export const PATIENT = {
   } as const,
 
   TESTS: {
-    ALl: '/tests/all-tests',
-    PACKAGES: '/tests/package-tests',
+    ALl: '/tests/all-tests?page=1&limit=20&status=ACTIVE',
+    PACKAGES: '/tests/package-tests?page=1&limit=20&status=ACTIVE',
     DETAILS: (id: string) => `/tests/${id}`,
     SINGLE: '/test/single'
   },
