@@ -2,6 +2,8 @@ import Button from '@/atoms/Buttons';
 import { Text } from '@/lib/utils/Text';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
 
 const analytics = [
   {
@@ -49,11 +51,11 @@ const carouselImages = [
 ];
 
 const Hero = () => {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
-    // Calculate actual header height
     const calculateHeaderHeight = () => {
       const header =
         document.querySelector('header') ||
@@ -63,18 +65,14 @@ const Hero = () => {
       if (header) {
         const height = header.offsetHeight;
         setHeaderHeight(height);
-        // Also set CSS variable for other components
         document.documentElement.style.setProperty('--header-height', `${height}px`);
       } else {
-        // Fallback if header not found
-        setHeaderHeight(100); // Based on your screenshot, looks like about 140px
+        setHeaderHeight(100);
       }
     };
 
-    // Calculate on mount
     calculateHeaderHeight();
 
-    // Recalculate on resize
     window.addEventListener('resize', calculateHeaderHeight);
 
     // Cleanup
@@ -111,7 +109,6 @@ const Hero = () => {
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex min-h-[70vh] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-12">
-          {/* Left Content Section */}
           <div className="flex w-full flex-col justify-center lg:w-1/2">
             <div className="flex flex-col space-y-6 lg:space-y-8">
               <h1 className="text-3xl font-bold leading-tight text-neutral-900 sm:text-4xl lg:text-5xl xl:text-6xl">
@@ -128,24 +125,25 @@ const Hero = () => {
                 <Button
                   variant="filled"
                   className="rounded-sm px-6 py-3 text-base font-semibold lg:px-8 lg:py-4 lg:text-lg"
+                  onClick={() => router.push(ROUTES.LAB_TEST.path)}
                 >
                   Book a Test
                 </Button>
                 <Button
                   variant="outlined"
                   className="rounded-sm border-none bg-green-400 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-green-400/80 lg:px-8 lg:py-4 lg:text-lg"
+                  onClick={() => router.push(ROUTES.BIO_HUB.path)}
                 >
                   Learn More About R&D
                 </Button>
               </div>
 
-              {/* Analytics Cards */}
-              <div className="mt-8 lg:mt-12">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-3 lg:gap-4">
+              <div className="mt-6 sm:mt-8 lg:mt-12">
+                <div className="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
                   {analytics.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-3 rounded-lg border border-white/20 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-sm transition-colors hover:bg-white lg:px-5 lg:py-4"
+                      className="flex items-center space-x-2.5 rounded-lg border border-white/20 bg-white/90 px-3 py-2.5 shadow-sm backdrop-blur-sm transition-colors hover:bg-white sm:px-3.5 sm:py-3 md:space-x-3 lg:px-5 lg:py-4"
                     >
                       <div className="flex-shrink-0">
                         <Image
@@ -153,14 +151,17 @@ const Hero = () => {
                           alt={item.title}
                           width={32}
                           height={32}
-                          className="h-8 w-8 object-contain lg:h-10 lg:w-10"
+                          className="h-6 w-6 object-contain sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10"
                         />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <Text variant="h4" className="text-blue-500 text-lg font-bold lg:text-xl">
+                        <Text
+                          variant="h4"
+                          className="text-blue-500 text-base font-bold sm:text-lg lg:text-xl"
+                        >
                           {item.number.toLocaleString()}
                         </Text>
-                        <Text className="text-sm font-medium text-neutral-700 lg:text-base">
+                        <Text className="line-clamp-2 text-xs font-medium text-neutral-700 sm:text-sm lg:text-base">
                           {item.title}
                         </Text>
                       </div>
@@ -171,7 +172,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Carousel Section */}
           <div className="relative flex w-full items-center justify-center lg:w-1/2">
             <div className="relative mx-auto h-[400px] w-full max-w-lg overflow-hidden rounded-2xl shadow-2xl sm:h-[450px] lg:h-[500px] lg:max-w-2xl xl:h-[600px]">
               {carouselImages.map((image, index) => (

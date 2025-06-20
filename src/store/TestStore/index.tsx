@@ -23,28 +23,15 @@ class TestStore {
   packageTestsLoaded: boolean = false;
 
   constructor(rootStore: RootStore) {
-    // Mark rootStore as non-observable to avoid SSR issues
     makeAutoObservable(this, {
       rootStore: false
     });
 
     this.rootStore = rootStore;
-
-    // Only auto-fetch on client side to avoid SSR issues
-    if (typeof window !== 'undefined') {
-      this.fetchInitialData();
-    }
   }
 
-  fetchInitialData() {
-    this.fetchSingleTests();
-    this.fetchPackageTests();
-  }
-
-  // Fetch single tests
   async fetchSingleTests() {
-    // Skip if already loading or if loaded and not forced
-    if (this.isLoadingSingleTests) return;
+    // if (this.isLoadingSingleTests) return;
 
     this.isLoadingSingleTests = true;
     this.singleTestsError = null;
@@ -71,8 +58,7 @@ class TestStore {
 
   // Fetch package tests
   async fetchPackageTests() {
-    // Skip if already loading or if loaded and not forced
-    if (this.isLoadingPackageTests) return;
+    // if (this.isLoadingPackageTests) return;
 
     this.isLoadingPackageTests = true;
     this.packageTestsError = null;
@@ -97,18 +83,14 @@ class TestStore {
     }
   }
 
-  // Get a single test by ID
   getSingleTestById(id: string | number): SingleTest | undefined {
-    // Auto-fetch if data isn't loaded yet
     if (!this.singleTestsLoaded && !this.isLoadingSingleTests) {
       this.fetchSingleTests();
     }
     return this.singleTests.find((test) => test.id === id);
   }
 
-  // Get a package test by ID
   getPackageTestById(id: string | number): PackageTest | undefined {
-    // Auto-fetch if data isn't loaded yet
     if (!this.packageTestsLoaded && !this.isLoadingPackageTests) {
       this.fetchPackageTests();
     }
