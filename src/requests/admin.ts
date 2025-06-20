@@ -16,6 +16,8 @@ export interface IPostAddPackageTest {
   description: string;
   requirements: Array<string>;
   testIds: Array<string>;
+  price?: number;
+  discountedPrice?: number;
 }
 
 // get
