@@ -29,7 +29,7 @@ class TestStore {
   }
 
   async fetchSingleTests() {
-    // if (this.isLoadingSingleTests) return;
+    if (this.isLoadingSingleTests) return;
 
     this.isLoadingSingleTests = true;
     this.singleTestsError = null;
@@ -56,7 +56,7 @@ class TestStore {
 
   // Fetch package tests
   async fetchPackageTests() {
-    // if (this.isLoadingPackageTests) return;
+    if (this.isLoadingPackageTests) return;
 
     this.isLoadingPackageTests = true;
     this.packageTestsError = null;
