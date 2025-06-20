@@ -79,6 +79,8 @@ const AdminPackageTest = () => {
       form.reset({
         name: data.name || '',
         description: data.description || '',
+        price: data.price?.toString() || '',
+        discountedPrice: data.discountedPrice?.toString() || '',
         requirements: data.requirements?.join(', ') || '',
         testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? []
       });
@@ -86,6 +88,8 @@ const AdminPackageTest = () => {
       form.reset({
         name: '',
         description: '',
+        price: '',
+        discountedPrice: '',
         requirements: '',
         testIds: []
       });
