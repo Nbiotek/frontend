@@ -5,7 +5,7 @@ import Button from '@/atoms/Buttons';
 import InputSearch from '@/atoms/fields/InputSearch';
 import Image from 'next/image';
 import { defaultMenuConfig } from '@/config/menuItems';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import Link from 'next/link';
 import { CartIcon } from '@/lib/utils/svg';
@@ -16,6 +16,7 @@ import { Menu, X } from 'lucide-react';
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState<string | null>(null);
 
   const {
     CartStore: { itemCount }
@@ -23,18 +24,21 @@ const Header = () => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentTab = searchParams.get('tab');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setCurrentTab(params.get('tab'));
+    }
+  }, [pathname]);
 
   const isActive = (url: string) => {
-    // Extract the base path and query params
     const [path, query] = url.split('?');
 
     if (!query) {
       return pathname === path;
     }
 
-    // For lab-test routes with tab parameters
     if (path === '/lab-test' && pathname === '/lab-test') {
       const tabParam = new URLSearchParams(query).get('tab');
       return tabParam === currentTab;
@@ -58,10 +62,9 @@ const Header = () => {
     };
   }, [scrolled]);
 
-  // Close mobile menu when changing routes
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <>
