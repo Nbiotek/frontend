@@ -46,9 +46,6 @@ const ModalsMap = {
   [AppModals.ADMIN_SUSPEND_USER]: dynamic(
     () => import('@/app/(modules)/admin/user-management/components/modal/SuspendModal')
   ),
-  [AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY]: dynamic(
-    () => import('@/app/(modules)/admin/content-management/components/modals/ToggleTestModal')
-  )
   [AppModals.ADMIN_UNSUSPEND_USER]: dynamic(
     () => import('@/app/(modules)/admin/user-management/components/modal/UnsuspendModal')
   ),

@@ -107,10 +107,6 @@ const ResultUploadModal = () => {
     }
   };
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'data'
-  });
   return (
     <XModal
       closeModal={() => toggleModals({ name: AppModals.RESULT_UPLOAD_MODAL, open: false })}
@@ -121,7 +117,6 @@ const ResultUploadModal = () => {
     >
       <div className="flex w-full flex-col space-y-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-1">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full flex-col space-y-1 overflow-x-scroll"
@@ -309,20 +304,21 @@ const ResultUploadModal = () => {
         </Form>
 
         <div className="flex w-full flex-col space-y-3">
-        <div className="flex w-full flex-col space-y-3 overflow-x-clip">
-          {status === 'success' && (
-            <Collapsible className="w-full">
-              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-                <div className="flex w-full items-center justify-between">
-                  <Paragraph className="text-lg !font-medium" text="Test" />
-                  <ChevronsDown />
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <TestDetailsInfo data={data} />
-              </CollapsibleContent>
-            </Collapsible>
-          )}
+          <div className="flex w-full flex-col space-y-3 overflow-x-clip">
+            {status === 'success' && (
+              <Collapsible className="w-full">
+                <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                  <div className="flex w-full items-center justify-between">
+                    <Paragraph className="text-lg !font-medium" text="Test" />
+                    <ChevronsDown />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <TestDetailsInfo data={data} />
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+          </div>
         </div>
       </div>
     </XModal>

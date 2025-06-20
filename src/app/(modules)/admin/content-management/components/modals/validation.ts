@@ -48,18 +48,6 @@ export const AdminSingleTestSchema = z
     }
   });
 
-export const AdminPackageTestSchema = z.object({
-  name: z
-    .string({ required_error: 'Test name is required.' })
-    .trim()
-    .min(2, { message: 'Test name is required.' }),
-  description: z
-    .string({ required_error: 'Test description is required.' })
-    .trim()
-    .min(2, { message: 'Test description is required.' }),
-  requirements: z.string().trim().optional(),
-  testIds: z.array(optionSchema, { required_error: 'Tests is required' })
-});
 export const AdminPackageTestSchema = z
   .object({
     name: z

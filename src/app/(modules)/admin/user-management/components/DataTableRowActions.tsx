@@ -8,12 +8,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { User } from './data/schema';
-import { Edit, EllipsisVerticalIcon, ShieldBan, TrashIcon } from 'lucide-react';
-import { useStore } from '@/store';
-import { AppModals } from '@/store/AppConfig/appModalTypes';
-import { observer } from 'mobx-react-lite';
-import { Edit, EllipsisVerticalIcon, ShieldBan, ShieldCheck, TrashIcon } from 'lucide-react';
+import { EllipsisVerticalIcon, ShieldBan, ShieldCheck, TrashIcon } from 'lucide-react';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { observer } from 'mobx-react-lite';

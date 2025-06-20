@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, makeObservable, runInAction } from 'mobx';
 import { TestService } from '@/requests/test';
 import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 import { RootStore } from '..';
@@ -23,9 +23,7 @@ class TestStore {
   packageTestsLoaded: boolean = false;
 
   constructor(rootStore: RootStore) {
-    makeAutoObservable(this, {
-      rootStore: false
-    });
+    makeObservable(this, {});
 
     this.rootStore = rootStore;
   }
