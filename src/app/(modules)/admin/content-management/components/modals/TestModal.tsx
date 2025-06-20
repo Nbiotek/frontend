@@ -210,6 +210,8 @@ const AdminTestModal = () => {
                       label="Category"
                       placeholder="Select a category"
                       items={testCategory}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                       {...field}
                     />
                   </div>

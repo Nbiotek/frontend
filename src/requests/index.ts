@@ -29,15 +29,23 @@ const resourceReqInterceptor = (config: InternalAxiosRequestConfig) => {
 const resourceResInterceptor = (response: AxiosResponse) => response;
 
 const resourceResErrorInterceptor = (error: AxiosError) => {
+  const status = error.response?.status;
+
   if (
     !ISSERVER &&
     !NO_REDIRECT_ROUTES.some((p) => window.location.pathname.includes(p)) &&
-    error.response?.status === EXIT_HTTP_CODE
+    status === EXIT_HTTP_CODE
   ) {
     localStorage.setItem('fromPath', window.location.pathname);
     Stores.AuthStore.logout();
     return Promise.reject(new Error('Unauthorized'));
   }
+
+  if (status && status >= 200 && status < 300) {
+    console.warn('Response intercepted as error but has 2xx status:', error.response);
+    return Promise.resolve(error.response);
+  }
+
   return Promise.reject(error);
 };
 

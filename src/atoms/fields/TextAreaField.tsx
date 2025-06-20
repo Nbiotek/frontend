@@ -21,6 +21,10 @@ const TextareaField = forwardRef<HTMLTextAreaElement, ITextareaFieldProps>(
     return (
       <FormItem className="w-full">
         <FormLabel>{label}</FormLabel>
+        <FormLabel>
+          {label}
+          {props.required && label != '' && <span className="text-red-300">*</span>}
+        </FormLabel>
         <FormControl className="w-full">
           <Textarea className=" bg-neutral-50" {...{ ref }} {...props} />
         </FormControl>
