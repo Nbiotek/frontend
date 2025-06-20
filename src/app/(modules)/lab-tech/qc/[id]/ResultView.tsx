@@ -1,11 +1,14 @@
 'use client';
 import Button from '@/atoms/Buttons';
 import { Paragraph } from '@/atoms/typographys';
-import { ChevronLeft, DownloadIcon } from 'lucide-react';
+import { ChevronLeft, DownloadIcon, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 import { useFetchTestResultByID } from '@/hooks/labCoord/useFetchTestResByID';
 import Link from 'next/link';
+import { EnumResultStatus } from '@/atoms/Buttons/Status';
+import { useStore } from '@/store';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 
 interface ITestDetailModalProps {
   id: string;
@@ -13,7 +16,9 @@ interface ITestDetailModalProps {
 
 export default function ResultView({ id }: ITestDetailModalProps) {
   const router = useRouter();
-
+  const {
+    AppConfigStore: { toggleModals }
+  } = useStore();
   const { data, status } = useFetchTestResultByID(id);
 
   return (
@@ -38,6 +43,21 @@ export default function ResultView({ id }: ITestDetailModalProps) {
           <TestDetailsInfo data={data} />
 
           <div className="flex w-full items-center justify-start space-x-3">
+            {data?.qcStatus && data.qcStatus === EnumResultStatus.FAILED && (
+              <Button
+                className="w-32"
+                variant="light"
+                leftIcon={<Upload />}
+                text="Upload Result"
+                onClick={() =>
+                  toggleModals({
+                    open: true,
+                    name: AppModals.RESULT_UPLOAD_MODAL,
+                    testId: data.id
+                  })
+                }
+              />
+            )}
             {data?.resultLink && data.resultLink && (
               <Link href={data.resultLink} target="_blank">
                 <Button

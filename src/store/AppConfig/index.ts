@@ -45,6 +45,10 @@ class AppConfigStore {
     type: ''
   };
 
+  fileModalUpload = {
+    handlerFn: (files: File[]) => {}
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -56,6 +60,7 @@ class AppConfigStore {
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
+      fileModalUpload: observable,
 
       setModalOpenState: action.bound,
       toggleModals: action.bound
@@ -144,12 +149,26 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.ADMIN_UNSUSPEND_USER:
+        if (modal.open) {
+          this.data = {
+            id: modal.id
+          };
+        }
+        break;
       case AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY:
         if (modal.open) {
           this.testAvailability = {
             id: modal.id,
             status: modal.status,
             type: modal.type
+          };
+        }
+        break;
+      case AppModals.FILE_UPLOAD_MODAL:
+        if (modal.open) {
+          this.fileModalUpload = {
+            handlerFn: modal.handlerFn
           };
         }
         break;
