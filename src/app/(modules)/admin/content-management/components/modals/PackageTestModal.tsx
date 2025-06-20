@@ -17,6 +17,7 @@ import { Option } from '@/components/ui/multi-select';
 import { useFetchInfiniteSingleTest } from '@/hooks/admin/useFetchSingleTest';
 import { useInView } from '@/hooks/useInView';
 import { useFetchPackageTestId } from '@/hooks/admin/useFetchPackageTestId';
+import InputNumberField from '@/atoms/fields/NumberInput';
 
 const AdminPackageTest = () => {
   const {
@@ -78,6 +79,8 @@ const AdminPackageTest = () => {
       form.reset({
         name: data.name || '',
         description: data.description || '',
+        price: data.price?.toString() || '',
+        discountedPrice: data.discountedPrice?.toString() || '',
         requirements: data.requirements?.join(', ') || '',
         testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? []
       });
@@ -85,6 +88,8 @@ const AdminPackageTest = () => {
       form.reset({
         name: '',
         description: '',
+        price: '',
+        discountedPrice: '',
         requirements: '',
         testIds: []
       });
@@ -166,6 +171,7 @@ const AdminPackageTest = () => {
                 name="testIds"
                 render={({ field }) => (
                   <InputMultiSelect
+                    required
                     {...field}
                     label={'Add Tests'}
                     isLoading={true}
@@ -204,6 +210,39 @@ const AdminPackageTest = () => {
                       label="Requirements"
                       placeholder="Requirement 1, requirement 2, ....."
                       description="separate requirements with ','"
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <div>
+                    <InputNumberField
+                      label="Price"
+                      thousandSeparator=","
+                      decimalSeparator="."
+                      prefix="₦"
+                      placeholder="₦10,000.00"
+                      {...field}
+                    />
+                  </div>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="discountedPrice"
+                render={({ field }) => (
+                  <div>
+                    <InputNumberField
+                      label="Discounted Price"
+                      thousandSeparator=","
+                      decimalSeparator="."
+                      prefix="₦"
+                      placeholder="₦10,000.00"
                       {...field}
                     />
                   </div>

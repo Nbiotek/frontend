@@ -49,6 +49,13 @@ const ModalsMap = {
   [AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY]: dynamic(
     () => import('@/app/(modules)/admin/content-management/components/modals/ToggleTestModal')
   )
+  [AppModals.ADMIN_UNSUSPEND_USER]: dynamic(
+    () => import('@/app/(modules)/admin/user-management/components/modal/UnsuspendModal')
+  ),
+  [AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/components/modals/ToggleTestModal')
+  ),
+  [AppModals.FILE_UPLOAD_MODAL]: dynamic(() => import('@/atoms/modal/FileUploadModal'))
 };
 
 const ModalsBank = () => {

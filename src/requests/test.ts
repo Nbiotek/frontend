@@ -17,7 +17,5 @@ export const TestService = {
 };
 
 // post requests
-export const postUploadResult = async (testRequestId: string, result: TTestResultsTypeSchema) =>
-  server.post(TEST.UPLOAD_RESULT.replaceAll(':id', testRequestId), {
-    data: result.data
-  });
+export const postUploadResult = async (testRequestId: string, payload: TTestResultsTypeSchema) =>
+  server.post(TEST.UPLOAD_RESULT.replaceAll(':id', testRequestId), payload);

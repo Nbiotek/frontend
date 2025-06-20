@@ -167,6 +167,14 @@ class AdminStore {
         testIds: _payload.testIds.map((test) => test.value)
       };
 
+      if (_payload?.price) {
+        payload.price = parseInt(_payload.price.replace(/[^0-9]/g, ''));
+      }
+
+      if (_payload.discountedPrice) {
+        payload.discountedPrice = parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''));
+      }
+
       yield postAddPackageTest(payload);
       cb?.();
     } catch (error) {

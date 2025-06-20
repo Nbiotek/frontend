@@ -13,6 +13,12 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { Form, FormField } from '@/components/ui/form';
+import InputField from '@/atoms/fields/NewInput';
+import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
+import { Mail, PhoneCall } from 'lucide-react';
+import { FaEnvelope, FaInbox, FaPhone } from 'react-icons/fa6';
+import { useState } from 'react';
 
 function LoginView() {
   const router = useRouter();
@@ -20,12 +26,9 @@ function LoginView() {
     AuthStore: { login, isLoading }
   } = useStore();
   const queryClient = useQueryClient();
+  const [loginMethod, setLoginMethod] = useState('');
 
-  const {
-    formState: { errors },
-    register,
-    handleSubmit
-  } = useForm<TLogin>({
+  const form = useForm<TLogin>({
     mode: 'onSubmit',
     resolver: zodResolver(LoginValidationSchema),
     reValidateMode: 'onSubmit'
@@ -85,20 +88,106 @@ function LoginView() {
             type="submit"
             variant="filled"
             isLoading={isLoading.login}
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <fieldset
             disabled={isLoading.login}
+            className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
           >
-            Continue
-          </Button>
-          <div className="flex flex-col items-center justify-center">
-            <HyperLink
-              className="my-2 !w-full justify-end"
-              info="Don't have an account ?"
-              hrefText="Register"
-              href={ROUTES.REGISTER.path}
-            />
-          </div>
-        </fieldset>
-      </form>
+            <div className="flex flex-col space-y-2">
+              {loginMethod !== 'mail' && (
+                <Button
+                  className="font-medium"
+                  type="button"
+                  variant="outlined"
+                  leftIcon={<FaEnvelope className="text-blue-400" />}
+                  onClick={() => setLoginMethod('mail')}
+                  text="Continue with Email"
+                />
+              )}
+
+              {loginMethod !== 'phone' && (
+                <Button
+                  className="font-medium"
+                  type="button"
+                  variant="outlined"
+                  leftIcon={<FaPhone className="text-blue-400" />}
+                  onClick={() => setLoginMethod('phone')}
+                  text="Continue with Phone number"
+                />
+              )}
+            </div>
+
+            <div className="">
+              {loginMethod === 'mail' && (
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <div>
+                      <InputField
+                        type="email"
+                        label="Email Address"
+                        placeholder="adeolu@gmail.com"
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              )}
+
+              {loginMethod === 'phone' && (
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <div>
+                      <InputNumPatternField
+                        label="Phone Number"
+                        format="(+234) ### #### ###"
+                        allowEmptyFormatting
+                        mask=" "
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
+              )}
+              {loginMethod !== '' && (
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <div>
+                      <InputField type="password" label="Password" {...field} />
+                    </div>
+                  )}
+                />
+              )}
+            </div>
+
+            {loginMethod !== '' && (
+              <Button
+                type="submit"
+                variant="filled"
+                isLoading={isLoading.login}
+                disabled={isLoading.login}
+              >
+                Continue
+              </Button>
+            )}
+            <div className="flex flex-col items-center justify-center">
+              <HyperLink
+                className="my-2 !w-full justify-end"
+                info="Don't have an account ?"
+                hrefText="Register"
+                href={ROUTES.REGISTER.path}
+              />
+            </div>
+          </fieldset>
+        </form>
+      </Form>
     </Card>
   );
 }
