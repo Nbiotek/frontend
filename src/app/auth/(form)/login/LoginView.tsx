@@ -1,6 +1,9 @@
 'use client';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
+// import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
+// import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
+import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';

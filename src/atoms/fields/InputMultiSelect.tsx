@@ -15,6 +15,7 @@ const InputMultiSelect = forwardRef<MultipleSelectorRef, IInputMultiSelectProps>
   ({ label, ...props }, ref) => {
     return (
       <FormItem className="w-full">
+        <FormLabel>{label}</FormLabel>
         <FormLabel>
           {label}
           {props.required && label != '' && <span className="text-red-300">*</span>}
