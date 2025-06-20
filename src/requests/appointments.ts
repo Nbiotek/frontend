@@ -10,18 +10,14 @@ export interface AppointmentFilterParams {
 }
 
 export const AppointmentService = {
-  // Get all upcoming appointments
   getUpcomingAppointments: async (params?: AppointmentFilterParams) => {
-    // Get the base URL
     const baseUrl = PATIENT.APPOINTMENTS.UPCOMING;
 
-    // If no params are provided, use the default sortOrder=DESC
     if (!params || Object.keys(params).length === 0) {
       const defaultUrl = `${baseUrl}?sortOrder=DESC`;
       const { data } = await server.get<UpcomingAppointment>(defaultUrl);
       return data;
     } else {
-      // Build query string from params
       const queryParams = new URLSearchParams();
 
       if (params.search) queryParams.append('search', params.search);
@@ -29,10 +25,8 @@ export const AppointmentService = {
       if (params.toDate) queryParams.append('toDate', params.toDate);
       if (params.sortBy) queryParams.append('sortBy', params.sortBy);
 
-      // Always include sortOrder, default to DESC if not provided
       queryParams.append('sortOrder', params.sortOrder || 'DESC');
 
-      // Append the query string to the URL
       const url = `${baseUrl}?${queryParams.toString()}`;
       const { data } = await server.get<UpcomingAppointment>(url);
       return data;
@@ -47,7 +41,6 @@ export const AppointmentService = {
       const { data } = await server.get<PendingAppointment>(defaultUrl);
       return data;
     } else {
-      // Build query string from params
       const queryParams = new URLSearchParams();
 
       if (params.search) queryParams.append('search', params.search);
@@ -55,10 +48,8 @@ export const AppointmentService = {
       if (params.toDate) queryParams.append('toDate', params.toDate);
       if (params.sortBy) queryParams.append('sortBy', params.sortBy);
 
-      // Always include sortOrder, default to DESC if not provided
       queryParams.append('sortOrder', params.sortOrder || 'DESC');
 
-      // Append the query string to the URL
       const url = `${baseUrl}?${queryParams.toString()}`;
       const { data } = await server.get<PendingAppointment>(url);
       return data;
@@ -82,10 +73,8 @@ export const AppointmentService = {
       if (params.toDate) queryParams.append('toDate', params.toDate);
       if (params.sortBy) queryParams.append('sortBy', params.sortBy);
 
-      // Always include sortOrder, default to DESC if not provided
       queryParams.append('sortOrder', params.sortOrder || 'DESC');
 
-      // Append the query string to the URL
       const url = `${baseUrl}?${queryParams.toString()}`;
       const { data } = await server.get<PastAppointment>(url);
       return data;
