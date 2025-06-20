@@ -132,6 +132,11 @@ export default {
       }
     },
     extend: {
+      aspectRatio: {
+        portrait: '4 / 5',
+        landscape: '1.91 / 1',
+        vertical: '9 / 16'
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

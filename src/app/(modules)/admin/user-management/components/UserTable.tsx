@@ -23,7 +23,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { User } from './data/schema';
 import { DataTableToolbar } from './DataTableToolbar';
 import TableLoader from '@/atoms/Loaders/TableLoader';
 import { useStore } from '@/store';

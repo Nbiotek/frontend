@@ -79,3 +79,17 @@ export function getInitials(word: string) {
   const charArr = word.split(' ').map((w) => w.charAt(0));
   return charArr.join('');
 }
+
+export function fmtNumber(num: number) {
+  return new Intl.NumberFormat().format(num);
+}
+
+export function fileSizeConverter(size: number) {
+  if (size < 1024) {
+    return `${fmtNumber(size)} bytes`;
+  } else if (size < 1024 * 1024) {
+    return `${fmtNumber(parseInt((size / 1024).toFixed(0)))}KB`;
+  } else if (size < 1024 * 1024 * 1024) {
+    return `${fmtNumber(parseInt((size / (1024 * 1024)).toFixed(0)))}MB`;
+  }
+}

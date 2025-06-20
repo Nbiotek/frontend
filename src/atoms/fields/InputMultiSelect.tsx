@@ -8,13 +8,17 @@ import { forwardRef } from 'react';
 interface IInputMultiSelectProps extends MultipleSelectorProps {
   label: string;
   isLoading: boolean;
+  required?: boolean;
 }
 
 const InputMultiSelect = forwardRef<MultipleSelectorRef, IInputMultiSelectProps>(
   ({ label, ...props }, ref) => {
     return (
       <FormItem className="w-full">
-        <FormLabel>{label}</FormLabel>
+        <FormLabel>
+          {label}
+          {props.required && label != '' && <span className="text-red-300">*</span>}
+        </FormLabel>
         <FormControl className="w-full">
           <MultipleSelector
             {...{ ref }}
