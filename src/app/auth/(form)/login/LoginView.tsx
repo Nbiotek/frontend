@@ -3,7 +3,6 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
 // import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
 // import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
-import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,8 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
-import { Mail, PhoneCall } from 'lucide-react';
-import { FaEnvelope, FaInbox, FaPhone } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone } from 'react-icons/fa6';
 import { useState } from 'react';
 
 function LoginView() {

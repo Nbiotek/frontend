@@ -43,5 +43,21 @@ export const superAdmin = {
       path: SUPER_ADMIN.SINGLE_PACKAGE_TEST.replace(':id', id),
       keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_PACKAGE_TEST, id] as const
     };
+  },
+
+  getTestResultChart(query: TChartQuery) {
+    return {
+      path: SUPER_ADMIN.RESULT_CHART,
+      keys: () => [SUPER_ADMIN.RESULT_CHART, query],
+      params: query
+    };
+  },
+
+  getPaymentChart(query: TChartQuery) {
+    return {
+      path: SUPER_ADMIN.PAYMENT_CHART,
+      keys: () => [SUPER_ADMIN.PAYMENT_CHART, query],
+      params: query
+    };
   }
 };

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams, useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useVerifyPayment } from '@/hooks/patient/useAppoitment';
 import { Toast } from '@/atoms/Toast';
 
@@ -10,8 +10,6 @@ type Params = {
 
 export default function PaymentResultPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const status = searchParams.get('status');
   const [progress, setProgress] = useState(0);
   const [navigationPath, setNavigationPath] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);

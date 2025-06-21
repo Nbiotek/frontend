@@ -227,6 +227,25 @@ const ResultUploadModal = () => {
               </div>
 
               <div className="flex items-center justify-between space-x-2">
+                <Button
+                  disabled={isPending}
+                  type="button"
+                  className="!h-[35px] !w-auto !text-xs"
+                  variant="light"
+                  text="Add Parameter"
+                  leftIcon={<Plus />}
+                  onClick={() =>
+                    append({ parameter: '', result: '', range: '', unit: '', reference: '' })
+                  }
+                />
+                <Button
+                  className="!h-[35px] !w-auto !text-xs"
+                  variant="filled"
+                  text="Submit Result"
+                  type="submit"
+                  disabled={isPending}
+                  isLoading={isPending}
+                />
                 <div className="mt-4 w-fit">
                   <Button
                     variant="filled"
@@ -284,20 +303,22 @@ const ResultUploadModal = () => {
           </form>
         </Form>
 
-        <div className="flex w-full flex-col space-y-3 overflow-x-clip">
-          {status === 'success' && (
-            <Collapsible className="w-full">
-              <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
-                <div className="flex w-full items-center justify-between">
-                  <Paragraph className="text-lg !font-medium" text="Test" />
-                  <ChevronsDown />
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <TestDetailsInfo data={data} />
-              </CollapsibleContent>
-            </Collapsible>
-          )}
+        <div className="flex w-full flex-col space-y-3">
+          <div className="flex w-full flex-col space-y-3 overflow-x-clip">
+            {status === 'success' && (
+              <Collapsible className="w-full">
+                <CollapsibleTrigger className="w-full bg-neutral-50 p-2">
+                  <div className="flex w-full items-center justify-between">
+                    <Paragraph className="text-lg !font-medium" text="Test" />
+                    <ChevronsDown />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <TestDetailsInfo data={data} />
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+          </div>
         </div>
       </div>
     </XModal>

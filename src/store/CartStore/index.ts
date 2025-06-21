@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, makeObservable, runInAction } from 'mobx';
 import { SingleTest, PackageTest } from '@/types/test';
 import { RootStore } from '..';
 import { Toast } from '@/atoms/Toast';
@@ -18,7 +18,7 @@ class CartStore {
   isLoading: boolean = false;
 
   constructor(rootStore: RootStore) {
-    makeAutoObservable(this);
+    makeObservable(this, {});
 
     this.rootStore = rootStore;
     // Load cart from local storage on initialization

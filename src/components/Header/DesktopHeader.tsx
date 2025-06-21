@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Button from '@/atoms/Buttons';
 import InputSearch from '@/atoms/fields/InputSearch';
 import Image from 'next/image';
 import { defaultMenuConfig } from '@/config/menuItems';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import Link from 'next/link';
 import { CartIcon } from '@/lib/utils/svg';
@@ -16,6 +16,7 @@ import { Menu, X } from 'lucide-react';
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState<string | null>(null);
 
   const {
     CartStore: { itemCount }
@@ -23,20 +24,54 @@ const Header = () => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentTab = searchParams.get('tab');
+
+  const updateCurrentTab = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const newTab = params.get('tab');
+      setCurrentTab(newTab);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateCurrentTab();
+
+    window.addEventListener('popstate', updateCurrentTab);
+
+    return () => {
+      window.removeEventListener('popstate', updateCurrentTab);
+    };
+  }, [updateCurrentTab]);
+
+  useEffect(() => {
+    updateCurrentTab();
+  }, [pathname, updateCurrentTab]);
+
+  const handleNavigation = (url: string) => {
+    const [path, query] = url.split('?');
+
+    if (query) {
+      const params = new URLSearchParams(query);
+      const tabParam = params.get('tab');
+
+      setCurrentTab(tabParam);
+    } else {
+      setCurrentTab(null);
+    }
+
+    router.push(url);
+  };
 
   const isActive = (url: string) => {
-    // Extract the base path and query params
     const [path, query] = url.split('?');
 
     if (!query) {
       return pathname === path;
     }
 
-    // For lab-test routes with tab parameters
     if (path === '/lab-test' && pathname === '/lab-test') {
-      const tabParam = new URLSearchParams(query).get('tab');
+      const urlParams = new URLSearchParams(query);
+      const tabParam = urlParams.get('tab');
       return tabParam === currentTab;
     }
 
@@ -58,10 +93,9 @@ const Header = () => {
     };
   }, [scrolled]);
 
-  // Close mobile menu when changing routes
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <>
@@ -160,17 +194,17 @@ const Header = () => {
         {/* Desktop navigation */}
         <div className="mx-auto hidden max-w-7xl items-center justify-between px-4 py-3 sm:flex md:px-6">
           {defaultMenuConfig.map((item, index) => (
-            <Link
+            <button
               key={index}
-              href={item.url}
               className={`hover:text-blue-500 p-2 text-sm transition-colors md:text-base ${
                 isActive(item.url)
                   ? 'text-blue-600 font-semibold underline underline-offset-4'
                   : 'text-[#004AAD]/90'
               }`}
+              onClick={() => handleNavigation(item.url)}
             >
               {item.title}
-            </Link>
+            </button>
           ))}
         </div>
 
@@ -193,15 +227,18 @@ const Header = () => {
 
           <div className="mt-4 flex flex-col px-4">
             {defaultMenuConfig.map((item, index) => (
-              <Link
+              <button
                 key={index}
-                href={item.url}
-                className={`border-gray-100 border-b py-4 text-base ${
+                className={`border-gray-100 border-b py-4 text-left text-base ${
                   isActive(item.url) ? 'text-blue-600 font-semibold' : 'text-gray-800'
                 }`}
+                onClick={() => {
+                  handleNavigation(item.url);
+                  setMobileMenuOpen(false);
+                }}
               >
                 {item.title}
-              </Link>
+              </button>
             ))}
           </div>
         </div>

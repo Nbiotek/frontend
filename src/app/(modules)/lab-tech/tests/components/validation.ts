@@ -1,3 +1,4 @@
+import { MimeTypes } from '@/constants/mime';
 import { z } from 'zod';
 import {
   IMAGE_FILE_TYPES,

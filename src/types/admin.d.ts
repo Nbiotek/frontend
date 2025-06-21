@@ -50,3 +50,14 @@ type TAdminTestItemBase = {
 type TAdminTestItem = TAdminTestItemBase & {
   tests?: Array<TAdminTestItemBase>;
 };
+
+type TChartQuery = {
+  period: string;
+};
+
+type TAdminChartRes = {
+  data: Array<{
+    date: string;
+    total: number;
+  }>;
+};

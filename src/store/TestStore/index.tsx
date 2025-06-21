@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, makeObservable, runInAction } from 'mobx';
 import { TestService } from '@/requests/test';
 import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 import { RootStore } from '..';
@@ -23,15 +23,13 @@ class TestStore {
   packageTestsLoaded: boolean = false;
 
   constructor(rootStore: RootStore) {
-    makeAutoObservable(this, {
-      rootStore: false
-    });
+    makeObservable(this, {});
 
     this.rootStore = rootStore;
   }
 
   async fetchSingleTests() {
-    // if (this.isLoadingSingleTests) return;
+    if (this.isLoadingSingleTests) return;
 
     this.isLoadingSingleTests = true;
     this.singleTestsError = null;
@@ -58,7 +56,7 @@ class TestStore {
 
   // Fetch package tests
   async fetchPackageTests() {
-    // if (this.isLoadingPackageTests) return;
+    if (this.isLoadingPackageTests) return;
 
     this.isLoadingPackageTests = true;
     this.packageTestsError = null;

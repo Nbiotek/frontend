@@ -60,6 +60,7 @@ class AppConfigStore {
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
+
       fileModalUpload: observable,
 
       setModalOpenState: action.bound,
@@ -149,6 +150,7 @@ class AppConfigStore {
           };
         }
         break;
+
       case AppModals.ADMIN_UNSUSPEND_USER:
         if (modal.open) {
           this.data = {
@@ -156,6 +158,7 @@ class AppConfigStore {
           };
         }
         break;
+
       case AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY:
         if (modal.open) {
           this.testAvailability = {
@@ -165,6 +168,7 @@ class AppConfigStore {
           };
         }
         break;
+
       case AppModals.FILE_UPLOAD_MODAL:
         if (modal.open) {
           this.fileModalUpload = {
@@ -172,6 +176,7 @@ class AppConfigStore {
           };
         }
         break;
+
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;
