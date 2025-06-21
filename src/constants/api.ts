@@ -143,7 +143,9 @@ export const SUPER_ADMIN = {
   TOGGLE_TEST_AVAILABILITY: '/tests/toggle-status/:id',
   UPDATE_SINGLE_TEST: '/tests/update/:id',
   UPDATE_PACKAGE_TEST: '/admin/package-tests/:id',
-  TOGGLE_PACKAGE_TEST: 'admin/package-tests/:id/toggle-status'
+  TOGGLE_PACKAGE_TEST: '/admin/package-tests/:id/toggle-status',
+  RESULT_CHART: '/super-admin/test-results/stats',
+  PAYMENT_CHART: '/super-admin/payments/stats'
 };
 
 export const UPLOADS = {
