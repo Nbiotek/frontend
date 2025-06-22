@@ -223,7 +223,7 @@ const UploadSampleView = () => {
       </div>
       <PatientInfoSection fieldVisitData={fieldVisitData} />
 
-      <TestDetailsSection fieldVisitData={fieldVisitData} />
+      {/* <TestDetailsSection fieldVisitData={fieldVisitData} /> */}
 
       <div className="bg-white p-6">
         <Text variant="title" weight="semibold" className="mb-6 border-b pb-2">

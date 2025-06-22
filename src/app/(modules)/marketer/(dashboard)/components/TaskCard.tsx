@@ -5,6 +5,8 @@ import Status from '@/atoms/Buttons/Status';
 import { dateTimeUTC } from '@/utils/date';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
+import { useUpdateFieldVisit } from '@/hooks/marketer/useFieldTask';
+import { Toast } from '@/atoms/Toast';
 
 export interface TaskCardComponentProps {
   task: Array<TFieldTestRequest>;
@@ -13,6 +15,19 @@ export interface TaskCardComponentProps {
 
 const TaskCard = ({ task, loading }: TaskCardComponentProps) => {
   const router = useRouter();
+  const { mutate: startFieldVisit, isPending } = useUpdateFieldVisit();
+
+  const handleStartFieldVisit = (fieldVisitId: string) => {
+    startFieldVisit(
+      { fieldVisitId, status: 'IN_PROGRESS' },
+      {
+        onSuccess: () => {
+          Toast.success('Field visit started successfully');
+          router.push(ROUTES.MARKETER_FIELD_VISIT.path);
+        }
+      }
+    );
+  };
 
   const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
 
@@ -62,7 +77,10 @@ const TaskCard = ({ task, loading }: TaskCardComponentProps) => {
             {activeCardIndex === idx &&
               (taskItem.status === 'PENDING' ? (
                 <>
-                  <button className="text-sm font-semibold text-red-500 hover:underline">
+                  <button
+                    className="text-sm font-semibold text-red-500 hover:underline"
+                    onClick={() => handleStartFieldVisit(taskItem.id)}
+                  >
                     Start Task
                   </button>
                 </>
