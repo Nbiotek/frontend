@@ -1,0 +1,21 @@
+type TProfileSettings = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  contactAddress: string;
+  maritalStatus: string;
+  gender: string;
+  dateOfBirth: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  isProfileCompleted: boolean;
+  role: string;
+  recoveryEmail: settings;
+  recoveryPhone: settings;
+  appearance: string;
+  language: string;
+  twoFactorEnabled: boolean;
+  profilePhoto: string;
+};

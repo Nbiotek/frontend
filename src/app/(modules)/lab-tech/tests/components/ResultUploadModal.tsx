@@ -227,25 +227,6 @@ const ResultUploadModal = () => {
               </div>
 
               <div className="flex items-center justify-between space-x-2">
-                <Button
-                  disabled={isPending}
-                  type="button"
-                  className="!h-[35px] !w-auto !text-xs"
-                  variant="light"
-                  text="Add Parameter"
-                  leftIcon={<Plus />}
-                  onClick={() =>
-                    append({ parameter: '', result: '', range: '', unit: '', reference: '' })
-                  }
-                />
-                <Button
-                  className="!h-[35px] !w-auto !text-xs"
-                  variant="filled"
-                  text="Submit Result"
-                  type="submit"
-                  disabled={isPending}
-                  isLoading={isPending}
-                />
                 <div className="mt-4 w-fit">
                   <Button
                     variant="filled"
