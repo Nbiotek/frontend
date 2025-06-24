@@ -1,4 +1,5 @@
 'use client';
+import { useMemo } from 'react';
 import { XModal } from '@/atoms/modal';
 import { Paragraph } from '@/atoms/typographys';
 import { useStore } from '@/store';
@@ -13,8 +14,13 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { testResultsSchema, TRemoteFile, TTestResultsTypeSchema } from './validation';
+import { SubmitHandler, useFieldArray, useForm, useWatch } from 'react-hook-form';
+import {
+  fileObjectSchema,
+  testResultsSchema,
+  TRemoteFile,
+  TTestResultsTypeSchema
+} from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/atoms/Buttons';
 import { ChevronsDown, Plus, Trash, Upload } from 'lucide-react';
@@ -30,7 +36,6 @@ import { Form, FormField } from '@/components/ui/form';
 import InputSelect from '@/atoms/fields/NewInputSelect';
 import { testResultStatus } from '@/constants/data';
 import FilePreview from '@/components/common/FileUpload/FilePreview';
-import { toJS } from 'mobx';
 
 const ResultUploadModal = () => {
   const {
@@ -80,6 +85,7 @@ const ResultUploadModal = () => {
     control: form.control,
     name: 'media'
   });
+  const media = useWatch({ control: form.control, name: 'media' });
 
   const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
     mediaUpdate(index, { file: remoteFile });
@@ -106,6 +112,14 @@ const ResultUploadModal = () => {
       mutate({ testRequestId: testDetails.testId, result: formData });
     }
   };
+
+  const disableSubmit = (() => {
+    if (media && media.length > 0) {
+      const hasUnprocessedFiles = media.some((el) => el.file instanceof File);
+      return hasUnprocessedFiles;
+    }
+    return true;
+  })();
 
   return (
     <XModal
@@ -261,7 +275,7 @@ const ResultUploadModal = () => {
                     variant="filled"
                     text="Submit Result"
                     type="submit"
-                    disabled={mediaFields.length === 0 || isPending}
+                    disabled={disableSubmit || isPending}
                     isLoading={isPending}
                   />
                 </div>
