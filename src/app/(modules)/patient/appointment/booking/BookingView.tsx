@@ -18,7 +18,6 @@ import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 import BookingForSelfModal from './components/BookingSelfDialog';
-import InputDate from '@/atoms/fields/InputDate';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 type LocationType = 'Lab' | 'Custom';
@@ -111,6 +110,10 @@ const BookAppointmentView = observer(() => {
       newErrors.phoneNumber = 'Phone number is required';
     }
 
+    if (!formData.location.address.trim()) {
+      newErrors.location = ' Location is  required';
+    }
+
     if (!formData.availableDate) {
       newErrors.availableDate = 'Please select a date';
     } else {
@@ -142,7 +145,7 @@ const BookAppointmentView = observer(() => {
       ...prev,
       location: {
         type: value as LocationType,
-        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : 'Enter Address'
+        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : ''
       }
     }));
   };
@@ -300,6 +303,9 @@ const BookAppointmentView = observer(() => {
                       }
                     />
                   </div>
+                  {errors.location && (
+                    <div className="mt-1 text-sm text-red-500">{errors.location}</div>
+                  )}
                 </div>
               </RadioGroup>
             </div>

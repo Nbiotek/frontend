@@ -18,7 +18,8 @@ class CartStore {
   isLoading: boolean = false;
 
   constructor(rootStore: RootStore) {
-    makeObservable(this, {});
+    // makeObservable(this, {});
+    makeAutoObservable(this);
 
     this.rootStore = rootStore;
     // Load cart from local storage on initialization
@@ -41,8 +42,6 @@ class CartStore {
         quantity: 1
       });
     }
-    // Show success message
-    // Toast.success(`Added ${item.name} to your selection`);
     this.saveCart();
   };
 
