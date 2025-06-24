@@ -81,6 +81,6 @@ interface IMedia {
 interface IMediaResp {
   bucket: string;
   uuid: string;
-  file: string;
+  file_url: string;
   mime_type: string;
 }

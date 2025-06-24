@@ -17,7 +17,7 @@ export const password = z
   )
   .refine((value) => lowerCaseRegex.test(value), 'Password must contain atleast a lowercase.');
 export const confirmPassword = z
-  .string()
+  .string({ required_error: 'Confirm Password is required.' })
   .trim()
   .min(1, { message: 'Confirm password is required.' });
 
@@ -43,6 +43,31 @@ export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),
   email_verified: z.boolean()
 });
+export const address = z
+  .string({ required_error: 'Address is required.' })
+  .trim()
+  .refine((value) => value !== '', 'Address is required.');
+
+export const city = z
+  .string({ required_error: 'City is required.' })
+  .trim()
+  .refine((value) => value !== '', 'City is required.');
+
+export const state = z
+  .string({ required_error: 'State is required.' })
+  .trim()
+  .refine((value) => value !== '', 'State is required.');
+
+export const landMark = z.string({ required_error: 'Address is required.' }).trim().optional();
+
+export const zipCode = z
+  .string({ required_error: 'Zip code is required.' })
+  .trim()
+  .refine((value) => value !== '', 'zip code is required.');
+
+export const maritalStatus = z.string({ required_error: 'Marital status is required.' }).trim();
+export const gender = z.string({ required_error: 'Gender is required.' }).trim();
+export const dateOfBirth = z.date({ required_error: 'Date of birth is required.' });
 
 export const EmailLoginValidationSchema = z.object({
   email,
@@ -149,9 +174,9 @@ export const PatientPersonalSchema = z
     lastName,
     email: z.string().optional(),
     phoneNumber,
-    maritalStatus: z.string({ required_error: 'Marital status is required.' }).trim(),
-    gender: z.string({ required_error: 'Gender is required.' }).trim(),
-    dateOfBirth: z.date({ required_error: 'Date of birth is required.' }),
+    maritalStatus,
+    gender,
+    dateOfBirth,
     weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
     height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
     primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
@@ -183,24 +208,11 @@ export const PatientPersonalSchema = z
   });
 
 export const PatientContactSchema = z.object({
-  homeAddress: z
-    .string({ required_error: 'Address is required.' })
-    .trim()
-    .refine((value) => value !== '', 'Address is required.'),
-  city: z
-    .string({ required_error: 'City is required.' })
-    .trim()
-    .refine((value) => value !== '', 'City is required.'),
-  state: z
-    .string({ required_error: 'State is required.' })
-    .trim()
-    .refine((value) => value !== '', 'State is required.'),
-  landMark: z.string({ required_error: 'Address is required.' }).trim().optional(),
-  zipCode: z
-    .string({ required_error: 'Zip code is required.' })
-    .trim()
-    .refine((value) => value !== '', 'zip code is required.'),
-
+  homeAddress: address,
+  city,
+  state,
+  landMark: landMark,
+  zipCode,
   emergencyContact: z.object({
     firstName,
     lastName,

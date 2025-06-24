@@ -16,8 +16,7 @@ export function useUpdateTestStatus() {
         queryKey: labTech.getDashboard().keys()
       });
       queryClient.invalidateQueries({
-        predicate: (query) =>
-          Array.isArray(query.queryKey) && query.queryKey[0] == labTech.getDashboard().keys()[0]
+        predicate: (query) => query.queryKey[0] == labTech.getDashboard().keys()[0]
       });
       toast.success('Test status updated!');
     }

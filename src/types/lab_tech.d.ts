@@ -97,6 +97,7 @@ type TSingleTestDetail = {
   };
   qcStatus?: string;
   results?: Array<TTestResultData>;
+  media: Array<IMediaResp>;
   resultLink: string;
   createdAt: string;
   updatedAt: string;
