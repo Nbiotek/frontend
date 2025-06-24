@@ -102,8 +102,8 @@ const ResultUploadModal = () => {
   };
 
   const onSubmit: SubmitHandler<TTestResultsTypeSchema> = async (formData) => {
-    if (data?.id) {
-      mutate({ testRequestId: data.id, result: formData });
+    if (testDetails.testId) {
+      mutate({ testRequestId: testDetails.testId, result: formData });
     }
   };
 

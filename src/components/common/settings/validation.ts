@@ -9,7 +9,8 @@ import {
   lastName,
   maritalStatus,
   phoneNumber,
-  state
+  state,
+  zipCode
 } from '@/app/auth/validation';
 import { z } from 'zod';
 
@@ -24,7 +25,8 @@ export const ProfileSettingSchema = z.object({
   landMark,
   dateOfBirth,
   maritalStatus,
-  gender
+  gender,
+  zipCode
 });
 
 export type TProfileSettingsSchema = z.infer<typeof ProfileSettingSchema>;

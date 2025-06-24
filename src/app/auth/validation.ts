@@ -17,7 +17,7 @@ export const password = z
   )
   .refine((value) => lowerCaseRegex.test(value), 'Password must contain atleast a lowercase.');
 export const confirmPassword = z
-  .string()
+  .string({ required_error: 'Confirm Password is required.' })
   .trim()
   .min(1, { message: 'Confirm password is required.' });
 
