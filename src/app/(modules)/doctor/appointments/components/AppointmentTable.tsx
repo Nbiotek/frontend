@@ -49,7 +49,9 @@ const AppointmentTable = ({ appointments, loading }: AppointmentTable) => {
                 <TableCell>
                   <Status variant={appointment.paymentStatus} />
                 </TableCell>
-                <TableCell>{appointment.location.type}</TableCell>
+                <TableCell>
+                  <span className="text-wrap">{appointment.location.address}</span>
+                </TableCell>
                 <TableCell>{dateTimeUTC(appointment.createdAt)}</TableCell>
                 {/* <TableCell>
                   <EllipsisVertical className="cursor-pointer" />

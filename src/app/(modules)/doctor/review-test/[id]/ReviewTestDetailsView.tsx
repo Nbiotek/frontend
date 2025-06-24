@@ -10,18 +10,22 @@ import { useTestRevDetails } from '@/hooks/doctor/useTestReview';
 import TestReviewDetailsResult from '../components/TestReviewDetailsResult';
 import RecommendationDialog from './component/RecomendationDialog';
 import { useState } from 'react';
+import PageLoader from 'next/dist/client/page-loader';
+import { TestResultLoadingSkeleton } from './component/loader';
 
 const ReviewTestDetailsView = () => {
   const param = useParams();
-  const revIiewd = param.id as string;
+  const reviewId = param.id as string;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { data, isLoading } = useTestRevDetails(revIiewd);
+  const { data, isLoading } = useTestRevDetails(reviewId);
 
   const handleRecommendationDialog = () => {
     setIsModalOpen(true);
   };
+
+  if (isLoading) return <TestResultLoadingSkeleton />;
 
   return (
     <div className="flex w-full flex-col space-y-[24px] pb-[30px]">

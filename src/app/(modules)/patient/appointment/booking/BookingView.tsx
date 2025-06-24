@@ -18,7 +18,6 @@ import BonkingConfirmationDialog from './components/BookingConfirmation';
 
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 import BookingForSelfModal from './components/BookingSelfDialog';
-import InputDate from '@/atoms/fields/InputDate';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 type LocationType = 'Lab' | 'Custom';
