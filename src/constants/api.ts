@@ -152,3 +152,26 @@ export const UPLOADS = {
   MEDIA: '/file-manager/media',
   DELETE: '/file-manager/media/:uuid'
 } as const;
+
+export const SETTINGS = {
+  // profile
+  PROFILE: '/settings/profile',
+  PROFILE_PHOTO: '/settings/profile-photo',
+
+  // privacy
+  RESEND_EMAIL_VERIFICATION: '/settings/resend-email-verification',
+  VERIFY_OTP: '/settings/verify-otp',
+  UPDATE_PWD: '/settings/update-password',
+  RECOVERY_CONTACT: '/settings/recovery-contacts',
+
+  // billing
+  BILLING: '/settings/billing',
+  PREFERENCES: '/settings/preferences',
+
+  // others
+  DEACTIVATE: '/settings/account',
+  RESTORE: '/settings/account-restore',
+
+  // notifications
+  NOTIFICATIONS: '/settings/notification'
+};

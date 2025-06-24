@@ -318,6 +318,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.title,
       url: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.path,
       icon: FolderPenIcon
+    },
+    {
+      title: ROUTES.DOCTOR_SETTINGS.title,
+      url: ROUTES.DOCTOR_SETTINGS.path,
+      icon: Settings
     }
   ]
 };

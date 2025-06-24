@@ -97,6 +97,6 @@ export const columns: ColumnDef<TAdminUsersItem>[] = [
   },
   {
     id: 'actions',
-    cell: DataTableRowActions
+    cell: ({ row }) => <DataTableRowActions row={row} />
   }
 ];

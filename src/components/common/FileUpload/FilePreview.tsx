@@ -139,10 +139,11 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
           })
             .then((res) => {
               const data = res?.data?.data;
-              if (res.status === 201 && data?.file) {
-                const { bucket, mime_type, file, uuid } = data;
-                update(idx, { bucket, mime_type, file, uuid });
+              if (res.status === 201) {
+                const { bucket, mime_type, file_url, uuid } = data;
+                update(idx, { bucket, mime_type, file: file_url, uuid });
               } else {
+                console.error('Unexpected structure:', res);
                 throw new Error('Unexpected response structure.');
               }
             })

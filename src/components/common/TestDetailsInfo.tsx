@@ -1,9 +1,13 @@
+import React from 'react';
+import Image from 'next/image';
 import Status from '@/atoms/Buttons/Status';
 import FieldSet from '@/atoms/fields/FieldSet';
 import { Paragraph } from '@/atoms/typographys';
+import { IMAGE_FILE_TYPES } from '@/constants';
 import { dateTimeUTC } from '@/utils/date';
 import { format } from 'date-fns';
-import React from 'react';
+import VideoPlayer from './VideoPlayer';
+import EmptyState from '../EmptyState';
 
 interface ITestDetailsInfoProps {
   data?: TSingleTestDetail;
@@ -97,6 +101,41 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {data?.media && (
+        <div className="flex w-full flex-col space-y-2 rounded-lg bg-white p-4">
+          <div>
+            <Paragraph className="text-lg !font-medium" text="Test Uploads" />
+          </div>
+
+          <div className="flex w-full flex-col space-y-1 ">
+            {data.media.length === 0 ? (
+              <EmptyState title="No media data." />
+            ) : (
+              data.media.map((media, id) => {
+                return (
+                  <div
+                    key={id}
+                    className="group relative block aspect-landscape w-1/6 overflow-hidden rounded-lg"
+                  >
+                    {IMAGE_FILE_TYPES.includes(media.mime_type) ? (
+                      <Image
+                        src={media.file_url}
+                        alt="preview"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="w-full bg-black object-contain"
+                      />
+                    ) : (
+                      <VideoPlayer src={media.file_url} />
+                    )}
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       )}
