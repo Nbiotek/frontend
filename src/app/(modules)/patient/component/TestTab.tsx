@@ -53,8 +53,6 @@ const TestSelectionPanel = observer(
 
       const term = searchTerm.toLowerCase().trim();
 
-      console.log(data.data);
-
       // Filter single tests
       if (data.data.requests) {
         const filtered = data.data.requests.filter(

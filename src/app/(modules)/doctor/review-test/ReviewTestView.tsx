@@ -12,7 +12,6 @@ import { FilterParams } from '@/requests/doctor';
 import Pagination from '@/atoms/pagination';
 import { format } from 'date-fns';
 
-// Custom options for doctor view
 const doctorFilterOptions = {
   showStatus: true, // Show status dropdown
   statusOptions: [
@@ -39,28 +38,23 @@ const ReviewTestView = () => {
   // Filter state
   const [filters, setFilters] = useState<FilterParams>(defaultFilters);
 
-  // Get the query client for manual invalidation
   const queryClient = useQueryClient();
 
-  // Use the updated hook with filter params
   const { data, isLoading } = useTestReview(filters);
 
-  // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
 
-  // Calculate pagination values for the pagination component
   const tests = data?.data.tests || [];
   const total = data?.data.pagination?.total || 0;
   const currentPage = filters.page || 1;
   const totalPages = data?.data.pagination?.totalPages || 1;
 
-  // Calculate the number of active filters
   const getActiveFilterCount = () => {
     let count = 0;
     if (filters.fromDate) count++;
     if (filters.toDate) count++;
     if (filters.sortBy) count++;
-    if (filters.status) count++; // Count status as an active filter
+    if (filters.status) count++;
     return count;
   };
 
@@ -91,7 +85,6 @@ const ReviewTestView = () => {
       formattedFilters.toDate = format(filterData.toDate, 'yyyy-MM-dd');
     }
 
-    // Include status if provided
     if (filterData.status) {
       formattedFilters.status = filterData.status;
     }
@@ -99,11 +92,10 @@ const ReviewTestView = () => {
     setFilters((prev) => ({
       ...prev,
       ...formattedFilters,
-      page: 1 // Reset to first page when changing filters
+      page: 1
     }));
   };
 
-  // Handle sort order change
   const handleSortChange = (sortOrder: 'ASC' | 'DESC') => {
     setFilters((prev) => ({
       ...prev,
@@ -115,8 +107,8 @@ const ReviewTestView = () => {
   const handleClearFilters = () => {
     setFilters({
       ...defaultFilters,
-      page: filters.page, // Keep current page
-      limit: filters.limit // Keep current limit
+      page: filters.page,
+      limit: filters.limit
     });
     setSearchInput('');
   };
@@ -133,7 +125,7 @@ const ReviewTestView = () => {
     setFilters((prev) => ({
       ...prev,
       limit,
-      page: 1 // Reset to first page when changing limit
+      page: 1
     }));
   };
 
@@ -144,24 +136,21 @@ const ReviewTestView = () => {
         setFilters((prev) => ({
           ...prev,
           search: searchInput,
-          page: 1 // Reset to first page when searching
+          page: 1
         }));
       }
-    }, 500); // 500ms debounce delay
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchInput, filters.search]);
 
-  // Effect to refetch data when filters change
   useEffect(() => {
-    // Invalidate and refetch when filters change
     queryClient.invalidateQueries({ queryKey: ['doctor-review-test'] });
   }, [filters, queryClient]);
 
   return (
     <div className="flex-col space-y-[24px]">
       <div className="flex flex-col space-x-2 sm:flex-row sm:items-center sm:justify-between">
-        {/* Enhanced Filter Component with status options */}
         <FilterComponent
           onFilterChange={handleFilterChange}
           onClearFilters={handleClearFilters}
@@ -169,7 +158,6 @@ const ReviewTestView = () => {
           options={doctorFilterOptions}
         />
 
-        {/* Search component */}
         <SearchInput
           className="!w-[calc(100%-80px)]"
           placeholder="Search tests..."
@@ -177,14 +165,11 @@ const ReviewTestView = () => {
           onChange={handleSearchChange}
         />
 
-        {/* Sort component */}
         <SortComponent onSortChange={handleSortChange} />
       </div>
 
-      {/* Test Review Table */}
       <ReviewTestTable reviewTests={tests} loading={isLoading} />
 
-      {/* Pagination - only show if we have data */}
       {!isLoading && tests.length > 0 && (
         <Pagination
           total={total}

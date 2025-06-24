@@ -36,7 +36,7 @@ const AppointmentConfirmation = ({
 
   const { mutate: bookAppointment, isPending } = useCreateAppointment();
   const {
-    CartStore: { items, total }
+    CartStore: { items, total, clearCart }
   } = useStore();
 
   const handleBookingSubmission = async () => {
@@ -44,6 +44,7 @@ const AppointmentConfirmation = ({
       bookAppointment(bookingData, {
         onSuccess: (response) => {
           toast.success('Booking confirmed');
+          clearCart();
           if (bookingData.paymentMethod === 'location') {
             router.push('/doctor/appointments');
           }

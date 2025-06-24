@@ -52,7 +52,7 @@ const ReviewTestTable = ({ loading, reviewTests }: ReviewTestTableProps) => {
                   <TableCell>{test.patientName}</TableCell>
                   <TableCell>{test.testName}</TableCell>
                   <TableCell>{dateTimeUTC(test.createdAt, false)}</TableCell>
-                  <TableCell>{dateTimeUTC(test.deadline, false)}</TableCell>
+                  <TableCell>{dateTimeUTC(test.deadlineAt, false)}</TableCell>
                   <TableCell>
                     <Status variant={test.status} />
                   </TableCell>

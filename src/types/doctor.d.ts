@@ -23,7 +23,7 @@ interface Tests {
   date: string;
   notes: string;
   createdAt: string;
-  deadline: string;
+  deadlineAt: string;
 }
 
 interface TRecentActivity {
