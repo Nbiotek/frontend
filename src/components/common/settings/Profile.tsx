@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { ProfileSettingSchema, TProfileSettingsSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
@@ -17,6 +17,7 @@ import { useStore } from '@/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { SETTINGS } from '@/constants/api';
 import { observer } from 'mobx-react-lite';
+import toast from 'react-hot-toast';
 
 const Profile = () => {
   const [profile, setProfile] = useState<Partial<TProfileSettingsSchema>>({});
@@ -30,7 +31,9 @@ const Profile = () => {
     reValidateMode: 'onSubmit'
   });
 
-  const hasChanged = _.isEqual(profile, form.getValues());
+  const profileWatch = useWatch({ control: form.control });
+
+  const hasChanged = _.isEqual(profile, profileWatch);
   const queryClient = useQueryClient();
 
   const getChangedFields = (
@@ -44,7 +47,6 @@ const Profile = () => {
 
   const onSubmit = (formData: TProfileSettingsSchema) => {
     const changedValue = getChangedFields(profile, formData);
-    console.log(changedValue);
 
     if (Object.keys(changedValue).length > 0) {
       updateProfile(changedValue, () =>
@@ -52,6 +54,8 @@ const Profile = () => {
           predicate: (query) => query.queryKey[0] == SETTINGS.PROFILE
         })
       );
+    } else {
+      toast.success('Nothing to update.');
     }
   };
 
@@ -75,7 +79,7 @@ const Profile = () => {
         firstName,
         lastName,
         email,
-        phoneNumber: phoneNumber.slice(3),
+        phoneNumber: phoneNumber.slice(4),
         contactAddress,
         city,
         maritalStatus,
@@ -94,7 +98,7 @@ const Profile = () => {
   }, [data, isLoading]);
 
   return (
-    <div className="w-full">
+    <div className="flex w-full flex-col space-y-4">
       {status === 'pending' && (
         <>
           <Skeleton className="h-40" />
@@ -228,15 +232,15 @@ const Profile = () => {
                 <FormField
                   control={form.control}
                   name="gender"
-                  render={({ field }) => (
+                  render={({ field: { onChange, value, ...f } }) => (
                     <div className="md:w-[50%]">
                       <InputSelect
                         label="Gender"
                         placeholder="Select a gender"
                         items={gender}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        {...field}
+                        onChange={onChange}
+                        value={value}
+                        {...f}
                       />
                     </div>
                   )}
@@ -245,15 +249,15 @@ const Profile = () => {
                 <FormField
                   control={form.control}
                   name="maritalStatus"
-                  render={({ field }) => (
+                  render={({ field: { onChange, value, ...f } }) => (
                     <div className="md:w-[50%]">
                       <InputSelect
                         label="Marital status"
                         placeholder="Select a status"
                         items={maritalStatus}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        {...field}
+                        onChange={onChange}
+                        value={value}
+                        {...f}
                       />
                     </div>
                   )}

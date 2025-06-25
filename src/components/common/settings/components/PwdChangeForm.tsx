@@ -1,11 +1,13 @@
+import React from 'react';
 import Button from '@/atoms/Buttons';
 import { Paragraph } from '@/atoms/typographys';
 import { Form, FormField } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TUpdatePwdSchema, UpdatePwdSchema } from '../validations';
 import InputField from '@/atoms/fields/NewInput';
+import { useStore } from '@/store';
+import { observer } from 'mobx-react-lite';
 
 const PwdChangeForm = () => {
   const form = useForm({
@@ -14,8 +16,11 @@ const PwdChangeForm = () => {
     reValidateMode: 'onChange'
   });
 
+  const {
+    SettingsStore: { updatePassword, isSettingsLoading }
+  } = useStore();
   const onSubmit = (formData: TUpdatePwdSchema) => {
-    console.log(formData);
+    updatePassword(formData);
   };
 
   return (
@@ -33,7 +38,7 @@ const PwdChangeForm = () => {
           <div>
             <FormField
               control={form.control}
-              name="old_password"
+              name="currentPassword"
               render={({ field }) => (
                 <div>
                   <InputField type="password" label="" placeholder="old password" {...field} />
@@ -42,7 +47,7 @@ const PwdChangeForm = () => {
             />
             <FormField
               control={form.control}
-              name="new_password"
+              name="newPassword"
               render={({ field }) => (
                 <div>
                   <InputField type="password" label="" placeholder="new password" {...field} />
@@ -60,11 +65,17 @@ const PwdChangeForm = () => {
             />
           </div>
 
-          <Button variant="filled">Update</Button>
+          <Button
+            variant="filled"
+            disabled={isSettingsLoading.updatePwd}
+            isLoading={isSettingsLoading.updatePwd}
+          >
+            Update
+          </Button>
         </fieldset>
       </form>
     </Form>
   );
 };
 
-export default PwdChangeForm;
+export default observer(PwdChangeForm);

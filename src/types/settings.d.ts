@@ -22,3 +22,8 @@ type TProfileSettings = {
   twoFactorEnabled: boolean;
   profilePhoto: string;
 };
+
+type TRecoveryContactSettings = {
+  recoveryEmail: string;
+  recoveryPhone: string;
+};
