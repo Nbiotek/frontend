@@ -9,11 +9,13 @@ export default function FormLayout({ children }: { children: React.ReactNode }) 
   const router = useRouter();
 
   const {
-    AuthStore: { user }
+    AuthStore: { user, isAuthenticated }
   } = useStore();
 
+  const { token, role } = isAuthenticated();
+
   useEffect(() => {
-    if (Boolean(user.role) && user.email_verified) {
+    if (role && token && user.email_verified) {
       router.replace(ROUTES.getRedirectPathByRole(user.role as EnumRole));
     }
   }, []);
