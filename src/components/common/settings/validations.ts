@@ -2,22 +2,26 @@ import { confirmPassword, email, password, phoneNumber } from '@/app/auth/valida
 import { z } from 'zod';
 
 export const RecoveryEmailSchema = z.object({
-  email
+  recoveryEmail: email
 });
 
 export const RecoveryPhoneSchema = z.object({
-  phoneNumber
+  recoveryPhone: phoneNumber
 });
 
 export const UpdatePwdSchema = z
   .object({
-    old_password: password,
-    new_password: password,
+    currentPassword: password,
+    newPassword: password,
     confirmPassword
   })
-  .refine((data) => data.new_password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: 'Passwords do not match.',
     path: ['confirmPassword']
+  })
+  .refine((data) => data.currentPassword !== data.newPassword, {
+    message: 'new password must be different from current password.',
+    path: ['newPassword']
   });
 
 export type TRecoveryEmailSchema = z.infer<typeof RecoveryEmailSchema>;

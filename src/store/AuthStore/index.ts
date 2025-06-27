@@ -59,16 +59,16 @@ export function decodeJWT(token: string) {
 }
 
 const persist = <T = string>(key: string, value: T) => {
-  store.namespace('auth').session.set(key, value);
+  store.namespace('auth').local.set(key, value);
   return value;
 };
 
 const get = <T = string>(key: string, fallback?: T) => {
-  return store.namespace('auth').session.get(key, fallback) as T;
+  return store.namespace('auth').local.get(key, fallback) as T;
 };
 
 const del = (key: string) => {
-  return store.namespace('auth').session.remove(key);
+  return store.namespace('auth').local.remove(key);
 };
 
 type TIsAuthenticated = { ttl: number; token?: string; email?: string; role?: string };
@@ -146,7 +146,11 @@ class AuthStore {
   }
 
   sessionCleanup() {
-    if (!ISSERVER) sessionStorage.clear();
+    if (!ISSERVER) {
+      sessionStorage.clear();
+      localStorage.clear();
+      store.clearAll();
+    }
     this.accessToken = '';
     this.tokenExpiresAt = 0;
   }
