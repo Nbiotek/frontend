@@ -1,3 +1,4 @@
+'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Profile from './Profile';
 import Security from './Security';

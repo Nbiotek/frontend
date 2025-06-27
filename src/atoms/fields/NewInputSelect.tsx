@@ -1,3 +1,4 @@
+'use client';
 import {
   FormControl,
   FormDescription,
@@ -12,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, ReactNode, useState } from 'react';
 import { SelectProps } from '@radix-ui/react-select';
 
 interface ISelectFormProps extends SelectProps {
@@ -21,17 +22,45 @@ interface ISelectFormProps extends SelectProps {
   items: Array<Option<string, string>>;
   placeholder: string;
   description?: ReactNode;
+  onChange?: (value: string) => void;
 }
 
 const InputSelect = forwardRef<HTMLInputElement, ISelectFormProps>(
-  ({ description, label, items, placeholder, ...props }, ref) => {
+  (
+    {
+      description,
+      label,
+      items,
+      onChange,
+      placeholder,
+      onValueChange,
+      value,
+      defaultValue,
+      ...props
+    },
+    ref
+  ) => {
+    const [controlledValue, setControlledValue] = useState(value ?? '');
+
+    const handleValueChange = (newValue: string) => {
+      if (onChange) {
+        onChange(newValue);
+      }
+
+      if (onValueChange) {
+        onValueChange(newValue);
+      }
+
+      setControlledValue(newValue);
+    };
+
     return (
       <FormItem className="w-full">
         <FormLabel>
           {label}
           {props.required && label != '' && <span className="text-red-300">*</span>}
         </FormLabel>
-        <Select {...{ ref }} {...props}>
+        <Select {...props} value={controlledValue} onValueChange={handleValueChange}>
           <FormControl className="w-full">
             <SelectTrigger className="h-11 bg-neutral-50">
               <SelectValue placeholder={placeholder} />

@@ -5,6 +5,9 @@ type TProfileSettings = {
   email: string;
   phoneNumber: string;
   contactAddress: string;
+  zipCode: string;
+  city: string;
+  landMark: string;
   maritalStatus: string;
   gender: string;
   dateOfBirth: string;
@@ -18,4 +21,9 @@ type TProfileSettings = {
   language: string;
   twoFactorEnabled: boolean;
   profilePhoto: string;
+};
+
+type TRecoveryContactSettings = {
+  recoveryEmail: string;
+  recoveryPhone: string;
 };

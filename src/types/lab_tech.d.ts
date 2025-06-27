@@ -66,6 +66,24 @@ type TTestResultData = {
   reference: string;
 };
 
+type TMarketerSampleMedia = {
+  id: string;
+  file_name: string;
+  url: string;
+  secure_url: string;
+  format: string;
+};
+
+type TMarketerLogSamples = {
+  id: string;
+  testName: string;
+  sampleType: string;
+  requiredAmount: string;
+  collectionStatus: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type TSingleTestDetail = {
   id: string;
   patient: {
@@ -95,7 +113,14 @@ type TSingleTestDetail = {
     id: string;
     name: string;
   };
+  marketer?: {
+    id: string;
+    name: string;
+  };
+  logSamples?: Array<TMarketerLogSamples>;
+  samplePhotos?: Array<TMarketerSampleMedia>;
   qcStatus?: string;
+  qcReason?: string;
   results?: Array<TTestResultData>;
   media: Array<IMediaResp>;
   resultLink: string;

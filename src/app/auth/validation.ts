@@ -37,7 +37,7 @@ export const phoneNumber = z
   .string({ required_error: 'Enter Phone Number.' })
   .trim()
   .transform((val) => val.replace(/[^0-9]/g, ''))
-  .refine((val) => val !== '', { message: 'Enter price.' })
+  .refine((val) => val !== '', { message: 'Enter Phone number.' })
   .refine((val) => !val.startsWith('0'), { message: "Phone number can't start with 0." });
 export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),

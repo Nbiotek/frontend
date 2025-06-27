@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
-import NotificationView from '@/components/common/NotificationView';
+import NotificationView from '@/components/common/notifications/NotificationView';
 
 const { title, description } = ROUTES.LAB_COORD_NOTIFICATIONS;
 
