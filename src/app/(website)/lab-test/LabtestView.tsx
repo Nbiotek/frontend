@@ -130,16 +130,29 @@ const LabTestContent = () => {
     }
   };
 
+  const tabHeading = (tab: string) => {
+    switch (tab) {
+      case 'lab-tests':
+        return ' Laboratory  & Dignostic Tests';
+      case 'package-tests':
+        return 'All Package Tests';
+      case 'imaging-tests':
+        return 'Advanced Imaging Tests';
+      case 'molecular-tests':
+        return 'Molecular Tests';
+    }
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen w-full">
       <div className="bg-gradient-to-br from-blue-400 to-blue-400 py-12 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="mb-6 text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-              Laboratory & Diagnostic Tests
+              {tabHeading(activeTab)}
             </h1>
             <p className="mb-8 text-xl leading-relaxed text-blue-100">
-              Discover our comprehensive range of medical tests and diagnostic services for accurate
+              Discover our comprehensive range of {activeTab} and diagnostic services for accurate
               health assessment and early disease detection.
             </p>
 
@@ -158,14 +171,10 @@ const LabTestContent = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-3">
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
                 <div className="text-2xl font-bold text-white">200+</div>
-                <div className="text-sm text-blue-100">Individual Tests</div>
-              </div>
-              <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">50+</div>
-                <div className="text-sm text-blue-100">Test Packages</div>
+                <div className="text-sm text-blue-100">{activeTab}</div>
               </div>
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
                 <div className="text-2xl font-bold text-white">24/7</div>
