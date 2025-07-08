@@ -1,3 +1,5 @@
+import { ALL } from 'dns';
+
 export const AUTH = {
   LOGIN: '/users/login',
   REGISTER: '/users/register',
@@ -37,7 +39,8 @@ export const PATIENT = {
     ALl: '/tests/all-tests?page=1&limit=20&status=ACTIVE',
     PACKAGES: '/tests/package-tests?page=1&limit=20&status=ACTIVE',
     DETAILS: (id: string) => `/tests/${id}`,
-    SINGLE: '/test/single'
+    SINGLE: '/test/single',
+    ALL_TESTS_CATEGORY: '/tests/all'
   },
 
   TEST_RESULTS: {
