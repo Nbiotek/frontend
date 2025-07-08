@@ -1,6 +1,5 @@
 import server, { serverwithoutInterceptor } from '.';
 import { PATIENT, LAB_TECH, TEST } from '@/constants/api';
-import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 import { TTestResultsTypeSchema } from '@/app/(modules)/lab-tech/tests/components/validation';
 
 export const TestService = {
@@ -12,6 +11,13 @@ export const TestService = {
 
   getPackageTest: async () => {
     const { data } = await server.get<AllPackageTestResponse>(PATIENT.TESTS.PACKAGES);
+    return data;
+  },
+
+  getAllCategoryTests: async (params?: TestQueryParams) => {
+    const { data } = await server.get<PaginatedResponse<any>>(PATIENT.TESTS.ALL_TESTS_CATEGORY, {
+      params
+    });
     return data;
   }
 };

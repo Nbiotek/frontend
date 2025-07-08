@@ -1,5 +1,4 @@
 import { useStore } from '@/store';
-import { PackageTest } from '@/types/test';
 import React, { useState } from 'react';
 import Button from '@/atoms/Buttons';
 import { Package, Star, Eye, MessageCircle, CheckCircle, Users } from 'lucide-react';

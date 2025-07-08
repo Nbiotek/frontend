@@ -1,6 +1,5 @@
 'use client';
 
-import { SingleTest } from '@/types/test';
 import Button from '@/atoms/Buttons';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';

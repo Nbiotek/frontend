@@ -1,5 +1,4 @@
 import Spinner from '@/lib/utils/spinner';
-import { PackageTest } from '@/types/test';
 import { useRouter } from 'next/navigation';
 import Button from '@/atoms/Buttons';
 import { useStore } from '@/store';
