@@ -1,7 +1,5 @@
 import { makeAutoObservable, makeObservable, runInAction } from 'mobx';
-import { SingleTest, PackageTest } from '@/types/test';
 import { RootStore } from '..';
-import { Toast } from '@/atoms/Toast';
 
 export type CartItemType = 'single' | 'package';
 

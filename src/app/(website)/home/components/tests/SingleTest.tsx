@@ -1,6 +1,5 @@
 'use client';
 
-import { AllTestResponse, SingleTest } from '@/types/test';
 import Button from '@/atoms/Buttons';
 import ServicesLoadingState from '@/atoms/Loaders/ServiceLoader';
 import Spinner from '@/lib/utils/spinner';

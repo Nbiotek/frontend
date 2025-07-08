@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import Button from '@/atoms/Buttons';
-import { SingleTest, PackageTest } from '@/types/test';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { CartItemType } from '@/store/CartStore';

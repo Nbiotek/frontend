@@ -1,6 +1,5 @@
 'use client';
 
-import { SingleTest, PackageTest } from '@/types/test';
 import Button from '@/atoms/Buttons';
 import { Plus, Info, CheckCircle, Package, TestTube } from 'lucide-react';
 import {

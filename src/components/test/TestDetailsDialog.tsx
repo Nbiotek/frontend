@@ -6,7 +6,6 @@ import {
   DialogDescription
 } from '@/components/ui/dialog';
 import Button from '@/atoms/Buttons';
-import { PackageTest, SingleTest } from '@/types/test';
 
 import { CartButton, RequestTestButton } from '../cart/CartButton';
 import { useRouter } from 'next/navigation';

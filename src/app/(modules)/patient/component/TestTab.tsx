@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InputSearch from '@/atoms/fields/InputSearch';
 import { useTestPackages, useTestsSingle } from '@/hooks/patient/useTest';
-import { PackageTest, SingleTest } from '@/types/test';
 import Spinner from '@/lib/utils/spinner';
 import { Button } from '@/components/ui/button';
 import { Search, ArrowLeft } from 'lucide-react';

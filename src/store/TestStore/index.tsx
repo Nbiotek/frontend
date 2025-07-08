@@ -1,6 +1,5 @@
 import { makeAutoObservable, makeObservable, runInAction } from 'mobx';
 import { TestService } from '@/requests/test';
-import { SingleTest, PackageTest, AllTestResponse, AllPackageTestResponse } from '@/types/test';
 import { RootStore } from '..';
 
 class TestStore {
