@@ -2,10 +2,6 @@ import { title } from 'process';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Text } from '@/lib/utils/Text';
 import DropDownAction from '../common/dropdownActions';
-import type { PackageTest, SingleTest } from '@/types/test';
-import Button from '@/atoms/Buttons';
-import { Item } from '@radix-ui/react-dropdown-menu';
-import Link from 'next/link';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 

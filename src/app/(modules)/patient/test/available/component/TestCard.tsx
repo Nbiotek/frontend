@@ -1,7 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Info, Plus, X } from 'lucide-react';
-import { PackageTest, SingleTest } from '@/types/test';
 import { observer } from 'mobx-react-lite';
 
 interface TestCardProps {
