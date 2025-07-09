@@ -27,3 +27,25 @@ type TRecoveryContactSettings = {
   recoveryEmail: string;
   recoveryPhone: string;
 };
+
+type TNotificationSettings = {
+  id: string;
+  enableSound: boolean;
+  notificationType: {
+    billing: boolean;
+    reminders: boolean;
+    receipts: boolean;
+    newTestOrder: boolean;
+    urgentResult: boolean;
+    testCompletionReminder: boolean;
+    inventoryAlerts: boolean;
+    maintenanceReminder: boolean;
+    testAndWorkflow: boolean;
+    newAppointments: boolean;
+  };
+  emailNotification: boolean;
+  pushNotification: {
+    mobilePushNotification: boolean;
+    desktopPushNotification: boolean;
+  };
+};

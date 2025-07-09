@@ -6,5 +6,12 @@ export const settings = {
       path: SETTINGS.PROFILE,
       keys: () => [SETTINGS.PROFILE] as const
     };
+  },
+
+  getSettingsNotification() {
+    return {
+      path: SETTINGS.NOTIFICATIONS,
+      keys: () => [SETTINGS.NOTIFICATIONS] as const
+    };
   }
 };

@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import { useUpdateTestStatus } from '@/hooks/labTech/useUpdateTestStatus';
 import { formatTestDate } from '@/utils/date';
 import Pagination from '@/atoms/pagination';
+import { EnumLabTechQueryType } from '@/store/LabTechStore';
 
 interface ITestTableProps {
   isLoading: boolean;
@@ -40,6 +41,9 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
     LabTechStore: { queries, setLimit, setPage }
   } = useStore();
   const { mutateTestStatus, isPending } = useUpdateTestStatus();
+
+  const handleSetLimit = (_limit: number) => setLimit(_limit, EnumLabTechQueryType.TEST);
+  const handleSetPage = (_page: number) => setPage(_page, EnumLabTechQueryType.TEST);
 
   return (
     <div className="flex flex-col space-y-4">
@@ -163,9 +167,9 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
       {isLoading || (
         <Pagination
           limit={pagination.limit ?? queries.TEST.limit}
-          setLimit={setLimit}
+          setLimit={handleSetLimit}
           currentPage={pagination.page ?? queries.TEST.page}
-          setPage={setPage}
+          setPage={handleSetPage}
           total={pagination.total}
           totalPages={pagination.totalPages}
           siblingCount={1}

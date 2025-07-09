@@ -4,6 +4,7 @@ import { EnumTestStatus } from '@/atoms/Buttons/Status';
 
 export enum EnumLabCoordQueryType {
   TEST = 'TEST',
+  ASSIGNED_TEST = 'ASSIGNED_TEST',
   INVENTORY = 'INVENTORY',
   STAFF = 'STAFF',
   CONTROL_HISTORY = 'CONTROL_HISTORY',
@@ -16,6 +17,7 @@ class LabCoordStore {
   rootStore: RootStore;
   queries: Record<EnumLabCoordQueryType, Partial<TTestQuery>> = {
     [EnumLabCoordQueryType.TEST]: { ...defaultQuery },
+    [EnumLabCoordQueryType.ASSIGNED_TEST]: { ...defaultQuery },
     [EnumLabCoordQueryType.INVENTORY]: { ...defaultQuery },
     [EnumLabCoordQueryType.STAFF]: { ...defaultQuery },
     [EnumLabCoordQueryType.CONTROL_HISTORY]: { ...defaultQuery },

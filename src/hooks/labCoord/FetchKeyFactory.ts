@@ -50,5 +50,13 @@ export const labCoord = {
       keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.INVENTORY, query] as const,
       params: query
     };
+  },
+
+  getAssignedTests(query: Partial<TTestQuery>) {
+    return {
+      path: TEST.ALL_ASSIGNED,
+      keys: () => [LAB_COORD.DASHBOARD, TEST.GET_REQUESTS, TEST.ALL_ASSIGNED, query] as const,
+      params: query
+    };
   }
 };
