@@ -11,6 +11,7 @@ import TestStore from './TestStore';
 import ReceptionistStore from './ReceptionistStore';
 import AdminStore from './AdminStore';
 import SettingsStore from './SettingsStore';
+import NotificationStore from './NotificationStore';
 
 configure({
   enforceActions: 'observed',
@@ -32,6 +33,7 @@ export class RootStore {
   TestStore: TestStore;
   ReceptionistStore: ReceptionistStore;
   SettingsStore: SettingsStore;
+  NotificationStore: NotificationStore;
 
   constructor() {
     this.AdminStore = new AdminStore(this);
@@ -44,6 +46,7 @@ export class RootStore {
     this.CartStore = new CartStore(this);
     this.TestStore = new TestStore(this);
     this.SettingsStore = new SettingsStore(this);
+    this.NotificationStore = new NotificationStore(this);
   }
 }
 

@@ -120,7 +120,8 @@ export const TEST = {
   ASSIGN_MARKETER: '/tests/assign-marketer',
   REASSIGN_MARKETER: '/tests/reassign-marketer',
   ASSIGNED_TESTS: '/tests/fetch-assigned-test',
-  SINGLE_ASSIGNED_TESTS: '/tests/fetch-assigned-test/:id'
+  SINGLE_ASSIGNED_TESTS: '/tests/fetch-assigned-test/:id',
+  ALL_ASSIGNED: '/tests/assigned-tests'
 };
 
 export const RECEPTIONIST = {
@@ -177,4 +178,11 @@ export const SETTINGS = {
 
   // notifications
   NOTIFICATIONS: '/settings/notification'
+};
+
+export const NOTIFICATIONS = {
+  TOGGLE: '/notifications/fcm-token',
+  GET_ALL: '/notifications',
+  READ_ALL: '/notifications/read-all',
+  MARK_AS_READ: '/notifications/:id/read'
 };

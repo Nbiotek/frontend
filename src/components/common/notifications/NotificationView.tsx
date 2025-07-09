@@ -1,110 +1,81 @@
 'use client';
-import Button from '@/atoms/Buttons';
+import { useEffect } from 'react';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
-import { Switch } from '@/components/ui/switch';
 import { useStore } from '@/store';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { NotificationSchema, TNotificationSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
 import InputToggle from '@/atoms/fields/InputToggle';
+import store from 'store2';
+import { Mangle } from '@/constants/mangle';
+import { useMutation } from '@tanstack/react-query';
+import { delNotificationToken } from '@/requests/notifications';
+import toast from 'react-hot-toast';
+import { setupFCM } from '@/app/fcm';
 
 const NotificationView = () => {
   const {
-    AuthStore: { user }
+    AuthStore: { user },
+    NotificationStore: { openPrompt, clearFCMToken }
   } = useStore();
 
   const form = useForm<TNotificationSchema>({
     mode: 'onChange',
+    defaultValues: {
+      pushNotification: Boolean(store.local.get(Mangle.FCM_TOKEN.replace(':id', user.uuid!)))
+    },
     resolver: zodResolver(NotificationSchema),
     reValidateMode: 'onSubmit'
   });
+  const watch = useWatch({ control: form.control });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: delNotificationToken,
+    onSuccess: () => {
+      clearFCMToken();
+      toast.success('Notification disabled');
+    }
+  });
+
+  async function askForNotificationPermission() {
+    if ('Notification' in window) {
+      return Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          setupFCM(user.uuid!);
+          return true;
+        } else {
+          return false;
+        }
+      });
+    } else {
+      console.error('This browser does not support notifications.');
+      return Promise.resolve(false);
+    }
+  }
+
+  const handlePushNotificationChange = async (newValue: boolean) => {
+    if (
+      newValue &&
+      Boolean(store.local.get(Mangle.FCM_TOKEN.replace(':id', user.uuid!))) === false
+    ) {
+      const permissionGranted = await askForNotificationPermission();
+      form.setValue('pushNotification', permissionGranted);
+    } else if (!newValue) {
+      form.setValue('pushNotification', false);
+      mutate();
+    } else {
+      form.setValue('pushNotification', true);
+    }
+  };
 
   return (
     <Form {...form}>
       <form className="flex w-full flex-col space-y-8 rounded-lg bg-white p-3">
-        <fieldset className="flex w-full flex-col space-y-6 divide-y">
+        <fieldset disabled={isPending} className="flex w-full flex-col space-y-6 divide-y">
           <div className="">
             <SubTitle className="" text="Notifications" />
             <Paragraph text="Select the types of notifications you receive about your activities and recommendations." />
-          </div>
-
-          <div className="flex flex-col space-y-4 py-3">
-            <SubTitle className="!mb-0" text="Test Alerts" />
-            {
-              <FormField
-                control={form.control}
-                name="newTestOrder"
-                render={({ field }) => {
-                  return (
-                    <div className="w-full max-w-xl">
-                      <InputToggle
-                        label="New test order"
-                        description="Alert when new tests are assigned."
-                        checked={field.value}
-                        onChange={() => form.setValue('newTestOrder', !field.value)}
-                      />
-                    </div>
-                  );
-                }}
-              />
-            }
-
-            <FormField
-              control={form.control}
-              name="urgentResult"
-              render={({ field }) => {
-                return (
-                  <div className="w-full max-w-xl">
-                    <InputToggle
-                      label="Urgent result request"
-                      description="Notifications for high-priority tests or abnormal results."
-                      checked={field.value}
-                      onChange={() => form.setValue('urgentResult', !field.value)}
-                    />
-                  </div>
-                );
-              }}
-            />
-
-            <FormField
-              control={form.control}
-              name="testCompletionReminder"
-              render={({ field }) => {
-                return (
-                  <div className="w-full max-w-xl">
-                    <InputToggle
-                      label="Test completion reminder"
-                      description="Reminders for pending or delayed tests."
-                      checked={field.value}
-                      onChange={() => form.setValue('testCompletionReminder', !field.value)}
-                    />
-                  </div>
-                );
-              }}
-            />
-          </div>
-
-          <div className="flex flex-col space-y-4 py-3">
-            <SubTitle className="!mb-0" text="Task Management" />
-            {
-              <FormField
-                control={form.control}
-                name="tasksAndWorkflow"
-                render={({ field }) => {
-                  return (
-                    <div className="w-full max-w-xl">
-                      <InputToggle
-                        label="Tasks and workflow"
-                        description="Notify when tasks are assigned."
-                        checked={field.value}
-                        onChange={() => form.setValue('tasksAndWorkflow', !field.value)}
-                      />
-                    </div>
-                  );
-                }}
-              />
-            }
           </div>
 
           <div className="flex flex-col space-y-4 py-3">
@@ -136,7 +107,7 @@ const NotificationView = () => {
                       label="Push Notification"
                       description="Get push notification in-app to find out what is going on when you are online."
                       checked={field.value}
-                      onChange={() => form.setValue('pushNotification', !field.value)}
+                      onChange={() => handlePushNotificationChange(!field.value)}
                     />
                   </div>
                 );
@@ -144,10 +115,6 @@ const NotificationView = () => {
             />
           </div>
         </fieldset>
-        <div className="flex w-full max-w-[450px] flex-col space-y-3 sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0">
-          <Button variant="outlined" text="Cancel" />
-          <Button variant="filled" text="update changes" />
-        </div>
       </form>
     </Form>
   );
