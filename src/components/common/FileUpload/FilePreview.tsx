@@ -133,7 +133,7 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
             bucket,
             checksum,
             file_size: _file.size,
-            file_url: env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL.concat(name),
+            file_url: env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL.concat(`/${name}`),
             mime_type: _file.type,
             file_name: _file.name
           })
@@ -211,7 +211,7 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
             }}
           />
         ) : (
-          <VideoPlayer src={preview?.file ?? ''} />
+          <VideoPlayer src={preview?.file ?? null} />
         )}
       </div>
     );
