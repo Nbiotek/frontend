@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import ROUTES from '@/constants/routes';
-import NotificationView from '@/components/common/notifications/NotificationView';
+import SupportView from '@/components/common/support/SupportView';
 
-const { title, description } = ROUTES.RECPTS_NOTIFICATIONS;
+const { title, description } = ROUTES.SUPPORT;
 
 export const metadata: Metadata = {
   title,
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function NotificationPage() {
-  return <NotificationView />;
+  return <SupportView />;
 }

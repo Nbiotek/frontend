@@ -19,6 +19,7 @@ const PwdChangeForm = () => {
   const {
     SettingsStore: { updatePassword, isSettingsLoading }
   } = useStore();
+
   const onSubmit = (formData: TUpdatePwdSchema) => {
     updatePassword(formData);
   };
