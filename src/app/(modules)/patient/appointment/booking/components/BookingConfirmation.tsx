@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useState } from 'react';
 import PaymentProcessingDialog from './PaymentProcessingDialog';
 import { useRouter } from 'next/navigation';
+import { dateTimeUTC } from '@/utils/date';
 
 interface BookingSummaryDialogProps {
   open: boolean;
@@ -104,11 +105,14 @@ const BonkingConfirmationDialog = ({
                     <CalendarIcon className="text-gray-400 h-4 w-4" />
                     <span className="text-sm">
                       {bookingData.availableDate
-                        ? new Date(bookingData.availableDate).toLocaleDateString('en-US', {
+                        ? new Date(bookingData.availableDate).toLocaleString('en-US', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
-                            day: 'numeric'
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
                           })
                         : undefined}
                     </span>

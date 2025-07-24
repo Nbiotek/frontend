@@ -9,6 +9,13 @@ import { CircleX } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { useState, useEffect } from 'react';
 
 import TestModalDialog from './components/TestModal';
@@ -21,6 +28,12 @@ import BookingForSelfModal from './components/BookingSelfDialog';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 type LocationType = 'Lab' | 'Custom';
+
+const LAB_LOCATIONS = [
+  { id: 'lab1', name: 'Lab1', address: 'Medicare Hospital, 18 Iwaya Rd, Lagos' },
+  { id: 'lab2', name: 'Lab2', address: 'Central Lab, 45 Victoria Island, Lagos' },
+  { id: 'lab3', name: 'Lab3', address: 'Advanced Diagnostics, 12 Ikeja GRA, Lagos' }
+];
 
 const BookAppointmentView = observer(() => {
   const {
@@ -51,7 +64,7 @@ const BookAppointmentView = observer(() => {
     phoneNumber: '',
     location: {
       type: 'Lab' as LocationType,
-      address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
+      address: LAB_LOCATIONS[0].address
     },
     availableDate: new Date(),
     paymentMethod: 'via_card',
@@ -145,9 +158,22 @@ const BookAppointmentView = observer(() => {
       ...prev,
       location: {
         type: value as LocationType,
-        address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : ''
+        address: value === 'Lab' ? LAB_LOCATIONS[0].address : ''
       }
     }));
+  };
+
+  const handleLabSelection = (labId: string) => {
+    const selectedLab = LAB_LOCATIONS.find((lab) => lab.id === labId);
+    if (selectedLab) {
+      setFormData((prev: any) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          address: selectedLab.address
+        }
+      }));
+    }
   };
 
   const handlePaymentMethod = (value: string) => {
@@ -280,8 +306,26 @@ const BookAppointmentView = observer(() => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="Lab" id="r1" />
                   <Label htmlFor="r1">Lab</Label>
-                  <div className="rounded-md bg-neutral-300/30 p-3">
-                    Medicare Hospital, 18 Iwaya Rd, Lagos
+                  <div className="w-80 rounded-md">
+                    <Select
+                      disabled={formData.location.type !== 'Lab'}
+                      value={
+                        LAB_LOCATIONS.find((lab) => lab.address === formData.location.address)
+                          ?.id || LAB_LOCATIONS[0].id
+                      }
+                      onValueChange={handleLabSelection}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a lab location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {LAB_LOCATIONS.map((lab) => (
+                          <SelectItem key={lab.id} value={lab.id}>
+                            {lab.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
