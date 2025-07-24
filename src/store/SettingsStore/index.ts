@@ -1,7 +1,6 @@
-import { action, flow, makeObservable, observable } from 'mobx';
+import { flow, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
 import initializer from '@/utils/initializer';
-import { TProfileSettingsSchema } from '@/components/common/settings/validation';
 import {
   postPwdSettings,
   putProfileSettings,
@@ -9,6 +8,7 @@ import {
 } from '@/requests/settings';
 import toast from 'react-hot-toast';
 import {
+  TProfileSettingsSchema,
   TRecoveryEmailSchema,
   TRecoveryPhoneSchema,
   TUpdatePwdSchema

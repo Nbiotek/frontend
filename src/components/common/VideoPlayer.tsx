@@ -7,7 +7,7 @@ import { TbRewindForward10, TbRewindBackward10 } from 'react-icons/tb';
 import { ClipLoader } from 'react-spinners';
 
 interface IVideoPlayerProps {
-  src: string;
+  src: string | null;
   isPreview?: boolean;
   showDuration?: boolean;
   hideFullScreen?: boolean;
@@ -218,19 +218,21 @@ const VideoPlayer = ({ src, isPreview, showDuration, hideFullScreen }: IVideoPla
         )}
       </div>
 
-      <video
-        ref={videoRef}
-        className="h-full w-full object-cover"
-        preload="metadata"
-        onPlay={handleOnPlay}
-        onPlaying={handleOnPlay}
-        onPause={handleOnPause}
-        onWaiting={handleOnWaiting}
-        onLoadedMetadata={handleOnLoadedMetadata}
-        onProgress={handleOnProgress}
-        onTimeUpdate={handleonTimeupdate}
-        src={src}
-      />
+      {src && (
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover"
+          preload="metadata"
+          onPlay={handleOnPlay}
+          onPlaying={handleOnPlay}
+          onPause={handleOnPause}
+          onWaiting={handleOnWaiting}
+          onLoadedMetadata={handleOnLoadedMetadata}
+          onProgress={handleOnProgress}
+          onTimeUpdate={handleonTimeupdate}
+          src={src}
+        />
+      )}
 
       {isPreview ? null : (
         <div className="absolute bottom-0 left-[50%] z-10 hidden h-[40px] w-full -translate-x-[50%] bg-gradient-to-t from-black text-white transition-all duration-150 ease-in-out group-hover:flex">

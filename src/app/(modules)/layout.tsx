@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/dashboard/Sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import MenuHeader from '@/components/dashboard/Header/menu-header';
@@ -27,26 +27,6 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   const allProtectedRoutesObj = ROUTES.getAllProtectedRoutes();
   const allProtectedRoutes = allProtectedRoutesObj.keys();
 
-  const checkAuthorization = useCallback(
-    (profile: Partial<TProfileInfo>) => {
-      for (let route of allProtectedRoutes) {
-        if (pathname.startsWith(route)) {
-          const requiredRoles = allProtectedRoutesObj.get(route);
-          if (requiredRoles && profile.email_verified) {
-            if (requiredRoles.includes(profile.role as EnumRole)) {
-              setAuthStatus('authorized');
-              return;
-            } else {
-              router.replace(ROUTES.DENIED.path);
-              return;
-            }
-          }
-        }
-      }
-    },
-    [pathname, allProtectedRoutes, allProtectedRoutesObj, router]
-  );
-
   useEffect(() => {
     if (!accessToken || status === 'error') {
       router.replace(ROUTES.LOGIN.path);
@@ -55,21 +35,32 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
 
     if (!isLoading && data !== undefined) {
       if (data.email_verified) {
+        let hasAccess = false;
+
         for (let route of allProtectedRoutes) {
-          if (pathname.startsWith(route)) {
-            const requiredRoles = allProtectedRoutesObj.get(route);
-            if (requiredRoles) {
-              if (requiredRoles.includes(data.role as EnumRole)) {
-                setAuthStatus('authorized');
-                return;
-              } else {
-                router.replace(ROUTES.DENIED.path);
-                return;
-              }
+          const requiredRoles = allProtectedRoutesObj.get(route);
+
+          if (pathname === ROUTES.DENIED.path) {
+            setAuthStatus('authorized');
+            return;
+          }
+
+          if (requiredRoles && (pathname === route || pathname.startsWith(route + '/'))) {
+            if (
+              requiredRoles.includes(EnumRole.ALL) ||
+              requiredRoles.includes(data.role as EnumRole)
+            ) {
+              hasAccess = true;
+              break;
             }
           }
         }
-        setAuthStatus('authorized');
+
+        if (hasAccess) {
+          setAuthStatus('authorized');
+        } else {
+          router.replace(ROUTES.DENIED.path);
+        }
       } else {
         router.replace(ROUTES.LOGIN.path);
       }
@@ -81,15 +72,17 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <SidebarProvider>
-      <div className="flex h-screen w-full bg-blue-50/10">
-        <AppSidebar />
-        <main className="flex w-full flex-col">
-          <MenuHeader />
-          <section className="h-screen w-full overflow-y-scroll p-2">{children}</section>
-        </main>
-      </div>
-    </SidebarProvider>
+    <>
+      <SidebarProvider>
+        <div className="flex h-screen w-full bg-blue-50/10">
+          <AppSidebar />
+          <main className="flex w-full flex-col">
+            <MenuHeader />
+            <section className="h-screen w-full overflow-y-scroll p-2">{children}</section>
+          </main>
+        </div>
+      </SidebarProvider>
+    </>
   );
 };
 

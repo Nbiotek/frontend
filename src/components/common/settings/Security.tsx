@@ -10,8 +10,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const Security = () => {
   const { data, status } = useFetchProfileSettings();
-
-  console.log(data, status);
   return (
     <div className="flex w-full flex-col space-y-4">
       {status === 'pending' && (

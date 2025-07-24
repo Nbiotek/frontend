@@ -24,21 +24,28 @@ import { format } from 'date-fns';
 import ROUTES from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import Pagination from '@/atoms/pagination';
-import { toTitleCase } from '@/utils';
 import { EnumTestLocation } from '@/constants/mangle';
+import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
 
 interface ITestTableProps {
+  type: 'test' | 'assigned';
   isLoading: boolean;
   tests: TTestQuesRes;
 }
 
-const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
+const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
+  const dataType =
+    type === 'assigned' ? EnumLabCoordQueryType.ASSIGNED_TEST : EnumLabCoordQueryType.TEST;
   const pagination = tests.pagination;
   const router = useRouter();
   const {
     AppConfigStore: { toggleModals },
     LabCoordStore: { setLimit, setPage, queries }
   } = useStore();
+  const query = type === 'assigned' ? queries.ASSIGNED_TEST : queries.TEST;
+
+  const handleSetLimit = (_limit: number) => setLimit(_limit, dataType);
+  const handleSetPage = (_page: number) => setPage(_page, dataType);
 
   return (
     <div className="flex h-full w-full flex-col justify-end space-y-4">
@@ -105,7 +112,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                             <Eye />
                             <p>View Test</p>
                           </DropdownMenuItem>
-                          {test.location?.type === EnumTestLocation.CUSTOM ? (
+                          {type === 'test' && test.location?.type === EnumTestLocation.CUSTOM ? (
                             test.marketer && test.marketer.id ? (
                               <DropdownMenuItem
                                 onClick={() =>
@@ -135,7 +142,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                             )
                           ) : null}
 
-                          {test.location?.type === EnumTestLocation.LAB && (
+                          {type === 'test' && test.location?.type === EnumTestLocation.LAB && (
                             <DropdownMenuItem
                               onClick={() =>
                                 toggleModals({
@@ -164,10 +171,10 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
 
       {isLoading || (
         <Pagination
-          limit={queries.TEST.limit ?? pagination.limit}
-          setLimit={setLimit}
-          currentPage={queries.TEST.page ?? pagination.page}
-          setPage={setPage}
+          limit={pagination.limit ?? query.limit}
+          setLimit={handleSetLimit}
+          currentPage={pagination.page ?? query.page}
+          setPage={handleSetPage}
           total={pagination.total}
           totalPages={pagination.totalPages}
           siblingCount={1}

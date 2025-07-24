@@ -1,7 +1,7 @@
-import { TProfileSettingsSchema } from '@/components/common/settings/validation';
 import server from '.';
 import { SETTINGS } from '@/constants/api';
 import {
+  TProfileSettingsSchema,
   TRecoveryEmailSchema,
   TRecoveryPhoneSchema,
   TUpdatePwdSchema
