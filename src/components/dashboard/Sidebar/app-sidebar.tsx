@@ -20,7 +20,7 @@ import { PanelRightOpen } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { EnumRole } from '@/constants/mangle';
-import { menuConfig, MenuItem } from '@/config/menuItems';
+import { menuCommon, menuConfig, MenuItem } from '@/config/menuItems';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -128,6 +128,27 @@ export function AppSidebar() {
                 </Collapsible>
               )
             )}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Others</SidebarGroupLabel>
+          <SidebarMenu>
+            {menuCommon.map((item, index) => {
+              return (
+                <Link key={item.url} href={item.url ?? ''}>
+                  <SidebarMenuItem
+                    key={index}
+                    className={`${isCurrentPath(item, pathname) ? 'bg-blue-400 text-white' : ''} rounded-md hover:bg-blue-400 `}
+                  >
+                    <SidebarMenuButton tooltip={item.title}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

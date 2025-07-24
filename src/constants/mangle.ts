@@ -15,7 +15,7 @@ export enum EnumPatientForm {
 }
 
 export enum EnumRole {
-  DEFAULT = 'DEFAULT',
+  ALL = 'ALL',
   SUPER_ADMIN = 'SUPER_ADMIN',
   DOCTOR = 'DOCTOR',
   REFERRAL_DOCTOR = 'REFERRAL_DOCTOR',

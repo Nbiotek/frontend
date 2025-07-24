@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { faqData, faqCategories, searchFAQs, getFAQsByCategory } from '@/config/Faq';
-
-// Shadcn Components
 import {
   Accordion,
   AccordionContent,
@@ -16,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-const FAQPage = () => {
+const FAQ = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -103,7 +101,7 @@ const FAQPage = () => {
 const FAQAccordion = ({ faqs }: { faqs: FAQ[] }) => {
   return (
     <Accordion type="single" collapsible className="w-full">
-      {faqs.map((faq, index) => (
+      {faqs.map((faq) => (
         <AccordionItem key={faq.id} value={faq.id} className="border-b">
           <AccordionTrigger className="text-left font-medium">
             <div className="flex items-start">
@@ -127,4 +125,4 @@ const FAQAccordion = ({ faqs }: { faqs: FAQ[] }) => {
   );
 };
 
-export default FAQPage;
+export default FAQ;

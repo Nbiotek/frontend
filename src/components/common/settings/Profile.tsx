@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { ProfileSettingSchema, TProfileSettingsSchema } from './validation';
+import { ProfileSettingSchema, TProfileSettingsSchema } from './validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
