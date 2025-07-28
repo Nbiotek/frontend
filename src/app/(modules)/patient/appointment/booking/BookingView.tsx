@@ -231,7 +231,10 @@ const BookAppointmentView = observer(() => {
                 value={formData.availableDate}
                 hourCycle={12}
                 onChange={handleDateSelect}
-                hidden={{ before: new Date() }}
+                hidden={(date) => {
+                  return date < new Date() || date.getDay() === 0; // Hide past dates and Sundays
+                }}
+                className="w-full"
               />
               {errors.availableDate && (
                 <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
