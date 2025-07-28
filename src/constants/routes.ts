@@ -4,9 +4,9 @@ class Route {
   path: string;
   title: string;
   description: string;
-  roles: Array<EnumRole> = [EnumRole.DEFAULT];
+  roles: Array<string> = [];
 
-  constructor(_path: string, _title: string, _description: string, _roles?: EnumRole[]) {
+  constructor(_path: string, _title: string, _description: string, _roles?: Array<string>) {
     this.path = _path;
     this.description = _description;
     this.title = _title;
@@ -52,6 +52,11 @@ class Routes {
   PWD_RESET = new Route('/auth/pwd-reset', 'NbioTek | Password Reset', 'Password reset');
 
   PATIENT_REG_INFO = new Route('/auth/patient', 'NbioTek | Patient Info', 'Patient Info Reg.');
+
+  // common
+  NOTIFICATION = new Route('/notifications', 'Notification', 'Users Notification', [EnumRole.ALL]);
+  SETTINGS = new Route('/settings', 'Settings', 'Users Settings', [EnumRole.ALL]);
+  SUPPORT = new Route('/support', 'Support', 'Users Supports', [EnumRole.ALL]);
 
   // patient
   PATIENT = new Route('/patient', 'Dashboard', 'Patient Dashboard Page', [EnumRole.PATIENT]);
@@ -203,13 +208,6 @@ class Routes {
     'Lab Technician Tests Result',
     [EnumRole.LAB_TECHNICIAN]
   );
-
-  LAB_TECH_NOTIFICATION = new Route(
-    '/lab-tech/notification',
-    'Notifications',
-    'Lab Technician Notifications',
-    [EnumRole.LAB_TECHNICIAN]
-  );
   LAB_TECH_SUPPORT_CONTACT = new Route(
     '/lab-tech/sh/contact',
     'Contact',
@@ -251,6 +249,7 @@ class Routes {
   );
 
   DOCTOR_SETTINGS = new Route('/doctor/settings', 'Settings', 'Doctor Settings', [EnumRole.DOCTOR]);
+
   // LAB COORDINATOR
   LAB_COORD = new Route('/lab-coord', 'Dashboard', 'Lab Coordinator', [EnumRole.LAB_CORDINATOR]);
   LAB_COORD_TEST_SCHEDULING = new Route(
@@ -338,13 +337,6 @@ class Routes {
     [EnumRole.RECEPTIONIST]
   );
 
-  RECPTS_NOTIFICATIONS = new Route(
-    '/recpst/notifications',
-    'Notifications',
-    'Receptionist Notifications',
-    [EnumRole.RECEPTIONIST]
-  );
-
   RECPTS_SUPPORT = new Route('/recpst/support', 'Help/Support', 'Receptionist Support', [
     EnumRole.RECEPTIONIST
   ]);
@@ -383,11 +375,11 @@ class Routes {
         return this.DOCTOR.path;
       case EnumRole.MARKETER:
         return this.MARKETER.path;
-      // TODO: Add more modules authorization routing here.
       case EnumRole.RECEPTIONIST:
         return this.RECPTS.path;
       case EnumRole.SUPER_ADMIN:
         return this.SUPER_ADMIN.path;
+      // TODO: Add more modules authorization routing here.
       default:
         return '';
     }
@@ -418,13 +410,13 @@ class Routes {
   }
 
   getAllProtectedRoutes() {
-    const routes = new Map<string, Array<EnumRole>>();
+    const routes = new Map<string, Array<string>>();
 
     const properties = Object.getOwnPropertyNames(this);
 
     for (const prop of properties) {
       const value = this[prop as keyof Routes];
-      if (value instanceof Route && value.roles.length > 0) {
+      if (value instanceof Route && (value.roles.length == 0 || value.roles.length > 0)) {
         if (!this.isPublicPath(value.path)) {
           routes.set(value.path, value.roles);
         }

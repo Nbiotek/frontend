@@ -19,6 +19,7 @@ const del = <T = string>(key: string, fallback?: T) => {
 class NotificationStore {
   rootStore: RootStore;
   readMoreItem = '';
+  unReadNotifyCount: number = 0;
 
   lastPromptTime = get<number>(Mangle.NOTIFY_PROMPT_TIMER, 0);
   showPrompt = false;
@@ -32,6 +33,7 @@ class NotificationStore {
       lastPromptTime: observable,
       showPrompt: observable,
       readMoreItem: observable,
+      unReadNotifyCount: observable,
 
       setLastPromptTimer: action.bound,
       checkNotificationInterval: action.bound,
@@ -40,6 +42,7 @@ class NotificationStore {
       clearTimeoutOnUnmount: action.bound,
       clearFCMToken: action.bound,
       setReadMoreItem: action.bound,
+      setNotifyUnreadCount: action.bound,
       resetNotification: action.bound
     });
   }
@@ -90,6 +93,10 @@ class NotificationStore {
 
   setReadMoreItem(_uuid: string) {
     this.readMoreItem = _uuid;
+  }
+
+  setNotifyUnreadCount(_count: number) {
+    this.unReadNotifyCount = _count;
   }
 
   resetNotification(cb?: () => void) {

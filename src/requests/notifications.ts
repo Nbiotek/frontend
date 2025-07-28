@@ -1,16 +1,17 @@
 import { NOTIFICATIONS } from '@/constants/api';
 import server from '.';
+import { TGetAllNotificationRes } from '@/types/notification';
 
 // get requests
 export const getAllNotifications = async () =>
-  server.get<INBTServerResp<Array<TGetNotificationItem>>>(NOTIFICATIONS.GET_ALL);
+  server.get<TGetAllNotificationRes>(NOTIFICATIONS.GET_ALL);
 
 // post requests
 export const postReadAll = () => {
   return server.post<INBTServerResp<null>>(NOTIFICATIONS.READ_ALL);
 };
 
-export const postMarkAsRead = (id: string) => {
+export const readNotification = (id: string) => {
   const url = NOTIFICATIONS.MARK_AS_READ.replace(':id', id);
   return server.post<INBTServerResp<null>>(url);
 };

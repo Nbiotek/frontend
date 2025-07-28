@@ -1,5 +1,20 @@
-import { confirmPassword, email, password, phoneNumber } from '@/app/auth/validation';
 import { z } from 'zod';
+import {
+  address,
+  city,
+  confirmPassword,
+  dateOfBirth,
+  email,
+  firstName,
+  gender,
+  landMark,
+  lastName,
+  maritalStatus,
+  password,
+  phoneNumber,
+  state,
+  zipCode
+} from '@/app/auth/validation';
 
 export const RecoveryEmailSchema = z.object({
   recoveryEmail: email
@@ -24,6 +39,32 @@ export const UpdatePwdSchema = z
     path: ['newPassword']
   });
 
+export const NotificationSchema = z
+  .object({
+    pushNotification: z.boolean(),
+    emailNotification: z.boolean()
+  })
+  .partial();
+
+export const ProfileSettingSchema = z
+  .object({
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    contactAddress: address,
+    city,
+    state,
+    landMark,
+    dateOfBirth,
+    maritalStatus,
+    gender,
+    zipCode
+  })
+  .partial();
+
 export type TRecoveryEmailSchema = z.infer<typeof RecoveryEmailSchema>;
 export type TRecoveryPhoneSchema = z.infer<typeof RecoveryPhoneSchema>;
 export type TUpdatePwdSchema = z.infer<typeof UpdatePwdSchema>;
+export type TNotificationSchema = z.infer<typeof NotificationSchema>;
+export type TProfileSettingsSchema = z.infer<typeof ProfileSettingSchema>;

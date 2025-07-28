@@ -1,4 +1,3 @@
-import Button from '@/atoms/Buttons';
 import { ContactInformationProps } from '@/config/ContactInfo';
 import Link from 'next/link';
 interface ContactInfoProps {

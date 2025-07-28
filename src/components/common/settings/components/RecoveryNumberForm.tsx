@@ -36,8 +36,10 @@ const RecoveryPhoneForm = () => {
     if (!isLoading && data !== undefined) {
       const { recoveryPhone } = data;
 
-      setRecoveryNumber({ recoveryPhone });
-      form.reset({ recoveryPhone: recoveryPhone.slice(3) });
+      if (recoveryPhone) {
+        setRecoveryNumber({ recoveryPhone });
+        form.reset({ recoveryPhone: recoveryPhone.slice(3) });
+      }
     }
   }, [data, isLoading]);
 

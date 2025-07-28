@@ -26,7 +26,8 @@ import {
   NotebookIcon,
   SettingsIcon,
   User2Icon,
-  FolderPenIcon
+  FolderPenIcon,
+  PhoneIcon
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { EnumRole } from '@/constants/mangle';
@@ -99,27 +100,9 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: 'Biling & Payment',
       icon: CreditCard,
       url: ROUTES.PATIENT_BILLING_TRANSACTION_HISTORY.path
-    },
-    {
-      title: 'Support & Help',
-      icon: Phone,
-      submenu: [
-        {
-          title: 'Contact Us',
-          url: ROUTES.PATIENT_SUPPORT_CONTACT.path
-        },
-        {
-          title: 'FAQ',
-          url: ROUTES.PATIENT_SUPPORT_FAQ.path
-        }
-      ]
-    },
-    {
-      title: 'Settings',
-      icon: Settings,
-      url: ROUTES.PATIENT_SETTINGS.path
     }
   ],
+
   [EnumRole.DOCTOR]: [
     {
       title: ROUTES.DOCTOR.title,
@@ -149,16 +132,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.DOCTOR_REFERRALS.title,
       url: ROUTES.DOCTOR_REFERRALS.path,
       icon: Hospital
-    },
-    {
-      title: ROUTES.DOCTOR_HELP_SUPPORT.title,
-      url: ROUTES.DOCTOR_HELP_SUPPORT.path,
-      icon: PhoneCall
-    },
-    {
-      title: ROUTES.DOCTOR_SETTINGS.title,
-      url: ROUTES.DOCTOR_SETTINGS.path,
-      icon: Settings
     }
   ],
 
@@ -185,30 +158,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: ShieldCheck,
       url: ROUTES.LAB_TECH_QUALITY_CONTROL.path,
       isNestable: true
-    },
-    {
-      title: ROUTES.LAB_TECH_NOTIFICATION.title,
-      url: ROUTES.LAB_TECH_NOTIFICATION.path,
-      icon: BellDot
-    },
-    {
-      title: 'Support & help',
-      icon: Phone,
-      submenu: [
-        {
-          title: ROUTES.LAB_TECH_SUPPORT_CONTACT.title,
-          url: ROUTES.LAB_TECH_SUPPORT_CONTACT.path
-        },
-        {
-          title: ROUTES.LAB_TECH_SUPPORT_FAQ.title,
-          url: ROUTES.LAB_TECH_SUPPORT_FAQ.path
-        }
-      ]
-    },
-    {
-      title: ROUTES.LAB_TECH_SETTINGS.title,
-      url: ROUTES.LAB_TECH_SETTINGS.path,
-      icon: Settings
     }
   ],
 
@@ -229,23 +178,9 @@ export const menuConfig: Record<string, MenuItem[]> = {
       url: ROUTES.LAB_COORD_QUALITY_CONTROL.path,
       icon: ShieldCheck,
       isNestable: true
-    },
-    {
-      title: ROUTES.LAB_COORD_NOTIFICATIONS.title,
-      url: ROUTES.LAB_COORD_NOTIFICATIONS.path,
-      icon: BellDot
-    },
-    {
-      title: ROUTES.LAB_COORD_SUPPORT.title,
-      url: ROUTES.LAB_COORD_SUPPORT.path,
-      icon: PhoneCallIcon
-    },
-    {
-      title: ROUTES.LAB_COORD_SETTINGS.title,
-      url: ROUTES.LAB_COORD_SETTINGS.path,
-      icon: Settings
     }
   ],
+
   [EnumRole.MARKETER]: [
     {
       title: ROUTES.MARKETER.title,
@@ -282,24 +217,6 @@ export const menuConfig: Record<string, MenuItem[]> = {
       url: ROUTES.RECPTS_PATIENT.path,
       icon: UserCircle2Icon,
       isNestable: true
-    },
-
-    {
-      title: ROUTES.RECPTS_NOTIFICATIONS.title,
-      url: ROUTES.RECPTS_NOTIFICATIONS.path,
-      icon: Bell
-    },
-
-    {
-      title: ROUTES.RECPTS_SETTINGS.title,
-      url: ROUTES.RECPTS_SETTINGS.path,
-      icon: SettingsIcon
-    },
-
-    {
-      title: ROUTES.RECPTS_SUPPORT.title,
-      url: ROUTES.RECPTS_SUPPORT.path,
-      icon: Phone
     }
   ],
 
@@ -318,14 +235,27 @@ export const menuConfig: Record<string, MenuItem[]> = {
       title: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.title,
       url: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.path,
       icon: FolderPenIcon
-    },
-    {
-      title: ROUTES.DOCTOR_SETTINGS.title,
-      url: ROUTES.DOCTOR_SETTINGS.path,
-      icon: Settings
     }
   ]
 };
+
+export const menuCommon: MenuItem[] = [
+  {
+    title: ROUTES.NOTIFICATION.title,
+    url: ROUTES.NOTIFICATION.path,
+    icon: BellDot
+  },
+  {
+    title: ROUTES.SETTINGS.title,
+    url: ROUTES.SETTINGS.path,
+    icon: SettingsIcon
+  },
+  {
+    title: ROUTES.SUPPORT.title,
+    url: ROUTES.SUPPORT.path,
+    icon: PhoneCallIcon
+  }
+];
 
 export const defaultMenuConfig: WebsiteMenu[] = [
   {
