@@ -40,7 +40,12 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
         for (let route of allProtectedRoutes) {
           const requiredRoles = allProtectedRoutesObj.get(route);
 
-          if (pathname === ROUTES.DENIED.path) {
+          if (
+            pathname === ROUTES.DENIED.path ||
+            pathname.startsWith(ROUTES.PAYMENTS.path) ||
+            pathname.startsWith(ROUTES.PAYMENT_VERIFY.path) ||
+            pathname.startsWith('/payments/verify')
+          ) {
             setAuthStatus('authorized');
             return;
           }
