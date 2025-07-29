@@ -120,6 +120,16 @@ function LoginView() {
                   )}
                 />
               )}
+
+              <div className="flex w-full items-center justify-between">
+                <div></div>
+                <HyperLink
+                  className="!w-full justify-end"
+                  info=""
+                  hrefText="Forgot password."
+                  href={ROUTES.REGISTER.path}
+                />
+              </div>
             </div>
 
             {loginMethod !== '' && (

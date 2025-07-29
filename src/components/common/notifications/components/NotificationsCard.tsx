@@ -47,14 +47,18 @@ const NotificationCard = ({ viewType }: INotificationsProps) => {
       if (data !== undefined) {
         let count = 0;
 
-        data.map((el: TNotificationDatum) => (el.is_viewed ? (count += 0) : (count += 1)));
+        data.notification.map((el: TNotificationDatum) =>
+          el.is_viewed ? (count += 0) : (count += 1)
+        );
         setNotifyUnreadCount(count);
 
-        const orderedActivities = data.sort((a: TNotificationDatum, b: TNotificationDatum) => {
-          const dateA = new Date(a.create_time);
-          const dateB = new Date(b.create_time);
-          return dateB.getTime() - dateA.getTime();
-        });
+        const orderedActivities = data.notification.sort(
+          (a: TNotificationDatum, b: TNotificationDatum) => {
+            const dateA = new Date(a.create_time);
+            const dateB = new Date(b.create_time);
+            return dateB.getTime() - dateA.getTime();
+          }
+        );
         setNotifications(orderedActivities);
       }
     }

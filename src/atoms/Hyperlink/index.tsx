@@ -12,7 +12,7 @@ const HyperLink = ({ href, info, hrefText, className, ...rest }: IHyperLinkProps
     <p className="font-roboto text-sm">
       {info}&nbsp;
       <Link href={href || ''} className="text-blue-400 hover:underline">
-        <span className={`font-roboto text-blue-400 hover:underline ${className}`} {...rest}>
+        <span className={`font-roboto text-blue-400 underline ${className}`} {...rest}>
           {hrefText}
         </span>
       </Link>
