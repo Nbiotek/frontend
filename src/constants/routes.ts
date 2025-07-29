@@ -44,6 +44,12 @@ class Routes {
 
   DENIED = new Route('/denied', '', '');
 
+  // Payment routes
+  PAYMENTS = new Route('/payments', 'Payments', 'Payment Processing', [EnumRole.ALL]);
+  PAYMENT_VERIFY = new Route('/payments/verify', 'Payment Verification', 'Verify Payment', [
+    EnumRole.ALL
+  ]);
+
   // auth
   REGISTER = new Route('/auth/register', 'NbioTek | Create Account', 'Create Account - Nbiotek');
   LOGIN = new Route('/auth/login', 'NbioTek | Login page', 'Login');
@@ -403,7 +409,9 @@ class Routes {
       this.OTP.path,
       this.FORGOT_PWD.path,
       this.PWD_RESET.path,
-      this.DENIED.path
+      this.DENIED.path,
+      this.PAYMENTS.path,
+      this.PAYMENT_VERIFY.path
     ];
 
     return publicPaths.includes(path) || path.startsWith('/auth');
