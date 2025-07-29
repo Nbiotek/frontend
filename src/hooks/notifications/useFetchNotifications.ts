@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { notifications } from './fetchKeyFactory';
 import { useQuery } from '@tanstack/react-query';
-import { TGetAllNotificationRes, TNotificationDatum } from '@/types/notification';
+import { TGetAllNotificationRes, TPaginatedNotification } from '@/types/notification';
 
 const select = (resp: TGetAllNotificationRes) => resp.data;
 
-export function useFetchNotifications(): IQueryHookResponse<Array<TNotificationDatum> | undefined> {
+export function useFetchNotifications(): IQueryHookResponse<TPaginatedNotification | undefined> {
   const meta = notifications.getNotifications();
   const memoizedSelect = useCallback(select, []);
 

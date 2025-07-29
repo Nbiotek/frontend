@@ -12,4 +12,9 @@ type TNotificationDatum = {
   uuid: string;
 };
 
-type TGetAllNotificationRes = INBTServerResp<Array<TNotificationDatum>>;
+type TPaginatedNotification = {
+  notification: Array<TNotificationDatum>;
+  pagination: TPaginationResponse;
+};
+
+type TGetAllNotificationRes = INBTServerResp<TPaginatedNotification>;
