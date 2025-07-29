@@ -12,7 +12,10 @@ const PUBLIC_PATHS = [
   Routes.ABOUT.path,
   Routes.FAQS.path,
   Routes.PRIVACY_POLICY.path,
-  '/auth'
+  '/auth',
+  Routes.PAYMENTS.path,
+  Routes.PAYMENT_VERIFY.path,
+  '/payments/verify'
 ];
 
 const AUTH_REDIRECT_PATHS = [Routes.LOGIN.path, Routes.REGISTER.path, Routes.OTP.path];
