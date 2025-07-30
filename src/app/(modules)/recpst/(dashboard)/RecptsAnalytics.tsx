@@ -30,13 +30,6 @@ const card: Array<{
 
   {
     stat: 0,
-    title: 'Total revenue',
-    type: EnumOverviewIcon.TURN,
-    tag: 'totalRevenue'
-  },
-
-  {
-    stat: 0,
     title: 'Total patients',
     type: EnumOverviewIcon.PEOPLE,
     tag: 'totalPatients'
