@@ -127,7 +127,7 @@ function LoginView() {
                   className="!w-full justify-end"
                   info=""
                   hrefText="Forgot password."
-                  href={ROUTES.REGISTER.path}
+                  href={ROUTES.FORGOT_PWD.path}
                 />
               </div>
             </div>
