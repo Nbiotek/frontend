@@ -507,14 +507,24 @@ const TimePickerSelect = React.forwardRef<HTMLButtonElement, TimePickerSelectPro
           }
 
           for (let i = start; i <= end; i++) {
+            let j = i;
+            if (i > 12) {
+              j = i - 12;
+            }
             const value = i.toString().padStart(2, '0');
-            options.push({ value, label: value });
+            const label = j.toString().padStart(2, '0');
+            options.push({ value, label });
           }
         } else {
           // 24-hour format
           for (let i = minHour; i <= maxHour; i++) {
+            let j = i;
+            if (i > 12) {
+              j = i - 12;
+            }
             const value = i.toString().padStart(2, '0');
-            options.push({ value, label: value });
+            const label = j.toString().padStart(2, '0');
+            options.push({ value, label });
           }
         }
       } else if (picker === 'minutes' || picker === 'seconds') {
