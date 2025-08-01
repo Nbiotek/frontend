@@ -229,10 +229,16 @@ const BookAppointmentView = observer(() => {
               <Label className="pb-10 font-normal">Available Date</Label>
               <DateTimePicker
                 value={formData.availableDate}
-                hourCycle={12}
+                hourCycle={24}
                 onChange={handleDateSelect}
+                granularity="minute"
+                timeInterval={30}
+                minHour={8}
+                maxHour={18}
                 hidden={(date) => {
-                  return date < new Date() || date.getDay() === 0; // Hide past dates and Sundays
+                  const currentDate = new Date();
+                  currentDate.setHours(0, 0, 0, 0);
+                  return date < currentDate;
                 }}
                 className="w-full"
               />
