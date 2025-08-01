@@ -190,12 +190,14 @@ const UpdateApptModal = () => {
                       label="Appointment Date"
                       placeholder="Select appointment date"
                       granularity="minute"
-                      hourCycle={12}
-                      displayFormat={{ hour24: 'yyyy/MM/dd' }}
+                      hourCycle={24}
                       yearRange={0}
                       value={field.value}
                       onChange={field.onChange}
                       hidden={{ before: new Date() }}
+                      minHour={9}
+                      maxHour={16}
+                      timeInterval={30}
                     />
                     {data && <small>{formatTestDate(data.appointmentDate)}</small>}
                   </div>
