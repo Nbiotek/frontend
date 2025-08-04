@@ -238,7 +238,8 @@ const BookAppointmentView = observer(() => {
                 hidden={(date) => {
                   const currentDate = new Date();
                   currentDate.setHours(0, 0, 0, 0);
-                  return date < currentDate;
+
+                  return date < currentDate || date.getDay() === 0;
                 }}
                 className="w-full"
               />

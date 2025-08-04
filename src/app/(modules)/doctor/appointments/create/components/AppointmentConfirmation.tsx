@@ -108,7 +108,10 @@ const AppointmentConfirmation = ({
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
-                            day: 'numeric'
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
                           })
                         : undefined}
                     </span>
@@ -130,7 +133,9 @@ const AppointmentConfirmation = ({
                   {items.map((test) => (
                     <div key={test.id} className="flex justify-between text-sm">
                       <span>{test.item.name}</span>
-                      <span>₦{test.item.price.toLocaleString()}</span>
+                      <span>
+                        ₦{test.item.discountedPrice ? test.item.discountedPrice : test.item.price}
+                      </span>
                     </div>
                   ))}
 
