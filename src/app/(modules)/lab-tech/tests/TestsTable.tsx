@@ -51,7 +51,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Serial No.</TableHead>
               <TableHead>Test Name</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Date created</TableHead>
@@ -69,7 +69,7 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                 {tests.requests.map((test) => (
                   <TableRow key={test.id}>
                     <TableCell className="whitespace-nowrap font-medium">
-                      {test.patientName}
+                      {test?.testSerialNo ?? '-'}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
                     <TableCell>
