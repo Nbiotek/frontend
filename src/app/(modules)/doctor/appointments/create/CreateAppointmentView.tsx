@@ -10,12 +10,25 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 
 import { useStore } from '@/store';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import AppointmentConfirmation from './components/AppointmentConfirmation';
 import TestModalDialog from '@/app/(modules)/patient/appointment/booking/components/TestModal';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
+import { CircleX } from 'lucide-react';
 
 type LocationType = 'Lab' | 'Custom';
+
+const LAB_LOCATIONS = [
+  { id: 'lab1', name: 'Lab1', address: 'Medicare Hospital, 18 Iwaya Rd, Lagos' },
+  { id: 'lab2', name: 'Lab2', address: 'Central Lab, 45 Victoria Island, Lagos' },
+  { id: 'lab3', name: 'Lab3', address: 'Advanced Diagnostics, 12 Ikeja GRA, Lagos' }
+];
 
 const CreateAppointmentView = () => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
@@ -24,7 +37,7 @@ const CreateAppointmentView = () => {
   const [errors, setErrors] = useState<Partial<Record<keyof BookingForm, string>>>({});
 
   const {
-    CartStore: { items, total }
+    CartStore: { items, total, removeItem }
   } = useStore();
 
   const handleTestModal = () => {
@@ -37,7 +50,7 @@ const CreateAppointmentView = () => {
     phoneNumber: '',
     location: {
       type: 'Lab' as LocationType,
-      address: 'Medicare Hospital, 18 Iwaya Rd, Lagos'
+      address: LAB_LOCATIONS[0].address
     },
     availableDate: new Date(),
     paymentMethod: 'via_card',
@@ -136,6 +149,19 @@ const CreateAppointmentView = () => {
       [name]: value
     }));
   };
+
+  const handleLabSelection = (labId: string) => {
+    const selectedLab = LAB_LOCATIONS.find((lab) => lab.id === labId);
+    if (selectedLab) {
+      setFormData((prev: any) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          address: selectedLab.address
+        }
+      }));
+    }
+  };
   return (
     <>
       <Cards className="p-[5px] sm:bg-white sm:p-[10px] md:p-[45px] ">
@@ -157,9 +183,19 @@ const CreateAppointmentView = () => {
               <Label className="pb-10 font-normal">Available Date</Label>
               <DateTimePicker
                 value={formData.availableDate}
-                hourCycle={12}
+                hourCycle={24}
                 onChange={handleDateSelect}
-                hidden={{ before: new Date() }}
+                granularity="minute"
+                timeInterval={30}
+                minHour={8}
+                maxHour={18}
+                hidden={(date) => {
+                  const currentDate = new Date();
+                  currentDate.setHours(0, 0, 0, 0);
+
+                  return date < currentDate || date.getDay() === 0;
+                }}
+                className="w-full"
               />
               {errors.availableDate && (
                 <span className="mt-1 text-sm text-red-500">{errors.availableDate}</span>
@@ -207,9 +243,18 @@ const CreateAppointmentView = () => {
                           {item.item.name}{' '}
                           <span className="ml-5 text-red-200">
                             {' '}
-                            ₦{item.item.price.toLocaleString()}
+                            ₦
+                            {item.item.discountedPrice
+                              ? item.item.discountedPrice
+                              : item.item.price}
                           </span>
                         </p>
+                        <CircleX
+                          className="cursor-pointer text-red-500"
+                          onClick={() => {
+                            removeItem(item.id);
+                          }}
+                        />
                       </div>
                     ))}
                   </div>
@@ -225,8 +270,26 @@ const CreateAppointmentView = () => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="Lab" id="r1" />
                   <Label htmlFor="r1">Lab</Label>
-                  <div className="rounded-md bg-neutral-300/30 p-3">
-                    Medicare Hospital, 18 Iwaya Rd, Lagos
+                  <div className="w-80 rounded-md">
+                    <Select
+                      disabled={formData.location.type !== 'Lab'}
+                      value={
+                        LAB_LOCATIONS.find((lab) => lab.address === formData.location.address)
+                          ?.id || LAB_LOCATIONS[0].id
+                      }
+                      onValueChange={handleLabSelection}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select a lab location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {LAB_LOCATIONS.map((lab) => (
+                          <SelectItem key={lab.id} value={lab.id}>
+                            {lab.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
