@@ -18,6 +18,7 @@ type TTestType = {
 // =========== Tests ===============
 type TTestData = {
   id: string;
+  testSerialNo?: string;
   patientName: string;
   testName: string;
   testType: string;

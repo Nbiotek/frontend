@@ -43,6 +43,7 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Serial No.</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone number</TableHead>
@@ -54,12 +55,15 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
         </TableHeader>
 
         {isLoading ? (
-          <TableLoader rows={20} columns={7} />
+          <TableLoader rows={20} columns={8} />
         ) : (
           patient.patients.length !== 0 && (
             <TableBody>
               {patient.patients.map((patient) => (
                 <TableRow key={patient.id}>
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {patient?.patientSerialNo ?? '-'}
+                  </TableCell>
                   <TableCell className="whitespace-nowrap font-medium">
                     {capitalizeWord(`${patient.firstName} ${patient.lastName}`)}
                   </TableCell>
