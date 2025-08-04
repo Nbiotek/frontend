@@ -8,6 +8,7 @@ import { Text } from '@/lib/utils/Text';
 import { useFileUpload } from '@/hooks/fileUpload/useFileUpload';
 import { toast } from 'react-hot-toast';
 import { useUploadSample } from '@/hooks/marketer/useFieldTask';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 
 import PatientInfoSection from './components/PatientInfoSection';
 import TestDetailsSection from './components/TestDetailsSection';
@@ -16,7 +17,9 @@ import PhotoUploadSection from './components/PhotoUploadSection';
 import NotesSection from './components/NotesSection';
 import ActionButtons from './components/ActionButtons';
 import { Arrow } from '@radix-ui/react-dropdown-menu';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
+import { useStore } from '@/store';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
 
 interface Sample {
   id: string;
@@ -31,7 +34,7 @@ const UploadSampleView = () => {
   const router = useRouter();
   const { data, isLoading } = useShowFieldTask(id as string);
 
-  const [fieldVisitData, setFieldVisitData] = useState<FieldTaskData>();
+  const [fieldVisitData, setFieldVisitData] = useState<any>();
 
   // File upload mutation
   const { mutate: uploadFiles, isPending: isUploading, data: fileData } = useFileUpload();
@@ -72,8 +75,25 @@ const UploadSampleView = () => {
   }, [isLoading, data]);
 
   const [notes, setNotes] = useState<string>('');
-  const [samplePhotos, setSamplePhotos] = useState<File[]>([]);
-  const [photoPreviewUrls, setPhotoPreviewUrls] = useState<string[]>([]);
+
+  // Setup react-hook-form
+  const form = useForm<{ media: { file: File | TRemoteFile }[] }>({
+    defaultValues: {
+      media: []
+    }
+  });
+
+  const {
+    fields: mediaFields,
+    append: mediaAppend,
+    remove: mediaRemove,
+    update: mediaUpdate
+  } = useFieldArray({
+    control: form.control,
+    name: 'media'
+  });
+
+  const media = useWatch({ control: form.control, name: 'media' });
 
   // Handler for adding new sample row
   const handleAddSample = () => {
@@ -126,37 +146,26 @@ const UploadSampleView = () => {
     setNotes(e.target.value);
   };
 
-  // Handler for photo upload - supports multiple files
-  const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.files && e.target.files.length > 0) {
-      const newFiles = Array.from(e.target.files);
-      setSamplePhotos([...samplePhotos, ...newFiles]);
+  // Access the store at the component level
+  const { AppConfigStore } = useStore();
 
-      // Create preview URLs for all new files
-      const newPreviewUrls = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
-      setPhotoPreviewUrls([...photoPreviewUrls, ...newPreviewUrls]);
-    }
+  // Handler for updating a file with remote file info
+  const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
+    mediaUpdate(index, { file: remoteFile });
   };
 
   // Handler for removing a photo
-  const handleRemovePhoto = (index: number): void => {
-    const updatedPhotos = [...samplePhotos];
-    const updatedPreviewUrls = [...photoPreviewUrls];
-
-    URL.revokeObjectURL(updatedPreviewUrls[index]);
-
-    updatedPhotos.splice(index, 1);
-    updatedPreviewUrls.splice(index, 1);
-
-    setSamplePhotos(updatedPhotos);
-    setPhotoPreviewUrls(updatedPreviewUrls);
+  const handleRemovePhoto = (index: number, media_uuid?: string): void => {
+    mediaRemove(index);
   };
 
-  useEffect(() => {
-    return () => {
-      photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, []);
+  // Function to handle opening file upload modal
+  const handlerFn = (_files: File[]) => {
+    mediaAppend(_files.map((file) => ({ file })));
+
+    // Close the modal after files are appended
+    AppConfigStore.toggleModals({ name: AppModals.FILE_UPLOAD_MODAL, open: false });
+  };
 
   const handleSubmit = () => {
     if (samples.every((sample) => !sample.collectionStatus)) {
@@ -164,33 +173,30 @@ const UploadSampleView = () => {
       return;
     }
 
-    if (samplePhotos.length > 0) {
-      uploadFiles(samplePhotos, {
-        onSuccess: (uploadResponse) => {
-          const fileIds = uploadResponse.data || [];
-
-          const formData = {
-            logSamples: samples.map(({ id, ...rest }) => rest),
-            collectionNotes: notes,
-            samplePhotos: fileIds
-          };
-          console.log('Form data:', formData);
-
-          submitSample(id as string, formData);
-        },
-        onError: (error: any) => {
-          toast.error(`Error uploading photos: ${error.message || 'Unknown error'}`);
-        }
-      });
-    } else {
-      const formData = {
-        logSamples: samples,
-        collectionNotes: notes,
-        samplePhotos: []
-      };
-
-      submitSample(id as string, formData);
+    // Check if we have any unprocessed files (still uploading)
+    const hasUnprocessedFiles = media && media.some((el) => el.file instanceof File);
+    if (hasUnprocessedFiles) {
+      toast.error('Please wait for all files to upload');
+      return;
     }
+
+    // Filter out any media items that aren't properly processed
+    const getProcessedMedia = () => {
+      if (media && media.length > 0) {
+        return media
+          .filter((item) => item.file && typeof item.file === 'object' && 'uuid' in item.file)
+          .map((item) => ({ file: item.file as TRemoteFile }));
+      }
+      return [];
+    };
+
+    const formData: TSampleCollectionData = {
+      logSamples: samples.map(({ id, ...rest }) => rest as unknown as TLogSample),
+      collectionNotes: notes,
+      media: getProcessedMedia()
+    };
+
+    submitSample(id as string, formData);
   };
 
   if (isLoading) {
@@ -242,9 +248,10 @@ const UploadSampleView = () => {
           />
 
           <PhotoUploadSection
-            photoPreviewUrls={photoPreviewUrls}
-            onRemovePhoto={handleRemovePhoto}
-            onPhotoUpload={handlePhotoUpload}
+            mediaFields={mediaFields}
+            onUpdate={handleUpdate}
+            onRemove={handleRemovePhoto}
+            onPhotoUpload={handlerFn}
             fieldVisitData={fieldVisitData}
           />
 

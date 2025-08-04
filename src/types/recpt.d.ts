@@ -63,6 +63,7 @@ type TReceptionistQuery = TGeneralPaginatedQuery & {
 
 type TReceptionistPatientItem = {
   id: string;
+  patientSerialNo?: string;
   email: string;
   isProfileCompleted: boolean;
   firstName: string;

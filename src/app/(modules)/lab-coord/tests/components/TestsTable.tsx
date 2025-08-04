@@ -53,7 +53,7 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[280px]">Name</TableHead>
+              <TableHead className="w-[80px]">Serial No.</TableHead>
               <TableHead className="w-[280px]">Test</TableHead>
               <TableHead className="w-[80px]">Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
@@ -66,14 +66,14 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
             </TableRow>
           </TableHeader>
           {isLoading ? (
-            <TableLoader rows={20} columns={9} />
+            <TableLoader rows={20} columns={10} />
           ) : (
             tests.requests.length !== 0 && (
               <TableBody>
                 {tests.requests.map((test) => (
                   <TableRow key={test.id}>
                     <TableCell className="whitespace-nowrap font-medium">
-                      {test.patientName}
+                      {test?.testSerialNo ?? ''}
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{test.testName}</TableCell>
                     <TableCell className="whitespace-nowrap">

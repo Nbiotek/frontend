@@ -49,9 +49,16 @@ interface TLogSample {
   collectionStatus: boolean;
 }
 
+interface TRemoteFile {
+  bucket: string;
+  file: string;
+  mime_type: string;
+  uuid: string;
+}
+
 interface TSampleCollectionData {
-  logSamples: LogSample[];
-  samplePhotos: string[];
+  logSamples: TLogSample[];
+  media: { file: TRemoteFile }[];
   collectionNotes: string;
 }
 
