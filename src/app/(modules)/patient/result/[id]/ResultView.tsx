@@ -6,8 +6,11 @@ import FieldSet from '@/atoms/fields/FieldSet';
 import { Text } from '@/lib/utils/Text';
 import { dateTimeUTC } from '@/utils/date';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, ArrowLeft, FileText } from 'lucide-react';
+import { AlertCircle, ArrowLeft, FileText, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Button from '@/atoms/Buttons';
+import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
+import { useState } from 'react';
+import Image from 'next/image';
 
 const ResultView = () => {
   const param = useParams();
@@ -16,8 +19,33 @@ const ResultView = () => {
 
   const router = useRouter();
 
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const handleResultView = (link: string) => {
     window.open(link, '_blank');
+  };
+
+  // Show media gallery modal
+  const handleShowMedia = () => {
+    setIsMediaModalOpen(true);
+  };
+
+  // Navigate to next image
+  const handleNextImage = () => {
+    if (data?.data?.media && data.data.media.length > 0) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === (data.data.media?.length || 0) - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  const handlePrevImage = () => {
+    if (data?.data?.media && data.data.media.length > 0) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === 0 ? (data.data.media?.length || 0) - 1 : prevIndex - 1
+      );
+    }
   };
 
   // Error state
@@ -139,15 +167,112 @@ const ResultView = () => {
         </div>
       </div>
       <TestResult data={data?.data?.results} />
-      {/* <FieldSet legend='Doctors Comment' text={data.data.} /> */}
-      <Button
-        variant="filled"
-        className="mx-auto w-60"
-        onClick={() => handleResultView(data.data.resultLink)}
-      >
-        {' '}
-        Download Result
-      </Button>
+
+      {/* Media Gallery Section */}
+      <div className="rounded-lg bg-white p-[24px]">
+        <Text variant="title" weight="semibold" className="mb-[24px] border-b pb-2">
+          Test Media
+        </Text>
+
+        {data?.data?.media && data.data.media.length > 0 ? (
+          <>
+            <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              {data.data.media.map((mediaItem: IMediaResp, index) => (
+                <div
+                  key={mediaItem.uuid || index}
+                  className="cursor-pointer rounded-lg border p-2 transition-shadow hover:shadow-md"
+                  onClick={() => {
+                    setCurrentImageIndex(index);
+                    setIsMediaModalOpen(true);
+                  }}
+                >
+                  <div className="bg-gray-100 relative aspect-square overflow-hidden rounded-lg">
+                    <img
+                      src={mediaItem.file_url}
+                      alt={`Test media ${index + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <p className="text-gray-500 mt-2 truncate text-sm">Media {index + 1}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="py-8 text-center">
+            <p className="text-gray-500">No media available for this test</p>
+          </div>
+        )}
+      </div>
+
+      {/* Media Modal */}
+      <Dialog open={isMediaModalOpen} onOpenChange={setIsMediaModalOpen}>
+        <DialogContent className="sm:max-w-5xl">
+          <div className="relative">
+            <button
+              onClick={() => setIsMediaModalOpen(false)}
+              className="absolute right-0 top-0 z-10 rounded-full bg-white p-1 shadow-md"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="flex flex-col items-center">
+              {data?.data?.media && data.data.media[currentImageIndex] && (
+                <>
+                  <div className="relative h-[60vh] w-full overflow-hidden rounded-lg bg-black">
+                    <img
+                      src={data.data.media[currentImageIndex].file_url}
+                      alt={`Test media ${currentImageIndex + 1}`}
+                      className="h-full w-full object-contain"
+                    />
+
+                    {/* Navigation arrows */}
+                    {data.data.media.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePrevImage();
+                          }}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                        >
+                          <ChevronLeft className="h-6 w-6" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleNextImage();
+                          }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                        >
+                          <ChevronRight className="h-6 w-6" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="mt-4 text-center">
+                    <p className="text-lg font-medium">
+                      {currentImageIndex + 1} of {data.data.media.length}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Download Button */}
+      <div className="mt-6 flex justify-center">
+        <Button
+          variant="filled"
+          className="mx-auto w-60"
+          onClick={() => handleResultView(data.data.resultLink)}
+        >
+          Download Result
+        </Button>
+      </div>
     </div>
   );
 };

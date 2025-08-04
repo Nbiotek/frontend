@@ -256,6 +256,7 @@ interface Test {
   results: TestResult[];
   testSuitId: string;
   resultLink: string;
+  media?: Array<IMediaResp>;
 }
 
 interface Pagination {
