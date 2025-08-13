@@ -1,6 +1,10 @@
 import server from '.';
 import { SUPER_ADMIN } from '@/constants/api';
 import { TAdminAdduserSchema } from '@/app/(modules)/admin/user-management/validation';
+import {
+  TAdminCreateHeroSchema,
+  TAdminHeroCarouselSchema
+} from '@/app/(modules)/admin/content-management/hero/validation';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -40,6 +44,9 @@ export const postAddSingleTest = async (payload: IPostAddSingleTest) =>
 export const postAddPackageTest = async (payload: IPostAddPackageTest) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_PACKAGE_TEST, payload);
 
+export const postCreateHeroLanding = async (payload: TAdminCreateHeroSchema) =>
+  server.post(SUPER_ADMIN.CREATE_LANDING, payload);
+
 // put requests
 export const putUpdateSingleTest = async ({
   id,
@@ -56,6 +63,11 @@ export const putUpdatePackageTest = async ({
   id: string;
   payload: Partial<IPostAddPackageTest>;
 }) => server.put(SUPER_ADMIN.UPDATE_PACKAGE_TEST.replace(':id', id), payload);
+
+export const putUpdateHero = async (
+  id: string,
+  payload: Partial<TAdminCreateHeroSchema | TAdminHeroCarouselSchema>
+) => server.put(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id), payload);
 
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));

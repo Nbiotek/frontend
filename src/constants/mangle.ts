@@ -109,3 +109,10 @@ export enum EnumNotificationType {
   DOCTOR_TEST_COMPLETED = 'DOCTOR_TEST_COMPLETED',
   DOCTOR_RECOMMENDATIONS = 'DOCTOR_RECOMMENDATIONS'
 }
+
+export enum EnumAdminContentMgt {
+  BLOG = 'blog',
+  TESTS = 'tests',
+  PRODUCTS = 'products',
+  HERO = 'HERO'
+}

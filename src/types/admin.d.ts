@@ -61,3 +61,23 @@ type TAdminChartRes = {
     total: number;
   }>;
 };
+
+type TAdminHeroSection = {
+  id: string;
+  heading: string;
+  tagline: string;
+  carousel: Array<{
+    id: string;
+    title: string;
+    description: string;
+    linkTitle: string;
+    linkStyle: string;
+    link: string;
+    media: Array<{
+      file_url: string;
+      mime_type: string;
+      bucket: string;
+      uuid: string;
+    }>;
+  }>;
+};

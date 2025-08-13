@@ -49,6 +49,10 @@ class AppConfigStore {
     handlerFn: (files: File[]) => {}
   };
 
+  heroSectionModal = {
+    id: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -60,6 +64,7 @@ class AppConfigStore {
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
+      heroSectionModal: observable,
 
       fileModalUpload: observable,
 
@@ -177,6 +182,20 @@ class AppConfigStore {
         }
         break;
 
+      case AppModals.CREATE_HERO_SECTION_MODAL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.CREATE_HERO_CAROUSEL_MODAL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;

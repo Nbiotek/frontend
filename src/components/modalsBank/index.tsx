@@ -52,7 +52,13 @@ const ModalsMap = {
   [AppModals.ADMIN_TOGGLE_TEST_AVAILABILITY]: dynamic(
     () => import('@/app/(modules)/admin/content-management/components/modals/ToggleTestModal')
   ),
-  [AppModals.FILE_UPLOAD_MODAL]: dynamic(() => import('@/atoms/modal/FileUploadModal'))
+  [AppModals.FILE_UPLOAD_MODAL]: dynamic(() => import('@/atoms/modal/FileUploadModal')),
+  [AppModals.CREATE_HERO_SECTION_MODAL]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/hero/components/modal/CreateHeroModal')
+  ),
+  [AppModals.CREATE_HERO_CAROUSEL_MODAL]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/hero/components/modal/HeroCarouselModal')
+  )
 };
 
 const ModalsBank = () => {

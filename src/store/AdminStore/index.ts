@@ -12,13 +12,19 @@ import {
   IPostAddPackageTest,
   postAddPackageTest,
   putUpdateSingleTest,
-  putUpdatePackageTest
+  putUpdatePackageTest,
+  putUpdateHero,
+  postCreateHeroLanding
 } from '@/requests/admin';
 import { AxiosResponse } from 'axios';
 import {
   TAdminPackageTestSchema,
   TAdminSingleTestSchema
 } from '@/app/(modules)/admin/content-management/components/modals/validation';
+import {
+  TAdminCreateHeroSchema,
+  TAdminHeroCarouselSchema
+} from '@/app/(modules)/admin/content-management/hero/validation';
 
 export enum EnumAdminQueryType {
   USERS = 'USERS'
@@ -40,7 +46,9 @@ const del = (key: string) => {
 const INIT_IS_LOADING = {
   add_user: false,
   single_test: false,
-  package_test: false
+  package_test: false,
+  create_hero: false,
+  update_hero: false
 };
 
 class AdminStore {
@@ -66,7 +74,10 @@ class AdminStore {
       addSingleTest: flow.bound,
       updateSingleTest: flow.bound,
       addPackageTest: flow.bound,
-      updatePackageTest: flow.bound
+      createHeroSection: flow.bound,
+      updatePackageTest: flow.bound,
+      updateHeroSection: flow.bound,
+      updateHeroCarousel: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -201,6 +212,45 @@ class AdminStore {
       toast.error(parseError(error));
     } finally {
       this.isLoading.package_test = false;
+    }
+  }
+
+  *createHeroSection(payload: TAdminCreateHeroSchema, cb?: () => void) {
+    this.isLoading.create_hero = true;
+    this.errors.create_hero = '';
+    try {
+      yield postCreateHeroLanding(payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.create_hero = false;
+    }
+  }
+
+  *updateHeroSection(id: string, payload: Partial<TAdminCreateHeroSchema>, cb?: () => void) {
+    this.isLoading.update_hero = true;
+    this.errors.update_hero = '';
+    try {
+      yield putUpdateHero(id, payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.update_hero = false;
+    }
+  }
+
+  *updateHeroCarousel(id: string, payload: Partial<TAdminHeroCarouselSchema>, cb?: () => void) {
+    this.isLoading.update_hero = true;
+    this.errors.update_hero = '';
+    try {
+      yield putUpdateHero(id, payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.update_hero = false;
     }
   }
 }
