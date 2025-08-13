@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import TextareaField from '@/atoms/fields/TextAreaField';
 import { SUPER_ADMIN } from '@/constants/api';
 import { useEffect } from 'react';
-import { useFetchHeroById } from '@/hooks/admin/useFetchHeroById';
+import { useFetchHero } from '@/hooks/admin/useFetchHero';
 
 const AdminHeroModal = () => {
   const {
@@ -22,7 +22,7 @@ const AdminHeroModal = () => {
   const queryClient = useQueryClient();
   const isEditMode = heroSectionModal.id !== '';
 
-  const { data, status } = useFetchHeroById(heroSectionModal.id);
+  const { data, status } = useFetchHero();
 
   const form = useForm<TAdminCreateHeroSchema>({
     defaultValues: {
@@ -56,7 +56,7 @@ const AdminHeroModal = () => {
       toggleModals();
     };
     if (isEditMode) {
-      updateHeroSection(heroSectionModal.id, formData, cbFn);
+      updateHeroSection(formData, cbFn);
       return;
     }
     createHeroSection(formData, cbFn);
@@ -73,7 +73,6 @@ const AdminHeroModal = () => {
         closeModal={handleCloseModal}
         bgClose={false}
         isOpen={isOpen.CREATE_HERO_SECTION_MODAL}
-        className="!max-w-[350px]"
         title="Hero Section"
       >
         <div className="flex items-center justify-center py-8">
@@ -90,7 +89,6 @@ const AdminHeroModal = () => {
         closeModal={handleCloseModal}
         bgClose={false}
         isOpen={isOpen.CREATE_HERO_SECTION_MODAL}
-        className="!max-w-[350px]"
         title="Hero section"
       >
         <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -108,7 +106,6 @@ const AdminHeroModal = () => {
       closeModal={handleCloseModal}
       bgClose={false}
       isOpen={isOpen.CREATE_HERO_SECTION_MODAL}
-      className="!max-w-[350px]"
       title="Hero section"
     >
       <div className="w-full">

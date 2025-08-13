@@ -40,7 +40,7 @@ export const AdminHeroCarouselSchema = z.object({
     .url({ message: 'Invalid link' })
     .trim()
     .min(2, { message: 'Link is required.' }),
-  media: z.array(mediaFileSchema),
+  media: z.array(mediaFileSchema, { required_error: 'Upload a file' }),
   status: z
     .string({ required_error: 'Status is required.' })
     .trim()

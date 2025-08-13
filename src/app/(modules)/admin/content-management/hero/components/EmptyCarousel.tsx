@@ -7,7 +7,7 @@ import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { Paragraph } from '@/atoms/typographys';
 import Button from '@/atoms/Buttons';
 
-const EmptyCarousel = ({ id }: { id: string }) => {
+const EmptyCarousel = () => {
   const {
     AppConfigStore: { toggleModals }
   } = useStore();
@@ -29,7 +29,7 @@ const EmptyCarousel = ({ id }: { id: string }) => {
               leftIcon={<Plus size={17} />}
               text="Add carousel"
               onClick={() =>
-                toggleModals({ open: true, name: AppModals.CREATE_HERO_CAROUSEL_MODAL, id })
+                toggleModals({ open: true, name: AppModals.CREATE_HERO_CAROUSEL_MODAL, id: '' })
               }
             />
           </div>

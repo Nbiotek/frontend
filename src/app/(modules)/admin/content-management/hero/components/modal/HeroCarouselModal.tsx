@@ -1,29 +1,42 @@
 import { XModal } from '@/atoms/modal';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
 import { AdminHeroCarouselSchema, TAdminHeroCarouselSchema } from '../../validation';
 import { Button } from '@/components/ui/button';
-import { Loader } from 'lucide-react';
+import { Loader, Upload } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { SUPER_ADMIN } from '@/constants/api';
 import { useEffect } from 'react';
-import { useFetchHeroById } from '@/hooks/admin/useFetchHeroById';
+import { useFetchHeroCarouselById } from '@/hooks/admin/useFetchHeroCarouselById';
 import InputField from '@/atoms/fields/InputField';
 import { SubTitle } from '@/atoms/typographys';
+import { AppModals } from '@/store/AppConfig/appModalTypes';
+import TextareaField from '@/atoms/fields/TextAreaField';
+import FilePreview from '@/components/common/FileUpload/FilePreview';
+import InputSelect from '@/atoms/fields/NewInputSelect';
+import { carouselStatus } from '@/constants/data';
 
 const AdminHeroCarouselModal = () => {
   const {
-    AppConfigStore: { isOpen, toggleModals, heroSectionModal },
-    AdminStore: { updateHeroCarousel, isLoading }
+    AppConfigStore: {
+      isOpen,
+      toggleModals,
+      heroSectionModal,
+      files,
+      addFiles,
+      removeFiles,
+      setMediaMultiple
+    },
+    AdminStore: { updateHeroSection, updateHeroCarousel, isLoading }
   } = useStore();
 
   const queryClient = useQueryClient();
   const isEditMode = heroSectionModal.id !== '';
 
-  const { data, status } = useFetchHeroById(heroSectionModal.id);
+  const { data, status } = useFetchHeroCarouselById(heroSectionModal.id);
 
   const form = useForm<TAdminHeroCarouselSchema>({
     defaultValues: {
@@ -35,11 +48,50 @@ const AdminHeroCarouselModal = () => {
     reValidateMode: 'onSubmit'
   });
 
+  const { fields, append, remove, update } = useFieldArray({
+    control: form.control,
+    name: 'media'
+  });
+
+  const media = useWatch({ control: form.control, name: 'media' });
+
+  const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
+    update(index, { file: remoteFile });
+
+    if (files.length && !files.find((file) => file.uuid === remoteFile.uuid)) {
+      addFiles(remoteFile);
+    }
+  };
+
+  const handleRemove = (idx: number, media_uuid?: string) => {
+    if (media_uuid) {
+      removeFiles(media_uuid);
+    }
+    remove(idx);
+  };
+
+  const handlerFn = (_files: File[]) => {
+    append(_files.map((file) => ({ file })));
+    toggleModals({ name: AppModals.FILE_UPLOAD_MODAL, open: false });
+  };
+
+  const disableSubmit = (() => {
+    if (media && media.length > 0) {
+      const hasUnprocessedFiles = media.some((el) => el.file instanceof File);
+      return hasUnprocessedFiles;
+    }
+    return true;
+  })();
+
   useEffect(() => {
     if (isEditMode && data) {
       form.reset({
-        title: data.heading || '',
-        description: data.tagline || ''
+        title: data.title || '',
+        description: data.description || '',
+        link: data.link || '',
+        linkTitle: data.linkTitle || '',
+        linkStyle: data.linkStyle || '',
+        media: data.media.map((el) => ({ file: el }))
       });
     } else if (!isEditMode) {
       form.reset({
@@ -56,7 +108,11 @@ const AdminHeroCarouselModal = () => {
       });
       toggleModals();
     };
-    updateHeroCarousel(heroSectionModal.id, formData, cbFn);
+    if (isEditMode) {
+      updateHeroCarousel(heroSectionModal.id, formData, cbFn);
+      return;
+    }
+    updateHeroSection({ carousel: [formData] }, cbFn);
   };
 
   const handleCloseModal = () => {
@@ -108,7 +164,7 @@ const AdminHeroCarouselModal = () => {
       <div className="w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-4">
-            <fieldset disabled={isLoading.create_hero} className="w-full">
+            <fieldset disabled={isLoading.update_hero} className="w-full">
               <FormField
                 control={form.control}
                 name="title"
@@ -122,9 +178,7 @@ const AdminHeroCarouselModal = () => {
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <div>
-                    <InputField label="Description" placeholder="" required {...field} />
-                  </div>
+                  <TextareaField label="Description" placeholder="" required {...field} />
                 )}
               />
 
@@ -136,9 +190,7 @@ const AdminHeroCarouselModal = () => {
                     control={form.control}
                     name="linkTitle"
                     render={({ field }) => (
-                      <div>
-                        <InputField label="Text" placeholder="see more" required {...field} />
-                      </div>
+                      <InputField label="Text" placeholder="see more" required {...field} />
                     )}
                   />
 
@@ -167,20 +219,80 @@ const AdminHeroCarouselModal = () => {
                     )}
                   />
                 </div>
+
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <div>
+                      <InputSelect
+                        label="Status"
+                        placeholder="Select a status"
+                        items={carouselStatus}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        {...field}
+                      />
+                    </div>
+                  )}
+                />
               </div>
             </fieldset>
 
+            {fields.length === 1 ? null : (
+              <Button
+                type="button"
+                variant="outline"
+                className="!h-[35px] !w-auto !text-xs"
+                onClick={() => {
+                  setMediaMultiple(false);
+                  toggleModals({
+                    open: true,
+                    name: AppModals.FILE_UPLOAD_MODAL,
+                    handlerFn
+                  });
+                }}
+              >
+                <Upload size={15} />
+                upload
+              </Button>
+            )}
+
+            {form?.formState?.errors?.media?.message && (
+              <p className="text-[0.8rem] font-medium text-destructive">
+                {form?.formState?.errors?.media?.message}
+              </p>
+            )}
+
+            <div className="flex flex-col">
+              <div className="mt-4 flex w-full flex-wrap justify-start gap-5">
+                {fields.map(({ id, file }, idx) => (
+                  <FilePreview
+                    key={id}
+                    {...{ file, id, idx, bucket: 'cloudinary' }}
+                    remove={handleRemove}
+                    update={handleUpdate}
+                    error={form.formState.errors?.media?.[idx]?.message}
+                  />
+                ))}
+              </div>
+            </div>
+
             <div className="flex items-center justify-end space-x-2">
               <Button
-                disabled={isLoading.create_hero}
+                disabled={isLoading.update_hero || disableSubmit}
                 type="button"
                 variant="outline"
                 onClick={handleCloseModal}
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-400" disabled={isLoading.create_hero}>
-                {isLoading.create_hero && <Loader className="animate-spin" />}
+              <Button
+                type="submit"
+                className="bg-blue-400"
+                disabled={disableSubmit || isLoading.update_hero}
+              >
+                {isLoading.update_hero && <Loader className="animate-spin" />}
                 {isEditMode ? 'Update' : 'Create'}
               </Button>
             </div>

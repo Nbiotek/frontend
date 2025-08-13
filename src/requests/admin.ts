@@ -5,6 +5,7 @@ import {
   TAdminCreateHeroSchema,
   TAdminHeroCarouselSchema
 } from '@/app/(modules)/admin/content-management/hero/validation';
+import { TAdminHeroCarousel } from '@/store/AdminStore';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -65,8 +66,12 @@ export const putUpdatePackageTest = async ({
 }) => server.put(SUPER_ADMIN.UPDATE_PACKAGE_TEST.replace(':id', id), payload);
 
 export const putUpdateHero = async (
+  payload: Partial<TAdminCreateHeroSchema | TAdminHeroCarousel>
+) => server.put(SUPER_ADMIN.LANDING_PAGE, payload);
+
+export const putUpdateHeroCarousel = async (
   id: string,
-  payload: Partial<TAdminCreateHeroSchema | TAdminHeroCarouselSchema>
+  payload: Partial<TAdminHeroCarouselSchema>
 ) => server.put(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id), payload);
 
 export const suspendUser = async (id: string) =>
@@ -92,3 +97,6 @@ export const toggleTestAvailability = async (arg: {
 // delete requests
 export const deleteUser = async (id: string) =>
   server.delete(SUPER_ADMIN.DELETE_USER.replace(':id', id));
+
+export const deleteHeroCarousel = async (id: string) =>
+  server.delete(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id));

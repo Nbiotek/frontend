@@ -8,8 +8,9 @@ const INIT_IS_OPEN = initializer(AppModals, false);
 
 class AppConfigStore {
   rootStore: RootStore;
-
   queryLimit: number = 10;
+  mediaMultiple: boolean = true;
+  files: Array<TRemoteFile> = [];
 
   isOpen = { ...INIT_IS_OPEN };
   nonce = 0;
@@ -56,6 +57,8 @@ class AppConfigStore {
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
+      files: observable,
+      mediaMultiple: observable,
       nonce: observable,
       testDetails: observable,
       queryLimit: observable,
@@ -65,14 +68,30 @@ class AppConfigStore {
       data: observable,
       testAvailability: observable,
       heroSectionModal: observable,
-
       fileModalUpload: observable,
 
+      addFiles: action.bound,
+      removeFiles: action.bound,
+      setFiles: action.bound,
       setModalOpenState: action.bound,
-      toggleModals: action.bound
+      toggleModals: action.bound,
+      setMediaMultiple: action.bound,
+      resetMedia: action.bound
     });
     this.rootStore = _rootStore;
   }
+
+  addFiles(_files: TRemoteFile) {
+    this.files.push(_files);
+  }
+
+  removeFiles = (uuid: string) => {
+    this.files = this.files.filter((file) => file.uuid !== uuid);
+  };
+
+  setFiles = (_files: Array<TRemoteFile>) => {
+    this.files = _files;
+  };
 
   setModalOpenState(name: AppModals, open?: boolean) {
     this.isOpen[name] = typeof open === 'undefined' ? !this.isOpen[name] : open;
@@ -205,6 +224,14 @@ class AppConfigStore {
     }
 
     this.nonce = Date.now() + Math.random();
+  }
+
+  setMediaMultiple(_isMultiple: boolean) {
+    this.mediaMultiple = _isMultiple;
+  }
+
+  resetMedia() {
+    this.mediaMultiple = true;
   }
 }
 

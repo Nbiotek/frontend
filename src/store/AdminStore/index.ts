@@ -14,7 +14,8 @@ import {
   putUpdateSingleTest,
   putUpdatePackageTest,
   putUpdateHero,
-  postCreateHeroLanding
+  postCreateHeroLanding,
+  putUpdateHeroCarousel
 } from '@/requests/admin';
 import { AxiosResponse } from 'axios';
 import {
@@ -49,6 +50,10 @@ const INIT_IS_LOADING = {
   package_test: false,
   create_hero: false,
   update_hero: false
+};
+
+export type TAdminHeroCarousel = {
+  carousel: Array<TAdminHeroCarouselSchema>;
 };
 
 class AdminStore {
@@ -228,16 +233,19 @@ class AdminStore {
     }
   }
 
-  *updateHeroSection(id: string, payload: Partial<TAdminCreateHeroSchema>, cb?: () => void) {
-    this.isLoading.update_hero = true;
-    this.errors.update_hero = '';
+  *updateHeroSection(
+    payload: Partial<TAdminCreateHeroSchema | TAdminHeroCarousel>,
+    cb?: () => void
+  ) {
+    this.isLoading.create_hero = true;
+    this.errors.create_hero = '';
     try {
-      yield putUpdateHero(id, payload);
+      yield putUpdateHero(payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
     } finally {
-      this.isLoading.update_hero = false;
+      this.isLoading.create_hero = false;
     }
   }
 
@@ -245,7 +253,7 @@ class AdminStore {
     this.isLoading.update_hero = true;
     this.errors.update_hero = '';
     try {
-      yield putUpdateHero(id, payload);
+      yield putUpdateHeroCarousel(id, payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));

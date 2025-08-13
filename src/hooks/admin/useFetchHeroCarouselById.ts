@@ -2,9 +2,11 @@ import { useCallback } from 'react';
 import { superAdmin } from './FetchKeyFactory';
 import { useQuery } from '@tanstack/react-query';
 
-const select = (res: INBTServerResp<TAdminHeroSection>) => res.data;
+const select = (res: INBTServerResp<TAdminCarouselItem>) => res.data;
 
-export function useFetchHeroById(id: string): IQueryHookResponse<TAdminHeroSection | undefined> {
+export function useFetchHeroCarouselById(
+  id: string
+): IQueryHookResponse<TAdminCarouselItem | undefined> {
   const meta = superAdmin.getHeroSection();
   const memoizedSelect = useCallback(select, []);
 

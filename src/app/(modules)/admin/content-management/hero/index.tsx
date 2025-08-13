@@ -12,7 +12,6 @@ const Hero = () => {
 
   const { data, isLoading } = useFetchHero();
 
-  console.log(data, isLoading);
   return (
     <div className="w-full">
       {isLoading || (
