@@ -30,7 +30,7 @@ const HeroContent = ({ isLoading, data }: IHeroContentProps) => {
 
             <div className="absolute right-2 top-2">
               <Button
-                variant="ghost"
+                variant="outline"
                 onClick={() =>
                   toggleModals({
                     name: AppModals.CREATE_HERO_SECTION_MODAL,
@@ -43,11 +43,10 @@ const HeroContent = ({ isLoading, data }: IHeroContentProps) => {
               </Button>
             </div>
           </Card>
-
           {data.carousel.length > 0 ? (
             <div className="flex flex-col space-y-4">
               {data.carousel.map((el) => (
-                <HeroCarousel key={el.id} />
+                <HeroCarousel key={el.id} carousel={el} />
               ))}
             </div>
           ) : (

@@ -355,13 +355,13 @@ class Routes {
   SUPER_ADMIN = new Route('/admin', 'Dashboard', 'Super Admin dashboard', [EnumRole.SUPER_ADMIN]);
   SUPER_ADMIN_USER_MANAGEMENT = new Route(
     '/admin/user-management',
-    'User management',
+    'User',
     'Super Admin user management',
     [EnumRole.SUPER_ADMIN]
   );
   SUPER_ADMIN_CONTENT_MANAGEMENT = new Route(
     '/admin/content-management',
-    'Content management',
+    'Content',
     'Super Admin Content management',
     [EnumRole.SUPER_ADMIN]
   );

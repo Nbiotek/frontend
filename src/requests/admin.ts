@@ -67,7 +67,7 @@ export const putUpdatePackageTest = async ({
 
 export const putUpdateHero = async (
   payload: Partial<TAdminCreateHeroSchema | TAdminHeroCarousel>
-) => server.put(SUPER_ADMIN.LANDING_PAGE, payload);
+) => server.put(SUPER_ADMIN.CREATE_LANDING, payload);
 
 export const putUpdateHeroCarousel = async (
   id: string,

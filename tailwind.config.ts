@@ -135,7 +135,9 @@ export default {
       aspectRatio: {
         portrait: '4 / 5',
         landscape: '1.91 / 1',
-        vertical: '9 / 16'
+        vertical: '9 / 16',
+        cover: '108 / 17',
+        hero: '1 / 1'
       },
       borderRadius: {
         lg: 'var(--radius)',

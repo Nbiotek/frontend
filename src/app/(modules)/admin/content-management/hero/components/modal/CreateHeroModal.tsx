@@ -51,7 +51,7 @@ const AdminHeroModal = () => {
   const onSubmit: SubmitHandler<TAdminCreateHeroSchema> = (formData) => {
     const cbFn = () => {
       queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey[0] === SUPER_ADMIN.STATS
+        predicate: (query) => query.queryKey[0] === SUPER_ADMIN.LANDING_PAGE
       });
       toggleModals();
     };

@@ -91,7 +91,7 @@ const AdminHeroCarouselModal = () => {
         link: data.link || '',
         linkTitle: data.linkTitle || '',
         linkStyle: data.linkStyle || '',
-        media: data.media.map((el) => ({ file: el }))
+        media: data?.media?.map((el) => ({ file: el })) || []
       });
     } else if (!isEditMode) {
       form.reset({
