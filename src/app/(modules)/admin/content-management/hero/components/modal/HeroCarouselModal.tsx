@@ -18,6 +18,7 @@ import TextareaField from '@/atoms/fields/TextAreaField';
 import FilePreview from '@/components/common/FileUpload/FilePreview';
 import InputSelect from '@/atoms/fields/NewInputSelect';
 import { carouselStatus } from '@/constants/data';
+import { toJS } from 'mobx';
 
 const AdminHeroCarouselModal = () => {
   const {
@@ -48,7 +49,7 @@ const AdminHeroCarouselModal = () => {
     reValidateMode: 'onSubmit'
   });
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, replace } = useFieldArray({
     control: form.control,
     name: 'media'
   });
@@ -83,24 +84,6 @@ const AdminHeroCarouselModal = () => {
     return true;
   })();
 
-  useEffect(() => {
-    if (isEditMode && data) {
-      form.reset({
-        title: data.title || '',
-        description: data.description || '',
-        link: data.link || '',
-        linkTitle: data.linkTitle || '',
-        linkStyle: data.linkStyle || '',
-        media: data?.media?.map((el) => ({ file: el })) || []
-      });
-    } else if (!isEditMode) {
-      form.reset({
-        title: '',
-        description: ''
-      });
-    }
-  }, [isEditMode, data, form]);
-
   const onSubmit: SubmitHandler<TAdminHeroCarouselSchema> = (formData) => {
     const cbFn = () => {
       queryClient.invalidateQueries({
@@ -119,6 +102,27 @@ const AdminHeroCarouselModal = () => {
     form.reset();
     toggleModals();
   };
+
+  useEffect(() => {
+    if (isEditMode && data) {
+      form.reset({
+        title: data.title || '',
+        description: data.description || '',
+        link: data.link || '',
+        linkTitle: data.linkTitle || '',
+        linkStyle: data.linkStyle || '',
+        media: data?.media?.map((el) => ({ file: el })) || []
+      });
+      const editableMedia =
+        data?.media?.map((el) => ({ file: { ...el, file: el.file_url } })) || [];
+      replace(editableMedia);
+    } else if (!isEditMode) {
+      form.reset({
+        title: '',
+        description: ''
+      });
+    }
+  }, [isEditMode, data, form]);
 
   if (isEditMode && status === 'pending') {
     return (
@@ -164,7 +168,7 @@ const AdminHeroCarouselModal = () => {
       <div className="w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-4">
-            <fieldset disabled={isLoading.update_hero} className="w-full">
+            <fieldset disabled={isLoading.create_hero} className="w-full">
               <FormField
                 control={form.control}
                 name="title"
@@ -280,7 +284,7 @@ const AdminHeroCarouselModal = () => {
 
             <div className="flex items-center justify-end space-x-2">
               <Button
-                disabled={isLoading.update_hero || disableSubmit}
+                disabled={isLoading.create_hero || disableSubmit}
                 type="button"
                 variant="outline"
                 onClick={handleCloseModal}
@@ -290,9 +294,9 @@ const AdminHeroCarouselModal = () => {
               <Button
                 type="submit"
                 className="bg-blue-400"
-                disabled={disableSubmit || isLoading.update_hero}
+                disabled={disableSubmit || isLoading.create_hero}
               >
-                {isLoading.update_hero && <Loader className="animate-spin" />}
+                {isLoading.create_hero && <Loader className="animate-spin" />}
                 {isEditMode ? 'Update' : 'Create'}
               </Button>
             </div>

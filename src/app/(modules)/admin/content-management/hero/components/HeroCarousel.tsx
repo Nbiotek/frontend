@@ -3,7 +3,7 @@ import { Text } from '@/lib/utils/Text';
 import { Button } from '@/components/ui/button';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
-import { Edit2 } from 'lucide-react';
+import { Edit2, Trash } from 'lucide-react';
 
 interface IHeroCarouselProps {
   carousel: TAdminCarouselItem;
@@ -12,22 +12,36 @@ interface IHeroCarouselProps {
 const HeroCarousel = ({ carousel }: IHeroCarouselProps) => {
   const { id, title, description, linkTitle, media, linkStyle } = carousel;
   const {
-    AppConfigStore: { toggleModals }
+    AppConfigStore: { toggleModals },
+    AdminStore: { deleteHeroCarousel }
   } = useStore();
   return (
     <div className="relative top-0 h-full w-full overflow-clip rounded-lg duration-700 ease-in-out">
-      <div className="absolute right-2 top-2 z-40">
+      <div className="absolute right-2 top-2 z-40 space-x-1">
         <Button
           variant="outline"
           onClick={() =>
             toggleModals({
               name: AppModals.CREATE_HERO_CAROUSEL_MODAL,
               open: true,
-              id
+              id: id
             })
           }
         >
           <Edit2 />
+        </Button>
+
+        <Button
+          variant="destructive"
+          onClick={() =>
+            toggleModals({
+              name: AppModals.DEL_HERO_CAROUSEL,
+              open: true,
+              id: id
+            })
+          }
+        >
+          <Trash />
         </Button>
       </div>
       <figure className="aspect-landscape w-full">

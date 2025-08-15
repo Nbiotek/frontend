@@ -98,5 +98,5 @@ export const toggleTestAvailability = async (arg: {
 export const deleteUser = async (id: string) =>
   server.delete(SUPER_ADMIN.DELETE_USER.replace(':id', id));
 
-export const deleteHeroCarousel = async (id: string) =>
+export const delHeroCarousel = async (id: string) =>
   server.delete(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id));

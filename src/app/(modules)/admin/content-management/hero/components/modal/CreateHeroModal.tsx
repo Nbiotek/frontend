@@ -53,7 +53,7 @@ const AdminHeroModal = () => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === SUPER_ADMIN.LANDING_PAGE
       });
-      toggleModals();
+      toggleModals({});
     };
     if (isEditMode) {
       updateHeroSection(formData, cbFn);

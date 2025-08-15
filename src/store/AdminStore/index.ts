@@ -15,7 +15,8 @@ import {
   putUpdatePackageTest,
   putUpdateHero,
   postCreateHeroLanding,
-  putUpdateHeroCarousel
+  putUpdateHeroCarousel,
+  delHeroCarousel
 } from '@/requests/admin';
 import { AxiosResponse } from 'axios';
 import {
@@ -31,25 +32,13 @@ export enum EnumAdminQueryType {
   USERS = 'USERS'
 }
 
-const persist = <T = string>(key: string, value: T) => {
-  store.namespace('admin').session.set(key, value);
-  return value;
-};
-
-const get = <T = string>(key: string, fallback?: T) => {
-  return store.namespace('admin').session.get(key, fallback) as T;
-};
-
-const del = (key: string) => {
-  return store.namespace('admin').session.remove(key);
-};
-
 const INIT_IS_LOADING = {
   add_user: false,
   single_test: false,
   package_test: false,
   create_hero: false,
-  update_hero: false
+  update_hero: false,
+  del_carousel: false
 };
 
 export type TAdminHeroCarousel = {
@@ -69,6 +58,7 @@ class AdminStore {
     makeObservable(this, {
       queries: observable,
       defaultquery: observable,
+      isLoading: observable,
 
       applyQuery: action.bound,
       resetQuery: action.bound,
@@ -82,7 +72,8 @@ class AdminStore {
       createHeroSection: flow.bound,
       updatePackageTest: flow.bound,
       updateHeroSection: flow.bound,
-      updateHeroCarousel: flow.bound
+      updateHeroCarousel: flow.bound,
+      deleteHeroCarousel: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -225,10 +216,10 @@ class AdminStore {
     this.errors.create_hero = '';
     try {
       yield postCreateHeroLanding(payload);
-      cb?.();
     } catch (error) {
       toast.error(parseError(error));
     } finally {
+      cb?.();
       this.isLoading.create_hero = false;
     }
   }
@@ -250,15 +241,28 @@ class AdminStore {
   }
 
   *updateHeroCarousel(id: string, payload: Partial<TAdminHeroCarouselSchema>, cb?: () => void) {
-    this.isLoading.update_hero = true;
-    this.errors.update_hero = '';
+    this.isLoading.create_hero = true;
+    this.errors.create_hero = '';
     try {
       yield putUpdateHeroCarousel(id, payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
     } finally {
-      this.isLoading.update_hero = false;
+      this.isLoading.create_hero = false;
+    }
+  }
+
+  *deleteHeroCarousel(id: string, cb?: () => void) {
+    this.isLoading.del_carousel = true;
+    this.errors.del_carousel = '';
+    try {
+      yield delHeroCarousel(id);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.del_carousel = false;
     }
   }
 }

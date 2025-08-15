@@ -58,6 +58,9 @@ const ModalsMap = {
   ),
   [AppModals.CREATE_HERO_CAROUSEL_MODAL]: dynamic(
     () => import('@/app/(modules)/admin/content-management/hero/components/modal/HeroCarouselModal')
+  ),
+  [AppModals.DEL_HERO_CAROUSEL]: dynamic(
+    () => import('@/app/(modules)/admin/content-management/hero/components/modal/DelCarouselModal')
   )
 };
 

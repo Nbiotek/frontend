@@ -215,6 +215,13 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.DEL_HERO_CAROUSEL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;

@@ -4,6 +4,7 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import HeroContent from './components/HeroContent';
 import { useFetchHero } from '@/hooks/admin/useFetchHero';
+import { Plus } from 'lucide-react';
 
 const Hero = () => {
   const {
@@ -17,7 +18,17 @@ const Hero = () => {
       {isLoading || (
         <div className="flex w-full flex-col space-y-3 rounded-lg bg-white p-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
           <div></div>
-          {data && data.heading ? null : (
+          {data && data.heading ? (
+            <Button
+              className="w-fit bg-blue-400"
+              onClick={() =>
+                toggleModals({ name: AppModals.CREATE_HERO_CAROUSEL_MODAL, open: true, id: '' })
+              }
+            >
+              <Plus />
+              Add carousel
+            </Button>
+          ) : (
             <Button
               className="w-fit bg-blue-400"
               onClick={() =>

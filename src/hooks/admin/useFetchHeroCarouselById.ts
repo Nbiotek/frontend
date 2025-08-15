@@ -7,7 +7,7 @@ const select = (res: INBTServerResp<TAdminCarouselItem>) => res.data;
 export function useFetchHeroCarouselById(
   id: string
 ): IQueryHookResponse<TAdminCarouselItem | undefined> {
-  const meta = superAdmin.getHeroSection();
+  const meta = superAdmin.getHeroSectionId(id);
   const memoizedSelect = useCallback(select, []);
 
   const { data, isLoading, status, error } = useQuery({
