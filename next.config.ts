@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { env } from '@/env';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -18,7 +19,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'pub-e55e56449ffc4dd19126603054d607a9.r2.dev',
+        hostname: env.S3_PUB_LAB_ACCESS_URL,
         pathname: '/**'
       }
     ]
