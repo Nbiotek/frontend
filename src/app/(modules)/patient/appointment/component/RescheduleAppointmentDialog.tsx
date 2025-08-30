@@ -13,6 +13,7 @@ import { Text } from '@/lib/utils/Text';
 import { Calendar, Clock } from 'lucide-react';
 import { useRescheduleAppointment } from '@/hooks/patient/useAppoitment';
 import toast from 'react-hot-toast';
+import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 interface RescheduleDialogProps {
   open: boolean;
@@ -23,7 +24,6 @@ interface RescheduleDialogProps {
 
 const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: RescheduleDialogProps) => {
   const [newDate, setNewDate] = useState<Date | undefined>(undefined);
-  const [dateString, setDateString] = useState<string>('');
   const { mutate: rescheduleAppointment, isPending } = useRescheduleAppointment();
 
   console.log(appointmentId, currentDate);
@@ -35,7 +35,6 @@ const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: Resched
         const date = new Date(currentDate);
         if (!isNaN(date.getTime())) {
           setNewDate(date);
-          setDateString(date.toISOString().split('T')[0]);
         }
       } catch (error) {
         console.error('Error parsing date:', error);
@@ -43,16 +42,8 @@ const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: Resched
     }
   }, [open, currentDate]);
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setDateString(value);
-
-    if (value) {
-      const date = new Date(value);
-      setNewDate(date);
-    } else {
-      setNewDate(undefined);
-    }
+  const handleDateSelect = (date: Date | undefined) => {
+    setNewDate(date);
   };
 
   const handleSubmit = () => {
@@ -100,7 +91,8 @@ const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: Resched
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
-                    day: 'numeric'
+                    day: 'numeric',
+                    timeZone: 'UTC'
                   })}
                 </span>
               </div>
@@ -111,11 +103,21 @@ const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: Resched
             <Text variant="body" weight="semibold">
               Select New Date
             </Text>
-            <input
-              type="date"
-              className="border-gray-300 focus:border-blue-500 w-full rounded-md border p-2 focus:outline-none"
-              value={dateString}
-              onChange={handleDateChange}
+            <DateTimePicker
+              value={newDate}
+              hourCycle={24}
+              onChange={handleDateSelect}
+              granularity="minute"
+              timeInterval={30}
+              minHour={8}
+              maxHour={18}
+              hidden={(date) => {
+                const currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                // Disable past dates and Sundays
+                return date < currentDate || date.getDay() === 0;
+              }}
+              className="w-full"
             />
             {newDate && (
               <div className="text-green-600 mt-2 text-sm">

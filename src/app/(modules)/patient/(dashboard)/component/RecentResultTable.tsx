@@ -13,6 +13,14 @@ import {
 } from '@/components/ui/table';
 import { dateTimeUTC } from '@/utils/date';
 import { DownloadCloudIcon, EllipsisVertical } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup
+} from '@/components/ui/dropdown-menu';
+import Router, { useRouter } from 'next/navigation';
 
 interface RecentResultProps {
   data: TPatientRecentTest;
@@ -20,6 +28,16 @@ interface RecentResultProps {
 }
 
 const RecentResultTable = ({ data, loading }: RecentResultProps) => {
+  const router = useRouter();
+
+  const handleView = (id: string) => {
+    router.push(`/patient/result/${id}`);
+  };
+
+  const handleTestSuit = (id: string) => {
+    router.push(`/patient/result/test-suite/${id}`);
+  };
+
   return (
     <>
       <div className="w-full rounded-lg">
@@ -41,7 +59,7 @@ const RecentResultTable = ({ data, loading }: RecentResultProps) => {
               <TableBody>
                 {data.data.map((recentTest) => (
                   <TableRow key={recentTest.id}>
-                    <TableCell>{recentTest.id}</TableCell>
+                    <TableCell>{recentTest.testResultId}</TableCell>
                     <TableCell>{recentTest.name}</TableCell>
                     <TableCell>{dateTimeUTC(recentTest.date, false)}</TableCell>
                     <TableCell>{recentTest.type}</TableCell>
@@ -50,7 +68,22 @@ const RecentResultTable = ({ data, loading }: RecentResultProps) => {
                     </TableCell>
                     {/* download  */}
                     <TableCell>
-                      <EllipsisVertical className="cursor-pointer" />
+                      {recentTest.resultStatus !== 'IN_PROGRESS' ? (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger>
+                            <EllipsisVertical className="cursor-pointer" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                              <DropdownMenuItem onClick={() => handleView(recentTest.id)}>
+                                View
+                              </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      ) : (
+                        <Status variant="NOT_AVAILABLE" />
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

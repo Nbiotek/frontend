@@ -161,7 +161,9 @@ interface TPatientRecentTest {
     name: string;
     type: string;
     status: string;
+    testResultId: string;
     date: string | Date | unefined;
+    resultStatus: string;
   }>;
 }
 
@@ -256,6 +258,7 @@ interface Test {
   results: TestResult[];
   testSuitId: string;
   resultLink: string;
+  testResultId: string;
   media?: Array<IMediaResp>;
 }
 

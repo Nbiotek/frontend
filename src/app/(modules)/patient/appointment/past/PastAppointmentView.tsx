@@ -2,8 +2,10 @@
 import InputSearch from '@/atoms/fields/InputSearch';
 import { format } from 'date-fns';
 
-import { usePendingAppointment } from '@/hooks/patient/useAppoitment';
+import { usePastAppointment } from '@/hooks/patient/useAppoitment';
 import AppointmentItem from '../component/AppointmentItem';
+
+import Button from '@/atoms/Buttons';
 import { AppointmentFilterParams } from '@/requests/appointments';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -12,7 +14,7 @@ import SortComponent from '../../component/SortCP';
 import { AppointmentListSkeleton } from '@/atoms/Loaders/AppointmentLoader';
 import EmptyState from '@/components/EmptyState';
 
-const PendingAppointmentView = () => {
+const PastAppointmentView = () => {
   // Default filter state
   const defaultFilters: AppointmentFilterParams = {
     sortOrder: 'DESC'
@@ -23,8 +25,7 @@ const PendingAppointmentView = () => {
   // Get the query client for manual invalidation
   const queryClient = useQueryClient();
 
-  // Use the updated hook with filter params
-  const { data, isLoading, refetch } = usePendingAppointment(filters);
+  const { data, isLoading, refetch } = usePastAppointment(filters);
 
   // Debounce search to avoid too many requests
   const [searchInput, setSearchInput] = useState('');
@@ -42,7 +43,6 @@ const PendingAppointmentView = () => {
     return () => clearTimeout(timer);
   }, [searchInput, filters.search]);
 
-  // Calculate the number of active filters
   const getActiveFilterCount = () => {
     let count = 0;
     if (filters.fromDate) count++;
@@ -56,9 +56,7 @@ const PendingAppointmentView = () => {
     setSearchInput(e.target.value);
   };
 
-  // Handle filter changes (date range and sortBy)
   const handleFilterChange = (filterData: { fromDate?: Date; toDate?: Date; sortBy?: string }) => {
-    // Format dates for API if they exist
     const formattedFilters: AppointmentFilterParams = {};
 
     if (filterData.sortBy) {
@@ -87,6 +85,7 @@ const PendingAppointmentView = () => {
     }));
   };
 
+  // Handle clearing all filters
   const handleClearFilters = () => {
     setFilters(defaultFilters);
     setSearchInput('');
@@ -95,8 +94,6 @@ const PendingAppointmentView = () => {
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['pending-appointment'] });
   }, [filters, queryClient]);
-
-  console.log(data);
 
   return (
     <>
@@ -125,7 +122,7 @@ const PendingAppointmentView = () => {
         {isLoading ? (
           <AppointmentListSkeleton />
         ) : data ? (
-          <AppointmentItem type="pending" data={data.data} />
+          <AppointmentItem type="past" data={data.data} />
         ) : (
           <EmptyState />
         )}
@@ -134,4 +131,4 @@ const PendingAppointmentView = () => {
   );
 };
 
-export default PendingAppointmentView;
+export default PastAppointmentView;

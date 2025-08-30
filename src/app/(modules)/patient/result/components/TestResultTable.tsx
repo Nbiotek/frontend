@@ -30,7 +30,6 @@ interface TestResultProps {
 }
 
 const TestResultTable = ({ data, loading }: TestResultProps) => {
-  console.log(data);
   const router = useRouter();
 
   const handleView = (id: string) => {
@@ -60,7 +59,7 @@ const TestResultTable = ({ data, loading }: TestResultProps) => {
             <TableBody>
               {data.map((test) => (
                 <TableRow key={test.id}>
-                  <TableCell>{test.testId}</TableCell>
+                  <TableCell>{test.testResultId}</TableCell>
                   <TableCell>{test.testName}</TableCell>
                   <TableCell>{dateTimeUTC(test.conductedAt, false)}</TableCell>
                   <TableCell>
