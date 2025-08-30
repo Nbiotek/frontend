@@ -87,15 +87,12 @@ const PendingAppointmentView = () => {
     }));
   };
 
-  // Handle clearing all filters
   const handleClearFilters = () => {
     setFilters(defaultFilters);
     setSearchInput('');
   };
 
-  // Effect to refetch data when filters change
   useEffect(() => {
-    // Invalidate and refetch when filters change
     queryClient.invalidateQueries({ queryKey: ['pending-appointment'] });
   }, [filters, queryClient]);
 
