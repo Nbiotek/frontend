@@ -26,11 +26,10 @@ const AppointmentItem = (props: AppointmentItemProps) => {
   }>({ id: '', title: '', price: 0 });
 
   const handlePayment = (appointment: AppointmentItem) => {
-    console.log(appointment);
     setPaymentDetails({
       id: appointment.id,
       title: appointment.title,
-      price: appointment?.totalAmount || 0 // Make sure price exists in your appointment type
+      price: appointment?.totalAmount || 0
     });
     setIsPaymentOpen(true);
   };

@@ -17,7 +17,7 @@ const AvailableTestView = () => {
       router.push('/patient/appointment/booking');
     } else {
       Toast.info('No tests were selected');
-      router.push('/patients/dashboard');
+      router.push('/patient/test/available');
     }
   };
 
