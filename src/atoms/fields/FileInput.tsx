@@ -80,7 +80,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             id="file-input"
             type="file"
             {...rest}
-            multiple
             onChange={handleChange}
             className="hidden"
           />

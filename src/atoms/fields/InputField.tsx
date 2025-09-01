@@ -15,12 +15,17 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputField = forwardRef<HTMLInputElement, IInputProps>(
-  ({ description, label, ...props }, ref) => {
+  ({ description, label, className, ...props }, ref) => {
     return (
-      <FormItem>
-        <FormLabel>{label}</FormLabel>
-        <FormControl>
-          <Input {...{ ref }} {...props} />
+      <FormItem className="w-full">
+        {label && (
+          <FormLabel className="flex items-center justify-start space-x-1">
+            <p>{label}</p>
+            {props.required && <small className="text-error">*</small>}
+          </FormLabel>
+        )}
+        <FormControl className={className}>
+          <Input ref={ref} {...props} />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />

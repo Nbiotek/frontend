@@ -17,7 +17,10 @@ export enum AppModals {
   ADMIN_SUSPEND_USER = 'ADMIN_SUSPEND_USER',
   ADMIN_UNSUSPEND_USER = 'ADMIN_UNSUSPEND_USER',
   ADMIN_TOGGLE_TEST_AVAILABILITY = 'ADMIN_TOGGLE_TEST_AVAILABILITY',
-  FILE_UPLOAD_MODAL = 'FILE_UPLOAD_MODAL'
+  FILE_UPLOAD_MODAL = 'FILE_UPLOAD_MODAL',
+  CREATE_HERO_SECTION_MODAL = 'CREATE_HERO_SECTION_MODAL',
+  CREATE_HERO_CAROUSEL_MODAL = 'CREATE_HERO_CAROUSEL_MODAL',
+  DEL_HERO_CAROUSEL = 'DEL_HERO_CAROUSEL'
 }
 
 export type TAppModalsAction =
@@ -99,4 +102,10 @@ export type TAppModalsAction =
   | ({ name: AppModals.FILE_UPLOAD_MODAL } & (
       | { open: true; handlerFn: (files: File[]) => void }
       | { open?: false }
-    ));
+    ))
+  | ({
+      name:
+        | AppModals.CREATE_HERO_SECTION_MODAL
+        | AppModals.CREATE_HERO_CAROUSEL_MODAL
+        | AppModals.DEL_HERO_CAROUSEL;
+    } & ({ open: true; id: string } | { open?: false }));

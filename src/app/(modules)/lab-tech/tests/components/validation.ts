@@ -1,4 +1,3 @@
-import { MimeTypes } from '@/constants/mime';
 import { z } from 'zod';
 import {
   IMAGE_FILE_TYPES,
@@ -71,7 +70,7 @@ export const testResultsSchema = z.object({
     })
     .array(),
 
-  media: z.array(mediaFileSchema)
+  media: z.array(mediaFileSchema, { required_error: 'Upload a file.' })
 });
 
 export type TTestResultsTypeSchema = z.infer<typeof testResultsSchema>;

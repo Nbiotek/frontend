@@ -149,7 +149,10 @@ export const SUPER_ADMIN = {
   UPDATE_PACKAGE_TEST: '/admin/package-tests/:id',
   TOGGLE_PACKAGE_TEST: '/admin/package-tests/:id/toggle-status',
   RESULT_CHART: '/super-admin/test-results/stats',
-  PAYMENT_CHART: '/super-admin/payments/stats'
+  PAYMENT_CHART: '/super-admin/payments/stats',
+  LANDING_PAGE: '/super-admin/content-hero-sections/landing',
+  CREATE_LANDING: '/super-admin/content-hero-sections',
+  SINGLE_LANDING: '/super-admin/content-hero-sections/:id'
 };
 
 export const UPLOADS = {

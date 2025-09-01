@@ -13,7 +13,7 @@ import z from 'zod';
 
 const MediaUploadModal = () => {
   const {
-    AppConfigStore: { toggleModals, isOpen, fileModalUpload }
+    AppConfigStore: { toggleModals, isOpen, fileModalUpload, mediaMultiple }
   } = useStore();
 
   const form = useForm({
@@ -51,7 +51,7 @@ const MediaUploadModal = () => {
             render={({ field: { onChange } }) => (
               <FileInput
                 type="file"
-                multiple
+                multiple={mediaMultiple}
                 accept={mediaAcceptTypes}
                 onChange={(event) => onChange(event.target.files)}
                 errors={form?.formState?.errors?.file?.message}
