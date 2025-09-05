@@ -67,6 +67,11 @@ type TAvailableMarketerData = {
   total: number;
 };
 
+type TAvailableDoctorData = {
+  doctors: Array<TAvailableStaff>;
+  total: number;
+};
+
 // Inventory
 type TinventoryQuery = {
   search: string;

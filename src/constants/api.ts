@@ -96,6 +96,7 @@ export const LAB_COORD = {
   STAFF_SHIFTS: '/lab-coordinator/staff-shifts',
   AVAILABLE_TECHNICIAN: '/lab-coordinator/available-technicians',
   AVAILABLE_MARKETERS: '/lab-coordinator/available-marketers',
+  AVAILABLE_DOCTORS: '/lab-coordinator/available-doctors',
   INVENTORY: '/lab-coordinator/inventory'
 } as const;
 
@@ -119,6 +120,8 @@ export const TEST = {
   REASSIGN_TEST: '/tests/reassign-technician',
   ASSIGN_MARKETER: '/tests/assign-marketer',
   REASSIGN_MARKETER: '/tests/reassign-marketer',
+  ASSIGN_DOCTOR: '/tests/assign-doctor',
+  REASSIGN_DOCTOR: '/tests/reassign-doctor',
   ASSIGNED_TESTS: '/tests/fetch-assigned-test',
   SINGLE_ASSIGNED_TESTS: '/tests/fetch-assigned-test/:id',
   ALL_ASSIGNED: '/tests/assigned-tests'
