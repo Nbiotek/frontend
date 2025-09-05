@@ -44,6 +44,13 @@ export const labCoord = {
     };
   },
 
+  getAvailableDoctors() {
+    return {
+      path: LAB_COORD.AVAILABLE_DOCTORS,
+      keys: () => [LAB_COORD.DASHBOARD, LAB_COORD.AVAILABLE_DOCTORS] as const
+    };
+  },
+
   getLabInventory(query: Partial<TinventoryQuery>) {
     return {
       path: LAB_COORD.INVENTORY,

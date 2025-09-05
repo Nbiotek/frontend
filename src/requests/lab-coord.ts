@@ -4,6 +4,7 @@ import { LAB_COORD, TEST } from '@/constants/api';
 
 type TAssignLabTechPayload = { testRequestId: string; technicianId: string };
 type TAssignMarketerPayload = { testRequestId: string; marketerId: string };
+type TAssignDoctorPayload = { testRequestId: string; doctorId: string };
 
 export const postAssignLabTech = (payload: TAssignLabTechPayload) =>
   server.post(TEST.ASSIGN_TEST, payload);
@@ -19,3 +20,9 @@ export const postAssignMarketer = (payload: TAssignMarketerPayload) =>
 
 export const putReassignMarketer = (payload: TAssignMarketerPayload) =>
   server.put(TEST.REASSIGN_MARKETER, payload);
+
+export const postAssignDoctor = (payload: TAssignDoctorPayload) =>
+  server.post(TEST.ASSIGN_DOCTOR, payload);
+
+export const putReassignDoctor = (payload: TAssignDoctorPayload) =>
+  server.put(TEST.REASSIGN_DOCTOR, payload);
