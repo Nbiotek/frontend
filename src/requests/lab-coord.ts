@@ -6,6 +6,21 @@ type TAssignLabTechPayload = { testRequestId: string; technicianId: string };
 type TAssignMarketerPayload = { testRequestId: string; marketerId: string };
 type TAssignDoctorPayload = { testRequestId: string; doctorId: string };
 
+export const getAvailableLabTechs = (cursor?: number) =>
+  server.get<INBTServerResp<TAvailableLabTechsData>>(LAB_COORD.AVAILABLE_TECHNICIAN, {
+    params: { cursor }
+  });
+
+export const getAvailableMarketers = (cursor?: number) =>
+  server.get<INBTServerResp<TAvailableMarketerData>>(LAB_COORD.AVAILABLE_MARKETERS, {
+    params: { cursor }
+  });
+
+export const getAvailableDoctors = (cursor?: number) =>
+  server.get<INBTServerResp<TAvailableDoctorData>>(LAB_COORD.AVAILABLE_DOCTORS, {
+    params: { cursor }
+  });
+
 export const postAssignLabTech = (payload: TAssignLabTechPayload) =>
   server.post(TEST.ASSIGN_TEST, payload);
 
