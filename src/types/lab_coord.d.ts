@@ -59,12 +59,20 @@ type TAvailableStaff = {
 
 type TAvailableLabTechsData = {
   technicians: Array<TAvailableStaff>;
-  total: number;
+  nextCursor: null;
+  hasNextPage: false;
 };
 
 type TAvailableMarketerData = {
   marketers: Array<TAvailableStaff>;
-  total: number;
+  nextCursor: null;
+  hasNextPage: false;
+};
+
+type TAvailableDoctorData = {
+  doctors: Array<TAvailableStaff>;
+  nextCursor: null;
+  hasNextPage: false;
 };
 
 // Inventory

@@ -12,7 +12,7 @@ export const env = createEnv({
     S3_ACCESS_KEY_ID: z.string(),
     S3_SECRET_ACCESS_KEY: z.string(),
     S3_ENDPOINT: z.string().url(),
-    S3_PUB_LAB_ACCESS_URL: z.string().url()
+    S3_PUB_LAB_ACCESS_URL: z.string()
   },
 
   /**
@@ -52,7 +52,8 @@ export const env = createEnv({
     S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
     NEXT_PUBLIC_S3_LAB_BUCKET_NAME: process.env.NEXT_PUBLIC_S3_LAB_BUCKET_NAME,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
-    S3_PUB_LAB_ACCESS_URL: process.env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL,
+    S3_PUB_LAB_ACCESS_URL:
+      process.env.S3_PUB_LAB_ACCESS_URL ?? 'pub-e55e56449ffc4dd19126603054d607a9.r2.dev',
     NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL: process.env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL,
 
     NEXT_PUBLIC_FIREBASE_API_KEY:

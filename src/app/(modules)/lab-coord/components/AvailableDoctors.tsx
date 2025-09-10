@@ -2,9 +2,9 @@
 import Button from '@/atoms/Buttons';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { labCoord } from '@/hooks/labCoord/FetchKeyFactory';
-import { useFetchInfiniteAvailableMarketers } from '@/hooks/labCoord/useFetchAvailableMarketer';
+import { useFetchInfiniteAvailableDoctors } from '@/hooks/labCoord/useFetchAvailableDoctors';
 import { qualityControl } from '@/hooks/qualityControl/FetchkeyFactory';
-import { postAssignMarketer, putReassignMarketer } from '@/requests/lab-coord';
+import { postAssignDoctor, putReassignDoctor } from '@/requests/lab-coord';
 import { useStore } from '@/store';
 import { getInitials } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -12,18 +12,18 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const AvailableMarketers = () => {
+const AvailableDoctors = () => {
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useFetchInfiniteAvailableMarketers();
-  const [marketerId, setMarketerId] = useState('');
+    useFetchInfiniteAvailableDoctors();
+  const [doctorId, setDoctorId] = useState('');
   const {
-    AppConfigStore: { availableMarketers, toggleModals }
+    AppConfigStore: { availableDoctors, toggleModals }
   } = useStore();
 
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: availableMarketers.isReassign ? putReassignMarketer : postAssignMarketer,
+    mutationFn: availableDoctors.isReassign ? putReassignDoctor : postAssignDoctor,
 
     onError: () => {
       toast.error('Unable to assign test now.');
@@ -41,7 +41,7 @@ const AvailableMarketers = () => {
     },
 
     onSettled: () => {
-      setMarketerId('');
+      setDoctorId('');
     }
   });
 
@@ -74,45 +74,43 @@ const AvailableMarketers = () => {
         {status === 'success' &&
           data &&
           data.pages &&
-          data.pages.some((page) => page?.marketers?.length > 0) && (
+          data.pages.some((page) => page?.doctors?.length > 0) && (
             <div className="flex flex-col divide-y">
               {data?.pages?.map(
                 (page) =>
-                  page?.marketers &&
-                  page?.marketers?.map((marketer) => {
-                    return (
-                      <div key={marketer.id} className="flex items-start justify-between py-3">
-                        <div className="flex items-start justify-start space-x-2">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
-                            <SubTitle className="text-blue-400" text={getInitials(marketer.name)} />
-                          </div>
-
-                          <div className="flex flex-col space-y-0">
-                            <Paragraph className="!m-0 !font-medium" text={marketer.name} />
-                            <small className="text-neutral-500">{marketer.email}</small>
-                          </div>
+                  page?.doctors &&
+                  page?.doctors?.map((doctor) => (
+                    <div key={doctor.id} className="flex items-start justify-between py-3">
+                      <div className="flex items-start justify-start space-x-2">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
+                          <SubTitle className="text-blue-400" text={getInitials(doctor.name)} />
                         </div>
 
-                        <div className="w-20">
-                          <Button
-                            className="!p-2"
-                            variant="light"
-                            onClick={() => {
-                              setMarketerId(marketer.id);
-                              mutate({
-                                testRequestId: availableMarketers.testId,
-                                marketerId: marketer.id
-                              });
-                            }}
-                            disabled={isPending}
-                            isLoading={marketerId === marketer.id && isPending}
-                          >
-                            Assign
-                          </Button>
+                        <div className="flex flex-col space-y-0">
+                          <Paragraph className="!m-0 !font-medium" text={doctor.name} />
+                          <small className="text-neutral-500">{doctor.email}</small>
                         </div>
                       </div>
-                    );
-                  })
+
+                      <div className="w-20">
+                        <Button
+                          className="!p-2"
+                          variant="light"
+                          onClick={() => {
+                            setDoctorId(doctor.id);
+                            mutate({
+                              testRequestId: availableDoctors.testId,
+                              doctorId: doctor.id
+                            });
+                          }}
+                          disabled={isPending}
+                          isLoading={doctorId === doctor.id && isPending}
+                        >
+                          Assign
+                        </Button>
+                      </div>
+                    </div>
+                  ))
               )}
             </div>
           )}
@@ -130,17 +128,15 @@ const AvailableMarketers = () => {
           </div>
         )}
 
-        {status === 'success' &&
-          data &&
-          data.pages.some((page) => page?.marketers?.length === 0) && (
-            <div className="flex h-56 w-full flex-col items-center justify-center">
-              <SubTitle text="No available Marketers." />
-              <Paragraph text="Available Marketers will display here real time." />
-            </div>
-          )}
+        {status === 'success' && data && data.pages.some((page) => page?.doctors?.length === 0) && (
+          <div className="flex h-56 w-full flex-col items-center justify-center">
+            <SubTitle text="No available Doctors." />
+            <Paragraph text="Available Doctors will display here real time." />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default observer(AvailableMarketers);
+export default observer(AvailableDoctors);

@@ -27,6 +27,10 @@ class AppConfigStore {
     testId: ''
   };
 
+  availableDoctors: { testId: string; isReassign?: boolean } = {
+    testId: ''
+  };
+
   qcStatusUpdate = {
     testId: '',
     currentStatus: EnumResultStatus.PENDING
@@ -64,6 +68,7 @@ class AppConfigStore {
       queryLimit: observable,
       availableLabTechnicians: observable,
       availableMarketers: observable,
+      availableDoctors: observable,
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
@@ -119,6 +124,14 @@ class AppConfigStore {
       case AppModals.AVAILABLE_MARKETERS:
         if (modal.open) {
           this.availableMarketers = {
+            testId: modal.testId,
+            isReassign: Boolean(modal.isReassign)
+          };
+        }
+        break;
+      case AppModals.AVAILABLE_DOCTORS:
+        if (modal.open) {
+          this.availableDoctors = {
             testId: modal.testId,
             isReassign: Boolean(modal.isReassign)
           };

@@ -1,14 +1,12 @@
 import { useCallback } from 'react';
 import { labCoord } from './FetchKeyFactory';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getAvailableMarketers } from '@/requests/lab-coord';
+import { getAvailableDoctors } from '@/requests/lab-coord';
 
-const select = (res: INBTServerResp<TAvailableMarketerData>) => res.data;
+const select = (res: INBTServerResp<TAvailableDoctorData>) => res.data;
 
-export function useFetchAvailableMarketers(): IQueryHookResponse<
-  TAvailableMarketerData | undefined
-> {
-  const meta = labCoord.getAvailableMarketers();
+export function useFetchAvailableDoctors(): IQueryHookResponse<TAvailableDoctorData | undefined> {
+  const meta = labCoord.getAvailableDoctors();
   const memoizedSelect = useCallback(select, []);
 
   const { data, isLoading, status, error } = useQuery({
@@ -20,18 +18,18 @@ export function useFetchAvailableMarketers(): IQueryHookResponse<
   return { data, isLoading, status, error };
 }
 
-export function useFetchInfiniteAvailableMarketers() {
-  const meta = labCoord.getAvailableMarketers();
+export function useFetchInfiniteAvailableDoctors() {
+  const meta = labCoord.getAvailableDoctors();
 
   const { data, isLoading, status, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<TAvailableMarketerData, Error>({
+    useInfiniteQuery<TAvailableDoctorData, Error>({
       queryKey: meta.keys(),
       queryFn: async ({ pageParam }) => {
-        const response = await getAvailableMarketers(pageParam as number);
+        const response = await getAvailableDoctors(pageParam as number);
         return response.data.data;
       },
       initialPageParam: null,
-      getNextPageParam: (lastPage: TAvailableMarketerData) => lastPage.nextCursor ?? undefined
+      getNextPageParam: (lastPage: TAvailableDoctorData) => lastPage.nextCursor ?? undefined
     });
 
   return {

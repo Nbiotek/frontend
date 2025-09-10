@@ -8,6 +8,7 @@ export enum AppModals {
   QC_STATUS_UPDATE = 'QC_STATUS_UPDATE',
   RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG',
   AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
+  AVAILABLE_DOCTORS = 'AVAILABLE_DOCTORS',
   SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
   UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT',
   ADMIN_ADD_USER = 'ADMIN_ADD_USER',
@@ -50,7 +51,12 @@ export type TAppModalsAction =
         }
       | { open?: false }
     ))
-  | ({ name: AppModals.AVAILABLE_TECHNICIANS } & (
+  | ({
+      name:
+        | AppModals.AVAILABLE_TECHNICIANS
+        | AppModals.AVAILABLE_MARKETERS
+        | AppModals.AVAILABLE_DOCTORS;
+    } & (
       | {
           open: true;
           testId: string;
@@ -63,14 +69,6 @@ export type TAppModalsAction =
           open: true;
           testId: string;
           currentStatus: EnumResultStatus;
-        }
-      | { open?: false }
-    ))
-  | ({ name: AppModals.AVAILABLE_MARKETERS } & (
-      | {
-          open: true;
-          testId: string;
-          isReassign?: boolean;
         }
       | { open?: false }
     ))

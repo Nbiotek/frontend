@@ -25,6 +25,9 @@ const ModalsMap = {
   [AppModals.AVAILABLE_MARKETERS]: dynamic(
     () => import('@/app/(modules)/lab-coord/components/modals/MarketersModal')
   ),
+  [AppModals.AVAILABLE_DOCTORS]: dynamic(
+    () => import('@/app/(modules)/lab-coord/components/modals/DoctorsModal')
+  ),
   [AppModals.SINGLE_APPOINTMENT]: dynamic(
     () => import('@/app/(modules)/recpst/appt/components/modals/SingleApptModal')
   ),
