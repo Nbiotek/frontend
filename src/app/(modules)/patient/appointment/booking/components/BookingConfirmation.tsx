@@ -7,7 +7,14 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 
-import { CalendarIcon, MapPinIcon, User2Icon, MailIcon, PhoneIcon } from 'lucide-react';
+import {
+  CalendarIcon,
+  MapPinIcon,
+  User2Icon,
+  MailIcon,
+  PhoneIcon,
+  StethoscopeIcon
+} from 'lucide-react';
 import Button from '@/atoms/Buttons';
 import { useStore } from '@/store';
 import { useBookAppointment } from '@/hooks/patient/useAppoitment';
@@ -124,6 +131,21 @@ const BonkingConfirmationDialog = ({
                       <span>{bookingData.location.address}</span>
                     </div>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <StethoscopeIcon className="text-gray-400 h-4 w-4" />
+                    <div className="text-sm">
+                      <span className="font-medium">Doctor Recommendation: </span>
+                      <span
+                        className={
+                          bookingData.wantDoctorRecommendation === 'yes'
+                            ? 'text-green-600'
+                            : 'text-gray-600'
+                        }
+                      >
+                        {bookingData.wantDoctorRecommendation === 'yes' ? 'Yes (₦2,000)' : 'No'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -140,6 +162,14 @@ const BonkingConfirmationDialog = ({
                     </div>
                   ))}
 
+                  {/* Doctor Recommendation Line Item */}
+                  {bookingData.wantDoctorRecommendation === 'yes' && (
+                    <div className="flex justify-between text-sm">
+                      <span>Doctor Recommendation</span>
+                      <span>₦2,000</span>
+                    </div>
+                  )}
+
                   <div className="mt-3 border-t pt-3">
                     <div className="mb-3">
                       <div className="flex justify-between font-medium">
@@ -153,7 +183,12 @@ const BonkingConfirmationDialog = ({
                     </div>
                     <div className="flex justify-between font-medium">
                       <span>Total Amount</span>
-                      <span>₦{total.toLocaleString()}</span>
+                      <span>
+                        ₦
+                        {(
+                          total + (bookingData.wantDoctorRecommendation === 'yes' ? 2000 : 0)
+                        ).toLocaleString()}
+                      </span>
                     </div>
                   </div>
                 </div>
