@@ -91,6 +91,7 @@ interface BookingForm {
   };
   availableDate: Date;
   paymentMethod: 'via_card' | 'location';
+  wantDoctorRecommendation: 'yes' | 'no';
 
   testRequests: Array<{
     testId: string;

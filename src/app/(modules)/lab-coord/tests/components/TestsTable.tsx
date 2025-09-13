@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import Status from '@/atoms/Buttons/Status';
+import Status, { EnumTestStatus } from '@/atoms/Buttons/Status';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -105,7 +105,9 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
                           <DropdownMenuItem
                             onClick={() =>
                               router.push(
-                                `${ROUTES.LAB_COORD_TEST_DETAILS.path.replaceAll(':id', test.id)}`
+                                test.status === EnumTestStatus.SUBMITTED
+                                  ? `${ROUTES.LAB_COORD_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', test.id)}`
+                                  : `${ROUTES.LAB_COORD_TEST_DETAILS.path.replaceAll(':id', test.id)}`
                               )
                             }
                           >
@@ -141,6 +143,21 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
                               </DropdownMenuItem>
                             )
                           ) : null}
+
+                          {type === 'test' && test.wantDoctorRecommendation === 'yes' && (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                toggleModals({
+                                  name: AppModals.AVAILABLE_DOCTORS,
+                                  open: true,
+                                  testId: test.id
+                                })
+                              }
+                            >
+                              <HandCoins />
+                              <p>Assign to Doctor</p>
+                            </DropdownMenuItem>
+                          )}
 
                           {type === 'test' && test.location?.type === EnumTestLocation.LAB && (
                             <DropdownMenuItem

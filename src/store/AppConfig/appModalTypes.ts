@@ -8,6 +8,7 @@ export enum AppModals {
   QC_STATUS_UPDATE = 'QC_STATUS_UPDATE',
   RECPTS_PATIENT_REG = 'RECPTS_PATIENT_REG',
   AVAILABLE_MARKETERS = 'AVAILABLE_MARKETERS',
+  AVAILABLE_DOCTORS = 'AVAILABLE_DOCTORS',
   SINGLE_APPOINTMENT = 'SINGLE_APPOINTMENT',
   UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT',
   ADMIN_ADD_USER = 'ADMIN_ADD_USER',
@@ -17,7 +18,10 @@ export enum AppModals {
   ADMIN_SUSPEND_USER = 'ADMIN_SUSPEND_USER',
   ADMIN_UNSUSPEND_USER = 'ADMIN_UNSUSPEND_USER',
   ADMIN_TOGGLE_TEST_AVAILABILITY = 'ADMIN_TOGGLE_TEST_AVAILABILITY',
-  FILE_UPLOAD_MODAL = 'FILE_UPLOAD_MODAL'
+  FILE_UPLOAD_MODAL = 'FILE_UPLOAD_MODAL',
+  CREATE_HERO_SECTION_MODAL = 'CREATE_HERO_SECTION_MODAL',
+  CREATE_HERO_CAROUSEL_MODAL = 'CREATE_HERO_CAROUSEL_MODAL',
+  DEL_HERO_CAROUSEL = 'DEL_HERO_CAROUSEL'
 }
 
 export type TAppModalsAction =
@@ -47,7 +51,12 @@ export type TAppModalsAction =
         }
       | { open?: false }
     ))
-  | ({ name: AppModals.AVAILABLE_TECHNICIANS } & (
+  | ({
+      name:
+        | AppModals.AVAILABLE_TECHNICIANS
+        | AppModals.AVAILABLE_MARKETERS
+        | AppModals.AVAILABLE_DOCTORS;
+    } & (
       | {
           open: true;
           testId: string;
@@ -60,14 +69,6 @@ export type TAppModalsAction =
           open: true;
           testId: string;
           currentStatus: EnumResultStatus;
-        }
-      | { open?: false }
-    ))
-  | ({ name: AppModals.AVAILABLE_MARKETERS } & (
-      | {
-          open: true;
-          testId: string;
-          isReassign?: boolean;
         }
       | { open?: false }
     ))
@@ -99,4 +100,10 @@ export type TAppModalsAction =
   | ({ name: AppModals.FILE_UPLOAD_MODAL } & (
       | { open: true; handlerFn: (files: File[]) => void }
       | { open?: false }
-    ));
+    ))
+  | ({
+      name:
+        | AppModals.CREATE_HERO_SECTION_MODAL
+        | AppModals.CREATE_HERO_CAROUSEL_MODAL
+        | AppModals.DEL_HERO_CAROUSEL;
+    } & ({ open: true; id: string } | { open?: false }));

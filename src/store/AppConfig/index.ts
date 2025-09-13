@@ -8,8 +8,9 @@ const INIT_IS_OPEN = initializer(AppModals, false);
 
 class AppConfigStore {
   rootStore: RootStore;
-
   queryLimit: number = 10;
+  mediaMultiple: boolean = true;
+  files: Array<TRemoteFile> = [];
 
   isOpen = { ...INIT_IS_OPEN };
   nonce = 0;
@@ -23,6 +24,10 @@ class AppConfigStore {
   };
 
   availableMarketers: { testId: string; isReassign?: boolean } = {
+    testId: ''
+  };
+
+  availableDoctors: { testId: string; isReassign?: boolean } = {
     testId: ''
   };
 
@@ -49,25 +54,49 @@ class AppConfigStore {
     handlerFn: (files: File[]) => {}
   };
 
+  heroSectionModal = {
+    id: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
+      files: observable,
+      mediaMultiple: observable,
       nonce: observable,
       testDetails: observable,
       queryLimit: observable,
       availableLabTechnicians: observable,
       availableMarketers: observable,
+      availableDoctors: observable,
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
-
+      heroSectionModal: observable,
       fileModalUpload: observable,
 
+      addFiles: action.bound,
+      removeFiles: action.bound,
+      setFiles: action.bound,
       setModalOpenState: action.bound,
-      toggleModals: action.bound
+      toggleModals: action.bound,
+      setMediaMultiple: action.bound,
+      resetMedia: action.bound
     });
     this.rootStore = _rootStore;
   }
+
+  addFiles(_files: TRemoteFile) {
+    this.files.push(_files);
+  }
+
+  removeFiles = (uuid: string) => {
+    this.files = this.files.filter((file) => file.uuid !== uuid);
+  };
+
+  setFiles = (_files: Array<TRemoteFile>) => {
+    this.files = _files;
+  };
 
   setModalOpenState(name: AppModals, open?: boolean) {
     this.isOpen[name] = typeof open === 'undefined' ? !this.isOpen[name] : open;
@@ -95,6 +124,14 @@ class AppConfigStore {
       case AppModals.AVAILABLE_MARKETERS:
         if (modal.open) {
           this.availableMarketers = {
+            testId: modal.testId,
+            isReassign: Boolean(modal.isReassign)
+          };
+        }
+        break;
+      case AppModals.AVAILABLE_DOCTORS:
+        if (modal.open) {
+          this.availableDoctors = {
             testId: modal.testId,
             isReassign: Boolean(modal.isReassign)
           };
@@ -177,6 +214,27 @@ class AppConfigStore {
         }
         break;
 
+      case AppModals.CREATE_HERO_SECTION_MODAL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.CREATE_HERO_CAROUSEL_MODAL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.DEL_HERO_CAROUSEL:
+        if (modal.open) {
+          this.heroSectionModal = {
+            id: modal.id
+          };
+        }
+        break;
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;
@@ -186,6 +244,14 @@ class AppConfigStore {
     }
 
     this.nonce = Date.now() + Math.random();
+  }
+
+  setMediaMultiple(_isMultiple: boolean) {
+    this.mediaMultiple = _isMultiple;
+  }
+
+  resetMedia() {
+    this.mediaMultiple = true;
   }
 }
 

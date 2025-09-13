@@ -45,6 +45,7 @@ type TTestData = {
     id: string;
     name: string;
   } | null;
+  wantDoctorRecommendation: 'no' | 'yes';
 };
 
 type TTestQuesRes = INBTPaginatedData<TTestData>;

@@ -59,5 +59,19 @@ export const superAdmin = {
       keys: () => [SUPER_ADMIN.PAYMENT_CHART, query],
       params: query
     };
+  },
+
+  getHeroSection() {
+    return {
+      path: SUPER_ADMIN.LANDING_PAGE,
+      keys: () => [SUPER_ADMIN.LANDING_PAGE]
+    };
+  },
+
+  getHeroSectionId(id: string) {
+    return {
+      path: SUPER_ADMIN.SINGLE_LANDING.replace(':id', id),
+      keys: () => [SUPER_ADMIN.LANDING_PAGE, SUPER_ADMIN.SINGLE_LANDING, id]
+    };
   }
 };

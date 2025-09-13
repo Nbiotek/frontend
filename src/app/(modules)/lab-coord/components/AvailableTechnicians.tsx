@@ -4,7 +4,7 @@ import { Toast } from '@/atoms/Toast';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { LAB_COORD } from '@/constants/api';
 import { labCoord } from '@/hooks/labCoord/FetchKeyFactory';
-import { useFetchAvailableLabTechs } from '@/hooks/labCoord/useFetchAvailableLabTech';
+import { useFetchInfiniteAvailableLabTechs } from '@/hooks/labCoord/useFetchAvailableLabTech';
 import { qualityControl } from '@/hooks/qualityControl/FetchkeyFactory';
 import { postAssignLabTech, putReassignLabTech } from '@/requests/lab-coord';
 import { useStore } from '@/store';
@@ -15,7 +15,8 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const AvailableTechnicians = () => {
-  const { data, status } = useFetchAvailableLabTechs();
+  const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchInfiniteAvailableLabTechs();
   const [technicianId, setTechnicianId] = useState('');
   const {
     AppConfigStore: { availableLabTechnicians, toggleModals }
@@ -72,51 +73,76 @@ const AvailableTechnicians = () => {
               ))}
           </div>
         )}
-        {status === 'success' && data?.technicians && (
-          <div className="flex flex-col divide-y">
-            {data.technicians.map((technician) => {
-              return (
-                <div key={technician.id} className="flex items-start justify-between py-3">
-                  <div className="flex items-start justify-start space-x-2">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
-                      <SubTitle className="text-blue-400" text={getInitials(technician.name)} />
-                    </div>
+        {status === 'success' &&
+          data &&
+          data.pages &&
+          data.pages.some((page) => page?.technicians?.length > 0) && (
+            <div className="flex flex-col divide-y">
+              {data?.pages?.map(
+                (page) =>
+                  page?.technicians &&
+                  page?.technicians?.map((technician) => {
+                    return (
+                      <div key={technician.id} className="flex items-start justify-between py-3">
+                        <div className="flex items-start justify-start space-x-2">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
+                            <SubTitle
+                              className="text-blue-400"
+                              text={getInitials(technician.name)}
+                            />
+                          </div>
 
-                    <div className="flex flex-col space-y-0">
-                      <Paragraph className="!m-0 !font-medium" text={technician.name} />
-                      <small className="text-neutral-500">{technician.email}</small>
-                    </div>
-                  </div>
+                          <div className="flex flex-col space-y-0">
+                            <Paragraph className="!m-0 !font-medium" text={technician.name} />
+                            <small className="text-neutral-500">{technician.email}</small>
+                          </div>
+                        </div>
 
-                  <div className="w-20">
-                    <Button
-                      className="!p-2"
-                      variant="light"
-                      onClick={() => {
-                        setTechnicianId(technician.id);
-                        mutate({
-                          testRequestId: availableLabTechnicians.testId,
-                          technicianId: technician.id
-                        });
-                      }}
-                      disabled={isPending}
-                      isLoading={technicianId === technician.id && isPending}
-                    >
-                      Assign
-                    </Button>
-                  </div>
-                </div>
-              );
-            })}
+                        <div className="w-20">
+                          <Button
+                            className="!p-2"
+                            variant="light"
+                            onClick={() => {
+                              setTechnicianId(technician.id);
+                              mutate({
+                                testRequestId: availableLabTechnicians.testId,
+                                technicianId: technician.id
+                              });
+                            }}
+                            disabled={isPending}
+                            isLoading={technicianId === technician.id && isPending}
+                          >
+                            Assign
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  })
+              )}
+            </div>
+          )}
+
+        {hasNextPage && (
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              isLoading={isFetchingNextPage}
+              variant={'filled'}
+            >
+              Load More
+            </Button>
           </div>
         )}
 
-        {status === 'success' && data?.total === 0 && (
-          <div className="flex h-56 w-full flex-col items-center justify-center">
-            <SubTitle text="No available technicians." />
-            <Paragraph text="Available technicians will display here real time." />
-          </div>
-        )}
+        {status === 'success' &&
+          data &&
+          data.pages.some((page) => page?.technicians?.length === 0) && (
+            <div className="flex h-56 w-full flex-col items-center justify-center">
+              <SubTitle text="No available technicians." />
+              <Paragraph text="Available technicians will display here real time." />
+            </div>
+          )}
       </div>
     </div>
   );

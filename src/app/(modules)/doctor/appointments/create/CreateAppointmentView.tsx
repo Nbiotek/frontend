@@ -54,6 +54,7 @@ const CreateAppointmentView = () => {
     },
     availableDate: new Date(),
     paymentMethod: 'via_card',
+    wantDoctorRecommendation: 'no',
     testRequests: []
   });
 

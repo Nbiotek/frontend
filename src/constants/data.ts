@@ -101,6 +101,18 @@ export const AppointmentStatus = [
   }
 ];
 
+export const carouselStatus = [
+  {
+    label: 'Active',
+    value: 'active'
+  },
+
+  {
+    label: 'Draft',
+    value: 'draft'
+  }
+];
+
 export const PaymentStatus = [
   {
     label: 'Pending',
