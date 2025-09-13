@@ -68,6 +68,7 @@ const BookAppointmentView = observer(() => {
     },
     availableDate: new Date(),
     paymentMethod: 'via_card',
+    wantDoctorRecommendation: 'no',
     testRequests: []
   });
 
@@ -180,6 +181,13 @@ const BookAppointmentView = observer(() => {
     setFormData((prev: any) => ({
       ...prev,
       paymentMethod: value
+    }));
+  };
+
+  const handleDoctorRecommendation = (value: string) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      wantDoctorRecommendation: value as 'yes' | 'no'
     }));
   };
 
@@ -379,6 +387,25 @@ const BookAppointmentView = observer(() => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="location" id="r4" />
                   <Label htmlFor="r4">Pay at location</Label>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
+          <div className="mt-3 w-full">
+            <div className="flex w-full flex-col">
+              <Label className="mb-3">Doctor Recommendation</Label>
+              <RadioGroup
+                value={formData.wantDoctorRecommendation}
+                onValueChange={handleDoctorRecommendation}
+                className="flex"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="yes" id="dr-yes" />
+                  <Label htmlFor="dr-yes">Yes (₦2,000)</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="no" id="dr-no" />
+                  <Label htmlFor="dr-no">No</Label>
                 </div>
               </RadioGroup>
             </div>
