@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import Pagination from '@/atoms/pagination';
 import { EnumTestLocation } from '@/constants/mangle';
 import { EnumLabCoordQueryType } from '@/store/LabCoordStore';
+import _ from 'lodash';
 
 interface ITestTableProps {
   type: 'test' | 'assigned';
@@ -57,7 +58,8 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
               <TableHead className="w-[280px]">Test</TableHead>
               <TableHead className="w-[80px]">Type</TableHead>
               <TableHead className="w-[80px]">Priority</TableHead>
-              <TableHead className="w-[280px]">Location</TableHead>
+              <TableHead className="w-[80px]">Location</TableHead>
+              <TableHead className="">Doctor&apos;s recs</TableHead>
               <TableHead className="w-[150px]">Date created</TableHead>
               <TableHead className="w-[150px]">Requested Date</TableHead>
               <TableHead className="w-[150px]">Deadline</TableHead>
@@ -66,7 +68,7 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
             </TableRow>
           </TableHeader>
           {isLoading ? (
-            <TableLoader rows={20} columns={10} />
+            <TableLoader rows={20} columns={11} />
           ) : (
             tests.requests.length !== 0 && (
               <TableBody>
@@ -83,6 +85,9 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
                       <Status variant={test.priority} />
                     </TableCell>
                     <TableCell>{test.location?.type}</TableCell>
+                    <TableCell>
+                      <Status variant={test.wantDoctorRecommendation} />
+                    </TableCell>
                     <TableCell className="whitespace-nowrap">
                       {format(new Date(test.createdAt), 'MMM dd, yyyy')}
                     </TableCell>
