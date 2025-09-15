@@ -113,6 +113,18 @@ export const carouselStatus = [
   }
 ];
 
+export const testimonialStatus = [
+  {
+    label: 'Active',
+    value: 'ACTIVE'
+  },
+
+  {
+    label: 'Inactive',
+    value: 'INACTIVE'
+  }
+];
+
 export const PaymentStatus = [
   {
     label: 'Pending',

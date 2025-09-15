@@ -1,6 +1,5 @@
 import { action, flow, makeObservable, observable } from 'mobx';
 import { RootStore } from '..';
-import store from 'store2';
 import { TAdminAdduserSchema } from '@/app/(modules)/admin/user-management/validation';
 import initializer from '@/utils/initializer';
 import { parseError } from '@/utils/errorHandler';
@@ -16,7 +15,10 @@ import {
   putUpdateHero,
   postCreateHeroLanding,
   putUpdateHeroCarousel,
-  delHeroCarousel
+  delHeroCarousel,
+  postCreateTestimonial,
+  putUpdateTestimonial,
+  delTestimonial
 } from '@/requests/admin';
 import { AxiosResponse } from 'axios';
 import {
@@ -27,6 +29,7 @@ import {
   TAdminCreateHeroSchema,
   TAdminHeroCarouselSchema
 } from '@/app/(modules)/admin/content-management/hero/validation';
+import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
 
 export enum EnumAdminQueryType {
   USERS = 'USERS'
@@ -38,7 +41,9 @@ const INIT_IS_LOADING = {
   package_test: false,
   create_hero: false,
   update_hero: false,
-  del_carousel: false
+  del_carousel: false,
+  create_testimonial: false,
+  del_testimonial: false
 };
 
 export type TAdminHeroCarousel = {
@@ -73,7 +78,10 @@ class AdminStore {
       updatePackageTest: flow.bound,
       updateHeroSection: flow.bound,
       updateHeroCarousel: flow.bound,
-      deleteHeroCarousel: flow.bound
+      deleteHeroCarousel: flow.bound,
+      createTestimonial: flow.bound,
+      updateTestimonial: flow.bound,
+      deleteTestimonial: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -263,6 +271,45 @@ class AdminStore {
       toast.error(parseError(error));
     } finally {
       this.isLoading.del_carousel = false;
+    }
+  }
+
+  *createTestimonial(payload: TAdminTestimonialSchema, cb?: () => void) {
+    this.isLoading.create_testimonial = true;
+    this.errors.create_testimonial = '';
+    try {
+      yield postCreateTestimonial(payload);
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      cb?.();
+      this.isLoading.create_testimonial = false;
+    }
+  }
+
+  *updateTestimonial(id: string, payload: Partial<TAdminTestimonialSchema>, cb?: () => void) {
+    this.isLoading.create_testimonial = true;
+    this.errors.create_testimonial = '';
+    try {
+      yield putUpdateTestimonial(id, payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.create_testimonial = false;
+    }
+  }
+
+  *deleteTestimonial(id: string, cb?: () => void) {
+    this.isLoading.del_testimonial = true;
+    this.errors.del_testimonial = '';
+    try {
+      yield delTestimonial(id);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.del_testimonial = false;
     }
   }
 }

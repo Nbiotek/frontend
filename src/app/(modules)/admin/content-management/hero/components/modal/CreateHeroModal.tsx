@@ -15,12 +15,12 @@ import { useFetchHero } from '@/hooks/admin/useFetchHero';
 
 const AdminHeroModal = () => {
   const {
-    AppConfigStore: { isOpen, toggleModals, heroSectionModal },
+    AppConfigStore: { isOpen, toggleModals, dataModal },
     AdminStore: { createHeroSection, updateHeroSection, isLoading }
   } = useStore();
 
   const queryClient = useQueryClient();
-  const isEditMode = heroSectionModal.id !== '';
+  const isEditMode = dataModal.id !== '';
 
   const { data, status } = useFetchHero();
 

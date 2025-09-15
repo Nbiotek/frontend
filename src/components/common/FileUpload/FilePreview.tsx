@@ -199,7 +199,7 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
                 : 'progress-value-done'
           }`}
         />
-        {preview?.type === 'image' ? (
+        {preview && IMAGE_FILE_TYPES.includes(preview.mime_type) ? (
           <Image
             src={preview?.file ?? null}
             alt="preview"

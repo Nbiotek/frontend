@@ -155,7 +155,9 @@ export const SUPER_ADMIN = {
   PAYMENT_CHART: '/super-admin/payments/stats',
   LANDING_PAGE: '/super-admin/content-hero-sections/landing',
   CREATE_LANDING: '/super-admin/content-hero-sections',
-  SINGLE_LANDING: '/super-admin/content-hero-sections/:id'
+  SINGLE_LANDING: '/super-admin/content-hero-sections/:id',
+  TESTIMONIALS: '/super-admin/content-testimonials',
+  SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id'
 };
 
 export const UPLOADS = {
