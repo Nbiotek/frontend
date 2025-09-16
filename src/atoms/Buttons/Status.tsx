@@ -159,6 +159,11 @@ const Status = ({ variant, type, className, ...rest }: IButtonProps) => {
       case EnumUserStatus.SUSPENDED:
         return 'status-red';
 
+      case 'yes':
+        return 'status-green';
+      case 'no':
+        return 'status-red';
+
       default:
         return '';
     }

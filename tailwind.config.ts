@@ -213,7 +213,8 @@ export default {
         '7xl': '4rem'
       },
       gridTemplateColumns: {
-        response: 'repeat(auto-fit, minmax(220px, 1fr))'
+        response: 'repeat(auto-fit, minmax(220px, 1fr))',
+        button: 'repeat(auto-fit, minmax(160px, 1fr))'
       }
     },
     screens: {
