@@ -83,3 +83,29 @@ type TAdminHeroSection = {
   tagline: string;
   carousel: Array<TAdminCarouselItem>;
 };
+
+type TAdminTestimonialAuthor = {
+  fullName: string;
+  role: string;
+  media: Array<{
+    file_url: string;
+    mime_type: string;
+    bucket: string;
+    uuid: string;
+  }>;
+};
+
+type TAdminTestimonial = {
+  id: string;
+  description: string;
+  author: TAdminTestimonialAuthor;
+  rating: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TAdminTestimonialResp = {
+  testimonials: Array<TAdminTestimonial>;
+  pagination: TPaginationResponse;
+};

@@ -64,6 +64,18 @@ const ModalsMap = {
   ),
   [AppModals.DEL_HERO_CAROUSEL]: dynamic(
     () => import('@/app/(modules)/admin/content-management/hero/components/modal/DelCarouselModal')
+  ),
+  [AppModals.CREATE_TESTIMONIAL_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/testimonials/components/modal/AdminTestimonialModal'
+      )
+  ),
+  [AppModals.DEL_TESTIMONIAL_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/testimonials/components/modal/DelTestimonialModal'
+      )
   )
 };
 

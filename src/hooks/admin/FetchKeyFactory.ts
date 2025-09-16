@@ -73,5 +73,19 @@ export const superAdmin = {
       path: SUPER_ADMIN.SINGLE_LANDING.replace(':id', id),
       keys: () => [SUPER_ADMIN.LANDING_PAGE, SUPER_ADMIN.SINGLE_LANDING, id]
     };
+  },
+
+  getTestimonial() {
+    return {
+      path: SUPER_ADMIN.TESTIMONIALS,
+      keys: () => [SUPER_ADMIN.TESTIMONIALS]
+    };
+  },
+
+  getTestimonialId(id: string) {
+    return {
+      path: SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id),
+      keys: () => [SUPER_ADMIN.TESTIMONIALS, SUPER_ADMIN.SINGLE_TESTIMONIAL, id]
+    };
   }
 };

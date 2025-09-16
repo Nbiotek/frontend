@@ -6,6 +6,7 @@ import {
   TAdminHeroCarouselSchema
 } from '@/app/(modules)/admin/content-management/hero/validation';
 import { TAdminHeroCarousel } from '@/store/AdminStore';
+import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -48,6 +49,9 @@ export const postAddPackageTest = async (payload: IPostAddPackageTest) =>
 export const postCreateHeroLanding = async (payload: TAdminCreateHeroSchema) =>
   server.post(SUPER_ADMIN.CREATE_LANDING, payload);
 
+export const postCreateTestimonial = async (payload: TAdminTestimonialSchema) => {
+  server.post(SUPER_ADMIN.TESTIMONIALS, { ...payload, rating: Number(payload.rating) });
+};
 // put requests
 export const putUpdateSingleTest = async ({
   id,
@@ -73,6 +77,9 @@ export const putUpdateHeroCarousel = async (
   id: string,
   payload: Partial<TAdminHeroCarouselSchema>
 ) => server.put(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id), payload);
+
+export const putUpdateTestimonial = async (id: string, payload: Partial<TAdminTestimonialSchema>) =>
+  server.put(SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id), payload);
 
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));
@@ -100,3 +107,6 @@ export const deleteUser = async (id: string) =>
 
 export const delHeroCarousel = async (id: string) =>
   server.delete(SUPER_ADMIN.SINGLE_LANDING.replace(':id', id));
+
+export const delTestimonial = async (id: string) =>
+  server.delete(SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id));
