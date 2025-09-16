@@ -30,7 +30,6 @@ const card = [
 ];
 
 const MetricsOverview = ({ isLoading, overviewData }: MetricsOverviewProp) => {
-  console.log(overviewData);
   return (
     <div className="grid w-full grid-cols-response gap-[20px]">
       {isLoading

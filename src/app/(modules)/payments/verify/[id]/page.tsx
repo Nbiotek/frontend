@@ -23,15 +23,6 @@ export default function PaymentResultPage() {
 
   const { data, isLoading, isError, error } = useVerifyPayment(tx_Ref);
 
-  console.log('Payment verification status:', {
-    isLoading,
-    isError,
-    status: data?.data?.status,
-    tx_Ref,
-    userRole,
-    hasProcessed
-  });
-
   // Get user role from session storage (only once)
   useEffect(() => {
     const storedUser = sessionStorage.getItem('auth.user');
@@ -39,7 +30,6 @@ export default function PaymentResultPage() {
       try {
         const parsedUser = JSON.parse(storedUser);
         setUserRole(parsedUser.role || 'PATIENT');
-        console.log('User role extracted:', parsedUser.role);
       } catch (error) {
         console.error('Error parsing user from session storage', error);
         setUserRole('PATIENT'); // Default fallback
@@ -66,12 +56,6 @@ export default function PaymentResultPage() {
     // Don't process if already processed or still loading user role
     if (hasProcessed || !userRole || isLoading) return;
 
-    console.log('Processing payment result:', {
-      status: data?.data?.status,
-      isError,
-      error
-    });
-
     // Handle successful payment
     if (data?.data?.status === 'COMPLETED') {
       setHasProcessed(true);
@@ -89,8 +73,6 @@ export default function PaymentResultPage() {
         default:
           successPath = '/patient/appointment/booking/success';
       }
-
-      console.log('Navigating to success path:', successPath);
 
       // Start progress animation
       progressIntervalRef.current = setInterval(() => {
@@ -131,8 +113,6 @@ export default function PaymentResultPage() {
           failedPath = '/patient/appointment/booking/failed';
       }
 
-      console.log('Navigating to failed path:', failedPath);
-
       // Navigate immediately for failures
       setTimeout(() => {
         router.push(failedPath);
@@ -140,7 +120,6 @@ export default function PaymentResultPage() {
     }
     // Handle pending/processing status
     else if (data?.data?.status === 'PENDING' || data?.data?.status === 'PROCESSING') {
-      console.log('Payment still processing...');
       // Don't set hasProcessed, let it keep checking
     }
   }, [data?.data?.status, isError, userRole, hasProcessed, isLoading, router]);
@@ -150,7 +129,6 @@ export default function PaymentResultPage() {
     if (!hasProcessed && userRole) {
       timeoutRef.current = setTimeout(() => {
         if (!hasProcessed) {
-          console.log('Payment verification timeout');
           Toast.error('Payment verification timeout. Please try again.');
 
           const timeoutPath = `/patient/appointment/booking/failed?reason=timeout`;

@@ -11,7 +11,6 @@ const SingleApptModal = () => {
   } = useStore();
 
   const { data, isLoading } = useFetchSingleAppt(singleAppt.id);
-  console.log(data, isLoading);
 
   return (
     <XModal

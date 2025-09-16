@@ -53,6 +53,39 @@ const ReviewTestDetailsView = () => {
         </div>
       </div>
       <TestReviewDetailsResult data={data?.data?.results || []} />
+
+      <div>
+        {data?.data.media && data?.data.media.length > 0 && (
+          <div className="bg-white p-[24px]">
+            <Text variant="title" weight="semibold" className="mb-[24px] border-b pb-2">
+              Uploaded Media
+            </Text>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {data.data.media.map((mediaItem) => (
+                <div key={mediaItem.id} className="overflow-hidden rounded-lg border">
+                  {mediaItem.mime_type.startsWith('image/') ? (
+                    <img
+                      src={mediaItem.file_url}
+                      alt="Uploaded Media"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : mediaItem.mime_type.startsWith('video/') ? (
+                    <video controls className="h-full w-full object-cover">
+                      <source src={mediaItem.file_url} type={mediaItem.mime_type} />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <div className="bg-gray-100 flex h-full w-full items-center justify-center">
+                      <p className="text-gray-500">Unsupported media type</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="bg-white p-[24px]">
         <Text variant="title" weight="semibold" className="mb-[24px] border-b pb-2">
           Recommendation

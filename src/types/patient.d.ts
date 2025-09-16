@@ -261,6 +261,13 @@ interface Test {
   resultLink: string;
   testResultId: string;
   media?: Array<IMediaResp>;
+  samplePhotos?: Array<{
+    id: string;
+    file_name: string | null;
+    url: string;
+    secure_url: string;
+    format: string;
+  }>;
 }
 
 interface Pagination {
