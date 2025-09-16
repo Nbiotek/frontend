@@ -114,5 +114,9 @@ export enum EnumAdminContentMgt {
   BLOG = 'blog',
   TESTS = 'tests',
   PRODUCTS = 'products',
-  HERO = 'hero'
+  HERO = 'hero',
+  TESTIMONIALS = 'testimonials',
+  FAQ = 'faq',
+  ABOUT = 'about',
+  CONTACT = 'contact'
 }

@@ -18,14 +18,13 @@ import TextareaField from '@/atoms/fields/TextAreaField';
 import FilePreview from '@/components/common/FileUpload/FilePreview';
 import InputSelect from '@/atoms/fields/NewInputSelect';
 import { carouselStatus } from '@/constants/data';
-import { toJS } from 'mobx';
 
 const AdminHeroCarouselModal = () => {
   const {
     AppConfigStore: {
       isOpen,
       toggleModals,
-      heroSectionModal,
+      dataModal,
       files,
       addFiles,
       removeFiles,
@@ -35,9 +34,9 @@ const AdminHeroCarouselModal = () => {
   } = useStore();
 
   const queryClient = useQueryClient();
-  const isEditMode = heroSectionModal.id !== '';
+  const isEditMode = dataModal.id !== '';
 
-  const { data, status } = useFetchHeroCarouselById(heroSectionModal.id);
+  const { data, status } = useFetchHeroCarouselById(dataModal.id);
 
   const form = useForm<TAdminHeroCarouselSchema>({
     defaultValues: {
@@ -92,7 +91,7 @@ const AdminHeroCarouselModal = () => {
       toggleModals();
     };
     if (isEditMode) {
-      updateHeroCarousel(heroSectionModal.id, formData, cbFn);
+      updateHeroCarousel(dataModal.id, formData, cbFn);
       return;
     }
     updateHeroSection({ carousel: [formData] }, cbFn);

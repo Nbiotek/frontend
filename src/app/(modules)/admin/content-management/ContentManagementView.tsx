@@ -7,6 +7,7 @@ import Hero from './hero';
 import Link from 'next/link';
 import { EnumAdminContentMgt } from '@/constants/mangle';
 import { useSearchParams } from 'next/navigation';
+import Testimonials from './testimonials';
 
 const ContentManagementView = () => {
   const params = useSearchParams();
@@ -37,6 +38,11 @@ const ContentManagementView = () => {
                 Hero
               </Link>
             </TabsTrigger>
+            <TabsTrigger value={EnumAdminContentMgt.TESTIMONIALS}>
+              <Link href={`?tab=${EnumAdminContentMgt.TESTIMONIALS}`} shallow prefetch>
+                Testimonials
+              </Link>
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -52,6 +58,9 @@ const ContentManagementView = () => {
           </TabsContent> */}
           <TabsContent className="w-full" value={EnumAdminContentMgt.HERO}>
             <Hero />
+          </TabsContent>
+          <TabsContent className="w-full" value={EnumAdminContentMgt.TESTIMONIALS}>
+            <Testimonials />
           </TabsContent>
         </div>
       </Tabs>

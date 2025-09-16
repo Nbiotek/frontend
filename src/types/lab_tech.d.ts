@@ -45,6 +45,10 @@ type TTestData = {
     id: string;
     name: string;
   } | null;
+  doctor: {
+    id: string;
+    name: string;
+  } | null;
   wantDoctorRecommendation: 'no' | 'yes';
 };
 
@@ -118,6 +122,15 @@ type TSingleTestDetail = {
   marketer?: {
     id: string;
     name: string;
+  };
+  wantDoctorRecommendation: 'no' | 'yes';
+  doctor?: {
+    id: string;
+    name: string;
+  };
+  location: {
+    type: string;
+    address: string;
   };
   logSamples?: Array<TMarketerLogSamples>;
   samplePhotos?: Array<TMarketerSampleMedia>;

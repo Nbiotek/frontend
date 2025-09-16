@@ -13,27 +13,25 @@ import Button from '@/atoms/Buttons';
 import { useQueryClient } from '@tanstack/react-query';
 import { SUPER_ADMIN } from '@/constants/api';
 
-const DeleteCarousel = () => {
+const DelTestimonialModal = () => {
   const {
     AppConfigStore: { toggleModals, isOpen, dataModal },
-    AdminStore: { deleteHeroCarousel, isLoading }
+    AdminStore: { deleteTestimonial, isLoading }
   } = useStore();
 
   const queryClient = useQueryClient();
 
-  console.log(isLoading.del_carousel);
-
   return (
     <Dialog
       modal={true}
-      onOpenChange={() => toggleModals({ name: AppModals.DEL_HERO_CAROUSEL, open: false })}
-      open={isOpen.DEL_HERO_CAROUSEL}
+      onOpenChange={() => toggleModals({ name: AppModals.DEL_TESTIMONIAL_MODAL, open: false })}
+      open={isOpen.DEL_TESTIMONIAL_MODAL}
     >
       <DialogContent className="w-full max-w-lg">
         <DialogHeader>
-          <DialogTitle>Delete Carousel</DialogTitle>
+          <DialogTitle>Delete Testimonial</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this carousel ? This action is permanent.
+            Are you sure you want to delete this testimonial ? This action is permanent.
           </DialogDescription>
         </DialogHeader>
 
@@ -42,7 +40,7 @@ const DeleteCarousel = () => {
             type="button"
             variant="transparent"
             text="Discard"
-            disabled={isLoading.del_carousel}
+            disabled={isLoading.del_testimonial}
             className="h-11 w-36"
             onClick={() => toggleModals({})}
           />
@@ -50,13 +48,13 @@ const DeleteCarousel = () => {
             type="button"
             variant="danger"
             text="Delete"
-            disabled={isLoading.del_carousel}
-            isLoading={isLoading.del_carousel}
+            disabled={isLoading.del_testimonial}
+            isLoading={isLoading.del_testimonial}
             className="h-11 w-36"
             onClick={() =>
-              deleteHeroCarousel(dataModal.id, () => {
+              deleteTestimonial(dataModal.id, () => {
                 queryClient.invalidateQueries({
-                  predicate: (query) => query.queryKey[0] === SUPER_ADMIN.LANDING_PAGE
+                  predicate: (query) => query.queryKey[0] === SUPER_ADMIN.TESTIMONIALS
                 });
                 toggleModals({});
               })
@@ -68,4 +66,4 @@ const DeleteCarousel = () => {
   );
 };
 
-export default observer(DeleteCarousel);
+export default observer(DelTestimonialModal);

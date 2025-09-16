@@ -75,6 +75,18 @@ export default {
         '800': '#5b21b6',
         '900': '#4c1d95'
       },
+      yellow: {
+        '50': '#FDFDEA',
+        '100': '#FDF6B2',
+        '200': '#FCE96A',
+        '300': '#FACA15',
+        '400': '#E3A008',
+        '500': '#C27803',
+        '600': '#9F580A',
+        '700': '#8E4B10',
+        '800': '#723B13',
+        '900': '#633112'
+      },
       darkRed: '#D32F2F',
       amber: '#FFA000',
       teal: '#00897B',
@@ -201,7 +213,8 @@ export default {
         '7xl': '4rem'
       },
       gridTemplateColumns: {
-        response: 'repeat(auto-fit, minmax(220px, 1fr))'
+        response: 'repeat(auto-fit, minmax(220px, 1fr))',
+        button: 'repeat(auto-fit, minmax(160px, 1fr))'
       }
     },
     screens: {

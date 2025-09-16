@@ -88,12 +88,7 @@ export const CreateAccountValidationSchema = z
     firstName,
     lastName,
     email: z.string().optional(),
-    phoneNumber: z
-      .string({ required_error: 'Enter Phone Number.' })
-      .trim()
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .refine((val) => val !== '', { message: 'Enter price.' })
-      .refine((val) => !val.startsWith('0'), { message: "Phone number can't start with 0." }),
+    phoneNumber: z.string().optional(),
     role: z.string({ required_error: 'Select a role' }).trim().min(1, { message: 'Select role.' }),
     password,
     confirmPassword
@@ -129,6 +124,46 @@ export const CreateAccountValidationSchema = z
         message: 'Provide email/phone number.',
         path: ['email', 'phoneNumber']
       });
+    }
+
+    if (phoneNumber) {
+      if (upperCaseRegex.test(phoneNumber)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Phone Number can not contain uppercase letters.',
+          path: ['phoneNumber']
+        });
+      }
+
+      if (lowerCaseRegex.test(phoneNumber)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Phone Number can not contain lowercase letters.'
+        });
+      }
+
+      if (specialCharcterRegex.test(phoneNumber)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Phone Number can not contain special letters.'
+        });
+      }
+
+      if (phoneNumber.length > 15) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Phone number can not be more than 15 digits.',
+          path: ['phoneNumber']
+        });
+      }
+
+      if (phoneNumber.length < 7) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Phone number can not be less than 7 digits.',
+          path: ['phoneNumber']
+        });
+      }
     }
   });
 

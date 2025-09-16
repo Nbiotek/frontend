@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import TestDetailsInfo from '../../../../../components/common/TestDetailsInfo';
+import TestDetailsInfo from '@/components/common/TestDetailsInfo';
 
 interface ITestDetailModalProps {
   id: string;
@@ -32,7 +32,7 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
         <>
           <button
             onClick={() => router.back()}
-            className="flex items-center justify-start space-x-2"
+            className="flex w-fit items-center justify-start space-x-2"
           >
             <ChevronLeft />
             <Paragraph text="Back" />
@@ -40,11 +40,39 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
 
           <TestDetailsInfo data={data} />
 
-          <div className="w-full max-w-40">
+          <div className="grid w-full grid-cols-button gap-2">
+            {data?.marketer && data.marketer.id ? null : (
+              <Button
+                variant="filled"
+                text="Assign Marketer"
+                onClick={() => {
+                  toggleModals({
+                    name: AppModals.AVAILABLE_MARKETERS,
+                    open: true,
+                    testId: data?.id ?? ''
+                  });
+                }}
+              />
+            )}
+
+            {data?.wantDoctorRecommendation === 'yes' && data?.doctor && data?.doctor?.id ? null : (
+              <Button
+                variant="filled"
+                text="Assign Doctor"
+                onClick={() => {
+                  toggleModals({
+                    name: AppModals.AVAILABLE_DOCTORS,
+                    open: true,
+                    testId: data?.id ?? ''
+                  });
+                }}
+              />
+            )}
+
             {data?.technician && data.technician.id ? null : (
               <Button
                 variant="filled"
-                text="Assign Test"
+                text="Assign Technician"
                 onClick={() => {
                   toggleModals({
                     name: AppModals.AVAILABLE_TECHNICIANS,

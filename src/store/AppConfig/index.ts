@@ -54,7 +54,7 @@ class AppConfigStore {
     handlerFn: (files: File[]) => {}
   };
 
-  heroSectionModal = {
+  dataModal = {
     id: ''
   };
 
@@ -72,7 +72,7 @@ class AppConfigStore {
       qcStatusUpdate: observable,
       data: observable,
       testAvailability: observable,
-      heroSectionModal: observable,
+      dataModal: observable,
       fileModalUpload: observable,
 
       addFiles: action.bound,
@@ -216,21 +216,35 @@ class AppConfigStore {
 
       case AppModals.CREATE_HERO_SECTION_MODAL:
         if (modal.open) {
-          this.heroSectionModal = {
+          this.dataModal = {
             id: modal.id
           };
         }
         break;
       case AppModals.CREATE_HERO_CAROUSEL_MODAL:
         if (modal.open) {
-          this.heroSectionModal = {
+          this.dataModal = {
             id: modal.id
           };
         }
         break;
       case AppModals.DEL_HERO_CAROUSEL:
         if (modal.open) {
-          this.heroSectionModal = {
+          this.dataModal = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.CREATE_TESTIMONIAL_MODAL:
+        if (modal.open) {
+          this.dataModal = {
+            id: modal.id
+          };
+        }
+        break;
+      case AppModals.DEL_TESTIMONIAL_MODAL:
+        if (modal.open) {
+          this.dataModal = {
             id: modal.id
           };
         }
