@@ -26,8 +26,6 @@ const RescheduleDialog = ({ open, onClose, appointmentId, currentDate }: Resched
   const [newDate, setNewDate] = useState<Date | undefined>(undefined);
   const { mutate: rescheduleAppointment, isPending } = useRescheduleAppointment();
 
-  console.log(appointmentId, currentDate);
-
   // Reset date when dialog opens
   useEffect(() => {
     if (open && currentDate) {

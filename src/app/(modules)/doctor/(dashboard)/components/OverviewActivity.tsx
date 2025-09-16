@@ -31,7 +31,6 @@ const card = [
 ];
 
 const OverviewActivity = ({ isLoading, overviewData }: OverviewProps) => {
-  console.log(overviewData);
   return (
     <div className="grid w-full grid-cols-response gap-[20px]">
       {isLoading
