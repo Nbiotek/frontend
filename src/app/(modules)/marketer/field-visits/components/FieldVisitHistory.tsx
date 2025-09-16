@@ -16,8 +16,6 @@ const FieldVisitHistory = () => {
     }
   }, [isLoading, data]);
 
-  console.log('fieldVisitData', fieldVisitData);
-
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="flex w-full items-center justify-between space-x-2">

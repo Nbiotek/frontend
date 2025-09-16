@@ -21,6 +21,7 @@ const ResultView = () => {
 
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [mediaType, setMediaType] = useState<'testMedia' | 'samplePhotos'>('testMedia');
 
   const handleResultView = (link: string) => {
     window.open(link, '_blank');
@@ -33,17 +34,21 @@ const ResultView = () => {
 
   // Navigate to next image
   const handleNextImage = () => {
-    if (data?.data?.media && data.data.media.length > 0) {
+    const currentMediaArray =
+      mediaType === 'testMedia' ? data?.data?.media : data?.data?.samplePhotos;
+    if (currentMediaArray && currentMediaArray.length > 0) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === (data.data.media?.length || 0) - 1 ? 0 : prevIndex + 1
+        prevIndex === currentMediaArray.length - 1 ? 0 : prevIndex + 1
       );
     }
   };
 
   const handlePrevImage = () => {
-    if (data?.data?.media && data.data.media.length > 0) {
+    const currentMediaArray =
+      mediaType === 'testMedia' ? data?.data?.media : data?.data?.samplePhotos;
+    if (currentMediaArray && currentMediaArray.length > 0) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? (data.data.media?.length || 0) - 1 : prevIndex - 1
+        prevIndex === 0 ? currentMediaArray.length - 1 : prevIndex - 1
       );
     }
   };
@@ -183,6 +188,7 @@ const ResultView = () => {
                   className="cursor-pointer rounded-lg border p-2 transition-shadow hover:shadow-md"
                   onClick={() => {
                     setCurrentImageIndex(index);
+                    setMediaType('testMedia');
                     setIsMediaModalOpen(true);
                   }}
                 >
@@ -205,6 +211,41 @@ const ResultView = () => {
         )}
       </div>
 
+      <div className="rounded-lg bg-white p-[24px]">
+        <Text variant="title" weight="semibold" className="mb-[24px] border-b pb-2">
+          Sample Photos
+        </Text>
+
+        {data?.data?.samplePhotos && data.data.samplePhotos.length > 0 ? (
+          <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {data.data.samplePhotos.map((photo, index) => (
+              <div
+                key={photo.id || index}
+                className="cursor-pointer rounded-lg border p-2 transition-shadow hover:shadow-md"
+                onClick={() => {
+                  setCurrentImageIndex(index);
+                  setMediaType('samplePhotos');
+                  setIsMediaModalOpen(true);
+                }}
+              >
+                <div className="bg-gray-100 relative aspect-square overflow-hidden rounded-lg">
+                  <img
+                    src={photo.url}
+                    alt={`Sample photo ${index + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <p className="text-gray-500 mt-2 truncate text-sm">Photo {index + 1}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-8 text-center">
+            <p className="text-gray-500">No sample photos available for this test</p>
+          </div>
+        )}
+      </div>
+
       {/* Media Modal */}
       <Dialog open={isMediaModalOpen} onOpenChange={setIsMediaModalOpen}>
         <DialogContent className="sm:max-w-5xl">
@@ -217,47 +258,101 @@ const ResultView = () => {
             </button>
 
             <div className="flex flex-col items-center">
-              {data?.data?.media && data.data.media[currentImageIndex] && (
-                <>
-                  <div className="relative h-[60vh] w-full overflow-hidden rounded-lg bg-black">
-                    <img
-                      src={data.data.media[currentImageIndex].file_url}
-                      alt={`Test media ${currentImageIndex + 1}`}
-                      className="h-full w-full object-contain"
-                    />
+              {(() => {
+                if (mediaType === 'testMedia') {
+                  const currentMediaItem = data?.data?.media?.[currentImageIndex];
+                  if (!currentMediaItem) return null;
 
-                    {/* Navigation arrows */}
-                    {data.data.media.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handlePrevImage();
-                          }}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
-                        >
-                          <ChevronLeft className="h-6 w-6" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleNextImage();
-                          }}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
-                        >
-                          <ChevronRight className="h-6 w-6" />
-                        </button>
-                      </>
-                    )}
-                  </div>
+                  return (
+                    <>
+                      <div className="relative h-[60vh] w-full overflow-hidden rounded-lg bg-black">
+                        <img
+                          src={currentMediaItem.file_url}
+                          alt={`Test media ${currentImageIndex + 1}`}
+                          className="h-full w-full object-contain"
+                        />
 
-                  <div className="mt-4 text-center">
-                    <p className="text-lg font-medium">
-                      {currentImageIndex + 1} of {data.data.media.length}
-                    </p>
-                  </div>
-                </>
-              )}
+                        {/* Navigation arrows */}
+                        {data?.data?.media && data.data.media.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePrevImage();
+                              }}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                            >
+                              <ChevronLeft className="h-6 w-6" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleNextImage();
+                              }}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                            >
+                              <ChevronRight className="h-6 w-6" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="mt-4 text-center">
+                        <p className="text-lg font-medium">
+                          {currentImageIndex + 1} of {data?.data?.media?.length}
+                        </p>
+                        <p className="text-gray-500 mt-1 text-sm">Test Media</p>
+                      </div>
+                    </>
+                  );
+                } else {
+                  const currentSamplePhoto = data?.data?.samplePhotos?.[currentImageIndex];
+                  if (!currentSamplePhoto) return null;
+
+                  return (
+                    <>
+                      <div className="relative h-[60vh] w-full overflow-hidden rounded-lg bg-black">
+                        <img
+                          src={currentSamplePhoto.url}
+                          alt={`Sample photo ${currentImageIndex + 1}`}
+                          className="h-full w-full object-contain"
+                        />
+
+                        {/* Navigation arrows */}
+                        {data?.data?.samplePhotos && data.data.samplePhotos.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePrevImage();
+                              }}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                            >
+                              <ChevronLeft className="h-6 w-6" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleNextImage();
+                              }}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-white/70 p-2 hover:bg-white"
+                            >
+                              <ChevronRight className="h-6 w-6" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="mt-4 text-center">
+                        <p className="text-lg font-medium">
+                          {currentImageIndex + 1} of {data?.data?.samplePhotos?.length}
+                        </p>
+                        <p className="text-gray-500 mt-1 text-sm">Sample Photos</p>
+                      </div>
+                    </>
+                  );
+                }
+              })()}
             </div>
           </div>
         </DialogContent>

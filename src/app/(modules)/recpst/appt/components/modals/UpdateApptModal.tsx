@@ -56,7 +56,6 @@ const UpdateApptModal = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: putUpdateAppt,
     onError: (error) => {
-      console.log(error);
       toast.error(error.message);
     },
     onSuccess: (data) => {

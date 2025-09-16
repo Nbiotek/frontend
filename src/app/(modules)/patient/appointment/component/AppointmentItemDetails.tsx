@@ -27,8 +27,6 @@ const AppointmentItemDetails = ({
   // bookingData,
   onConfirm
 }: AppointmentItemProps) => {
-  console.log(open);
-
   // const handleBookingSubmission = async () => {
   //   try {
   //     bookAppointment(bookingData, {

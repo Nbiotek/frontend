@@ -101,6 +101,13 @@ interface TTestRevDet {
     doctor: TDoctorRev;
     referringDoctor: TDoctorRev | null;
     technician: TTechnicianRev;
+    media: Array<{
+      id: string;
+      file_url: string;
+      mime_type: string;
+      bucket: string;
+      uuid: string;
+    }>;
   };
 }
 

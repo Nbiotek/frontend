@@ -96,8 +96,6 @@ const PendingAppointmentView = () => {
     queryClient.invalidateQueries({ queryKey: ['pending-appointment'] });
   }, [filters, queryClient]);
 
-  console.log(data);
-
   return (
     <>
       <div className="mb-5 flex w-full items-center justify-between space-x-2">

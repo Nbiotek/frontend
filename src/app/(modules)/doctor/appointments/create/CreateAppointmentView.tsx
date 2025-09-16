@@ -113,7 +113,6 @@ const CreateAppointmentView = () => {
 
   const handleBookingConfirmation = () => {
     if (validateForm()) {
-      console.log('Form data at submission:', formData);
       setIsBookingConfirmationDialogOpen(true);
     }
   };

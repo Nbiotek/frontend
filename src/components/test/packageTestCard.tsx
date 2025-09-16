@@ -16,7 +16,6 @@ const PackageTestCard = observer(({ test, onViewDetails }: TestCardProps) => {
   } = useStore();
 
   const handleCheckboxChange = (checked: boolean) => {
-    console.log(checked);
     if (checked) {
       addItem(test, 'package');
     } else {
