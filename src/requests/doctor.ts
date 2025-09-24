@@ -20,6 +20,10 @@ export const doctorDashboardService = {
   getRecentActivity: async () => {
     const { data } = await server.get<TRecentActivity>(DOCTOR.RECENT_ACTIVITY);
     return data;
+  },
+  updateAvailability: async (payload: { status: string }) => {
+    const { data } = await server.put<TAvailabiltyData>(DOCTOR.UPDATE_AVAILABILITY, payload);
+    return data;
   }
 };
 
