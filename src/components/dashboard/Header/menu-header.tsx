@@ -11,13 +11,31 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { useStore } from '@/store';
 import ROUTES from '@/constants/routes';
+import { useFetchNotifications } from '@/hooks/notifications/useFetchNotifications';
+import { useEffect } from 'react';
+import { TNotificationDatum } from '@/types/notification';
 
 const MenuHeader = () => {
   const { state, toggleSidebar } = useSidebar();
   const { data } = useFetchProfile();
   const {
-    NotificationStore: { unReadNotifyCount }
+    NotificationStore: { unReadNotifyCount, setNotifyUnreadCount }
   } = useStore();
+
+  const { data: notifications, isLoading } = useFetchNotifications();
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (notifications !== undefined) {
+        let count = 0;
+
+        notifications.notification.map((el: TNotificationDatum) =>
+          el.is_viewed ? (count += 0) : (count += 1)
+        );
+        setNotifyUnreadCount(count);
+      }
+    }
+  }, [isLoading, notifications]);
 
   return (
     <div className="sticky top-0 z-10 w-full border border-r bg-white p-2 shadow-lg">
