@@ -86,6 +86,20 @@ export default function ResultView({ id }: ITestDetailModalProps) {
                 />
               </Link>
             )}
+
+            {data?.wantDoctorRecommendation == 'yes' && data?.doctor === null && (
+              <Button
+                variant="filled"
+                text="Assign Doctor"
+                onClick={() => {
+                  toggleModals({
+                    name: AppModals.AVAILABLE_DOCTORS,
+                    open: true,
+                    testId: data?.id ?? ''
+                  });
+                }}
+              />
+            )}
           </div>
         </>
       )}

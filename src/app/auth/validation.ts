@@ -149,10 +149,10 @@ export const CreateAccountValidationSchema = z
         });
       }
 
-      if (phoneNumber.length > 15) {
+      if (phoneNumber.length > 14) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'Phone number can not be more than 15 digits.',
+          message: 'Phone number is invalid',
           path: ['phoneNumber']
         });
       }

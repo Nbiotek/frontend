@@ -7,6 +7,7 @@ import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TestDetailsInfo from '@/components/common/TestDetailsInfo';
+import { EnumTestLocation } from '@/constants/mangle';
 
 interface ITestDetailModalProps {
   id: string;
@@ -41,27 +42,13 @@ const TestDetailModal = ({ id }: ITestDetailModalProps) => {
           <TestDetailsInfo data={data} />
 
           <div className="grid w-full grid-cols-button gap-2">
-            {data?.marketer && data.marketer.id ? null : (
+            {data?.location.type === EnumTestLocation.CUSTOM && data?.marketer === null && (
               <Button
                 variant="filled"
                 text="Assign Marketer"
                 onClick={() => {
                   toggleModals({
                     name: AppModals.AVAILABLE_MARKETERS,
-                    open: true,
-                    testId: data?.id ?? ''
-                  });
-                }}
-              />
-            )}
-
-            {data?.wantDoctorRecommendation === 'yes' && data?.doctor && data?.doctor?.id ? null : (
-              <Button
-                variant="filled"
-                text="Assign Doctor"
-                onClick={() => {
-                  toggleModals({
-                    name: AppModals.AVAILABLE_DOCTORS,
                     open: true,
                     testId: data?.id ?? ''
                   });

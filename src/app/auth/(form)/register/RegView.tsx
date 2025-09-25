@@ -1,9 +1,6 @@
 'use client';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Button from '@/atoms/Buttons';
-// import GoogleBtn from '@/atoms/Buttons/GoogleBtn';
-// import FacebookBtn from '@/atoms/Buttons/FacebookBtn';
-import Input from '@/atoms/fields/Input';
 import HyperLink from '@/atoms/Hyperlink';
 import ROUTES from '@/constants/routes';
 import InputCheck from '@/atoms/fields/InputCheck';
@@ -45,17 +42,6 @@ function PatientRegView() {
             disabled={isLoading.register}
             className="flex flex-col space-y-4 rounded-2xl bg-white px-4 py-8 shadow-lg"
           >
-            {/* <div className="flex flex-col space-y-2">
-            <GoogleBtn />
-            <FacebookBtn />
-          </div>
-
-          <div className="flex items-center justify-between text-neutral-200">
-            <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-            <p>or</p>
-            <div className="h-[1px] w-[45%] bg-neutral-100"></div>
-          </div> */}
-
             <div className="">
               <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
                 <FormField
@@ -98,15 +84,23 @@ function PatientRegView() {
                 control={form.control}
                 name="phoneNumber"
                 render={({ field }) => (
-                  <div>
-                    <InputNumPatternField
-                      label="Phone Number"
-                      format="(+234) ### #### ###"
-                      allowEmptyFormatting
-                      mask=" "
-                      {...field}
-                    />
-                  </div>
+                  <InputNumPatternField
+                    label="Phone Number"
+                    format="(+234) ### #### ###"
+                    allowEmptyFormatting
+                    mask=" "
+                    onValueChange={(values) => {
+                      const unfilteredValue = values.formattedValue
+                        .split(' ')
+                        .join('')
+                        .replace('(+234)', '+234');
+                      if (unfilteredValue === '+234') {
+                        field.onChange('');
+                      } else {
+                        field.onChange(unfilteredValue);
+                      }
+                    }}
+                  />
                 )}
               />
 
@@ -115,7 +109,7 @@ function PatientRegView() {
                 name="password"
                 render={({ field }) => (
                   <div>
-                    <InputField type="password" label="Password" {...field} />
+                    <InputField type="password" label="Password" required {...field} />
                   </div>
                 )}
               />
@@ -125,7 +119,7 @@ function PatientRegView() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <div>
-                    <InputField type="password" label="Confirm Password" {...field} />
+                    <InputField type="password" label="Confirm Password" required {...field} />
                   </div>
                 )}
               />
