@@ -119,21 +119,9 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
                             <Eye />
                             <p>View Test</p>
                           </DropdownMenuItem>
-                          {type === 'test' && test.location?.type === EnumTestLocation.CUSTOM ? (
-                            test.marketer && test.marketer.id ? (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  toggleModals({
-                                    name: AppModals.AVAILABLE_TECHNICIANS,
-                                    open: true,
-                                    testId: test.id
-                                  })
-                                }
-                              >
-                                <HandCoins />
-                                <p>Assign to lab</p>
-                              </DropdownMenuItem>
-                            ) : (
+                          {type === 'test' &&
+                            test?.location.type === EnumTestLocation.CUSTOM &&
+                            test?.marketer === null && (
                               <DropdownMenuItem
                                 onClick={() =>
                                   toggleModals({
@@ -146,23 +134,7 @@ const TestsTable = ({ type, isLoading, tests }: ITestTableProps) => {
                                 <HandCoins />
                                 <p>Assign to Marketer</p>
                               </DropdownMenuItem>
-                            )
-                          ) : null}
-
-                          {type === 'test' && test.wantDoctorRecommendation === 'yes' && (
-                            <DropdownMenuItem
-                              onClick={() =>
-                                toggleModals({
-                                  name: AppModals.AVAILABLE_DOCTORS,
-                                  open: true,
-                                  testId: test.id
-                                })
-                              }
-                            >
-                              <HandCoins />
-                              <p>Assign to Doctor</p>
-                            </DropdownMenuItem>
-                          )}
+                            )}
 
                           {type === 'test' && test.location?.type === EnumTestLocation.LAB && (
                             <DropdownMenuItem

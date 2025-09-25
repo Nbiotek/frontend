@@ -58,14 +58,8 @@ class SettingsStore {
     this.isSettingsLoading.updatePwd = true;
     this.errors.updatePwd = '';
     try {
-      const res = (yield postPwdSettings(payload)) as INBTServerResp<{}>;
-      if (res.statusCode === 201) {
-        toast.success('Password updated!');
-        this.isSettingsLoading.updatePwd = false;
-        this.rootStore.AuthStore.logout();
-      } else {
-        toast.error('Unable to update password.');
-      }
+      yield postPwdSettings(payload);
+      toast.success('Password updated!');
     } catch (error) {
       toast.error('Unable to update password.');
     } finally {
