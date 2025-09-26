@@ -44,7 +44,7 @@ export default function ResultView({ id }: ITestDetailModalProps) {
 
           <TestDetailsInfo data={data} />
 
-          <div className="flex w-full items-center justify-start space-x-3">
+          <div className="flex w-full flex-wrap items-center justify-start space-x-3">
             {data?.qcStatus && data.qcStatus === EnumResultStatus.PENDING && (
               <div>
                 <Button
@@ -91,6 +91,7 @@ export default function ResultView({ id }: ITestDetailModalProps) {
               <Button
                 variant="filled"
                 text="Assign Doctor"
+                className="w-fit"
                 onClick={() => {
                   toggleModals({
                     name: AppModals.AVAILABLE_DOCTORS,

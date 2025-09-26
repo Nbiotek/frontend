@@ -1,4 +1,12 @@
-import { EllipsisVertical, Eye, HandCoins, Pause, Play, Shield } from 'lucide-react';
+import {
+  BriefcaseMedicalIcon,
+  EllipsisVertical,
+  Eye,
+  HandCoins,
+  Pause,
+  Play,
+  Shield
+} from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -104,6 +112,22 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                               <Eye />
                               View
                             </DropdownMenuItem>
+
+                            {qcDatum?.wantDoctorRecommendation == 'yes' &&
+                              qcDatum?.doctor === null && (
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    toggleModals({
+                                      name: AppModals.AVAILABLE_DOCTORS,
+                                      open: true,
+                                      testId: qcDatum?.id ?? ''
+                                    });
+                                  }}
+                                >
+                                  <BriefcaseMedicalIcon />
+                                  Assign Doctor
+                                </DropdownMenuItem>
+                              )}
                             {qcDatum.qcStatus && qcDatum.qcStatus == EnumResultStatus.PENDING && (
                               <DropdownMenuItem
                                 onClick={() =>
@@ -127,7 +151,6 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                                     })
                                   }
                                 >
-                                  {' '}
                                   <Pause />
                                   Pause
                                 </DropdownMenuItem>
