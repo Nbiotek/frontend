@@ -307,6 +307,14 @@ interface TestSuiteDetails {
     doctor: {} | null;
     tests: TestSuiteSingle[];
     resultLink: string;
+    media?: Array<IMediaResp>;
+    samplePhotos?: Array<{
+      id: string;
+      file_name: string | null;
+      url: string;
+      secure_url: string;
+      format: string;
+    }>;
   };
 }
 

@@ -10,6 +10,14 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuGroup,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { useRouter } from 'next/navigation';
 import { dateTimeUTC } from '@/utils/date';
 import { CheckCircle, EllipsisVertical, MapPin } from 'lucide-react';
 
@@ -33,6 +41,8 @@ const RecentActivityTable = () => {
   const { data: userProfile } = useFetchProfile();
 
   const queryClient = useQueryClient();
+
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: doctorDashboardService.updateAvailability,
@@ -118,7 +128,28 @@ const RecentActivityTable = () => {
                     </TableCell>
                     {/* download  */}
                     <TableCell>
-                      <EllipsisVertical className="cursor-pointer" />
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <EllipsisVertical className="cursor-pointer" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuGroup>
+                            {recentTest.status === 'COMPLETED' ? (
+                              <DropdownMenuItem
+                                onClick={() => router.push(`/doctor/review-test/${recentTest.id}`)}
+                              >
+                                View Test
+                              </DropdownMenuItem>
+                            ) : (
+                              <DropdownMenuItem
+                                onClick={() => router.push(`/doctor/review-test/${recentTest.id}`)}
+                              >
+                                Write Report
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}
