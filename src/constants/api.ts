@@ -61,7 +61,8 @@ export const DOCTOR = {
     ALL: '/doctors/appointments/booked-by-doctor',
     CREATE: '/doctors/appointments'
   },
-  REFERRALS: '/doctors/patients'
+  REFERRALS: '/doctors/patients',
+  UPDATE_AVAILABILITY: '/doctors/update-availability'
 };
 
 export const MARKETER = {
