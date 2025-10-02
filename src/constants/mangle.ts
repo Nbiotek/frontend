@@ -118,7 +118,8 @@ export enum EnumAdminContentMgt {
   TESTIMONIALS = 'testimonials',
   FAQ = 'faq',
   ABOUT = 'about',
-  CONTACT = 'contact'
+  CONTACT = 'contact',
+  PARTNERS = 'partners'
 }
 
 export enum EnumMediaVisibilityStatus {

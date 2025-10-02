@@ -63,6 +63,12 @@ class AppConfigStore {
     id: ''
   };
 
+  partnerModal = {
+    id: '',
+    media: undefined as Array<IMediaResp> | undefined,
+    status: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -235,11 +241,29 @@ class AppConfigStore {
           };
         }
         break;
+      case AppModals.CREATE_PARTNER_MODAL:
+        if (modal.open) {
+          this.partnerModal.id = modal.id;
+
+          if (modal.status) {
+            this.partnerModal.status = modal.status;
+          }
+
+          if (modal.media) {
+            this.partnerModal.media = toJS(modal.media);
+          }
+        }
+        break;
       case AppModals.DEL_HERO_CAROUSEL:
         if (modal.open) {
           this.dataModal = {
             id: modal.id
           };
+        }
+        break;
+      case AppModals.DEL_PARTNER:
+        if (modal.open) {
+          this.partnerModal.id = modal.id;
         }
         break;
       case AppModals.CREATE_TESTIMONIAL_MODAL:
