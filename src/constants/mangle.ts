@@ -120,3 +120,8 @@ export enum EnumAdminContentMgt {
   ABOUT = 'about',
   CONTACT = 'contact'
 }
+
+export enum EnumMediaVisibilityStatus {
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE'
+}

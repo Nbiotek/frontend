@@ -5,6 +5,9 @@ import initializer from '@/utils/initializer';
 import { EnumResultStatus } from '@/atoms/Buttons/Status';
 
 const INIT_IS_OPEN = initializer(AppModals, false);
+const INIT_IS_LOADING = {
+  toggle_media_visibility: false
+};
 
 class AppConfigStore {
   rootStore: RootStore;
@@ -13,6 +16,8 @@ class AppConfigStore {
   files: Array<TRemoteFile> = [];
 
   isOpen = { ...INIT_IS_OPEN };
+  isLoading = { ...INIT_IS_LOADING };
+  errors = initializer(this.isLoading, '');
   nonce = 0;
 
   testDetails = {
@@ -61,6 +66,8 @@ class AppConfigStore {
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
+      isLoading: observable,
+      errors: observable,
       files: observable,
       mediaMultiple: observable,
       nonce: observable,

@@ -195,3 +195,7 @@ export const NOTIFICATIONS = {
   READ_ALL: '/notifications/read-all',
   MARK_AS_READ: '/notifications/:id/read'
 };
+
+export const FILE_MANAGER = {
+  UPDATE_VISIBILITY: '/file-manager/update-visibility/:uuid'
+};

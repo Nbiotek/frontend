@@ -192,3 +192,7 @@ export const testResultStatus = [
     value: 'Normal'
   }
 ];
+
+export const QUERY_KEY = {
+  LAB_DASHBOARD: '/lab/dashboard'
+};
