@@ -30,6 +30,7 @@ interface TFieldTestRequest {
   status: string;
   createdAt: string;
   updatedAt: string;
+  availableDate: string;
 }
 
 interface TFieldTestRespones {
