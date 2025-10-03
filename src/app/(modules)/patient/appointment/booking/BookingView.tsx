@@ -61,7 +61,7 @@ const BookAppointmentView = observer(() => {
   const [formData, setFormData] = useState<BookingForm>({
     fullName: '',
     email: '',
-    phoneNumber: '',
+    phoneNumber: '+234',
     location: {
       type: 'Lab' as LocationType,
       address: LAB_LOCATIONS[0].address
@@ -84,18 +84,24 @@ const BookAppointmentView = observer(() => {
 
   useEffect(() => {
     if (data && isBookingForSelf) {
+      const phoneNumber = data?.data?.personal.phoneNumber || '';
+      // Ensure phone number starts with +234
+      const formattedPhone = phoneNumber.startsWith('+234')
+        ? phoneNumber
+        : '+234' + phoneNumber.replace(/^\+?234/, '');
+
       setFormData((prev) => ({
         ...prev,
         fullName: data?.data?.personal.firstName + ' ' + data?.data.personal.lastName || '',
         email: data?.data?.personal.email || '',
-        phoneNumber: data?.data?.personal.phoneNumber || ''
+        phoneNumber: formattedPhone
       }));
     } else if (!isBookingForSelf) {
       setFormData((prev) => ({
         ...prev,
         fullName: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '+234'
       }));
     }
   }, [data, isBookingForSelf]);
@@ -122,6 +128,9 @@ const BookAppointmentView = observer(() => {
 
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone number is required';
+    } else if (formData.phoneNumber.length < 7) {
+      // +234 + at least 3 digits
+      newErrors.phoneNumber = 'Please enter a valid phone number';
     }
 
     if (!formData.location.address.trim()) {
@@ -201,10 +210,25 @@ const BookAppointmentView = observer(() => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'phoneNumber') {
+      // Ensure +234 prefix is always present and only allow digits after it
+      let phoneValue = value;
+      if (!phoneValue.startsWith('+234')) {
+        phoneValue = '+234' + phoneValue.replace(/^\+?234/, '');
+      }
+      // Only allow digits after +234
+      phoneValue = '+234' + phoneValue.slice(4).replace(/\D/g, '');
+
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: phoneValue
+      }));
+    } else {
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,22 +281,44 @@ const BookAppointmentView = observer(() => {
             </div>
           </div>
           <div className="flex flex-col gap-1 md:flex-row md:gap-4">
-            <Input
-              type="text"
-              label="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
-            <Input
-              type="text"
-              label="Phone Number"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleInputChange}
-              error={errors.phoneNumber}
-            />
+            <div className="flex-1">
+              <Input
+                type="text"
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+            </div>
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-1 flex-col">
+                <Label className="text-gray-700 mb-2 text-sm font-medium">Phone Number</Label>
+                <div className="border-gray-300 focus-within:border-blue-500 focus-within:ring-blue-500 relative flex rounded-md border bg-white transition-colors focus-within:ring-1">
+                  <div className="bg-gray-50 border-gray-300 flex items-center border-r px-4 py-3">
+                    <span className="text-gray-600 text-sm font-semibold">🇳🇬 +234</span>
+                  </div>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={formData.phoneNumber.slice(4)}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, '');
+                      setFormData((prev: any) => ({
+                        ...prev,
+                        phoneNumber: '+234' + digits
+                      }));
+                    }}
+                    className="placeholder:text-gray-400 flex-1 border-0 bg-transparent px-4 py-3 text-sm focus:outline-none focus:ring-0"
+                    placeholder="801 234 5678"
+                    maxLength={10}
+                  />
+                </div>
+                {errors.phoneNumber && (
+                  <span className="mt-1 text-sm text-red-500">{errors.phoneNumber}</span>
+                )}
+              </div>
+            </div>
           </div>
           <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <div className="flex w-full flex-col ">
