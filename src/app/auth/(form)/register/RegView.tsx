@@ -14,6 +14,7 @@ import { EnumRole } from '@/constants/mangle';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function PatientRegView() {
   const router = useRouter();
@@ -81,25 +82,13 @@ function PatientRegView() {
               />
 
               <FormField
-                control={form.control}
                 name="phoneNumber"
                 render={({ field }) => (
-                  <InputNumPatternField
-                    label="Phone Number"
-                    format="(+234) ### #### ###"
-                    allowEmptyFormatting
-                    mask=" "
-                    onValueChange={(values) => {
-                      const unfilteredValue = values.formattedValue
-                        .split(' ')
-                        .join('')
-                        .replace('(+234)', '+234');
-                      if (unfilteredValue === '+234') {
-                        field.onChange('');
-                      } else {
-                        field.onChange(unfilteredValue);
-                      }
-                    }}
+                  <InputPhoneField
+                    label="Phone number"
+                    required
+                    placeholder="8123456789"
+                    {...field}
                   />
                 )}
               />
