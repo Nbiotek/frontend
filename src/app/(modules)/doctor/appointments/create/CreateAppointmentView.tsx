@@ -47,7 +47,7 @@ const CreateAppointmentView = () => {
   const [formData, setFormData] = useState<BookingForm>({
     fullName: '',
     email: '',
-    phoneNumber: '',
+    phoneNumber: '+234',
     location: {
       type: 'Lab' as LocationType,
       address: LAB_LOCATIONS[0].address
@@ -86,6 +86,8 @@ const CreateAppointmentView = () => {
 
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone number is required';
+    } else if (formData.phoneNumber.length < 8) {
+      newErrors.phoneNumber = 'Phone number must be at least 8 digits';
     }
     if (!formData.location.address.trim()) {
       newErrors.location = ' Location is  required';
@@ -143,6 +145,26 @@ const CreateAppointmentView = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if (name === 'phoneNumber') {
+      // Ensure phone number always starts with +234
+      if (!value.startsWith('+234')) {
+        const newValue = '+234' + value.replace(/^\+234/, '');
+        setFormData((prev: any) => ({
+          ...prev,
+          [name]: newValue
+        }));
+        return;
+      }
+      // Remove any non-numeric characters after +234
+      const numericPart = value.slice(4).replace(/\D/g, '');
+      const newValue = '+234' + numericPart;
+      setFormData((prev: any) => ({
+        ...prev,
+        [name]: newValue
+      }));
+      return;
+    }
 
     setFormData((prev: any) => ({
       ...prev,
@@ -203,22 +225,46 @@ const CreateAppointmentView = () => {
             </div>
           </div>
           <div className="flex flex-col gap-1 md:flex-row md:gap-4">
-            <Input
-              type="text"
-              label="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
-            <Input
-              type="text"
-              label="Phone Number"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleInputChange}
-              error={errors.phoneNumber}
-            />
+            <div className="flex-1">
+              <Input
+                type="text"
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="text-gray-700 mb-1 block text-sm font-medium">Phone Number</label>
+              <div className="relative">
+                <div className="flex">
+                  <div className="border-gray-300 bg-gray-50 text-gray-500 flex items-center rounded-l-md border border-r-0 px-3 py-2 text-sm">
+                    +234
+                  </div>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={formData.phoneNumber.slice(4)}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(/\D/g, '');
+                      setFormData((prev: any) => ({
+                        ...prev,
+                        phoneNumber: '+234' + numericValue
+                      }));
+                    }}
+                    className={`focus:ring-blue-500 focus:border-blue-500 flex-1 rounded-r-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 ${
+                      errors.phoneNumber ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Enter phone number"
+                    maxLength={10}
+                  />
+                </div>
+                {errors.phoneNumber && (
+                  <span className="mt-1 text-sm text-red-500">{errors.phoneNumber}</span>
+                )}
+              </div>
+            </div>
           </div>
           <div className="flex flex-col gap-1 md:flex-row md:gap-4">
             <div className="flex w-full flex-col ">

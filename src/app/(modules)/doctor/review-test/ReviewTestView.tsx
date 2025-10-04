@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FilterParams } from '@/requests/doctor';
 import Pagination from '@/atoms/pagination';
 import { format } from 'date-fns';
+import Button from '@/atoms/Buttons';
 
 const doctorFilterOptions = {
   showStatus: true, // Show status dropdown
@@ -32,7 +33,8 @@ const ReviewTestView = () => {
   const defaultFilters: FilterParams = {
     page: 1,
     limit: 10,
-    sortOrder: 'DESC'
+    sortOrder: 'DESC',
+    status: 'PENDING'
   };
 
   // Filter state
@@ -129,6 +131,15 @@ const ReviewTestView = () => {
     }));
   };
 
+  // Handle status button clicks
+  const handleStatusFilter = (status: 'PENDING' | 'COMPLETED') => {
+    setFilters((prev) => ({
+      ...prev,
+      status: status,
+      page: 1
+    }));
+  };
+
   // Search handler with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -150,6 +161,24 @@ const ReviewTestView = () => {
 
   return (
     <div className="flex-col space-y-[24px]">
+      {/* Status Filter Buttons */}
+      <div className="flex items-center gap-3 bg-white p-3">
+        <div className="flex gap-2">
+          <Button
+            variant={filters.status === 'PENDING' ? 'filled' : 'outlined'}
+            text="Pending"
+            className="!h-[32px] !px-4 !text-xs"
+            onClick={() => handleStatusFilter('PENDING')}
+          />
+          <Button
+            variant={filters.status === 'COMPLETED' ? 'filled' : 'outlined'}
+            text="Completed"
+            className="!h-[32px] !px-4 !text-xs"
+            onClick={() => handleStatusFilter('COMPLETED')}
+          />
+        </div>
+      </div>
+
       <div className="flex flex-col space-x-2 sm:flex-row sm:items-center sm:justify-between">
         <FilterComponent
           onFilterChange={handleFilterChange}
