@@ -34,11 +34,27 @@ export const lastName = z
   .refine((value) => numberRegex.test(value) === false, 'Numbers not allowed.');
 
 export const phoneNumber = z
-  .string({ required_error: 'Enter Phone Number.' })
+  .string({ required_error: 'Phone number is required.' })
   .trim()
-  .transform((val) => val.replace(/[^0-9]/g, ''))
-  .refine((val) => val !== '', { message: 'Enter Phone number.' })
-  .refine((val) => !val.startsWith('0'), { message: "Phone number can't start with 0." });
+  .superRefine((val, ctx) => {
+    const cleaned = val.replace(/[\s-+]/g, '');
+
+    if (!/^\d+$/.test(cleaned)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Phone number must contain only numbers'
+      });
+      return;
+    }
+
+    if (cleaned.length < 8 || cleaned.length > 15) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Phone number must be between 8 and 15 digits'
+      });
+      return;
+    }
+  });
 export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),
   email_verified: z.boolean()
@@ -88,7 +104,9 @@ export const CreateAccountValidationSchema = z
     firstName,
     lastName,
     email: z.string().optional(),
-    phoneNumber: z.string().optional(),
+    phoneNumber: phoneNumber.optional().refine((value) => value === undefined || value.length > 0, {
+      message: 'Phone number cannot be empty if provided.'
+    }),
     role: z.string({ required_error: 'Select a role' }).trim().min(1, { message: 'Select role.' }),
     password,
     confirmPassword
@@ -124,46 +142,6 @@ export const CreateAccountValidationSchema = z
         message: 'Provide email/phone number.',
         path: ['email', 'phoneNumber']
       });
-    }
-
-    if (phoneNumber) {
-      if (upperCaseRegex.test(phoneNumber)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Phone Number can not contain uppercase letters.',
-          path: ['phoneNumber']
-        });
-      }
-
-      if (lowerCaseRegex.test(phoneNumber)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Phone Number can not contain lowercase letters.'
-        });
-      }
-
-      if (specialCharcterRegex.test(phoneNumber)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Phone Number can not contain special letters.'
-        });
-      }
-
-      if (phoneNumber.length > 14) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Phone number is invalid',
-          path: ['phoneNumber']
-        });
-      }
-
-      if (phoneNumber.length < 7) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Phone number can not be less than 7 digits.',
-          path: ['phoneNumber']
-        });
-      }
     }
   });
 

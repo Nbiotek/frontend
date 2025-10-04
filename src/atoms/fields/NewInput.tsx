@@ -24,7 +24,7 @@ const InputField = forwardRef<HTMLInputElement, IInputProps>(
           {props.required && label != '' && <span className="text-red-300">*</span>}
         </FormLabel>
         <FormControl className="w-full">
-          <Input className=" bg-neutral-50" {...{ ref }} {...restProps} />
+          <Input {...{ ref }} {...restProps} />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />
