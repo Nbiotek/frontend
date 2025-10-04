@@ -17,6 +17,7 @@ import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 import { FaEnvelope, FaPhone } from 'react-icons/fa6';
 import { useState } from 'react';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function LoginView() {
   const router = useRouter();
@@ -94,18 +95,14 @@ function LoginView() {
 
               {loginMethod === 'phone' && (
                 <FormField
-                  control={form.control}
                   name="phoneNumber"
                   render={({ field }) => (
-                    <div>
-                      <InputNumPatternField
-                        label="Phone Number"
-                        format="(+234) ### #### ###"
-                        allowEmptyFormatting
-                        mask=" "
-                        {...field}
-                      />
-                    </div>
+                    <InputPhoneField
+                      label="Phone number"
+                      required
+                      placeholder="8123456789"
+                      {...field}
+                    />
                   )}
                 />
               )}
