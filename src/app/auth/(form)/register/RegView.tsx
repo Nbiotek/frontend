@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import { EnumRole } from '@/constants/mangle';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
-import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function PatientRegView() {
@@ -84,12 +83,7 @@ function PatientRegView() {
               <FormField
                 name="phoneNumber"
                 render={({ field }) => (
-                  <InputPhoneField
-                    label="Phone number"
-                    required
-                    placeholder="8123456789"
-                    {...field}
-                  />
+                  <InputPhoneField label="Phone number" placeholder="8123456789" {...field} />
                 )}
               />
 

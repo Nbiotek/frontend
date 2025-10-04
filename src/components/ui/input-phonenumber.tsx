@@ -12,10 +12,10 @@ import {
   CommandItem,
   CommandList
 } from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { PatternFormat, PatternFormatProps } from 'react-number-format';
 
 export type PhoneInputProps = Omit<React.ComponentProps<'input'>, 'onChange' | 'value' | 'ref'> &
   Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
@@ -52,9 +52,20 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
 });
 PhoneInput.displayName = 'PhoneInput';
 
-const InputComponent = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
+const InputComponent = React.forwardRef<HTMLInputElement, PatternFormatProps>(
   ({ className, ...props }, ref) => (
-    <Input className={cn('rounded-e-lg rounded-s-none', className)} {...props} ref={ref} />
+    <PatternFormat
+      {...props}
+      format={'### #### ###'}
+      min={8}
+      max={10}
+      className={cn(
+        'flex h-12 w-full rounded-lg border border-input bg-transparent px-3 py-1 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-neutral-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+        'rounded-e-lg rounded-s-none',
+        className
+      )}
+      getInputRef={ref}
+    />
   )
 );
 InputComponent.displayName = 'InputComponent';

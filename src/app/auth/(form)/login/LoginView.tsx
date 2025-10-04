@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
-import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 import { FaEnvelope, FaPhone } from 'react-icons/fa6';
 import { useState } from 'react';
 import InputPhoneField from '@/atoms/fields/InputPhone';
