@@ -1,4 +1,5 @@
 'use client';
+import { startTransition, useEffect, useOptimistic, useState } from 'react';
 import HyperLink from '@/atoms/Hyperlink';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import ROUTES from '@/constants/routes';
@@ -16,30 +17,65 @@ interface IRecentActivityProps {
   data: Array<TTestData>;
 }
 
+type TOptimisticAction = { type: 'start' } | { type: 'complete'; status?: string };
+
 const Recent = ({ isLoading, data }: IRecentActivityProps) => {
-  const { data: userProfile } = useFetchProfile();
+  const { data: userProfile, isLoading: isProfileLoading } = useFetchProfile();
+  const [userStatus, setUserStatus] = useState(userProfile?.status);
+  const [optimisticCheck, addOptimisticCheck] = useOptimistic(
+    userStatus === 'Available' ? 'checked' : 'unchecked',
+    (_, action: TOptimisticAction) => {
+      if (action.type === 'start') {
+        return 'checking';
+      }
+      return action.status === 'Available' ? 'checked' : 'unchecked';
+    }
+  );
 
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: putAvailablity,
-
     onError: () => {
       toast.error('Unable to update availability now.');
-    },
-    onMutate: () => {},
-    onSuccess: (data) => {
-      const status = data.data.data.status;
 
-      if (status === 'Available') {
+      startTransition(() => {
+        addOptimisticCheck({ type: 'complete', status: userStatus });
+      });
+    },
+    onSuccess: (data) => {
+      const newStatus = data.data.data.status;
+
+      startTransition(() => {
+        setUserStatus(newStatus);
+        addOptimisticCheck({ type: 'complete', status: newStatus });
+      });
+
+      if (newStatus === 'Available') {
         toast.success('You are checked in!');
       } else {
         toast.success('You are checked out!');
       }
-
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [AUTH.GET_PROFILE] });
     }
   });
+
+  const handleToggle = () => {
+    const newStatus = userProfile?.status === 'Available' ? 'Unavailable' : 'Available';
+
+    startTransition(() => {
+      addOptimisticCheck({ type: 'start' });
+      mutate({ status: newStatus });
+    });
+  };
+
+  useEffect(() => {
+    if (!isProfileLoading) {
+      setUserStatus(userProfile?.status);
+    }
+  }, [isProfileLoading, userProfile?.status]);
 
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -49,13 +85,10 @@ const Recent = ({ isLoading, data }: IRecentActivityProps) => {
         <div className="flex items-center justify-start space-x-3">
           <div className="flex items-center justify-start space-x-1">
             <Switch
-              checked={userProfile?.status === 'Available'}
+              data-state={optimisticCheck}
+              checked={optimisticCheck === 'checked'}
               disabled={isPending}
-              onClick={() =>
-                mutate({
-                  status: userProfile?.status === 'Available' ? 'Unavailable' : 'Available'
-                })
-              }
+              onClick={handleToggle}
             />
             <Paragraph className="!font-medium" text="Check in" />
           </div>

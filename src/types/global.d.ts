@@ -83,4 +83,5 @@ interface IMediaResp {
   uuid: string;
   file_url: string;
   mime_type: string;
+  visibilty_status: string;
 }
