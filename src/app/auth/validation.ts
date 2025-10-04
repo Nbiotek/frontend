@@ -50,7 +50,7 @@ export const phoneNumber = z
     if (cleaned.length < 8 || cleaned.length > 15) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Phone number must be between 8 and 15 digits'
+        message: 'Phone number must be between 5 and 10 digits'
       });
       return;
     }
