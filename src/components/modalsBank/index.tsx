@@ -76,6 +76,14 @@ const ModalsMap = {
       import(
         '@/app/(modules)/admin/content-management/testimonials/components/modal/DelTestimonialModal'
       )
+  ),
+  [AppModals.DEL_PARTNER]: dynamic(
+    () =>
+      import('@/app/(modules)/admin/content-management/partners/components/modal/DelPartnerModal')
+  ),
+  [AppModals.CREATE_PARTNER_MODAL]: dynamic(
+    () =>
+      import('@/app/(modules)/admin/content-management/partners/components/modal/AddPartnerModal')
   )
 };
 

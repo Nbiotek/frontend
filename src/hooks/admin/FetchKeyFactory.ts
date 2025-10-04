@@ -1,4 +1,5 @@
 import { SUPER_ADMIN } from '@/constants/api';
+import { get } from 'lodash';
 
 export const superAdmin = {
   getStats() {
@@ -86,6 +87,13 @@ export const superAdmin = {
     return {
       path: SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id),
       keys: () => [SUPER_ADMIN.TESTIMONIALS, SUPER_ADMIN.SINGLE_TESTIMONIAL, id]
+    };
+  },
+
+  getPartners() {
+    return {
+      path: SUPER_ADMIN.CONTENT_PARTNERS,
+      keys: () => [SUPER_ADMIN.CONTENT_PARTNERS]
     };
   }
 };

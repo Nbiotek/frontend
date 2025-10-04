@@ -18,7 +18,10 @@ import {
   delHeroCarousel,
   postCreateTestimonial,
   putUpdateTestimonial,
-  delTestimonial
+  delTestimonial,
+  delPartner,
+  putUpdatePartner,
+  postCreatePartner
 } from '@/requests/admin';
 import { AxiosResponse } from 'axios';
 import {
@@ -30,6 +33,8 @@ import {
   TAdminHeroCarouselSchema
 } from '@/app/(modules)/admin/content-management/hero/validation';
 import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
+import { de } from 'date-fns/locale';
+import { TAdminCreatePartnerSchema } from '@/app/(modules)/admin/content-management/partners/validation';
 
 export enum EnumAdminQueryType {
   USERS = 'USERS'
@@ -43,7 +48,9 @@ const INIT_IS_LOADING = {
   update_hero: false,
   del_carousel: false,
   create_testimonial: false,
-  del_testimonial: false
+  del_testimonial: false,
+  create_partner: false,
+  del_partner: false
 };
 
 export type TAdminHeroCarousel = {
@@ -80,8 +87,11 @@ class AdminStore {
       updateHeroCarousel: flow.bound,
       deleteHeroCarousel: flow.bound,
       createTestimonial: flow.bound,
+      createPartner: flow.bound,
+      updatePartner: flow.bound,
       updateTestimonial: flow.bound,
-      deleteTestimonial: flow.bound
+      deleteTestimonial: flow.bound,
+      deletePartner: flow.bound
     });
 
     this.rootStore = _rootStore;
@@ -287,6 +297,19 @@ class AdminStore {
     }
   }
 
+  *createPartner(payload: TAdminCreatePartnerSchema, cb?: () => void) {
+    this.isLoading.create_partner = true;
+    this.errors.create_partner = '';
+    try {
+      yield postCreatePartner(payload);
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      cb?.();
+      this.isLoading.create_partner = false;
+    }
+  }
+
   *updateTestimonial(id: string, payload: Partial<TAdminTestimonialSchema>, cb?: () => void) {
     this.isLoading.create_testimonial = true;
     this.errors.create_testimonial = '';
@@ -300,6 +323,19 @@ class AdminStore {
     }
   }
 
+  *updatePartner(id: string, payload: Partial<TAdminCreatePartnerSchema>, cb?: () => void) {
+    this.isLoading.create_partner = true;
+    this.errors.create_partner = '';
+    try {
+      yield putUpdatePartner(id, payload);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.create_partner = false;
+    }
+  }
+
   *deleteTestimonial(id: string, cb?: () => void) {
     this.isLoading.del_testimonial = true;
     this.errors.del_testimonial = '';
@@ -310,6 +346,19 @@ class AdminStore {
       toast.error(parseError(error));
     } finally {
       this.isLoading.del_testimonial = false;
+    }
+  }
+
+  *deletePartner(id: string, cb?: () => void) {
+    this.isLoading.del_partner = true;
+    this.errors.del_partner = '';
+    try {
+      yield delPartner(id);
+      cb?.();
+    } catch (error) {
+      toast.error(parseError(error));
+    } finally {
+      this.isLoading.del_partner = false;
     }
   }
 }

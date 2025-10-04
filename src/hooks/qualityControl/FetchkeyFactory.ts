@@ -1,10 +1,11 @@
 import { QUALITY_CONTROL } from '@/constants/api';
+import { QUERY_KEY } from '@/constants/data';
 
 export const qualityControl = {
   getHistory(query: Partial<TTestQuery>) {
     return {
       path: QUALITY_CONTROL.HISTORY,
-      keys: () => [QUALITY_CONTROL.HISTORY, query] as const,
+      keys: () => [QUERY_KEY.LAB_DASHBOARD, QUALITY_CONTROL.HISTORY, query] as const,
       params: query
     };
   },
@@ -12,7 +13,8 @@ export const qualityControl = {
   getPending(query: Partial<TTestQuery>) {
     return {
       path: QUALITY_CONTROL.PENDING,
-      keys: () => [QUALITY_CONTROL.HISTORY, QUALITY_CONTROL.PENDING, query] as const,
+      keys: () =>
+        [QUERY_KEY.LAB_DASHBOARD, QUALITY_CONTROL.HISTORY, QUALITY_CONTROL.PENDING, query] as const,
       params: query
     };
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import Image from 'next/image';
 import Status from '@/atoms/Buttons/Status';
 import FieldSet from '@/atoms/fields/FieldSet';
@@ -8,12 +8,19 @@ import { dateTimeUTC } from '@/utils/date';
 import { format } from 'date-fns';
 import VideoPlayer from './VideoPlayer';
 import EmptyState from '../EmptyState';
+import { useStore } from '@/store';
+import { EnumMediaVisibilityStatus, EnumRole } from '@/constants/mangle';
+import ToggleMediaVisibility from './ToggleMediaVisibility';
 
 interface ITestDetailsInfoProps {
   data?: TSingleTestDetail;
 }
 
 const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
+  const {
+    AuthStore: { user }
+  } = useStore();
+
   return (
     <>
       <div className="flex w-full flex-col space-y-2 rounded-lg bg-white p-4">
@@ -180,8 +187,19 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
                   return (
                     <div
                       key={id}
-                      className="group relative block aspect-landscape overflow-hidden rounded-lg"
+                      className="group relative block aspect-landscape overflow-clip rounded-lg"
                     >
+                      {user?.role && user.role === EnumRole.LAB_CORDINATOR && (
+                        <div className="absolute left-0 top-0 z-20 flex w-full justify-end bg-gradient-to-b from-neutral-800 from-20% to-neutral-800/50 p-3 backdrop-blur-sm">
+                          <ToggleMediaVisibility
+                            uuid={media.uuid}
+                            visibilityStatus={
+                              (media.visibilty_status as EnumMediaVisibilityStatus) ??
+                              EnumMediaVisibilityStatus.PUBLIC
+                            }
+                          />
+                        </div>
+                      )}
                       {IMAGE_FILE_TYPES.includes(media.mime_type) ? (
                         <Image
                           src={media.file_url}

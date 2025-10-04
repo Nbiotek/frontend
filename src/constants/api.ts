@@ -158,7 +158,8 @@ export const SUPER_ADMIN = {
   CREATE_LANDING: '/super-admin/content-hero-sections',
   SINGLE_LANDING: '/super-admin/content-hero-sections/:id',
   TESTIMONIALS: '/super-admin/content-testimonials',
-  SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id'
+  SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id',
+  CONTENT_PARTNERS: '/super-admin/content-partners'
 };
 
 export const UPLOADS = {
@@ -194,4 +195,8 @@ export const NOTIFICATIONS = {
   GET_ALL: '/notifications',
   READ_ALL: '/notifications/read-all',
   MARK_AS_READ: '/notifications/:id/read'
+};
+
+export const FILE_MANAGER = {
+  UPDATE_VISIBILITY: '/file-manager/update-visibility/:uuid'
 };

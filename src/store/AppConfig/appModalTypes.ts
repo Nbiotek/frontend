@@ -22,8 +22,10 @@ export enum AppModals {
   CREATE_HERO_SECTION_MODAL = 'CREATE_HERO_SECTION_MODAL',
   CREATE_HERO_CAROUSEL_MODAL = 'CREATE_HERO_CAROUSEL_MODAL',
   DEL_HERO_CAROUSEL = 'DEL_HERO_CAROUSEL',
+  DEL_PARTNER = 'DEL_PARTNER',
   CREATE_TESTIMONIAL_MODAL = 'CREATE_TESTIMONIAL_MODAL',
-  DEL_TESTIMONIAL_MODAL = 'DEL_TESTIMONIAL_MODAL'
+  DEL_TESTIMONIAL_MODAL = 'DEL_TESTIMONIAL_MODAL',
+  CREATE_PARTNER_MODAL = 'CREATE_PARTNER_MODAL'
 }
 
 export type TAppModalsAction =
@@ -110,4 +112,10 @@ export type TAppModalsAction =
         | AppModals.DEL_HERO_CAROUSEL
         | AppModals.CREATE_TESTIMONIAL_MODAL
         | AppModals.DEL_TESTIMONIAL_MODAL;
-    } & ({ open: true; id: string } | { open?: false }));
+    } & ({ open: true; id: string } | { open?: false }))
+  | ({
+      name: AppModals.CREATE_PARTNER_MODAL | AppModals.DEL_PARTNER;
+    } & (
+      | { open: true; id: string; media?: Array<IMediaResp>; status?: string }
+      | { open?: false }
+    ));

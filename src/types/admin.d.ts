@@ -109,3 +109,21 @@ type TAdminTestimonialResp = {
   testimonials: Array<TAdminTestimonial>;
   pagination: TPaginationResponse;
 };
+
+type TAdminPartnerItem = {
+  id: string;
+  media: Array<{
+    file_url: string;
+    mime_type: string;
+    bucket: string;
+    uuid: string;
+  }>;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TAdminPartnerResp = {
+  partners: Array<TAdminPartnerItem>;
+  pagination: TPaginationResponse;
+};
