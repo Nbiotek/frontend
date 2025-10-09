@@ -11,6 +11,7 @@ import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
 import { useQueryClient } from '@tanstack/react-query';
 import { SETTINGS } from '@/constants/api';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 const RecoveryPhoneForm = () => {
   const [recoveryNumber, setRecoveryNumber] = useState<Partial<TRecoveryPhoneSchema>>({});
@@ -70,13 +71,7 @@ const RecoveryPhoneForm = () => {
             name="recoveryPhone"
             render={({ field }) => (
               <div className="w-1/2">
-                <InputNumPatternField
-                  label=""
-                  format="(+234) ### #### ###"
-                  allowEmptyFormatting
-                  mask=" "
-                  {...field}
-                />
+                <InputPhoneField label="Phone number" {...field} />
               </div>
             )}
           />
