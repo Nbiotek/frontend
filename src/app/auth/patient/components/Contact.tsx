@@ -11,6 +11,7 @@ import { EnumPatientForm } from '@/constants/mangle';
 import { Form, FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function ContactForm() {
   const {
@@ -166,40 +167,25 @@ function ContactForm() {
                 />
               </div>
 
-              <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-                <FormField
-                  control={form.control}
-                  name="emergencyContact.address"
-                  render={({ field }) => (
-                    <div className="md:mb-0 md:w-[50%]">
-                      <InputField
-                        required
-                        type="text"
-                        id="emergencyContact.address"
-                        label="Address"
-                        {...field}
-                      />
-                    </div>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="emergencyContact.address"
+                render={({ field }) => (
+                  <InputField
+                    required
+                    type="text"
+                    id="emergencyContact.address"
+                    label="Address"
+                    {...field}
+                  />
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="emergencyContact.phoneNumber"
-                  render={({ field }) => (
-                    <div className="md:mb-0 md:w-[50%]">
-                      <InputNumPatternField
-                        label="Phone Number"
-                        format="(+234) ### #### ###"
-                        allowEmptyFormatting
-                        mask=" "
-                        required
-                        {...field}
-                      />
-                    </div>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="emergencyContact.phoneNumber"
+                render={({ field }) => <InputPhoneField label="Phone number" required {...field} />}
+              />
             </div>
           </fieldset>
 

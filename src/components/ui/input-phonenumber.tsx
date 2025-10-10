@@ -15,7 +15,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { PatternFormat, PatternFormatProps } from 'react-number-format';
+import { Input } from '@/components/ui/input';
 
 export type PhoneInputProps = Omit<React.ComponentProps<'input'>, 'onChange' | 'value' | 'ref'> &
   Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
@@ -52,22 +52,12 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
 });
 PhoneInput.displayName = 'PhoneInput';
 
-const InputComponent = React.forwardRef<HTMLInputElement, PatternFormatProps>(
+const InputComponent = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
   ({ className, ...props }, ref) => (
-    <PatternFormat
-      {...props}
-      format={'### #### ###'}
-      min={8}
-      max={10}
-      className={cn(
-        'flex h-12 w-full rounded-lg border border-input bg-transparent px-3 py-1 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-neutral-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-        'rounded-e-lg rounded-s-none',
-        className
-      )}
-      getInputRef={ref}
-    />
+    <Input className={cn('h-12 rounded-e-lg rounded-s-none', className)} {...props} ref={ref} />
   )
 );
+
 InputComponent.displayName = 'InputComponent';
 
 type CountryEntry = { label: string; value: RPNInput.Country | undefined };
@@ -134,18 +124,20 @@ const CountrySelect = ({
             <ScrollArea ref={scrollAreaRef} className="h-72">
               <CommandEmpty>No country found.</CommandEmpty>
               <CommandGroup>
-                {countryList.map(({ value, label }) =>
-                  value ? (
-                    <CountrySelectOption
-                      key={value}
-                      country={value}
-                      countryName={label}
-                      selectedCountry={selectedCountry}
-                      onChange={onChange}
-                      onSelectComplete={() => setIsOpen(false)}
-                    />
-                  ) : null
-                )}
+                {countryList
+                  .filter(({ value }) => value == 'NG')
+                  .map(({ value, label }) =>
+                    value ? (
+                      <CountrySelectOption
+                        key={value}
+                        country={value}
+                        countryName={label}
+                        selectedCountry={selectedCountry}
+                        onChange={onChange}
+                        onSelectComplete={() => setIsOpen(false)}
+                      />
+                    ) : null
+                  )}
               </CommandGroup>
             </ScrollArea>
           </CommandList>

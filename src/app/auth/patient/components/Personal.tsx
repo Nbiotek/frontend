@@ -15,6 +15,7 @@ import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
 import InputDate from '@/atoms/fields/InputDate';
 import InputSelect from '@/atoms/fields/NewInputSelect';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function PersonalForm() {
   const { data, isLoading } = useFetchProfile();
@@ -24,7 +25,7 @@ function PersonalForm() {
   } = useStore();
   const [disable, setDisable] = useState(false);
   const form = useForm<TPatientPersonalSchema>({
-    defaultValues: personalInfo,
+    defaultValues: { ...data, ...personalInfo },
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
@@ -45,17 +46,23 @@ function PersonalForm() {
     if (personalInfo.weight) {
       form.setValue('weight', String(personalInfo.weight));
     }
+    if (personalInfo.gender) {
+      form.setValue('gender', personalInfo.gender);
+    }
   }, []);
 
   useEffect(() => {
     if (disable) {
-      if (!isLoading && data) {
+      if (!isLoading && data !== undefined) {
         form.setValue('firstName', data.first_name as string);
         form.setValue('lastName', data.last_name as string);
         form.setValue('email', data.email as string);
+        form.setValue('phoneNumber', data?.phone ? data.phone : '');
       }
     }
   }, [isLoading, data, disable]);
+
+  console.log(data?.phone);
 
   return (
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
@@ -120,45 +127,30 @@ function PersonalForm() {
               )}
             />
 
-            <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <div className="md:mb-0 md:w-[50%]">
-                    <InputNumPatternField
-                      label="Phone Number"
-                      format="(+234) ### #### ###"
-                      allowEmptyFormatting
-                      mask=" "
-                      required
-                      {...field}
-                    />
-                  </div>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => <InputPhoneField label="Phone number" required {...field} />}
+            />
 
-              <FormField
-                control={form.control}
-                name="dateOfBirth"
-                render={({ field }) => (
-                  <div className="md:w-[50%]">
-                    <InputDate
-                      label="Date of Birth"
-                      placeholder="Jan 1, 2000"
-                      granularity="day"
-                      hourCycle={12}
-                      displayFormat={{ hour24: 'yyyy/MM/dd' }}
-                      value={field.value}
-                      onChange={field.onChange}
-                      hidden={{ after: new Date() }}
-                      showTime={false}
-                      required
-                    />
-                  </div>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="dateOfBirth"
+              render={({ field }) => (
+                <InputDate
+                  label="Date of Birth"
+                  placeholder="Jan 1, 2000"
+                  granularity="day"
+                  hourCycle={12}
+                  displayFormat={{ hour24: 'yyyy/MM/dd' }}
+                  value={field.value}
+                  onChange={field.onChange}
+                  hidden={{ after: new Date() }}
+                  showTime={false}
+                  required
+                />
+              )}
+            />
 
             <div className="">
               <div className="mb-1 flex flex-col md:flex-row md:items-center md:justify-between md:space-x-4">

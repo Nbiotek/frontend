@@ -28,7 +28,7 @@ const InputDate = forwardRef<DateTimePickerRef, IInputProps>(
           {required && <span className="text-red-300">*</span>}
         </FormLabel>
         <FormControl>
-          <DateTimePicker {...{ ref }} {...props} className="h-11 bg-neutral-50" />
+          <DateTimePicker {...{ ref }} {...props} className="h-12" />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />

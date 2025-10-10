@@ -1,4 +1,5 @@
 import { upperCaseRegex, lowerCaseRegex, numberRegex, specialCharcterRegex } from '@/utils';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 import { z } from 'zod';
 
 export const email = z
@@ -36,25 +37,8 @@ export const lastName = z
 export const phoneNumber = z
   .string({ required_error: 'Phone number is required.' })
   .trim()
-  .superRefine((val, ctx) => {
-    const cleaned = val.replace(/[\s-+]/g, '');
+  .refine(isValidPhoneNumber, { message: 'Invalid phone number' });
 
-    if (!/^\d+$/.test(cleaned)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone number must contain only numbers'
-      });
-      return;
-    }
-
-    if (cleaned.length < 8 || cleaned.length > 15) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Phone number must be between 5 and 10 digits'
-      });
-      return;
-    }
-  });
 export const AuthLoginResponseSchema = z.object({
   access_token: z.string(),
   email_verified: z.boolean()

@@ -32,6 +32,7 @@ type TPaginationResponse = {
   limit: number;
   totalPages: number;
 };
+type TOption = { value: string; label: string; disable?: boolean };
 
 type TGeneralPaginatedQuery = { page: number; limit: number };
 
