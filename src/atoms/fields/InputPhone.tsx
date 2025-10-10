@@ -18,12 +18,10 @@ const InputPhoneField = forwardRef<HTMLInputElement, IInputProps>(
   ({ description, label, ...props }, ref) => {
     return (
       <FormItem className="w-full">
-        {label && (
-          <FormLabel className="flex items-center justify-start space-x-1">
-            <p>{label}</p>
-            {props.required && <small className="text-error">*</small>}
-          </FormLabel>
-        )}
+        <FormLabel>
+          {label}
+          {props.required && <span className="text-red-300">*</span>}
+        </FormLabel>
         <FormControl className="w-full">
           <PhoneInput {...{ ref }} {...props} />
         </FormControl>

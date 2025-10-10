@@ -1,6 +1,5 @@
 'use client';
 import { SubTitle } from '@/atoms/typographys';
-import Input from '@/atoms/fields/Input';
 import { useFormContext } from 'react-hook-form';
 import { TPatientInsuranceSchema } from '../../validation';
 import { observer } from 'mobx-react-lite';
@@ -9,6 +8,7 @@ import { useEffect } from 'react';
 import { FormField } from '@/components/ui/form';
 import InputField from '@/atoms/fields/NewInput';
 import InputNumPatternField from '@/atoms/fields/PhoneNumberInput';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 function InsuranceForm() {
   const {
@@ -83,14 +83,7 @@ function InsuranceForm() {
           name="insurancePhoneNumber"
           render={({ field }) => (
             <div>
-              <InputNumPatternField
-                disabled={Boolean(!provider)}
-                label="Phone number"
-                format="(+234) ### #### ###"
-                allowEmptyFormatting
-                mask=" "
-                {...field}
-              />
+              <InputPhoneField label="Phone number" {...field} />
             </div>
           )}
         />
@@ -177,13 +170,7 @@ function InsuranceForm() {
               name="policyHolder.phoneNumber"
               render={({ field }) => (
                 <div>
-                  <InputNumPatternField
-                    label="Phone Number"
-                    format="(+234) ### #### ###"
-                    allowEmptyFormatting
-                    mask=" "
-                    {...field}
-                  />
+                  <InputPhoneField label="Phone number" {...field} />
                 </div>
               )}
             />

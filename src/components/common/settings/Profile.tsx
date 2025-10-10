@@ -18,6 +18,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { SETTINGS } from '@/constants/api';
 import { observer } from 'mobx-react-lite';
 import toast from 'react-hot-toast';
+import InputPhoneField from '@/atoms/fields/InputPhone';
 
 const Profile = () => {
   const [profile, setProfile] = useState<Partial<TProfileSettingsSchema>>({});
@@ -153,14 +154,7 @@ const Profile = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <div className="md:mb-0 md:w-[50%]">
-                      <InputNumPatternField
-                        disabled={Boolean(profile.phoneNumber)}
-                        label="Phone Number"
-                        format="(+234) ### #### ###"
-                        allowEmptyFormatting
-                        mask=" "
-                        {...field}
-                      />
+                      <InputPhoneField label="Phone number" {...field} />
                     </div>
                   )}
                 />

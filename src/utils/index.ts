@@ -1,7 +1,23 @@
+import CountryInstance from './country';
+
 export const lowerCaseRegex = /(?=.*[a-z])\w+/;
 export const upperCaseRegex = /(?=.*[A-Z])\w+/;
 export const numberRegex = /\d/;
 export const specialCharcterRegex = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+
+export function cca2ToEmoji(countryCode: string) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map((char) => 127397 + char.charCodeAt(0));
+
+  return String.fromCodePoint(...codePoints);
+}
+
+export function cca2Tocca3(countryCode: string) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return require('i18n-iso-countries').alpha2ToAlpha3(countryCode);
+}
 
 export const ISSERVER = typeof window === 'undefined';
 
@@ -93,3 +109,25 @@ export function fileSizeConverter(size: number) {
     return `${fmtNumber(parseInt((size / (1024 * 1024)).toFixed(0)))}MB`;
   }
 }
+
+export function extractCountryCode(phone: string): { countryCode: string; restOfNumber: string } {
+  const sanitizedPhone = phone.replace(/[^0-9]/g, '');
+
+  const possibleCountryCodes = CountryInstance.countries.map((c) => c.code);
+
+  for (const code of possibleCountryCodes) {
+    if (sanitizedPhone.startsWith(code)) {
+      const restOfNumber = sanitizedPhone.slice(code.length).replaceAll(/^0+|[^0-9]+/g, '');
+      return { countryCode: code, restOfNumber };
+    }
+  }
+
+  const fallbackCountryCode = sanitizedPhone.charAt(0);
+  const restOfNumber = sanitizedPhone.slice(1);
+  return { countryCode: fallbackCountryCode, restOfNumber };
+}
+
+export const numberStartsWithPlus = (phone: string) => {
+  const phoneRegex = /^\+[0-9]/;
+  return phoneRegex.test(phone);
+};
