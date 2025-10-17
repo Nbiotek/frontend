@@ -263,6 +263,11 @@ export const defaultMenuConfig: WebsiteMenu[] = [
     url: ROUTES.HOME.path
   },
   {
+    title: 'About Us',
+    url: ROUTES.ABOUT.path
+  },
+
+  {
     title: ROUTES.LAB_TEST.title,
     url: ROUTES.LAB_TEST.path
   },
