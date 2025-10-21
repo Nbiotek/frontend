@@ -106,9 +106,9 @@ const Header = () => {
             <Image
               src="/logo.png"
               alt="Logo"
-              width={120}
-              height={80}
-              className="h-10 w-auto sm:h-auto sm:w-[120px] md:w-[150px]"
+              width={80}
+              height={40}
+              className="h-10 w-auto sm:h-auto sm:w-[120px] md:w-[120px]"
             />
 
             {/* Mobile menu toggle */}
@@ -216,7 +216,7 @@ const Header = () => {
         `}
         >
           <div className="border-gray-200 flex items-center justify-between border-b px-4 py-3">
-            <Image src="/logo.png" alt="Logo" width={120} height={80} className="h-10 w-auto" />
+            <Image src="/logo.png" alt="Logo" width={90} height={50} className="h-10 w-auto" />
             <button
               className="text-blue-500 rounded-md p-2"
               onClick={() => setMobileMenuOpen(false)}

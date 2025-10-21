@@ -1,6 +1,7 @@
 // import { Roboto } from 'next/font/google';
 import './globals.css';
 import AppProvider from './Provider';
+import { Metadata } from 'next';
 
 // const roboto = Roboto({
 //   subsets: ['latin'],
@@ -8,6 +9,11 @@ import AppProvider from './Provider';
 //   variable: '--font-roboto',
 //   display: 'swap'
 // });
+
+export const metadata: Metadata = {
+  title: 'NBiotek - Medical Diagnostics & Laboratory Services',
+  description: 'Leading medical diagnostics and laboratory services across Nigeria'
+};
 
 export default function RootLayout({
   children

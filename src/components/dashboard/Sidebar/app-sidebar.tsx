@@ -68,7 +68,7 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-none shadow-xl">
       <SidebarHeader className="flex flex-row items-center justify-between bg-white">
-        <Image src="/logo.svg" alt="Logo" width={115} height={69} />
+        <Image src="/logo.png" alt="Logo" width={80} height={40} />
         <PanelRightOpen onClick={toggleSidebar} size={24} className="text-neutral-400" />
       </SidebarHeader>
       <SidebarContent className="bg-white">
