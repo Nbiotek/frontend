@@ -61,9 +61,9 @@ export const DoctorsQuickLinks: QuickActionProps[] = [
 export const MarketerQuickLinks: QuickActionProps[] = [
   {
     icon: <TestTube2 />,
-    titleLink: 'Test Result',
+    titleLink: 'Field Tasks',
     subTitle: 'View All Assigned Test',
-    href: '/'
+    href: '/marketer/field-tasks'
   },
   {
     icon: <MapPinCheck />,
