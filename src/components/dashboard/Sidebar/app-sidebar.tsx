@@ -1,11 +1,11 @@
 'use client';
+import { useMemo } from 'react';
 import Image from 'next/image';
 import {
   SidebarHeader,
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  useSidebar,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
@@ -16,8 +16,6 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar';
 import ProfileSide from './nav-profile';
-import { PanelRightOpen } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { EnumRole } from '@/constants/mangle';
 import { menuCommon, menuConfig, MenuItem } from '@/config/menuItems';
@@ -26,10 +24,8 @@ import { ChevronRight } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 
-export function AppSidebar() {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data } = useFetchProfile();
-  const { state, toggleSidebar } = useSidebar();
-  const [_, setIsCollapsed] = useState(state === 'collapsed');
 
   const pathname = usePathname();
 
@@ -50,26 +46,10 @@ export function AppSidebar() {
     return currentPath.startsWith(menuItem.url);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
-    <Sidebar className="border-none shadow-xl">
+    <Sidebar {...props}>
       <SidebarHeader className="flex flex-row items-center justify-between bg-white">
-        <Image src="/logo.png" alt="Logo" width={80} height={40} />
-        <PanelRightOpen onClick={toggleSidebar} size={24} className="text-neutral-400" />
+        <Image src="/logo.png" alt="Logo" width={60} height={20} />
       </SidebarHeader>
       <SidebarContent className="bg-white">
         <SidebarGroup>

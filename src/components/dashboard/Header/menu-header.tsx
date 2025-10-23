@@ -1,9 +1,9 @@
 'use client';
-import { Bell, Settings, PanelRightClose } from 'lucide-react';
-import { useSidebar } from '@/components/ui/sidebar';
+import { Bell, Settings } from 'lucide-react';
 import { Paragraph, SubTitle } from '@/atoms/typographys';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
-
+import { cn } from '@/lib/utils';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { CartPopup } from '@/components/cart/CartPopup';
 import { EnumRole } from '@/constants/mangle';
 import { observer } from 'mobx-react-lite';
@@ -12,17 +12,32 @@ import { Badge } from '@/components/ui/badge';
 import { useStore } from '@/store';
 import ROUTES from '@/constants/routes';
 import { useFetchNotifications } from '@/hooks/notifications/useFetchNotifications';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TNotificationDatum } from '@/types/notification';
+import { Separator } from '@/components/ui/separator';
 
-const MenuHeader = () => {
-  const { state, toggleSidebar } = useSidebar();
+interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
+  fixed?: boolean;
+  ref?: React.Ref<HTMLElement>;
+}
+
+const MenuHeader = ({ className, fixed, children, ...props }: HeaderProps) => {
   const { data } = useFetchProfile();
   const {
     NotificationStore: { unReadNotifyCount, setNotifyUnreadCount }
   } = useStore();
-
+  const [offset, setOffset] = useState(0);
   const { data: notifications, isLoading } = useFetchNotifications();
+
+  useEffect(() => {
+    const onScroll = () => {
+      setOffset(document.body.scrollTop || document.documentElement.scrollTop);
+    };
+
+    document.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => document.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -38,21 +53,25 @@ const MenuHeader = () => {
   }, [isLoading, notifications]);
 
   return (
-    <div className="sticky top-0 z-10 w-full border border-r bg-white p-2 shadow-lg">
-      <div className="flex w-full justify-between">
-        <div className="flex items-center gap-2">
-          <button
-            className={`${state === 'collapsed' ? 'block' : 'block md:hidden'}`}
-            onClick={toggleSidebar}
-          >
-            <PanelRightClose size={24} className="text-neutral-400" />
-          </button>
+    <div
+      className={cn(
+        'flex h-16 items-center gap-3 border-b bg-background bg-white p-2 sm:gap-4',
+        fixed && 'header-fixed peer/header fixed z-40 w-[inherit]',
+        offset > 10 && fixed ? 'shadow-sm' : 'shadow-none',
+        className
+      )}
+    >
+      <div className="flex w-full items-center justify-between gap-4 overflow-x-hidden">
+        <div className="flex w-full items-center justify-start space-x-2">
+          <SidebarTrigger variant="outline" className="scale-125 sm:scale-100" />
+          <Separator orientation="vertical" className="h-6" />
           <div className="flex flex-col">
             <SubTitle className="text-blue-400" text={`Hello ${data?.first_name}`} />
             <Paragraph className="text-blue-400" text="Welcome to your dashboard" />
           </div>
         </div>
-        <div className="flex items-center justify-between space-x-4">
+
+        <div className="flex shrink-0 items-center justify-end gap-4">
           <Link href={ROUTES.NOTIFICATION.path}>
             <div className="relative">
               <div
@@ -66,7 +85,6 @@ const MenuHeader = () => {
                   {unReadNotifyCount > 99 ? '99+' : unReadNotifyCount}
                 </Badge>
               </div>
-
               <Bell color="#4044A7" />
             </div>
           </Link>
@@ -74,6 +92,7 @@ const MenuHeader = () => {
           <Link href={ROUTES.SETTINGS.path}>
             <Settings color="#4044A7" />
           </Link>
+
           {data?.role === EnumRole.PATIENT && (
             <div className="flex items-center space-x-2">
               <CartPopup />

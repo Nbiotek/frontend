@@ -47,87 +47,91 @@ const QCTable = ({ type, isLoading, resultsData }: IQCTableProps) => {
   const handleSetPage = (_page: number) => setPage(_page, dataType);
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="w-full overflow-clip rounded-lg bg-white">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Serial No.</TableHead>
-              <TableHead>Test Name</TableHead>
-              <TableHead>Test type</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Date Requested</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Deadline</TableHead>
-              <TableHead>QC status</TableHead>
-              <TableHead>Date submitted</TableHead>
-              <TableHead>Result</TableHead>
-              <TableHead className="w-[20px]"></TableHead>
-            </TableRow>
-          </TableHeader>
+    <div className="flex w-full flex-col space-y-4">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Serial No.</TableHead>
+            <TableHead>Test Name</TableHead>
+            <TableHead>Test type</TableHead>
+            <TableHead>Priority</TableHead>
+            <TableHead className="">Doctor&apos;s recs</TableHead>
+            <TableHead className="">Assigned doctor</TableHead>
+            <TableHead>Appointment Date</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Deadline</TableHead>
+            <TableHead>QC status</TableHead>
+            <TableHead>Date submitted</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead className="w-[20px]"></TableHead>
+          </TableRow>
+        </TableHeader>
 
-          {isLoading ? (
-            <TableLoader rows={20} columns={10} />
-          ) : (
-            resultsData.requests.length !== 0 && (
-              <TableBody>
-                {resultsData.requests.map((qcDatum) => (
-                  <TableRow key={qcDatum.id}>
-                    <TableCell>{qcDatum?.testSerialNo ?? '-'}</TableCell>
-                    <TableCell>{qcDatum.testName}</TableCell>
-                    <TableCell>
-                      <Status variant={qcDatum.testType} />
-                    </TableCell>
-                    <TableCell>
-                      <Status variant={qcDatum.priority} />
-                    </TableCell>
-                    <TableCell>{formatTestDate(qcDatum.preferredAt)}</TableCell>
-                    <TableCell>
-                      <Status variant={qcDatum.status} />
-                    </TableCell>
-                    <TableCell>{formatTestDate(qcDatum.deadlineAt)}</TableCell>
-                    <TableCell>
-                      {qcDatum?.qcStatus && <Status variant={qcDatum.qcStatus} />}
-                    </TableCell>
-                    <TableCell>{formatTestDate(qcDatum.completedAt)}</TableCell>
-                    <TableCell>
-                      <Status variant={qcDatum.resultStatus} />
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger>
-                          <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
-                        </DropdownMenuTrigger>
+        {isLoading ? (
+          <TableLoader rows={20} columns={12} />
+        ) : (
+          resultsData.requests.length !== 0 && (
+            <TableBody>
+              {resultsData.requests.map((qcDatum) => (
+                <TableRow key={qcDatum.id}>
+                  <TableCell>{qcDatum?.testSerialNo ?? '-'}</TableCell>
+                  <TableCell>{qcDatum.testName}</TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.testType} />
+                  </TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.priority} />
+                  </TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.wantDoctorRecommendation} />
+                  </TableCell>
+                  <TableCell>{qcDatum.doctor ? qcDatum.doctor.name : 'Nil'}</TableCell>
+                  <TableCell>{formatTestDate(qcDatum.preferredAt)}</TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.status} />
+                  </TableCell>
+                  <TableCell>{formatTestDate(qcDatum.deadlineAt)}</TableCell>
+                  <TableCell>
+                    {qcDatum?.qcStatus && <Status variant={qcDatum.qcStatus} />}
+                  </TableCell>
+                  <TableCell>{formatTestDate(qcDatum.completedAt)}</TableCell>
+                  <TableCell>
+                    <Status variant={qcDatum.resultStatus} />
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <EllipsisVertical size={16} className="cursor-pointer text-neutral-400" />
+                      </DropdownMenuTrigger>
 
-                        <DropdownMenuContent className="">
-                          <DropdownMenuItem
-                            onClick={() =>
-                              router.push(
-                                `${ROUTES.LAB_TECH_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
-                              )
-                            }
-                          >
-                            <Eye />
-                            <p>View Test</p>
+                      <DropdownMenuContent className="">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              `${ROUTES.LAB_TECH_QUALITY_CONTROL_DETAILS.path.replaceAll(':id', qcDatum.id)}`
+                            )
+                          }
+                        >
+                          <Eye />
+                          <p>View Test</p>
+                        </DropdownMenuItem>
+                        {qcDatum.resultStatus == EnumResultStatus.PENDING.toString() && (
+                          <DropdownMenuItem onClick={() => {}}>
+                            <FlaskConical />
+                            <p>Request Control</p>
                           </DropdownMenuItem>
-                          {qcDatum.resultStatus == EnumResultStatus.PENDING.toString() && (
-                            <DropdownMenuItem onClick={() => {}}>
-                              <FlaskConical />
-                              <p>Request Control</p>
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            )
-          )}
-        </Table>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
+      </Table>
 
-        {isLoading || (resultsData.requests.length === 0 && <EmptyState title="No Test data" />)}
-      </div>
+      {isLoading || (resultsData.requests.length === 0 && <EmptyState title="No Test data" />)}
 
       {isLoading || (
         <Pagination
