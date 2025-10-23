@@ -1,5 +1,5 @@
 'use client';
-
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/dashboard/Sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -11,8 +11,10 @@ import ROUTES from '@/constants/routes';
 import { EnumRole } from '@/constants/mangle';
 import { useStore } from '@/store';
 import { observer } from 'mobx-react-lite';
+import { cn } from '@/lib/utils';
 
 const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
+  const defaultOpen = Cookies.get('sidebar_state') !== 'false';
   const pathname = usePathname();
   const router = useRouter();
   const [authStatus, setAuthStatus] = useState<'pending' | 'authorized' | 'unauthorized'>(
@@ -77,17 +79,23 @@ const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <>
-      <SidebarProvider>
-        <div className="flex h-screen w-full bg-blue-50/10">
-          <AppSidebar />
-          <main className="flex w-full flex-col">
-            <MenuHeader />
-            <section className="h-screen w-full overflow-y-scroll p-2">{children}</section>
-          </main>
-        </div>
-      </SidebarProvider>
-    </>
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <AppSidebar />
+      <div
+        className={cn(
+          'm-auto w-full max-w-full',
+          'peer-data-[state=collapsed]:w-[calc(100%-var(--sidebar-width-icon)-1rem)]',
+          'peer-data-[state=expanded]:w-[calc(100%-var(--sidebar-width))]',
+          'sm:transition-[width] sm:duration-200 sm:ease-linear',
+          'flex h-svh flex-col',
+          'group-data-[scroll-locked=1]/body:h-full',
+          'has-[main.fixed-main]:group-data-[scroll-locked=1]/body:h-svh'
+        )}
+      >
+        <MenuHeader fixed />
+        <section className="h-screen w-full overflow-y-scroll px-2 py-24">{children}</section>
+      </div>
+    </SidebarProvider>
   );
 };
 

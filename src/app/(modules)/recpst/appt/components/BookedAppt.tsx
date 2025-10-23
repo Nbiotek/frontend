@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import { Calendar, DatesSetArg } from '@fullcalendar/core';
+import { DatesSetArg } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -10,6 +10,7 @@ import { useFetchAprvdAppt } from '@/hooks/recpst/useFetchAppApt';
 import { useStore } from '@/store';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import { format } from 'date-fns';
+import { toTitleCase } from '@/utils';
 
 export type TEventInfo = { title: string; date: string; id: string };
 
@@ -28,7 +29,7 @@ export default function BookedAppt() {
   useEffect(() => {
     if (!isLoading && data !== undefined) {
       const eventContentArg = data.appointment.map((appt) => ({
-        title: appt.title,
+        title: toTitleCase(appt.patient?.patientName ?? appt.title),
         date: appt.appointmentDate,
         id: appt.id
       })) as Array<TEventInfo>;

@@ -5,7 +5,7 @@ import QCTable from './QCTable';
 import { ArrowUpDown } from 'lucide-react';
 import IconPod from '@/atoms/Icon/IconPod';
 import { pagination } from '@/constants/data';
-import SearchFilter from '../../../../../components/common/Filter';
+import SearchFilter from '@/components/common/Filter';
 import { useStore } from '@/store';
 import { EnumLabTechQueryType } from '@/store/LabTechStore';
 import { observer } from 'mobx-react-lite';
