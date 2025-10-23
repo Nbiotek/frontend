@@ -124,6 +124,7 @@ type TSingleTestDetail = {
     name: string;
   };
   wantDoctorRecommendation: 'no' | 'yes';
+  collectionNotes: string;
   doctor?: {
     id: string;
     name: string;

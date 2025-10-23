@@ -144,6 +144,7 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
               </div>
             </div>
           )}
+          {data?.collectionNotes && <Paragraph>{data.collectionNotes}</Paragraph>}
         </div>
       ) : null}
 

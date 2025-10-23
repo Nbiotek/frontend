@@ -22,6 +22,7 @@ import { useParams } from 'next/navigation';
 import Spinner from '@/lib/utils/spinner';
 import Status from '@/atoms/Buttons/Status';
 import RescheduleDialog from '../component/RescheduleAppointmentDialog';
+import PaymentDialog from '../booking/components/PendingAppointmentPayment';
 
 interface AppointmentDetailsProp {
   data: TShowAppointment;
@@ -48,10 +49,26 @@ const AppointmentSummary = () => {
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<string>('');
   const [selectedAppointmentDate, setSelectedAppointmentDate] = useState<string>('');
 
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState<{
+    id: string;
+    title: string;
+    price: number;
+  }>({ id: '', title: '', price: 0 });
+
   const handleReschedule = (id: string, date: string) => {
     setSelectedAppointmentId(id);
     setSelectedAppointmentDate(date);
     setIsRescheduleOpen(true);
+  };
+
+  const handlePayment = (appointment: AppointmentItem) => {
+    setPaymentDetails({
+      id: appointment.id,
+      title: appointment.title,
+      price: appointment?.totalAmount || 0
+    });
+    setIsPaymentOpen(true);
   };
 
   if (isLoading) {
@@ -192,7 +209,11 @@ const AppointmentSummary = () => {
               </Text>
               <div className="space-y-3">
                 {appointment.paymentStatus === 'PENDING' ? (
-                  <Button variant="light" className="w-full">
+                  <Button
+                    variant="light"
+                    className="w-full bg-green-400 text-white"
+                    onClick={() => handlePayment(appointment)}
+                  >
                     Make Payment
                   </Button>
                 ) : (
@@ -230,6 +251,16 @@ const AppointmentSummary = () => {
         onClose={() => setIsRescheduleOpen(false)}
         appointmentId={selectedAppointmentId}
         currentDate={selectedAppointmentDate}
+      />
+
+      <PaymentDialog
+        open={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        appointmentId={paymentDetails.id}
+        appointmentDetails={{
+          title: paymentDetails.title,
+          price: paymentDetails.price
+        }}
       />
     </>
   );

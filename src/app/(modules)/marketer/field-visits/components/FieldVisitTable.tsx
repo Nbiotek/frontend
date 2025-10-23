@@ -89,23 +89,55 @@ const FieldVisitTable = ({ loading, fieldTask }: FieldVisitTableProps) => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           {fieldVisit.status === 'PENDING' ? (
-                            <DropdownMenuItem onClick={() => handleStartFieldVisit(fieldVisit.id)}>
-                              <span className="flex items-center ">
-                                {' '}
-                                Start Test <PlayCircle className="ml-2 w-4" color="#550000" />
-                              </span>
-                            </DropdownMenuItem>
+                            <>
+                              <DropdownMenuItem
+                                onClick={() => handleStartFieldVisit(fieldVisit.id)}
+                              >
+                                <span className="flex items-center ">
+                                  {' '}
+                                  Start Test <PlayCircle className="ml-2 w-4" color="#550000" />
+                                </span>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  router.push(
+                                    `${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`
+                                  )
+                                }
+                              >
+                                <span className="flex items-center ">
+                                  {' '}
+                                  View Sample <View className="ml-2 w-4" color="#FF2E2E" />
+                                </span>
+                              </DropdownMenuItem>
+                            </>
                           ) : fieldVisit.status === 'IN_PROGRESS' ? (
-                            <DropdownMenuItem
-                              onClick={() =>
-                                router.push(`${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`)
-                              }
-                            >
-                              <span className="flex items-center ">
-                                {' '}
-                                Upload sample <UploadIcon className="ml-2 w-4" color="#008000" />
-                              </span>
-                            </DropdownMenuItem>
+                            <>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  router.push(
+                                    `${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`
+                                  )
+                                }
+                              >
+                                <span className="flex items-center ">
+                                  {' '}
+                                  Upload sample <UploadIcon className="ml-2 w-4" color="#008000" />
+                                </span>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  router.push(
+                                    `${ROUTES.MARKETER_FIELD_VISIT.path}/${fieldVisit.id}`
+                                  )
+                                }
+                              >
+                                <span className="flex items-center ">
+                                  {' '}
+                                  View Sample <View className="ml-2 w-4" color="#FF2E2E" />
+                                </span>
+                              </DropdownMenuItem>
+                            </>
                           ) : (
                             <DropdownMenuItem
                               onClick={() =>

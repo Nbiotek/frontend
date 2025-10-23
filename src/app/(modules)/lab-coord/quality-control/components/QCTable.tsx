@@ -56,7 +56,8 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
             <TableHead>Test Type</TableHead>
             <TableHead>Priority</TableHead>
             <TableHead className="">Doctor&apos;s recs</TableHead>
-            <TableHead>Requested Date</TableHead>
+            <TableHead className="">Assigned doctor</TableHead>
+            <TableHead>Appointment Date</TableHead>
             <TableHead className="w-[80px]">Result</TableHead>
             <TableHead>Deadline</TableHead>
             <TableHead className="w-[80px]">QC</TableHead>
@@ -65,7 +66,7 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
         </TableHeader>
 
         {isLoading ? (
-          <TableLoader rows={20} columns={11} />
+          <TableLoader rows={20} columns={12} />
         ) : (
           resultsData.requests.length !== 0 && (
             <TableBody>
@@ -86,6 +87,7 @@ const QCTable = ({ isLoading, resultsData }: IQCTableProps) => {
                     <TableCell>
                       <Status variant={qcDatum.wantDoctorRecommendation} />
                     </TableCell>
+                    <TableCell>{qcDatum.doctor ? qcDatum.doctor.name : 'Nil'}</TableCell>
                     <TableCell>{formatTestDate(qcDatum.preferredAt)}</TableCell>
                     <TableCell>
                       <Status variant={qcDatum.resultStatus} />
