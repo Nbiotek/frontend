@@ -216,6 +216,26 @@
         color: #666;
       }
 
+      .download-button {
+        display: inline-block;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .download-button:hover {
+        background-color: #4a9bb8;
+      }
+
+      .download-buttons {
+        text-align: center;
+        margin: 20px 0;
+        padding: 10px 0;
+      }
+
       @media (max-width: 768px) {
         .header-section {
           flex-direction: column;
@@ -477,12 +497,22 @@
 
       
       <!-- Footer -->
-      <div class="" style="margin: 20px 0; text-align: center;">
-        <div class="download-buttons" >
-          <a href="test_result.pdf" class="download-button">Download PDF</a>
-          <a href="test_result.docx" class="download-button">Download DOCX</a>
-          <a href="test_result.csv" class="download-button">Download CSV</a>
-        </div>
+      <div class="download-buttons">
+        <script>
+          const attachments = [
+            { href: "test_result.pdf", label: "Attachment 1" },
+            { href: "test_result.docx", label: "Attachment 2" },
+            { href: "test_result.csv", label: "Attachment 3" },
+          ];
+
+          attachments.forEach(att => {
+            const a = document.createElement('a');
+            a.href = att.href;
+            a.className = 'download-button';
+            a.textContent = att.label;
+            document.querySelector('.download-buttons').appendChild(a);
+          });
+        </script>
       </div>
     </div>
   </body>
