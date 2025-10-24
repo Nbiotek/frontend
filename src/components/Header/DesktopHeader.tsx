@@ -106,9 +106,9 @@ const Header = () => {
             <Image
               src="/logo.png"
               alt="Logo"
-              width={80}
+              width={90}
               height={40}
-              className="h-10 w-auto sm:h-auto sm:w-[120px] md:w-[120px]"
+              className="h-10  w-auto sm:h-auto sm:w-[120px] md:w-[90px]"
             />
 
             {/* Mobile menu toggle */}

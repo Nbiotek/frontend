@@ -125,7 +125,9 @@ const CreateAppointmentView = () => {
       location: {
         type: value as LocationType,
         address: value === 'Lab' ? 'Medicare Hospital, 18 Iwaya Rd, Lagos' : ''
-      }
+      },
+      // Automatically set payment method to online for custom location
+      paymentMethod: value === 'Custom' ? 'via_card' : prev.paymentMethod
     }));
   };
 
@@ -356,6 +358,11 @@ const CreateAppointmentView = () => {
                         }))
                       }
                     />
+                    {formData.location.type === 'Custom' && (
+                      <p className="text-blue-600 mt-1 text-xs">
+                        Note: Custom location requires online payment
+                      </p>
+                    )}
                   </div>
                   {errors.location && (
                     <div className="mt-1 text-sm text-red-500">{errors.location}</div>
@@ -377,10 +384,26 @@ const CreateAppointmentView = () => {
                   <Label htmlFor="r3">Online</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="location" id="r4" />
-                  <Label htmlFor="r4">Pay at location</Label>
+                  <RadioGroupItem
+                    value="location"
+                    id="r4"
+                    disabled={formData.location.type === 'Custom'}
+                  />
+                  <Label
+                    htmlFor="r4"
+                    className={
+                      formData.location.type === 'Custom' ? 'cursor-not-allowed opacity-50' : ''
+                    }
+                  >
+                    Pay at location
+                  </Label>
                 </div>
               </RadioGroup>
+              {formData.location.type === 'Custom' && (
+                <p className="text-gray-500 mt-2 text-xs italic">
+                  Pay at location is only available for lab locations
+                </p>
+              )}
             </div>
           </div>
           <div className="mt-5">
