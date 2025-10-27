@@ -21,6 +21,7 @@ interface TFieldTestRequest {
   id: string;
   patientName: string;
   testName: string;
+  testDescription: string;
   testType: string;
   notes: string;
   location: {
@@ -71,6 +72,7 @@ interface Person {
 interface TestInfo {
   id: string;
   name: string;
+  description?: string;
 }
 interface testPhotos {
   id: string;
@@ -90,6 +92,7 @@ interface FieldTaskData {
   patient: Person;
   technician: Person;
   test: TestInfo;
+
   logSamples: testSamples[];
   samplePhotos: testPhotos[];
   notes: string;
