@@ -101,67 +101,63 @@ const Header = () => {
     <>
       {/* Top header section */}
       <div className="bg-white">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between px-4 py-3 sm:flex-row sm:py-4 md:px-6">
-          <div className="flex w-full items-center justify-between sm:w-auto">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:py-4 md:px-6">
+          <div className="flex items-center">
             <Image
               src="/logo.png"
               alt="Logo"
               width={90}
               height={40}
-              className="h-10  w-auto sm:h-auto sm:w-[120px] md:w-[90px]"
+              className="h-10 w-auto sm:h-auto sm:w-[120px] md:w-[90px]"
             />
+          </div>
 
-            {/* Mobile menu toggle */}
+          <div className="hidden flex-1 sm:flex sm:justify-center">
+            <InputSearch placeholder="Search" className="!w-full max-w-2xl rounded-full" />
+          </div>
+
+          <div className="flex items-center space-x-2">
             <button
-              className="text-blue-500 flex items-center justify-center rounded-md p-2 sm:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="relative"
+              onClick={() => router.push(ROUTES.CART.path)}
+              aria-label={`Shopping cart with ${itemCount} items`}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <CartIcon />
+              {itemCount > 0 && (
+                <span className="bg-blue-500 absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white">
+                  {itemCount}
+                </span>
+              )}
             </button>
+
+            <Button
+              variant="filled"
+              className="hidden px-3 py-1.5 text-sm md:block md:px-4 md:py-2"
+            >
+              Contact us
+            </Button>
+
+            <Button
+              variant="outlined"
+              onClick={() => router.push(ROUTES.LOGIN.path)}
+              className="px-3 py-1.5 text-sm md:px-4 md:py-2"
+            >
+              Log in
+            </Button>
           </div>
 
-          {/* Search and actions - hidden on mobile */}
-          <div className="mt-3 hidden w-full flex-col items-center space-y-3 sm:flex sm:flex-row sm:justify-between sm:space-y-0 md:mt-0">
-            <InputSearch
-              placeholder="Search"
-              className="!w-full rounded-full sm:!w-[200px] md:!w-[300px] lg:!w-[calc(100%-350px)]"
-            />
+          {/* Mobile menu toggle */}
+          <button
+            className="text-blue-500 flex items-center justify-center rounded-md p-2 sm:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
-            <div className="flex items-center space-x-2">
-              <button
-                className="relative"
-                onClick={() => router.push(ROUTES.CART.path)}
-                aria-label={`Shopping cart with ${itemCount} items`}
-              >
-                <CartIcon />
-                {itemCount > 0 && (
-                  <span className="bg-blue-500 absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-
-              <Button
-                variant="filled"
-                className="hidden px-3 py-1.5 text-sm md:block md:px-4 md:py-2"
-              >
-                Contact us
-              </Button>
-
-              <Button
-                variant="outlined"
-                onClick={() => router.push(ROUTES.LOGIN.path)}
-                className="px-3 py-1.5 text-sm md:px-4 md:py-2"
-              >
-                Log in
-              </Button>
-            </div>
-          </div>
-
-          {/* Mobile search */}
-          <div className="mt-3 w-full sm:hidden">
-            <InputSearch placeholder="Search" className="!w-full rounded-full" />
-          </div>
+        {/* Mobile search */}
+        <div className="px-4 pb-3 sm:hidden">
+          <InputSearch placeholder="Search" className="!w-full rounded-full" />
         </div>
       </div>
 

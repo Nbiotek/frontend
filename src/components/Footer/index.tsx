@@ -19,8 +19,8 @@ const Footer = () => {
                 src="/logo.png"
                 alt="NBIOTEK Logo"
                 width={160}
-                height={60}
-                className="h-12 w-auto object-contain sm:h-14 md:h-16"
+                height={40}
+                className="h-28  object-contain"
               />
             </div>
 
@@ -33,7 +33,7 @@ const Footer = () => {
               </p>
             </div>
 
-            <div className="w-full max-w-md md:w-auto">
+            <div className="w-full max-w-md flex-1 md:w-auto">
               <div className="flex flex-col sm:flex-row">
                 <input
                   type="email"
