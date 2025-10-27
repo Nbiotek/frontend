@@ -29,7 +29,7 @@ const Footer = () => {
                 Subscribe our Newsletter
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">
-                Pellentesque eu nibh eget mauris congue mattis matti.
+                Get the latest updates and offers.
               </p>
             </div>
 
@@ -61,8 +61,8 @@ const Footer = () => {
             <div>
               <h3 className="mb-6 text-xl font-semibold text-white">About Nbiotek</h3>
               <p className="mb-6 text-[#808080]">
-                Morbi cursus porttitor enim lobortis molestic. Duis gravida turpis dui, eget
-                bibendum magna congue nec.
+                Nbiotek is a leading provider of advanced diagnostic services, committed to
+                delivering accurate and timely results to healthcare professionals and patients.
               </p>
               <div className="flex flex-wrap items-center">
                 <a
