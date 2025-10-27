@@ -70,8 +70,9 @@ const TaskCard = ({ task, loading }: TaskCardComponentProps) => {
               <h3 className="text-lg font-semibold">{taskItem.testName}</h3>
               <p className="text-gray-400 text-sm">{dateTimeUTC(taskItem.availableDate)}</p>
               <Status variant={taskItem.status} />
+              <p className="text-lg font-semibold">{taskItem.patientName}</p>
             </div>
-            <p className="text-lg font-semibold">{taskItem.patientName}</p>
+            <p>{taskItem.testDescription}</p>
             <p className="text-gray-500 text-sm">{taskItem.location.address}</p>
 
             {activeCardIndex === idx &&

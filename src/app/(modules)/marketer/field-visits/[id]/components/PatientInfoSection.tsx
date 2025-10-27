@@ -16,6 +16,7 @@ const PatientInfoSection = ({ fieldVisitData }: PatientInfoProps) => {
       <div className="grid grid-cols-3 gap-4 lg:grid-cols-3">
         <FieldSet legend="Patient Name" text={fieldVisitData?.patient.name} />
         <FieldSet legend="Test Ordered" text={fieldVisitData?.test.name} />
+        <FieldSet legend="Test Description" text={fieldVisitData?.test?.description} />
         <FieldSet
           legend="Collection Date"
           text={dateTimeUTC(fieldVisitData?.collectionDate || '')}
