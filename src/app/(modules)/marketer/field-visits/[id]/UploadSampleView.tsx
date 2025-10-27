@@ -220,7 +220,7 @@ const UploadSampleView = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between bg-white p-4 shadow-sm">
         <Text variant="title" weight="semibold">
-          Upload Sample
+          View / Upload
         </Text>
         <button onClick={() => router.back()} className="text-blue-600 hover:underline">
           <ArrowLeft className="mr-2 inline-block" />
