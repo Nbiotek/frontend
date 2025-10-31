@@ -119,7 +119,8 @@ export enum EnumAdminContentMgt {
   FAQ = 'faq',
   ABOUT = 'about',
   CONTACT = 'contact',
-  PARTNERS = 'partners'
+  PARTNERS = 'partners',
+  DOCTORS_FEE = 'doctors-fee'
 }
 
 export enum EnumMediaVisibilityStatus {

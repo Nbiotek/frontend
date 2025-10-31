@@ -9,6 +9,7 @@ import { EnumAdminContentMgt } from '@/constants/mangle';
 import { useSearchParams } from 'next/navigation';
 import Testimonials from './testimonials';
 import Partner from './partners';
+import DoctorsFee from './doctors-fee';
 
 const ContentManagementView = () => {
   const params = useSearchParams();
@@ -49,6 +50,11 @@ const ContentManagementView = () => {
                 Partners
               </Link>
             </TabsTrigger>
+            <TabsTrigger value={EnumAdminContentMgt.DOCTORS_FEE}>
+              <Link href={`?tab=${EnumAdminContentMgt.DOCTORS_FEE}`} shallow prefetch>
+                Doctors Fee
+              </Link>
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -70,6 +76,9 @@ const ContentManagementView = () => {
           </TabsContent>
           <TabsContent className="w-full" value={EnumAdminContentMgt.PARTNERS}>
             <Partner />
+          </TabsContent>
+          <TabsContent className="w-full" value={EnumAdminContentMgt.DOCTORS_FEE}>
+            <DoctorsFee />
           </TabsContent>
         </div>
       </Tabs>

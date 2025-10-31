@@ -58,6 +58,9 @@ export const postCreatePartner = async (payload: TAdminCreatePartnerSchema) => {
   server.post(SUPER_ADMIN.CONTENT_PARTNERS, payload);
 };
 
+export const postCreateDoctorFee = async (payload: { feature: string; value: string }) =>
+  server.post(SUPER_ADMIN.DOCTORS_FEES, payload);
+
 // put requests
 export const putUpdateSingleTest = async ({
   id,
@@ -89,6 +92,11 @@ export const putUpdateTestimonial = async (id: string, payload: Partial<TAdminTe
 
 export const putUpdatePartner = async (id: string, payload: Partial<TAdminCreatePartnerSchema>) =>
   server.put(SUPER_ADMIN.CONTENT_PARTNERS.concat(':/id').replace(':id', id), payload);
+
+export const putUpdateDoctorFee = async (
+  id: string,
+  payload: { feature?: string; value?: string }
+) => server.put(SUPER_ADMIN.UPDATE_DOCTOR_FEE.replace(':id', id), payload);
 
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));

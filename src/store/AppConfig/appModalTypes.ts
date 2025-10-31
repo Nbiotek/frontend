@@ -25,7 +25,9 @@ export enum AppModals {
   DEL_PARTNER = 'DEL_PARTNER',
   CREATE_TESTIMONIAL_MODAL = 'CREATE_TESTIMONIAL_MODAL',
   DEL_TESTIMONIAL_MODAL = 'DEL_TESTIMONIAL_MODAL',
-  CREATE_PARTNER_MODAL = 'CREATE_PARTNER_MODAL'
+  CREATE_PARTNER_MODAL = 'CREATE_PARTNER_MODAL',
+  CREATE_DOCTOR_FEE_MODAL = 'CREATE_DOCTOR_FEE_MODAL',
+  DEL_DOCTOR_FEE_MODAL = 'DEL_DOCTOR_FEE_MODAL'
 }
 
 export type TAppModalsAction =
@@ -115,7 +117,7 @@ export type TAppModalsAction =
     } & ({ open: true; id: string } | { open?: false }))
   | ({
       name: AppModals.CREATE_PARTNER_MODAL | AppModals.DEL_PARTNER;
-    } & (
-      | { open: true; id: string; media?: Array<IMediaResp>; status?: string }
-      | { open?: false }
-    ));
+    } & ({ open: true; id: string; media?: Array<IMediaResp>; status?: string } | { open?: false }))
+  | ({
+      name: AppModals.CREATE_DOCTOR_FEE_MODAL | AppModals.DEL_DOCTOR_FEE_MODAL;
+    } & ({ open: true; id: string; feature?: string; value?: string } | { open?: false }));

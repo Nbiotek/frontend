@@ -95,5 +95,12 @@ export const superAdmin = {
       path: SUPER_ADMIN.CONTENT_PARTNERS,
       keys: () => [SUPER_ADMIN.CONTENT_PARTNERS]
     };
+  },
+
+  getDoctorsFees() {
+    return {
+      path: SUPER_ADMIN.DOCTORS_FEES,
+      keys: () => [SUPER_ADMIN.DOCTORS_FEES]
+    };
   }
 };
