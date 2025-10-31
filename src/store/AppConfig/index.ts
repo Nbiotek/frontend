@@ -69,6 +69,12 @@ class AppConfigStore {
     status: ''
   };
 
+  doctorFeeModal = {
+    id: '',
+    feature: '',
+    value: ''
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -87,6 +93,8 @@ class AppConfigStore {
       testAvailability: observable,
       dataModal: observable,
       fileModalUpload: observable,
+      partnerModal: observable,
+      doctorFeeModal: observable,
 
       addFiles: action.bound,
       removeFiles: action.bound,
@@ -278,6 +286,24 @@ class AppConfigStore {
           this.dataModal = {
             id: modal.id
           };
+        }
+        break;
+      case AppModals.CREATE_DOCTOR_FEE_MODAL:
+        if (modal.open) {
+          this.doctorFeeModal.id = modal.id;
+
+          if (modal.feature) {
+            this.doctorFeeModal.feature = modal.feature;
+          }
+
+          if (modal.value) {
+            this.doctorFeeModal.value = modal.value;
+          }
+        }
+        break;
+      case AppModals.DEL_DOCTOR_FEE_MODAL:
+        if (modal.open) {
+          this.doctorFeeModal.id = modal.id;
         }
         break;
       default:

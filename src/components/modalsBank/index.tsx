@@ -84,6 +84,18 @@ const ModalsMap = {
   [AppModals.CREATE_PARTNER_MODAL]: dynamic(
     () =>
       import('@/app/(modules)/admin/content-management/partners/components/modal/AddPartnerModal')
+  ),
+  [AppModals.CREATE_DOCTOR_FEE_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/doctors-fee/components/modal/AddDoctorFeeModal'
+      )
+  ),
+  [AppModals.DEL_DOCTOR_FEE_MODAL]: dynamic(
+    () =>
+      import(
+        '@/app/(modules)/admin/content-management/doctors-fee/components/modal/DelDoctorFeeModal'
+      )
   )
 };
 

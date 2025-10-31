@@ -127,3 +127,17 @@ type TAdminPartnerResp = {
   partners: Array<TAdminPartnerItem>;
   pagination: TPaginationResponse;
 };
+
+type TAdminDoctorFeeItem = {
+  id: string;
+  feature: string;
+  value: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TAdminDoctorsFeeResp = {
+  features: Array<TAdminDoctorFeeItem>;
+  pagination: TPaginationResponse;
+};

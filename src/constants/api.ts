@@ -159,7 +159,9 @@ export const SUPER_ADMIN = {
   SINGLE_LANDING: '/super-admin/content-hero-sections/:id',
   TESTIMONIALS: '/super-admin/content-testimonials',
   SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id',
-  CONTENT_PARTNERS: '/super-admin/content-partners'
+  CONTENT_PARTNERS: '/super-admin/content-partners',
+  DOCTORS_FEES: '/super-admin/features',
+  UPDATE_DOCTOR_FEE: '/super-admin/features/:id'
 };
 
 export const UPLOADS = {
