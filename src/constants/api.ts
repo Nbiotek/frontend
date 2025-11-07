@@ -22,6 +22,7 @@ export const PATIENT = {
   PROFILE: '/patients/profile',
   RECENT_RESULT: '/patients/dashboard/recent-activity',
   BILLING: '/payments' as string,
+  DOCTORS_FEES: '/super-admin/features',
 
   APPOINTMENTS: {
     UPCOMING: '/patients/appointments/upcoming',

@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'nbiotek.onrender.com',
+        hostname: 'backend-oyvu.onrender.com',
         port: '',
         pathname: '**'
       },

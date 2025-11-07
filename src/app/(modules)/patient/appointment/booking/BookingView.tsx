@@ -26,6 +26,7 @@ import BonkingConfirmationDialog from './components/BookingConfirmation';
 import { usePatientInfo } from '@/hooks/patient/usePatientDashboard';
 import BookingForSelfModal from './components/BookingSelfDialog';
 import { DateTimePicker } from '@/components/ui/DateTimePicker';
+import { useDoctorRecommendationFee } from '@/hooks/patient/useDoctorRecommendationFee';
 
 type LocationType = 'Lab' | 'Custom';
 
@@ -40,6 +41,7 @@ const BookAppointmentView = observer(() => {
     CartStore: { items, total, removeItem, clearCart }
   } = useStore();
   const { data } = usePatientInfo();
+  const { fee: doctorRecommendationFee } = useDoctorRecommendationFee();
 
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [isBookingConfirmationDialogOpen, setIsBookingConfirmationDialogOpen] = useState(false);
@@ -470,7 +472,7 @@ const BookAppointmentView = observer(() => {
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="dr-yes" />
-                  <Label htmlFor="dr-yes">Yes (₦2,000)</Label>
+                  <Label htmlFor="dr-yes">Yes (₦{doctorRecommendationFee.toLocaleString()})</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="no" id="dr-no" />

@@ -24,6 +24,7 @@ import { useState } from 'react';
 import PaymentProcessingDialog from './PaymentProcessingDialog';
 import { useRouter } from 'next/navigation';
 import { dateTimeUTC } from '@/utils/date';
+import { useDoctorRecommendationFee } from '@/hooks/patient/useDoctorRecommendationFee';
 
 interface BookingSummaryDialogProps {
   open: boolean;
@@ -44,6 +45,7 @@ const BonkingConfirmationDialog = ({
 
   const router = useRouter();
   const [paymentLink, setPaymentLink] = useState<string | null>(null);
+  const { fee: doctorRecommendationFee } = useDoctorRecommendationFee();
 
   const { mutate: bookAppointment, isPending } = useBookAppointment();
 
@@ -142,7 +144,9 @@ const BonkingConfirmationDialog = ({
                             : 'text-gray-600'
                         }
                       >
-                        {bookingData.wantDoctorRecommendation === 'yes' ? 'Yes (₦2,000)' : 'No'}
+                        {bookingData.wantDoctorRecommendation === 'yes'
+                          ? `Yes (₦${doctorRecommendationFee.toLocaleString()})`
+                          : 'No'}
                       </span>
                     </div>
                   </div>
@@ -166,7 +170,7 @@ const BonkingConfirmationDialog = ({
                   {bookingData.wantDoctorRecommendation === 'yes' && (
                     <div className="flex justify-between text-sm">
                       <span>Doctor Recommendation</span>
-                      <span>₦2,000</span>
+                      <span>₦{doctorRecommendationFee.toLocaleString()}</span>
                     </div>
                   )}
 
@@ -186,7 +190,10 @@ const BonkingConfirmationDialog = ({
                       <span>
                         ₦
                         {(
-                          total + (bookingData.wantDoctorRecommendation === 'yes' ? 2000 : 0)
+                          total +
+                          (bookingData.wantDoctorRecommendation === 'yes'
+                            ? doctorRecommendationFee
+                            : 0)
                         ).toLocaleString()}
                       </span>
                     </div>
