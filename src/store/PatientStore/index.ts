@@ -101,26 +101,51 @@ class PatientStore {
   }
 
   receptSetPatientInfo(info: TPatientInfoResp) {
-    this.personalInfo = {
-      firstName: info.firstName,
-      lastName: info.lastName,
-      phoneNumber: info.phoneNumber,
-      email: info?.email ?? '',
-      maritalStatus: info.patientPersonal.maritalStatus,
-      gender: info.patientPersonal.gender,
-      dateOfBirth: new Date(info.patientPersonal.dateOfBirth),
-      weight: info.patientPersonal.weight,
-      height: info.patientPersonal.height
-    };
+    if (info?.patientPersonal != undefined) {
+      this.personalInfo = {
+        firstName: info?.firstName ?? '',
+        lastName: info?.lastName ?? '',
+        phoneNumber: info?.phoneNumber ?? '',
+        email: info?.email ?? '',
+        maritalStatus: info?.patientPersonal?.maritalStatus ?? '',
+        gender: info?.patientPersonal?.gender ?? '',
+        dateOfBirth: new Date(info?.patientPersonal?.dateOfBirth ?? ''),
+        weight: info?.patientPersonal?.weight ?? '',
+        height: info?.patientPersonal?.height ?? ''
+      };
+    }
 
-    this.contactInfo = {
-      ...info.patientContact,
-      emergencyContact: { ...info.patientEmergencyContact }
-    };
+    if (info?.patientContact != undefined) {
+      this.contactInfo = {
+        homeAddress: info?.patientContact?.homeAddress ?? '',
+        city: info?.patientContact?.city ?? '',
+        state: info?.patientContact?.state ?? '',
+        landMark: info?.patientContact?.landmark ?? '',
+        zipCode: info?.patientContact?.zipCode ?? '',
 
-    this.insuranceInfo = {
-      ...info.patientInsurance
-    };
+        emergencyContact: {
+          firstName: info?.patientEmergencyContact?.firstName ?? '',
+          lastName: info?.patientEmergencyContact?.lastName ?? '',
+          address: info?.patientEmergencyContact?.address ?? '',
+          phoneNumber: info?.patientEmergencyContact?.phoneNumber ?? ''
+        }
+      };
+    }
+
+    if (info?.patientInsurance != undefined) {
+      this.insuranceInfo = {
+        primaryInsuranceProvider: info?.patientInsurance?.primaryInsuranceProvider ?? '',
+        insurancePlanName: info?.patientInsurance?.insurancePlanName ?? '',
+        policyNumber: info?.patientInsurance?.policyNumber ?? '',
+        groupNumber: info?.patientInsurance?.groupNumber ?? '',
+        insurancePhoneNumber: info?.patientInsurance?.insurancePhoneNumber ?? '',
+        policyHolder: {
+          firstName: info?.patientInsurance?.policyHolder?.firstName ?? '',
+          lastName: info?.patientInsurance?.policyHolder?.lastName ?? '',
+          phoneNumber: info?.patientInsurance?.policyHolder?.phoneNumber ?? ''
+        }
+      };
+    }
   }
 
   *registerPatient(cb: () => void) {
