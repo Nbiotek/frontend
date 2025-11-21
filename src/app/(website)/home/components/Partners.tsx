@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
 import 'swiper/css';
+import { BoxIcon } from 'lucide-react';
 
 interface PartnerLogo {
   id: number;
@@ -108,7 +109,7 @@ const PartnerSection: React.FC = () => {
             }}
             className="partner-swiper py-2"
           >
-            {partnerLogos.map((logo) => (
+            {/* {partnerLogos.map((logo) => (
               <SwiperSlide key={logo.id} className="flex items-center justify-center px-2">
                 <div className="sm:h-18 flex h-16 items-center justify-center rounded-lg bg-white/50 p-2 shadow-sm md:h-20">
                   <Image
@@ -120,7 +121,10 @@ const PartnerSection: React.FC = () => {
                   />
                 </div>
               </SwiperSlide>
-            ))}
+            ))} */}
+            <p className="text-gray-500 flex items-center justify-center gap-2">
+              <BoxIcon size={30} /> <span>No partners available at the moment.</span>
+            </p>
           </Swiper>
         </div>
 

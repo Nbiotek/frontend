@@ -26,27 +26,27 @@ const analytics = [
 const carouselImages = [
   {
     src: '/hero1.png',
-    title: 'Conference',
+    title: 'Healthcare Innovation',
     description:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati illum rem fugiat laborum hic fuga sint',
-    buttonText: 'View More',
-    buttonColor: 'bg-red-300'
+      'Advancing medical excellence through collaboration, education, and cutting-edge diagnostic solutions that transform patient care',
+    buttonText: 'Discover More',
+    buttonColor: 'bg-blue-400'
   },
   {
     src: '/hero2.png',
-    title: 'Research',
+    title: 'Research & Development',
     description:
-      'Our cutting-edge research facilities enable groundbreaking discoveries in healthcare and biotechnology',
-    buttonText: 'Learn More',
-    buttonColor: 'bg-blue-300'
+      'Empowering groundbreaking discoveries with state-of-the-art facilities for molecular biology, biotechnology, and medical research',
+    buttonText: 'Explore R&D',
+    buttonColor: 'bg-purple-400'
   },
   {
     src: '/hero3.png',
-    title: 'Laboratory',
+    title: 'World-Class Diagnostics',
     description:
-      'State-of-the-art equipment and expert technicians ensure accurate and reliable test results',
-    buttonText: 'Tour Lab',
-    buttonColor: 'bg-green-300'
+      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
+    buttonText: 'Our Services',
+    buttonColor: 'bg-green-400'
   }
 ];
 

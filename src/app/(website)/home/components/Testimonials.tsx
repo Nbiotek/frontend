@@ -5,8 +5,8 @@ const testimonials = [
   {
     id: 1,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Robert Fox',
+      'NBIOTEK LABS has transformed how I receive healthcare. The telehealth service allowed me to consult with a specialist without traveling, and my test results were delivered promptly with clear explanations. Outstanding service!',
+    name: 'Adaeze Okonkwo',
     role: 'Patient',
     avatar: '/avatar.jpg',
     rating: 5
@@ -14,8 +14,8 @@ const testimonials = [
   {
     id: 2,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Dianne Russell',
+      'As a physician, I rely on accurate diagnostics to make informed decisions. NBIOTEK LABS consistently delivers precise results with fast turnaround times. Their commitment to excellence is evident in every interaction.',
+    name: 'Dr. Chukwuemeka Nwosu',
     role: 'Doctor',
     avatar: '/avatar.jpg',
     rating: 5
@@ -23,8 +23,35 @@ const testimonials = [
   {
     id: 3,
     quote:
-      'Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. Phasellus imperdiet elit eu magna dictum, bibendum cursus velit sodales. Donec sed neque eget.',
-    name: 'Eleanor Pena',
+      'The R&D facilities at NBIOTEK are world-class. As a researcher, I appreciate their state-of-the-art equipment and supportive environment. They are truly advancing medical science in Nigeria.',
+    name: 'Prof. Amina Bello',
+    role: 'Researcher',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 4,
+    quote:
+      'From booking my test online to receiving results through their digital platform, everything was seamless. The staff was compassionate and professional. I highly recommend NBIOTEK LABS to anyone seeking quality healthcare.',
+    name: 'Oluwaseun Adeleke',
+    role: 'Patient',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 5,
+    quote:
+      'NBIOTEK LABS understands that patient care comes first. Their modern technology combined with a personal touch makes them stand out. They have set a new standard for diagnostic services in Nigeria.',
+    name: 'Dr. Funmilayo Ibrahim',
+    role: 'Doctor',
+    avatar: '/avatar.jpg',
+    rating: 5
+  },
+  {
+    id: 6,
+    quote:
+      'I was impressed by the accuracy and reliability of my test results. The team at NBIOTEK took time to explain everything, making me feel confident about my health decisions. Truly patient-centered care.',
+    name: 'Chidinma Okoro',
     role: 'Patient',
     avatar: '/avatar.jpg',
     rating: 5
