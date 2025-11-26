@@ -119,8 +119,8 @@ const TestimonialSlider = () => {
         <div className="mb-6 flex flex-col space-y-4 sm:mb-8 md:mb-10 md:flex-row md:items-start md:justify-between md:space-y-0">
           <div className="max-w-xl md:max-w-2xl">
             <h2 className="text-gray-900 text-xl font-bold sm:text-2xl md:text-3xl">
-              What Our Users Are Saying: Hear from patients and doctors about their experiences with
-              NBIOTEK.
+              what our users and partners are saying: Hear from patients and doctors about their
+              experiences with NBIOTEK.
             </h2>
           </div>
           <div className="flex space-x-2 self-end">
@@ -168,7 +168,7 @@ const TestimonialSlider = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {visibleIndices.map((index) => {
+          {/* {visibleIndices.map((index) => {
             const testimonial = testimonials[index];
             return (
               <div
@@ -210,7 +210,7 @@ const TestimonialSlider = () => {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
 
         <div className="mt-4 flex justify-center space-x-1 sm:mt-6 md:hidden">

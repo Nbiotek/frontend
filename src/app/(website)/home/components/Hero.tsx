@@ -7,17 +7,13 @@ import ROUTES from '@/constants/routes';
 
 const analytics = [
   {
-    title: 'Technicians',
+    title: 'Tests done',
     number: 1000,
     icons: '/test.png'
   },
+
   {
-    title: 'Doctors',
-    number: 1000,
-    icons: '/doctor.png'
-  },
-  {
-    title: 'Customers',
+    title: 'Communities Served',
     number: 6000,
     icons: '/customer.png'
   }
@@ -139,7 +135,7 @@ const Hero = () => {
               </div>
 
               <div className="mt-6 sm:mt-8 lg:mt-12">
-                <div className="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+                <div className="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
                   {analytics.map((item, index) => (
                     <div
                       key={index}
