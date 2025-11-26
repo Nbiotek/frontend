@@ -3,8 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram } from 'lucide-react';
 import { FaFacebook } from 'react-icons/fa6';
-import { PiTwitterLogo } from 'react-icons/pi';
+import { PiTwitterLogo, PiWhatsappLogo } from 'react-icons/pi';
 import { FiInstagram } from 'react-icons/fi';
+import ROUTES from '@/constants/routes';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -59,24 +60,29 @@ const Footer = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* About Column */}
             <div>
-              <h3 className="mb-6 text-xl font-semibold text-white">About Nbiotek</h3>
-              <p className="mb-6 text-[#808080]">
+              <h3 className="mb-6 text-xl font-semibold text-white">Contact Us </h3>
+              {/* <p className="mb-6 text-[#808080]">
                 Nbiotek is a leading provider of advanced diagnostic services, committed to
                 delivering accurate and timely results to healthcare professionals and patients.
-              </p>
-              <div className="flex flex-wrap items-center">
+              </p> */}
+              <div className="flex flex-col flex-wrap items-start">
                 <a
                   href="tel:+12195550114"
                   className="mb-2 mr-3 border-b border-green-500 font-medium text-white"
                 >
                   (219) 555-0114
                 </a>
-                <span className="text-gray-500 mx-2">or</span>
                 <a
                   href="mailto:Proxy@gmail.com"
                   className="mb-2 border-b border-green-500 font-medium text-white"
                 >
                   nbiotek@gmail.com
+                </a>
+                <a
+                  href="mailto:Proxy@gmail.com"
+                  className="mb-2 block border-b border-green-500 font-medium text-white"
+                >
+                  Branch Offices: 123 Main St, Cityville, ST 12345
                 </a>
               </div>
             </div>
@@ -85,23 +91,27 @@ const Footer = () => {
               <h3 className="mb-6 text-xl font-semibold text-white">My Account</h3>
               <ul className="space-y-4 text-[#808080]">
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link
+                    href={ROUTES.PATIENT_BOOK_APPOINTMENTS.path}
+                    className="transition hover:text-white"
+                  >
                     Book Appointment
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link
+                    href={ROUTES.PATIENT_BOOK_APPOINTMENTS.path}
+                    className="transition hover:text-white"
+                  >
                     Order Test
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link
+                    href={ROUTES.PATIENT_TEST_RESULT.path}
+                    className="transition hover:text-white"
+                  >
                     Result
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="transition hover:text-white">
-                    Ask for Review
                   </Link>
                 </li>
               </ul>
@@ -111,22 +121,25 @@ const Footer = () => {
               <h3 className="mb-6 text-xl font-semibold text-white">Links</h3>
               <ul className="space-y-4 text-[#808080]">
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.LAB_TEST.path} className="transition hover:text-white">
                     Lab Tests
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.SPECIAL_PACKAGES.path} className="transition hover:text-white">
                     Special Package
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.ADVANCED_IMAGING.path} className="transition hover:text-white">
                     Advance Imaging
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link
+                    href={ROUTES.MOLECULAR_DIAGNOSTICS.path}
+                    className="transition hover:text-white"
+                  >
                     Molecular Diagnostics
                   </Link>
                 </li>
@@ -142,17 +155,17 @@ const Footer = () => {
               <h3 className="mb-6 text-xl font-semibold text-white ">Research and Innovation</h3>
               <ul className="mb-8 space-y-4 text-[#808080]">
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.ECOMMERCE.path} className="transition hover:text-white">
                     Ecommerce
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.BIO_HUB.path} className="transition hover:text-white">
                     Bio Hub
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition hover:text-white">
+                  <Link href={ROUTES.WHATS_NEW.path} className="transition hover:text-white">
                     What&apos;s Newt
                   </Link>
                 </li>
@@ -193,22 +206,9 @@ const Footer = () => {
                 href="#"
                 className="bg-gray-800 flex h-10 w-10 items-center justify-center rounded-full text-neutral-200 transition hover:bg-blue-400 hover:text-white"
               >
-                <PiTwitterLogo size={20} className="" />
+                <PiWhatsappLogo size={20} className="" />
               </a>
-              <a
-                href="#"
-                className="bg-gray-800 flex h-10 w-10 items-center justify-center rounded-full text-neutral-200 transition hover:bg-blue-400 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.441 16.892c-2.102.144-6.784.144-8.883 0-2.276-.156-2.541-1.27-2.558-4.892.017-3.629.285-4.736 2.558-4.892 2.099-.144 6.782-.144 8.883 0 2.277.156 2.541 1.27 2.559 4.892-.018 3.629-.285 4.736-2.559 4.892zm-6.441-7.234l4.917 2.338-4.917 2.346v-4.684z" />
-                </svg>
-              </a>
+
               <a
                 href="#"
                 className="bg-gray-800 flex h-10 w-10 items-center justify-center rounded-full text-neutral-200 transition hover:bg-blue-400 hover:text-white"
