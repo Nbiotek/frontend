@@ -46,6 +46,7 @@ interface PaginatedResponse<T> {
       currentPage: number;
       totalPages: number;
       totalItems: number;
+      total?: number;
       limit: number;
       hasNext: boolean;
       hasPrev: boolean;

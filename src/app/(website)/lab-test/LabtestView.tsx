@@ -17,6 +17,8 @@ import {
   useMolecularTestsWithLoadMore,
   useAdvancedImagingTestsWithLoadMore
 } from '@/hooks/patient/useTest';
+import ROUTES from '@/constants/routes';
+import { useRouter } from 'next/navigation';
 
 const LabTestViewFallback = () => {
   return (
@@ -157,6 +159,7 @@ const LoadMoreButton = ({
 const LabTestContent = () => {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
+  const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(tabFromUrl || 'lab-tests');
@@ -268,8 +271,14 @@ const LabTestContent = () => {
 
             <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-3">
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">200+</div>
-                <div className="text-sm text-blue-100">{getTestType(activeTab)}</div>
+                <div className="text-2xl font-bold text-white">
+                  {isLoading ? (
+                    <Loader2 className="mx-auto h-6 w-6 animate-spin" />
+                  ) : (
+                    `${totalItems || 0}+`
+                  )}
+                </div>
+                <div className="text-sm text-blue-100">{getTestType(activeTab)} available</div>
               </div>
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur-sm">
                 <div className="text-2xl font-bold text-white">24/7</div>
@@ -599,6 +608,7 @@ const LabTestContent = () => {
               <Button
                 variant="outlined"
                 className="text-blue-600 w-full rounded-md border-blue-400 px-4 py-3 text-base font-semibold hover:bg-blue-50 sm:w-auto md:px-6 md:py-3.5 lg:px-8 lg:py-4 lg:text-lg"
+                onClick={() => router.push(ROUTES.CONTACT_US.path)}
               >
                 Contact Our Experts
               </Button>

@@ -31,6 +31,7 @@ class Routes {
     'Molecular Diagnostics'
   );
   BIO_HUB = new Route('/bio-hub', 'Bio Hub', 'Bio Hub');
+  CONTACT_US = new Route('/contact-us', 'Contact Us', 'Contact Us');
   ECOMMERCE = new Route('/ecommerce', 'E-commerce', 'E-commerce');
   WHATS_NEW = new Route('/whats-new', 'Whats New', 'Whats New');
   CART = new Route('/cart', 'Nbiotek | Cart', 'Cart - Nbiotek');
@@ -399,6 +400,7 @@ class Routes {
       this.ADVANCED_IMAGING.path,
       this.MOLECULAR_DIAGNOSTICS.path,
       this.BIO_HUB.path,
+      this.CONTACT_US.path,
       this.ECOMMERCE.path,
       this.WHATS_NEW.path,
       this.ABOUT.path,

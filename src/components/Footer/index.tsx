@@ -57,7 +57,7 @@ const Footer = () => {
       {/* Main Footer */}
       <footer className="text-gray-300 bg-[#1A1A1A] pb-8 pt-16">
         <div className="mx-auto max-w-7xl px-4">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
             {/* About Column */}
             <div>
               <h3 className="mb-6 text-xl font-semibold text-white">Contact Us </h3>
@@ -189,6 +189,43 @@ const Footer = () => {
                   </div>
                 </Link>
               </div> */}
+            </div>
+            <div className="space-y-4 ">
+              <h2 className="text-xl font-bold text-white">Download Nbiotek App</h2>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href=""
+                  className="flex w-full items-center justify-center space-x-2 rounded-lg border border-[#EDEFF0] bg-[#5E5E5E] px-3 py-2"
+                >
+                  <Image
+                    src="/apple.png"
+                    alt="App"
+                    width={30}
+                    height={30}
+                    className="h-5 w-5 md:h-7 md:w-7"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-white">Download on the</span>
+                    <span className="text-lg text-white md:text-xl">App Store</span>
+                  </div>
+                </Link>
+                <Link
+                  href=""
+                  className="flex w-full items-center justify-center space-x-2 rounded-lg border border-[#EDEFF0] bg-[#5E5E5E] px-3 py-2"
+                >
+                  <Image
+                    src="/android.png"
+                    alt="app"
+                    width={30}
+                    height={30}
+                    className="h-5 w-5 md:h-7 md:w-7"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-white">Download on the</span>
+                    <span className="text-lg text-white md:text-xl">Google Play</span>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
 

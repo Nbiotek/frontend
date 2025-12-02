@@ -16,58 +16,9 @@ interface PartnerLogo {
 const partnerLogos: PartnerLogo[] = [
   {
     id: 1,
-    src: '/partner1.png',
+    src: '/seamaty.png',
     alt: 'Karmen Pet Hospital',
     width: 120
-  },
-  {
-    id: 2,
-    src: '/partner2.png',
-    alt: 'Ciputra',
-    width: 110
-  },
-  {
-    id: 3,
-    src: '/partner3.png',
-    alt: "St. Kale Children's Hospital",
-    width: 110
-  },
-  {
-    id: 4,
-    src: '/partner4.png',
-    alt: 'Mayapada Hospital',
-    width: 130
-  },
-  {
-    id: 5,
-    src: '/partner5.png',
-    alt: 'Siloam Hospitals',
-    width: 140
-  },
-  // Duplicate logos for seamless scrolling effect
-  {
-    id: 6,
-    src: '/partner1.png',
-    alt: 'Karmen Pet Hospital',
-    width: 120
-  },
-  {
-    id: 7,
-    src: '/partner2.png',
-    alt: 'Ciputra',
-    width: 110
-  },
-  {
-    id: 8,
-    src: '/partner3.png',
-    alt: "St. Kale Children's Hospital",
-    width: 110
-  },
-  {
-    id: 9,
-    src: '/partner4.png',
-    alt: 'Mayapada Hospital',
-    width: 130
   }
 ];
 
@@ -109,7 +60,7 @@ const PartnerSection: React.FC = () => {
             }}
             className="partner-swiper py-2"
           >
-            {/* {partnerLogos.map((logo) => (
+            {partnerLogos.map((logo) => (
               <SwiperSlide key={logo.id} className="flex items-center justify-center px-2">
                 <div className="sm:h-18 flex h-16 items-center justify-center rounded-lg bg-white/50 p-2 shadow-sm md:h-20">
                   <Image
@@ -121,10 +72,7 @@ const PartnerSection: React.FC = () => {
                   />
                 </div>
               </SwiperSlide>
-            ))} */}
-            <p className="text-gray-500 flex items-center justify-center gap-2">
-              <BoxIcon size={30} /> <span>No partners available at the moment.</span>
-            </p>
+            ))}
           </Swiper>
         </div>
 
