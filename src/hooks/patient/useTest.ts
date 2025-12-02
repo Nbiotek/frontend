@@ -100,7 +100,7 @@ export const useTestsWithLoadMore = (
     return false;
   }, [data?.data?.pagination?.hasNext, data?.data?.requests?.length, allData.length, enabled]);
 
-  const totalItems = data?.data?.pagination?.totalItems || 0;
+  const totalItems = data?.data?.pagination?.total || 0;
 
   return {
     data: enabled ? allData : [],

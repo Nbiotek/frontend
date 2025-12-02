@@ -7,14 +7,14 @@ import ROUTES from '@/constants/routes';
 
 const analytics = [
   {
-    title: 'Tests done',
-    number: 1000,
+    title: 'Tests Available',
+    number: '60+',
     icons: '/test.png'
   },
 
   {
-    title: 'Communities Served',
-    number: 6000,
+    title: 'Serving Communities',
+    number: '1000+',
     icons: '/customer.png'
   }
 ];
