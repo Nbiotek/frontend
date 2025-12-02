@@ -11,7 +11,7 @@ import { Loader } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import TextareaField from '@/atoms/fields/TextAreaField';
 import { SUPER_ADMIN } from '@/constants/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import InputMultiSelect from '@/atoms/fields/InputMultiSelect';
 import { Option } from '@/components/ui/multi-select';
 import { useFetchInfiniteSingleTest } from '@/hooks/admin/useFetchSingleTest';
@@ -20,22 +20,27 @@ import { useFetchPackageTestId } from '@/hooks/admin/useFetchPackageTestId';
 import InputNumberField from '@/atoms/fields/NumberInput';
 
 const AdminPackageTest = () => {
+  const [tests, setTests] = useState<Array<Option>>([]);
   const {
     AppConfigStore: { isOpen, toggleModals, testDetails },
     AdminStore: { addPackageTest, updatePackageTest, isLoading }
   } = useStore();
-
-  const { ref, inView } = useInView();
-
-  const [tests, setTests] = useState<Array<Option>>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const options = useMemo(
+    () => ({
+      root: scrollRef.current,
+      threshold: 0.1
+    }),
+    [scrollRef.current]
+  );
+  const { ref: lastRef, inView } = useInView(options);
   const {
     processedData,
     isLoading: isTestDataLoading,
-    isError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
-  } = useFetchInfiniteSingleTest({ limit: 20, page: 1 });
+  } = useFetchInfiniteSingleTest({ limit: 10, page: 1, status: 'ACTIVE' });
 
   const queryClient = useQueryClient();
   const isEditMode = testDetails.testId !== '';
@@ -174,10 +179,12 @@ const AdminPackageTest = () => {
                     required
                     {...field}
                     label={'Add Tests'}
-                    isLoading={true}
+                    isFetching={isTestDataLoading || isFetchingNextPage}
                     options={tests}
                     placeholder="Add tests to package..."
-                    lastElementRef={ref}
+                    lastElementRef={lastRef}
+                    fetchNextPage={() => fetchNextPage()}
+                    hasNextPage={hasNextPage}
                     emptyIndicator={
                       <p className="text-gray-600 dark:text-gray-400 text-center text-lg leading-10">
                         No Tests available.
