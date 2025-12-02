@@ -17,10 +17,10 @@ export const superAdmin = {
     };
   },
 
-  getSingleTest(query: Partial<TGeneralPaginatedQuery>) {
+  getSingleTest(query: Partial<TAdminTestQuery>) {
     return {
       path: SUPER_ADMIN.SINGLE_TEST,
-      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST],
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.SINGLE_TEST, query],
       params: query
     };
   },

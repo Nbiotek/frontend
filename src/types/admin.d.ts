@@ -141,3 +141,7 @@ type TAdminDoctorsFeeResp = {
   features: Array<TAdminDoctorFeeItem>;
   pagination: TPaginationResponse;
 };
+
+type TAdminTestQuery = TGeneralPaginatedQuery & {
+  status: string;
+};
