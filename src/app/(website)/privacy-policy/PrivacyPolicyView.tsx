@@ -77,20 +77,16 @@ const PrivacyPolicyView = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-      <div className="from-blue-600 to-purple-600 bg-gradient-to-r text-white">
+      <div className="to-purple-600 bg-gradient-to-r from-blue-400 text-white">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="mb-6 flex justify-center">
-              <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                <Shield className="h-10 w-10" />
-              </div>
-            </div>
+            <div className="mb-6 flex justify-center"></div>
             <h1 className="mb-6 text-4xl font-bold md:text-5xl">Privacy Policy</h1>
             <p className="mx-auto max-w-2xl text-lg md:text-xl">
               Your privacy and data security are our top priorities. Learn how we protect your
               information.
             </p>
-            <p className="mt-4 text-sm text-blue-100">Last Updated: December 3, 2025</p>
+            <p className="mt-4 text-sm text-blue-300">Last Updated: December 3, 2025</p>
           </div>
         </div>
       </div>
@@ -121,13 +117,13 @@ const PrivacyPolicyView = () => {
                   <section.icon className="text-blue-600 h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="text-gray-900 mb-2 text-2xl font-bold">{section.title}</h3>
+                  <h3 className="mb-2 text-2xl font-bold">{section.title}</h3>
                 </div>
               </div>
               <ul className="space-y-3">
                 {section.content.map((item, idx) => (
                   <li key={idx} className="flex items-start">
-                    <div className="bg-blue-500 mr-3 mt-2 h-2 w-2 flex-shrink-0 rounded-full" />
+                    <div className="mr-3 mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400" />
                     <span className="text-gray-700 leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -150,19 +146,19 @@ const PrivacyPolicyView = () => {
             <h4 className="text-gray-900 mb-2 font-semibold">Types of Cookies We Use:</h4>
             <ul className="text-gray-700 space-y-2">
               <li className="flex items-start">
-                <div className="bg-blue-500 mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" />
+                <div className="mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400" />
                 <span>
                   <strong>Essential Cookies:</strong> Required for platform functionality
                 </span>
               </li>
               <li className="flex items-start">
-                <div className="bg-blue-500 mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" />
+                <div className="mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400" />
                 <span>
                   <strong>Performance Cookies:</strong> Help us improve our services
                 </span>
               </li>
               <li className="flex items-start">
-                <div className="bg-blue-500 mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" />
+                <div className="mr-2 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400" />
                 <span>
                   <strong>Functional Cookies:</strong> Remember your preferences
                 </span>
@@ -234,7 +230,7 @@ const PrivacyPolicyView = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="from-blue-600 to-purple-600 mt-8 rounded-xl bg-gradient-to-br p-8 text-white">
+        <div className="mt-8 rounded-xl bg-blue-400  p-8 text-white">
           <div className="flex items-start gap-4">
             <div className="inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
               <Mail className="h-6 w-6" />
