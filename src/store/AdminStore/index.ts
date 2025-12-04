@@ -137,18 +137,12 @@ class AdminStore {
     this.isLoading.single_test = true;
     this.errors.single_test = '';
     try {
-      const payload: IPostAddSingleTest = {
-        name: _payload.name,
-        description: _payload.description,
-        category: _payload.category,
-        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
-        discountedPrice: _payload.discountedPrice
-          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
-          : 0,
-        requirements: _payload.requirements?.split(',') || []
-      };
-
-      yield postAddSingleTest(payload);
+      if (_payload.requirements) {
+        _payload.requirements = _payload.requirements.split(',') as any;
+      } else {
+        _payload.requirements = [''] as any;
+      }
+      yield postAddSingleTest(_payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
@@ -161,18 +155,13 @@ class AdminStore {
     this.isLoading.single_test = true;
     this.errors.single_test = '';
     try {
-      const payload: IPostAddSingleTest = {
-        name: _payload.name,
-        description: _payload.description,
-        category: _payload.category,
-        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
-        discountedPrice: _payload.discountedPrice
-          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
-          : 0,
-        requirements: _payload.requirements?.split(',') || []
-      };
+      if (_payload.requirements) {
+        _payload.requirements = _payload.requirements.split(',') as any;
+      } else {
+        _payload.requirements = [''] as any;
+      }
 
-      yield putUpdateSingleTest({ id, payload });
+      yield putUpdateSingleTest({ id, payload: _payload });
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
@@ -185,22 +174,15 @@ class AdminStore {
     this.isLoading.package_test = true;
     this.errors.package_test = '';
     try {
-      const payload: IPostAddPackageTest = {
-        name: _payload.name,
-        description: _payload.description,
-        requirements: _payload.requirements?.split(',') || [],
-        testIds: _payload.testIds.map((test) => test.value)
-      };
-
-      if (_payload?.price) {
-        payload.price = parseInt(_payload.price.replace(/[^0-9]/g, ''));
+      if (_payload.requirements) {
+        _payload.requirements = _payload.requirements.split(',') as any;
+      } else {
+        _payload.requirements = [''] as any;
       }
-
-      if (_payload.discountedPrice) {
-        payload.discountedPrice = parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''));
+      if (_payload.testIds) {
+        _payload.testIds = _payload.testIds.map((test) => test.value) as any;
       }
-
-      yield postAddPackageTest(payload);
+      yield postAddPackageTest(_payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
@@ -209,17 +191,16 @@ class AdminStore {
     }
   }
 
-  *updatePackageTest(id: string, _payload: TAdminPackageTestSchema, cb?: () => void) {
+  *updatePackageTest(id: string, payload: Partial<TAdminPackageTestSchema>, cb?: () => void) {
     this.isLoading.package_test = true;
     this.errors.package_test = '';
     try {
-      const payload: IPostAddPackageTest = {
-        name: _payload.name,
-        description: _payload.description,
-        requirements: _payload.requirements?.split(',') || [],
-        testIds: _payload.testIds.map((test) => test.value)
-      };
-
+      if (payload.requirements) {
+        payload.requirements = payload.requirements.split(',') as any;
+      }
+      if (payload.testIds) {
+        payload.testIds = payload.testIds.map((test) => test.value) as any;
+      }
       yield putUpdatePackageTest({ id, payload });
       cb?.();
     } catch (error) {
