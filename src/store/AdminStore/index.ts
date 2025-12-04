@@ -137,18 +137,7 @@ class AdminStore {
     this.isLoading.single_test = true;
     this.errors.single_test = '';
     try {
-      const payload: IPostAddSingleTest = {
-        name: _payload.name,
-        description: _payload.description,
-        category: _payload.category,
-        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
-        discountedPrice: _payload.discountedPrice
-          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
-          : 0,
-        requirements: _payload.requirements?.split(',') || []
-      };
-
-      yield postAddSingleTest(payload);
+      yield postAddSingleTest(_payload);
       cb?.();
     } catch (error) {
       toast.error(parseError(error));
@@ -161,18 +150,13 @@ class AdminStore {
     this.isLoading.single_test = true;
     this.errors.single_test = '';
     try {
-      const payload: IPostAddSingleTest = {
-        name: _payload.name,
-        description: _payload.description,
-        category: _payload.category,
-        price: parseInt(_payload.price.replace(/[^0-9]/g, '')),
-        discountedPrice: _payload.discountedPrice
-          ? parseInt(_payload.discountedPrice.replace(/[^0-9]/g, ''))
-          : 0,
-        requirements: _payload.requirements?.split(',') || []
-      };
+      if (_payload.requirements) {
+        _payload.requirements = _payload.requirements.split(',') as any;
+      } else {
+        _payload.requirements = [''] as any;
+      }
 
-      yield putUpdateSingleTest({ id, payload });
+      yield putUpdateSingleTest({ id, payload: _payload });
       cb?.();
     } catch (error) {
       toast.error(parseError(error));

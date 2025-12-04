@@ -8,7 +8,10 @@ import {
 import { TAdminHeroCarousel } from '@/store/AdminStore';
 import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
 import { TAdminCreatePartnerSchema } from '@/app/(modules)/admin/content-management/partners/validation';
-import { TAdminPackageTestSchema } from '@/app/(modules)/admin/content-management/components/modals/validation';
+import {
+  TAdminPackageTestSchema,
+  TAdminSingleTestSchema
+} from '@/app/(modules)/admin/content-management/components/modals/validation';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -42,7 +45,7 @@ export const getSingleTests = async (params: TGeneralPaginatedQuery) => {
 export const postAdduser = async (payload: TAdminAdduserSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.ADD_USER, payload);
 
-export const postAddSingleTest = async (payload: IPostAddSingleTest) =>
+export const postAddSingleTest = async (payload: TAdminSingleTestSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_SINGLE_TEST, payload);
 
 export const postAddPackageTest = async (payload: TAdminPackageTestSchema) =>
@@ -68,7 +71,7 @@ export const putUpdateSingleTest = async ({
   payload
 }: {
   id: string;
-  payload: Partial<IPostAddSingleTest>;
+  payload: Partial<TAdminSingleTestSchema>;
 }) => server.put(SUPER_ADMIN.UPDATE_SINGLE_TEST.replace(':id', id), payload);
 
 export const putUpdatePackageTest = async ({
