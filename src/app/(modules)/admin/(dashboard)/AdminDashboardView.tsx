@@ -8,7 +8,7 @@ import { UsersBarchart } from './components/UsersChart';
 import TestResultChart from './components/TestResultChart';
 import PaymentChart from './components/PaymentsChart';
 
-const card = [
+const cardStat = [
   {
     stat: 4056,
     title: 'Total users',
@@ -51,8 +51,8 @@ const AdminDashboardView = () => {
     <div className="flex w-full flex-col space-y-4">
       <OverviewContainer>
         {isLoading
-          ? card.map((el) => <OverviewCardLoader key={el.tag} />)
-          : card.map((el) => (
+          ? cardStat.map((el) => <OverviewCardLoader key={el.tag} />)
+          : cardStat.map((el) => (
               <OverviewCard
                 key={el.tag}
                 type={el.type}
