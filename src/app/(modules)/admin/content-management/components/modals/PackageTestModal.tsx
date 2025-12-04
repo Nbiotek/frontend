@@ -81,20 +81,21 @@ const AdminPackageTest = () => {
 
   useEffect(() => {
     if (isEditMode && data) {
-      form.reset({
+      const resetData: any = {
         name: data.name || '',
         description: data.description || '',
-        price: data.price?.toString() || '',
-        discountedPrice: data.discountedPrice?.toString() || '',
-        requirements: data.requirements?.join(', ') || '',
         testIds: data?.tests?.map((test) => ({ value: test.id, label: test.name })) ?? []
-      });
+      };
+
+      if (data.price) resetData.price = data.price;
+      if (data.discountedPrice) resetData.discountedPrice = data.discountedPrice;
+      if (data.requirements.length > 0) resetData.requirements = data.requirements.join(', ');
+
+      form.reset(resetData);
     } else if (!isEditMode) {
       form.reset({
         name: '',
         description: '',
-        price: '',
-        discountedPrice: '',
         requirements: '',
         testIds: []
       });
@@ -226,15 +227,22 @@ const AdminPackageTest = () => {
               <FormField
                 control={form.control}
                 name="price"
-                render={({ field }) => (
+                render={({ field: { onChange, ...rest } }) => (
                   <div>
                     <InputNumberField
                       label="Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
                       prefix="₦"
+                      thousandSeparator=","
+                      min={1}
+                      decimalScale={0}
                       placeholder="₦10,000.00"
-                      {...field}
+                      allowNegative={false}
+                      allowLeadingZeros={false}
+                      valueIsNumericString={true}
+                      onValueChange={(values) => {
+                        onChange(parseInt(values.value) || 0);
+                      }}
+                      {...rest}
                     />
                   </div>
                 )}
@@ -242,17 +250,22 @@ const AdminPackageTest = () => {
               <FormField
                 control={form.control}
                 name="discountedPrice"
-                render={({ field }) => (
-                  <div>
-                    <InputNumberField
-                      label="Discounted Price"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      prefix="₦"
-                      placeholder="₦10,000.00"
-                      {...field}
-                    />
-                  </div>
+                render={({ field: { onChange, ...rest } }) => (
+                  <InputNumberField
+                    label="Discounted price"
+                    thousandSeparator=","
+                    prefix="₦"
+                    min={1}
+                    decimalScale={0}
+                    placeholder="₦10,000.00"
+                    allowNegative={false}
+                    allowLeadingZeros={false}
+                    valueIsNumericString={true}
+                    onValueChange={(values) => {
+                      onChange(parseInt(values.value) || 0);
+                    }}
+                    {...rest}
+                  />
                 )}
               />
             </fieldset>

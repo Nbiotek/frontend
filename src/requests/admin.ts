@@ -8,6 +8,7 @@ import {
 import { TAdminHeroCarousel } from '@/store/AdminStore';
 import { TAdminTestimonialSchema } from '@/app/(modules)/admin/content-management/testimonials/validation';
 import { TAdminCreatePartnerSchema } from '@/app/(modules)/admin/content-management/partners/validation';
+import { TAdminPackageTestSchema } from '@/app/(modules)/admin/content-management/components/modals/validation';
 
 export interface IPostAddSingleTest {
   name: string;
@@ -44,7 +45,7 @@ export const postAdduser = async (payload: TAdminAdduserSchema) =>
 export const postAddSingleTest = async (payload: IPostAddSingleTest) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_SINGLE_TEST, payload);
 
-export const postAddPackageTest = async (payload: IPostAddPackageTest) =>
+export const postAddPackageTest = async (payload: TAdminPackageTestSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_PACKAGE_TEST, payload);
 
 export const postCreateHeroLanding = async (payload: TAdminCreateHeroSchema) =>
@@ -75,7 +76,7 @@ export const putUpdatePackageTest = async ({
   payload
 }: {
   id: string;
-  payload: Partial<IPostAddPackageTest>;
+  payload: Partial<TAdminPackageTestSchema>;
 }) => server.put(SUPER_ADMIN.UPDATE_PACKAGE_TEST.replace(':id', id), payload);
 
 export const putUpdateHero = async (

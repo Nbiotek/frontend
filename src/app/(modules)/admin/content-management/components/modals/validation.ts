@@ -60,31 +60,14 @@ export const AdminPackageTestSchema = z
       .min(2, { message: 'Test description is required.' }),
     requirements: z.string().trim().optional(),
     testIds: z.array(optionSchema, { required_error: 'Tests is required' }),
-    price: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .min(0, { message: "Price amount can't be 0." })
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .optional(),
-    discountedPrice: z
-      .string({ required_error: 'Enter an amount.' })
-      .trim()
-      .transform((val) => val.replace(/[^0-9]/g, ''))
-      .optional()
+    price: z.number({ required_error: 'Enter an amount.' }).optional(),
+    discountedPrice: z.number({ required_error: 'Enter an amount.' }).optional()
   })
   .superRefine((data, ctx) => {
     const { price, discountedPrice } = data;
 
-    if (price && price.startsWith('0')) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Price can't start with zero",
-        path: ['price']
-      });
-    }
-
     if (discountedPrice && price) {
-      if (parseInt(discountedPrice) > parseInt(price)) {
+      if (discountedPrice > price) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "discounted price can't be more than actual price",
