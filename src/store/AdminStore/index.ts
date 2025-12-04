@@ -137,6 +137,11 @@ class AdminStore {
     this.isLoading.single_test = true;
     this.errors.single_test = '';
     try {
+      if (_payload.requirements) {
+        _payload.requirements = _payload.requirements.split(',') as any;
+      } else {
+        _payload.requirements = [''] as any;
+      }
       yield postAddSingleTest(_payload);
       cb?.();
     } catch (error) {
@@ -190,6 +195,9 @@ class AdminStore {
     this.isLoading.package_test = true;
     this.errors.package_test = '';
     try {
+      if (payload.requirements) {
+        payload.requirements = payload.requirements.split(',') as any;
+      }
       if (payload.testIds) {
         payload.testIds = payload.testIds.map((test) => test.value) as any;
       }
