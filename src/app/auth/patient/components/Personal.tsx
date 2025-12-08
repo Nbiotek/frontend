@@ -220,7 +220,6 @@ function PersonalForm() {
                         format="%%%"
                         patternChar="%"
                         max={700}
-                        required
                         {...field}
                       />
                     </div>
@@ -238,7 +237,6 @@ function PersonalForm() {
                         format="%%%"
                         patternChar="%"
                         max={300}
-                        required
                         {...field}
                       />
                     </div>

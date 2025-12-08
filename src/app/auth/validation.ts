@@ -175,9 +175,9 @@ export const PatientPersonalSchema = z
     maritalStatus,
     gender,
     dateOfBirth,
-    weight: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-    height: z.string({ required_error: 'Gender is required.' }).trim().optional(),
-    primaryCarePhysician: z.string({ required_error: 'Gender is required.' }).trim().optional()
+    weight: z.string().trim().optional(),
+    height: z.string().trim().optional(),
+    primaryCarePhysician: z.string().trim().optional()
   })
   .superRefine((data, ctx) => {
     const { phoneNumber } = data;
