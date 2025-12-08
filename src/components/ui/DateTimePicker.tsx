@@ -865,7 +865,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
                   ? hourCycle === 24
                     ? initHourFormat.hour24
                     : initHourFormat.hour12
-                  : 'dd MMM, yy',
+                  : 'dd MMM, yyyy',
                 {
                   locale: loc
                 }
