@@ -7,7 +7,7 @@ import { PatientPersonalSchema, TPatientPersonalSchema } from '../../validation'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { EnumRole } from '@/constants/mangle';
 import { useFetchProfile } from '@/hooks/user/useFetchProfile';
 import { Form, FormField } from '@/components/ui/form';
@@ -24,8 +24,19 @@ function PersonalForm() {
     AuthStore: { user }
   } = useStore();
   const [disable, setDisable] = useState(false);
+
+  const defaultValues = useMemo(() => {
+    let values = {};
+    if (user && user.role === EnumRole.PATIENT) {
+      values = { ...data };
+    }
+    values = { ...personalInfo };
+
+    return values;
+  }, [data, user, personalInfo]);
+
   const form = useForm<TPatientPersonalSchema>({
-    defaultValues: { ...data, ...personalInfo },
+    defaultValues,
     mode: 'onSubmit',
     resolver: zodResolver(PatientPersonalSchema),
     reValidateMode: 'onSubmit'
@@ -61,8 +72,6 @@ function PersonalForm() {
       }
     }
   }, [isLoading, data, disable]);
-
-  console.log(data?.phone);
 
   return (
     <div className="flex w-full flex-col space-y-4 rounded-lg bg-white">
@@ -130,7 +139,15 @@ function PersonalForm() {
             <FormField
               control={form.control}
               name="phoneNumber"
-              render={({ field }) => <InputPhoneField label="Phone number" required {...field} />}
+              render={({ field }) => (
+                <InputPhoneField
+                  required
+                  label="Phone number"
+                  placeholder="8123456789"
+                  defaultCountry="NG"
+                  {...field}
+                />
+              )}
             />
 
             <FormField

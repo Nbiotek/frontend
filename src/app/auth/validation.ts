@@ -1,5 +1,6 @@
 import { upperCaseRegex, lowerCaseRegex, numberRegex, specialCharcterRegex } from '@/utils';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import { parsePhoneNumber } from 'libphonenumber-js/min';
 import { z } from 'zod';
 
 export const email = z
@@ -209,16 +210,27 @@ export const PatientContactSchema = z.object({
   city,
   state,
   landMark: landMark,
-  zipCode,
-  emergencyContact: z.object({
-    firstName,
-    lastName,
-    address: z
-      .string({ required_error: 'Address is required.' })
-      .trim()
-      .refine((value) => value !== '', 'Address is required.'),
-    phoneNumber
-  })
+  zipCode: z.string({ required_error: 'Zip code is required.' }).trim().optional(),
+  emergencyContact: z
+    .object({
+      firstName: z.string().trim().optional(),
+      lastName: z.string().trim().optional(),
+      address: z.string().trim().optional(),
+      phoneNumber: z.string().trim().optional()
+    })
+    .optional()
+    .superRefine((data, ctx) => {
+      const phoneNumber = data?.phoneNumber;
+      if (phoneNumber) {
+        const { number } = parsePhoneNumber(phoneNumber);
+        if (number.length != 14) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Invalid phone number'
+          });
+        }
+      }
+    })
 });
 
 export const PatientInsuranceSchema = z
