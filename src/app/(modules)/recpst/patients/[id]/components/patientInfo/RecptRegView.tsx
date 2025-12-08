@@ -23,7 +23,10 @@ export type TPatientOverviewProfile = {
 };
 
 const RecptRegView = ({ patientData }: { patientData: TPatientInfoResp }) => {
-  const [profile, setProfile] = useState<TPatientOverviewProfile>({
+  const {
+    PatientStore: { personalInfo }
+  } = useStore();
+  const [profile, _] = useState<TPatientOverviewProfile>({
     name: `${patientData?.firstName} ${patientData?.lastName}`,
     id: patientData?.id,
     gender: patientData?.patientPersonal?.gender,
