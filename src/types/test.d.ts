@@ -49,6 +49,7 @@ interface TestQueryParams {
   page?: number;
   limit?: number;
   search?: string;
+  status?: 'ACTIVE' | 'INACTIVE';
 }
 
 interface PaginatedResponse<T> {
