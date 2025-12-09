@@ -66,7 +66,7 @@ export const zipCode = z
   .trim()
   .refine((value) => value !== '', 'zip code is required.');
 
-export const maritalStatus = z.string({ required_error: 'Marital status is required.' }).trim();
+export const maritalStatus = z.string().trim().optional();
 export const gender = z.string({ required_error: 'Gender is required.' }).trim();
 export const dateOfBirth = z.date({ required_error: 'Date of birth is required.' });
 
