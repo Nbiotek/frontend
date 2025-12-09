@@ -13,7 +13,7 @@ export type TPatientRegPayload = {
     lastName: string;
     email?: string;
     phoneNumber: string;
-    maritalStatus: string;
+    maritalStatus?: string;
     gender: string;
     dateOfBirth: Date;
     weight?: string | number;
