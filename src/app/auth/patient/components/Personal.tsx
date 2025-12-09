@@ -200,7 +200,6 @@ function PersonalForm() {
                         items={maritalStatus}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        required
                         {...field}
                       />
                     </div>
