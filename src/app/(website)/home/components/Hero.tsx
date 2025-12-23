@@ -21,6 +21,22 @@ const analytics = [
 
 const carouselImages = [
   {
+    src: '/hero6.png',
+    title: 'Our World-Class Facility',
+    description:
+      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
+    buttonText: 'Our Services',
+    buttonColor: 'bg-green-400'
+  },
+  {
+    src: '/hero5.png',
+    title: 'World-Class Diagnostics',
+    description:
+      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
+    buttonText: 'Our Services',
+    buttonColor: 'bg-green-400'
+  },
+  {
     src: '/hero1.png',
     title: 'Healthcare Innovation',
     description:
@@ -35,14 +51,6 @@ const carouselImages = [
       'Empowering groundbreaking discoveries with state-of-the-art facilities for molecular biology, biotechnology, and medical research',
     buttonText: 'Explore R&D',
     buttonColor: 'bg-purple-400'
-  },
-  {
-    src: '/hero3.png',
-    title: 'World-Class Diagnostics',
-    description:
-      'Delivering accurate, timely results with modern technology and compassionate care - where your best interest is our only priority',
-    buttonText: 'Our Services',
-    buttonColor: 'bg-green-400'
   }
 ];
 
@@ -183,7 +191,7 @@ const Hero = () => {
                     width={800}
                     height={800}
                     priority={index === currentSlide}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-center "
                   />
                   <div className="absolute left-0 top-0 flex h-full w-full flex-col justify-end">
                     <div className="w-full space-y-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-6 pb-6 pt-16 text-white lg:space-y-4 lg:px-8 lg:pb-8 lg:pt-20">
