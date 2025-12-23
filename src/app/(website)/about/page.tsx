@@ -9,6 +9,44 @@ export const metadata: Metadata = {
     'NBiotek Labs, medical diagnostics, laboratory services, healthcare, Nigeria, telehealth, research and development, medical testing, patient care'
 };
 
+const teamMembers = [
+  {
+    id: 1,
+    name: 'Dr. Tolu Ajayi',
+    title: 'Co-Founder, NBIOTEK LABS',
+    image: '/tolu.png',
+    bio: "Dr. Tolu Ajayi is a trailblazing Researcher and Data Scientist whose work sits at the intersection of advanced analytics, technological innovation, and scientific discovery. He holds a Master's degree in Engineering from the prestigious University of Durham in the United Kingdom and a PhD in Physics from Ohio University, USA. Before co-founding NBIOTEK LABS, Dr. Ajayi served as a Research Associate at Argonne National Laboratory—one of America's leading science and engineering research institutions—where his work contributed to high-impact discoveries published in world-renowned journals, including Nature. With a strong career as a Data Scientist and an exceptional record of research excellence, he brings a unique blend of scientific rigor, innovation, and real-world problem-solving to the mission of transforming diagnostics and research in Nigeria. Dr. Ajayi is driven by a passion to build systems that empower healthcare providers, advance scientific research, and improve lives through precision, technology, and data-driven insight."
+  },
+  {
+    id: 2,
+    name: 'Dr Folusho Ajayi',
+    title: 'Co-Founder, NBIOTEK LABS',
+    image: '/folu.png',
+    bio: 'Dr Folusho Ajayi is a co-founder of NBIOTEK laboratories. he is a dynamic microbiologist with extensive academic, industrial, and research experience spanning microbiology, molecular biology, and biotechnology. He holds a Bachelor, Masters and a Ph.D. degree in applied Microbiology and Biotechnology. He has over a decade of combined experience in laboratory research, university teaching, medical device sterilization and quality control. He is passionate about application of low-cost molecular diagnostic techniques in healthcare and plant based edible vaccines. He currently resides in Brockton, Massachusetts.'
+  },
+  {
+    id: 3,
+    name: 'Mr. Anthony Taiwo',
+    title: 'Co-Founder, NBIOTEK LABS',
+    image: '/inec.png',
+    bio: "Anthony Taiwo is a senior Treasury and Payments Consultant with a proven record supporting major financial institutions, including Deloitte Canada and the Bank of Canada. He brings deep expertise in treasury operations, large-value payment systems, and enterprise payment modernization, helping organizations strengthen liquidity governance, cash-management structures, and risk-control frameworks. Alongside his financial leadership experience, Anthony is deeply passionate about improving healthcare outcomes across Africa. He is committed to advancing initiatives that enhance healthcare financing, streamline funding and payment channels, and support sustainable, accessible healthcare systems throughout the continent. His work is driven by a belief that modern financial infrastructure and effective liquidity management are foundational to sustainable, equitable healthcare delivery in Africa. He holds a master's degree in economics from the University of Windsor in Ontario, Canada, along with the Certified Treasury Professional (CTP) designation. Known for his strategic judgment, disciplined execution, and ability to navigate complex financial environments, Anthony provides clear leadership and trusted advisory support to organizations operating at scale and in service of public well-being."
+  },
+  {
+    id: 4,
+    name: 'Bankole Ajayi',
+    title: 'Co-Founder, NBIOTEK LABS',
+    image: '/kole.png',
+    bio: "Bankole Ajayi is an accomplished technology and project management leader with over 15 years of experience driving complex digital transformation initiatives across diverse industries. As a PMP® and SAFe® certified professional, Bankole brings expertise in aligning advanced technologies with strategic business goals—skills that are critical in the fast-evolving biotech landscape. His background includes managing enterprise-scale IT projects, implementing innovative digital solutions, and optimizing processes for efficiency and scalability. Bankole's ability to lead cross-functional teams and deliver high-impact technology solutions positions him as a key contributor to NBiotek Labs' mission of leveraging cutting-edge science and technology to improve health outcomes."
+  },
+  {
+    id: 5,
+    name: 'Dr. Seyi Ajayi',
+    title: 'Co-Founder, NBIOTEK LABS',
+    image: '/seyi.png',
+    bio: 'Dr. Oluwaseyi Ajayi is a cybersecurity innovator and academic leader with extensive expertise in securing digital systems across healthcare environments. He is the CEO of SWYFTNG and currently serves as the Activity Director and Assistant Professor of Computer Engineering (with Cybersecurity) at Vaughn College of Aeronautics and Technology, where he develops next-generation cybersecurity curricula, leads applied research initiatives, and mentors emerging professionals in network security, cloud architecture, and cyber defense technologies. His approach merges scientific depth with operational practicality, enabling healthcare professionals and organizations to strengthen their resilience against modern cyber threats. A recognized researcher and U.S. patent holder, Dr. Ajayi has developed blockchain-based architectures and cybersecurity frameworks that enhance secure patient data exchange, protect critical healthcare infrastructure, and strengthen resilience against insider and external threats. His contributions include a granted U.S. patent in cybersecurity and a patent disclosure for a blockchain-secured inter-healthcare electronic health record exchange. Dr. Ajayi holds a Ph.D. in Electrical Engineering from The City College of New York, an M.S. in Communication Engineering from the University of Manchester, and a B.Tech. in Physics with first-class honors. With a proven record of innovation, thought leadership, and cross-sector collaboration, he brings a mission-driven approach to advancing secure, compliant, and patient-centered digital transformation across medical diagnostics and research in Nigeria.'
+  }
+];
+
 const AboutPage = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -157,6 +195,48 @@ const AboutPage = () => {
               discoveries but also contributes homegrown innovations to the world of science and
               medicine.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Team */}
+      <div className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="text-gray-900 mb-4 text-3xl font-bold">Meet Our Team</h2>
+            <p className="text-gray-600 mx-auto max-w-2xl text-xl">
+              Our dedicated professionals are committed to delivering excellence in diagnostic
+              services and patient care
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {teamMembers.map((member) => (
+              <div
+                key={member.id}
+                className="group overflow-hidden rounded-lg bg-white shadow-lg transition-shadow hover:shadow-xl"
+              >
+                <div className="bg-gray-200 aspect-square w-full overflow-hidden">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-gray-900 mb-1 text-xl font-bold">{member.name}</h3>
+                  <p className="text-blue-600 mb-3 text-sm font-semibold">{member.title}</p>
+                  <p className="text-gray-600 text-sm leading-relaxed">{member.bio}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Team Group Photo */}
+          <div className="mt-16">
+            <div className="overflow-hidden rounded-2xl shadow-2xl">
+              <img src="/team.jpg" alt="NBIOTEK LABS Team" className="h-full w-full object-cover" />
+            </div>
           </div>
         </div>
       </div>
