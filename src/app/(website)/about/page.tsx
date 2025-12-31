@@ -33,7 +33,7 @@ const teamMembers = [
   },
   {
     id: 4,
-    name: 'Bankole Ajayi',
+    name: 'Mr. Bankole Ajayi',
     title: 'Co-Founder, NBIOTEK LABS',
     image: '/kole.png',
     bio: "Bankole Ajayi is an accomplished technology and project management leader with over 15 years of experience driving complex digital transformation initiatives across diverse industries. As a PMP® and SAFe® certified professional, Bankole brings expertise in aligning advanced technologies with strategic business goals—skills that are critical in the fast-evolving biotech landscape. His background includes managing enterprise-scale IT projects, implementing innovative digital solutions, and optimizing processes for efficiency and scalability. Bankole's ability to lead cross-functional teams and deliver high-impact technology solutions positions him as a key contributor to NBiotek Labs' mission of leveraging cutting-edge science and technology to improve health outcomes."
@@ -44,6 +44,13 @@ const teamMembers = [
     title: 'Co-Founder, NBIOTEK LABS',
     image: '/seyi.png',
     bio: 'Dr. Oluwaseyi Ajayi is a cybersecurity innovator and academic leader with extensive expertise in securing digital systems across healthcare environments. He is the CEO of SWYFTNG and currently serves as the Activity Director and Assistant Professor of Computer Engineering (with Cybersecurity) at Vaughn College of Aeronautics and Technology, where he develops next-generation cybersecurity curricula, leads applied research initiatives, and mentors emerging professionals in network security, cloud architecture, and cyber defense technologies. His approach merges scientific depth with operational practicality, enabling healthcare professionals and organizations to strengthen their resilience against modern cyber threats. A recognized researcher and U.S. patent holder, Dr. Ajayi has developed blockchain-based architectures and cybersecurity frameworks that enhance secure patient data exchange, protect critical healthcare infrastructure, and strengthen resilience against insider and external threats. His contributions include a granted U.S. patent in cybersecurity and a patent disclosure for a blockchain-secured inter-healthcare electronic health record exchange. Dr. Ajayi holds a Ph.D. in Electrical Engineering from The City College of New York, an M.S. in Communication Engineering from the University of Manchester, and a B.Tech. in Physics with first-class honors. With a proven record of innovation, thought leadership, and cross-sector collaboration, he brings a mission-driven approach to advancing secure, compliant, and patient-centered digital transformation across medical diagnostics and research in Nigeria.'
+  },
+  {
+    id: 6,
+    name: 'Mr. Oladimeji Ajayi',
+    title: 'General Manager, NBIOTEK LABS',
+    image: '/dimeji.png',
+    bio: 'As the Laboratory General Manager, Oladimeji demonstrates strong competence in leading multidisciplinary teams and overseeing multi-million-naira budgets. Trained in parasitology and now transitioning into Biotechnology and Molecular Diagnostics, he is driven by a clear vision to bridge complex scientific concepts with operational excellence. He leverages deep expertise in pathogen biology and host–parasite interactions to advance the development of innovative molecular tools for disease detection. Oladimeji is committed to applying advanced biotechnological frameworks—particularly PCR-based assay development—to address complex diagnostic challenges in infectious disease research and clinical diagnostics.'
   }
 ];
 
