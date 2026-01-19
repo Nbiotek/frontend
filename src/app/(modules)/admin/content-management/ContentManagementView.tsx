@@ -1,8 +1,6 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TestContents from './components/TestContents';
-import ProductListings from './components/ProductListings';
-import Blog from './components/Blog';
 import Hero from './hero';
 import Link from 'next/link';
 import { EnumAdminContentMgt } from '@/constants/mangle';
@@ -25,16 +23,6 @@ const ContentManagementView = () => {
                 Tests
               </Link>
             </TabsTrigger>
-            {/* <TabsTrigger value={EnumAdminContentMgt.PRODUCTS}>
-              <Link href={`?tab=${EnumAdminContentMgt.PRODUCTS}`} shallow prefetch>
-                Products
-              </Link>
-            </TabsTrigger>
-            <TabsTrigger value={EnumAdminContentMgt.BLOG}>
-              <Link href={`?tab=${EnumAdminContentMgt.BLOG}`} shallow prefetch>
-                Blog
-              </Link>
-            </TabsTrigger> */}
             <TabsTrigger value={EnumAdminContentMgt.HERO}>
               <Link href={`?tab=${EnumAdminContentMgt.HERO}`} shallow prefetch>
                 Hero
@@ -62,12 +50,6 @@ const ContentManagementView = () => {
           <TabsContent className="w-full" value={EnumAdminContentMgt.TESTS}>
             <TestContents />
           </TabsContent>
-          {/* <TabsContent className="w-full" value={EnumAdminContentMgt.PRODUCTS}>
-            <ProductListings />
-          </TabsContent>
-          <TabsContent className="w-full" value={EnumAdminContentMgt.BLOG}>
-            <Blog />
-          </TabsContent> */}
           <TabsContent className="w-full" value={EnumAdminContentMgt.HERO}>
             <Hero />
           </TabsContent>
