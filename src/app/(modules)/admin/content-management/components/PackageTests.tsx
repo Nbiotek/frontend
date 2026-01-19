@@ -35,7 +35,7 @@ const PackageTests = () => {
 
   useEffect(() => {
     if (!isLoading && packageTests !== undefined) {
-      setData(packageTests.requests);
+      setData(packageTests.packages);
       setDataPagination(packageTests.pagination);
     }
   }, [isLoading, packageTests]);
