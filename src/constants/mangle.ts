@@ -32,7 +32,8 @@ export enum EnumUserStatus {
   INACTIVE = 'inactive',
   INVITED = 'invited',
   SUSPENDED = 'suspended',
-  AVAILABLE = 'Available'
+  AVAILABLE = 'Available',
+  UNAVAILABLE = 'Unavailable'
 }
 
 export enum EnumTestLocation {

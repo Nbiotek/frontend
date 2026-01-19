@@ -25,10 +25,11 @@ export const superAdmin = {
     };
   },
 
-  getPackageTest() {
+  getPackageTest(query: Partial<TAdminTestQuery>) {
     return {
       path: SUPER_ADMIN.PACKAGE_TEST,
-      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PACKAGE_TEST] as const
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PACKAGE_TEST, query] as const,
+      params: query
     };
   },
 
