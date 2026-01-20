@@ -67,22 +67,19 @@ const Footer = () => {
               </p> */}
               <div className="flex flex-col flex-wrap items-start">
                 <a
-                  href="tel:+12195550114"
+                  href="tel:+2347033303854"
                   className="mb-2 mr-3 border-b border-green-500 font-medium text-white"
                 >
-                  (219) 555-0114
+                  +234 703 330 3854
                 </a>
                 <a
-                  href="mailto:Proxy@gmail.com"
+                  href="mailto:support@nbiotek.com"
                   className="mb-2 border-b border-green-500 font-medium text-white"
                 >
-                  nbiotek@gmail.com
+                  support@nbiotek.com
                 </a>
-                <a
-                  href="mailto:Proxy@gmail.com"
-                  className="mb-2 block border-b border-green-500 font-medium text-white"
-                >
-                  Branch Offices: 123 Main St, Cityville, ST 12345
+                <a href="#" className="mb-2 block border-b border-green-500 font-medium text-white">
+                  Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria{' '}
                 </a>
               </div>
             </div>
@@ -143,11 +140,6 @@ const Footer = () => {
                     Molecular Diagnostics
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="transition hover:text-white">
-                    Contact us
-                  </Link>
-                </li>
               </ul>
             </div>
 
@@ -194,7 +186,8 @@ const Footer = () => {
               <h2 className="text-xl font-bold text-white">Download Nbiotek App</h2>
               <div className="flex flex-col gap-3">
                 <Link
-                  href=""
+                  href="https://apps.apple.com/ng/app/nbiotek/id6757131786"
+                  target="_blank"
                   className="flex w-full items-center justify-center space-x-2 rounded-lg border border-[#EDEFF0] bg-[#5E5E5E] px-3 py-2"
                 >
                   <Image
@@ -210,7 +203,8 @@ const Footer = () => {
                   </div>
                 </Link>
                 <Link
-                  href=""
+                  href="https://play.google.com/store/apps/details?id=com.nbiotek.nbiotek"
+                  target="_blank"
                   className="flex w-full items-center justify-center space-x-2 rounded-lg border border-[#EDEFF0] bg-[#5E5E5E] px-3 py-2"
                 >
                   <Image

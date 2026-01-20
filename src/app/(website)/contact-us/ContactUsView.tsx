@@ -31,19 +31,19 @@ const ContactUsView = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+234 123 456 7890',
+      details: '+234 703 330 3854',
       subDetails: 'Mon-Fri 8am-6pm'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: 'info@nbioteklabs.com',
+      details: 'support@nbioteklabs.com',
       subDetails: 'We&apos;ll respond within 24 hours'
     },
     {
       icon: MapPin,
       title: 'Location',
-      details: 'Lagos, Nigeria',
+      details: 'Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria',
       subDetails: 'Visit our diagnostic center'
     },
     {
@@ -57,7 +57,7 @@ const ContactUsView = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-      <div className="to-purple-600 bg-gradient-to-r from-blue-400 text-white">
+      <div className="bg-blue-400/70 text-white">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="mb-6 text-4xl font-bold md:text-5xl">Contact Us</h1>
@@ -198,7 +198,7 @@ const ContactUsView = () => {
 
           {/* Info Section */}
           <div className="space-y-8">
-            <div className="to-purple-200 rounded-xl bg-gradient-to-br from-blue-200 p-8 text-white">
+            <div className=" rounded-xl bg-blue-200 p-8 text-white">
               <div className="mb-6">
                 <MessageSquare className="mb-4 h-12 w-12" />
                 <h3 className="mb-2 text-2xl font-bold">Let&apos;s Connect</h3>
