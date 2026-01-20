@@ -391,30 +391,19 @@ const ReceptionistBookingView = observer(() => {
                 className="flex"
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="via_card" id="r3" />
-                  <Label htmlFor="r3">Online</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="location"
-                    id="r4"
-                    disabled={formData.location.type === 'Custom'}
-                  />
-                  <Label
-                    htmlFor="r4"
-                    className={
-                      formData.location.type === 'Custom' ? 'cursor-not-allowed opacity-50' : ''
-                    }
-                  >
-                    Pay at location
+                  <RadioGroupItem value="via_card" id="r3" disabled />
+                  <Label htmlFor="r3" className="cursor-not-allowed opacity-50">
+                    Online
                   </Label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="location" id="r4" />
+                  <Label htmlFor="r4">Pay at location</Label>
+                </div>
               </RadioGroup>
-              {formData.location.type === 'Custom' && (
-                <p className="text-gray-500 mt-2 text-xs italic">
-                  Pay at location is only available for lab locations
-                </p>
-              )}
+              <p className="text-gray-500 mt-2 text-xs italic">
+                Patient is at the location - online payment is not available
+              </p>
             </div>
           </div>
           <div className="mt-3 w-full">
