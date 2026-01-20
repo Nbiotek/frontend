@@ -344,6 +344,13 @@ class Routes {
     [EnumRole.RECEPTIONIST]
   );
 
+  RECPTS_BOOK_APOINTMENT = new Route(
+    '/recpst/appt/book',
+    'Appointment',
+    'Receptionist Appointment Booking page',
+    [EnumRole.RECEPTIONIST]
+  );
+
   RECPTS_SUPPORT = new Route('/recpst/support', 'Help/Support', 'Receptionist Support', [
     EnumRole.RECEPTIONIST
   ]);

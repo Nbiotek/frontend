@@ -132,6 +132,7 @@ export const TEST = {
 export const RECEPTIONIST = {
   DASHBOARD: '/receptionist/dashboard',
   APPOINTMENTS: '/receptionist/appointments',
+  BOOK_APPOINTMENT: '/receptionist/appointments',
   SINGLE_APPOINTMENT: '/receptionist/appointment/:id',
   UPDATE_APPOINTMENT: '/receptionist/appointments/update/:id'
 };
