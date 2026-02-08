@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'backend-oyvu.onrender.com',
+        hostname: getHostnameFromUrl(env.HOST_URL || ''),
         port: '',
         pathname: '**'
       },

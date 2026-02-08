@@ -31,14 +31,16 @@ const ContactUsView = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '+234 703 330 3854',
+      details1: '+234 703 330 3854',
+      details2: '+234 913 678 0630',
       subDetails: 'Mon-Fri 8am-6pm'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: 'support@nbioteklabs.com',
-      subDetails: 'We&apos;ll respond within 24 hours'
+      details1: 'support@nbioteklabs.com',
+      details2: 'info@nbiteklabs.com',
+      subDetails: "We'll respond within 24 hours"
     },
     {
       icon: MapPin,
@@ -81,7 +83,9 @@ const ContactUsView = () => {
                 <info.icon className="text-blue-600 h-6 w-6" />
               </div>
               <h3 className="text-gray-900 mb-2 text-lg font-semibold">{info.title}</h3>
-              <p className="text-gray-800 font-medium">{info.details}</p>
+              {info.details && <p className="text-gray-800 font-medium">{info.details}</p>}
+              <p className="text-gray-800 font-medium">{info.details1}</p>
+              <p className="text-gray-800 font-medium">{info.details2}</p>
               <p className="text-gray-500 mt-1 text-sm">{info.subDetails}</p>
             </div>
           ))}
