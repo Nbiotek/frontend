@@ -68,15 +68,27 @@ const Footer = () => {
               <div className="flex flex-col flex-wrap items-start">
                 <a
                   href="tel:+2347033303854"
-                  className="mb-2 mr-3 border-b border-green-500 font-medium text-white"
+                  className="mb-1 mr-3 border-b border-green-500 font-medium text-white"
                 >
                   +234 703 330 3854
+                </a>
+                <a
+                  href="tel:+2349136780630"
+                  className="mb-2 mr-3 border-b border-green-500 font-medium text-white"
+                >
+                  +234 913 678 0630
                 </a>
                 <a
                   href="mailto:support@nbiotek.com"
                   className="mb-2 border-b border-green-500 font-medium text-white"
                 >
                   support@nbiotek.com
+                </a>
+                <a
+                  href="mailto:info@nbiteklabs.com"
+                  className="mb-2 border-b border-green-500 font-medium text-white"
+                >
+                  info@nbiteklabs.com.
                 </a>
                 <a href="#" className="mb-2 block border-b border-green-500 font-medium text-white">
                   Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria{' '}
