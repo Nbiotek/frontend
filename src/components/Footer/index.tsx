@@ -79,16 +79,16 @@ const Footer = () => {
                   +234 913 678 0630
                 </a>
                 <a
-                  href="mailto:support@nbiotek.com"
+                  href="mailto:support@nbioteklabs.com"
                   className="mb-2 border-b border-green-500 font-medium text-white"
                 >
-                  support@nbiotek.com
+                  support@nbioteklabs.com
                 </a>
                 <a
-                  href="mailto:info@nbiteklabs.com"
+                  href="mailto:info@nbioteklabs.com"
                   className="mb-2 border-b border-green-500 font-medium text-white"
                 >
-                  info@nbiteklabs.com.
+                  info@nbioteklabs.com
                 </a>
                 <a href="#" className="mb-2 block border-b border-green-500 font-medium text-white">
                   Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria{' '}

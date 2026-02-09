@@ -39,7 +39,7 @@ const ContactUsView = () => {
       icon: Mail,
       title: 'Email',
       details1: 'support@nbioteklabs.com',
-      details2: 'info@nbiteklabs.com',
+      details2: 'info@nbioteklabs.com',
       subDetails: "We'll respond within 24 hours"
     },
     {
