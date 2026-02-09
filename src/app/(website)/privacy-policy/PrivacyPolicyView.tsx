@@ -245,11 +245,7 @@ const PrivacyPolicyView = () => {
               <div className="space-y-2">
                 <p className="flex items-center gap-2">
                   <Mail className="h-4 w-4" />
-                  <span>Email: privacy@nbioteklabs.com</span>
-                </p>
-                <p className="flex items-center gap-2">
-                  <Shield className="h-4 w-4" />
-                  <span>Data Protection Officer: dpo@nbioteklabs.com</span>
+                  <span>Email: info@nbioteklabs.com</span>
                 </p>
               </div>
             </div>
