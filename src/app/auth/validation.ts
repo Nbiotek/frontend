@@ -270,24 +270,6 @@ export const PatientInsuranceSchema = z
         });
       }
 
-      // Check policy number
-      if (!data.policyNumber) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Policy number is required when primary insurance is provided',
-          path: ['policyNumber']
-        });
-      }
-
-      // Check group number
-      if (!data.groupNumber) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Group number is required when primary insurance is provided',
-          path: ['groupNumber']
-        });
-      }
-
       // Check policy holder information
       if (!data.policyHolder?.firstName) {
         ctx.addIssue({
