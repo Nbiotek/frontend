@@ -69,7 +69,7 @@ const BookAppointmentView = observer(() => {
       address: LAB_LOCATIONS[0].address
     },
     availableDate: new Date(),
-    paymentMethod: 'via_card',
+    paymentMethod: 'location',
     wantDoctorRecommendation: 'no',
     testRequests: []
   });
@@ -172,8 +172,8 @@ const BookAppointmentView = observer(() => {
         type: value as LocationType,
         address: value === 'Lab' ? LAB_LOCATIONS[0].address : ''
       },
-      // Automatically set payment method to online for custom location
-      paymentMethod: value === 'Custom' ? 'via_card' : prev.paymentMethod
+      // Payment method is always location for patients
+      paymentMethod: 'location'
     }));
   };
 
@@ -414,11 +414,6 @@ const BookAppointmentView = observer(() => {
                         }))
                       }
                     />
-                    {formData.location.type === 'Custom' && (
-                      <p className="text-blue-600 mt-1 text-xs">
-                        Note: Custom location requires online payment
-                      </p>
-                    )}
                   </div>
                   {errors.location && (
                     <div className="mt-1 text-sm text-red-500">{errors.location}</div>
@@ -436,30 +431,19 @@ const BookAppointmentView = observer(() => {
                 className="flex"
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="via_card" id="r3" />
-                  <Label htmlFor="r3">Online</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="location"
-                    id="r4"
-                    disabled={formData.location.type === 'Custom'}
-                  />
-                  <Label
-                    htmlFor="r4"
-                    className={
-                      formData.location.type === 'Custom' ? 'cursor-not-allowed opacity-50' : ''
-                    }
-                  >
-                    Pay at location
+                  <RadioGroupItem value="via_card" id="r3" disabled />
+                  <Label htmlFor="r3" className="cursor-not-allowed opacity-50">
+                    Online
                   </Label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="location" id="r4" />
+                  <Label htmlFor="r4">Pay at location</Label>
+                </div>
               </RadioGroup>
-              {formData.location.type === 'Custom' && (
-                <p className="text-gray-500 mt-2 text-xs italic">
-                  Pay at location is only available for lab locations
-                </p>
-              )}
+              <p className="text-gray-500 mt-2 text-xs italic">
+                Online payment is currently not available. Please pay at the location.
+              </p>
             </div>
           </div>
           <div className="mt-3 w-full">
