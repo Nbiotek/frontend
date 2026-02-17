@@ -24,6 +24,8 @@ function PersonalForm() {
     AuthStore: { user }
   } = useStore();
   const [disable, setDisable] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const minDobDate = new Date(1920, 0, 1);
 
   const defaultValues = useMemo(() => {
     let values = {};
@@ -162,8 +164,10 @@ function PersonalForm() {
                   displayFormat={{ hour24: 'yyyy/MM/dd' }}
                   value={field.value}
                   onChange={field.onChange}
-                  hidden={{ after: new Date() }}
+                  hidden={{ after: new Date(), before: minDobDate }}
                   showTime={false}
+                  minYear={1920}
+                  maxYear={currentYear}
                   required
                 />
               )}
