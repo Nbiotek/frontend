@@ -51,7 +51,12 @@ const BonkingConfirmationDialog = ({
 
   const handleBookingSubmission = async () => {
     try {
-      bookAppointment(bookingData, {
+      const payload: BookAppointmentDTO = {
+        ...bookingData,
+        email: bookingData.email.trim() || undefined
+      };
+
+      bookAppointment(payload, {
         onSuccess: (response) => {
           toast.success('Booking confirmed');
           clearCart();

@@ -31,9 +31,11 @@ import { useDoctorRecommendationFee } from '@/hooks/patient/useDoctorRecommendat
 type LocationType = 'Lab' | 'Custom';
 
 const LAB_LOCATIONS = [
-  { id: 'lab1', name: 'Lab1', address: 'Medicare Hospital, 18 Iwaya Rd, Lagos' },
-  { id: 'lab2', name: 'Lab2', address: 'Central Lab, 45 Victoria Island, Lagos' },
-  { id: 'lab3', name: 'Lab3', address: 'Advanced Diagnostics, 12 Ikeja GRA, Lagos' }
+  {
+    id: 'lab1',
+    name: 'Lab1',
+    address: 'Adaba Road off Akure-Ilesha Expressway, Ibule, Akure, Ondo State, Nigeria'
+  }
 ];
 
 const BookAppointmentView = observer(() => {
@@ -122,9 +124,8 @@ const BookAppointmentView = observer(() => {
       newErrors.fullName = 'Full name is required';
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    const trimmedEmail = formData.email.trim();
+    if (trimmedEmail && !/\S+@\S+\.\S+/.test(trimmedEmail)) {
       newErrors.email = 'Please enter a valid email';
     }
 
