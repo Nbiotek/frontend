@@ -147,6 +147,8 @@ export const SUPER_ADMIN = {
   TEST_ID: '/tests/single/:id',
   CREATE_SINGLE_TEST: '/tests/create',
   CREATE_PACKAGE_TEST: '/admin/package-tests',
+  TEST_TEMPLATES: '/test-templates',
+  TEST_TEMPLATE_ID: '/test-templates/:testId',
   DELETE_USER: '/super-admin/users/:id',
   SUSPEND_USER: '/super-admin/users/:id/suspend',
   UNSUSPEND_USER: '/super-admin/users/:id/status',

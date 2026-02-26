@@ -51,6 +51,34 @@ type TAdminTestItem = TAdminTestItemBase & {
   tests?: Array<TAdminTestItemBase>;
 };
 
+type TAdminTestTemplateParameter = {
+  name: string;
+  measurement_unit?: string;
+  reference_range?: string;
+  measurementUnit?: string;
+  referenceRange?: string;
+};
+
+type TAdminTestTemplateItem = {
+  id?: string;
+  testId: string;
+  testName?: string;
+  test?: { id: string; name: string };
+  parameters: Array<TAdminTestTemplateParameter>;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+type TAdminTestTemplateResp = {
+  templates: Array<TAdminTestTemplateItem>;
+  pagination?: TPaginationResponse;
+};
+
+type TAdminTestTemplatePayload = {
+  testId: string;
+  parameters: Array<TAdminTestTemplateParameter>;
+};
+
 type TChartQuery = {
   period: string;
 };
@@ -144,4 +172,5 @@ type TAdminDoctorsFeeResp = {
 
 type TAdminTestQuery = TGeneralPaginatedQuery & {
   status: string;
+  search?: string;
 };

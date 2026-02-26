@@ -144,7 +144,8 @@ const TestsTable = ({ isLoading, tests }: ITestTableProps) => {
                                   toggleModals({
                                     open: true,
                                     name: AppModals.RESULT_UPLOAD_MODAL,
-                                    testId: test.id
+                                    testId: test.id,
+                                    originalTestId: test.originalTestId || test.testId
                                   });
                                 }}
                               >

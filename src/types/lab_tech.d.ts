@@ -33,6 +33,7 @@ type TTestData = {
   createdAt: string;
   updatedAt: string;
   resultStatus: string;
+  originalTestId?: string;
   technician: {
     id: string;
     name: string;

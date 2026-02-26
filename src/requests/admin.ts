@@ -32,7 +32,7 @@ export interface IPostAddPackageTest {
 }
 
 // get
-export const getSingleTests = async (params: TGeneralPaginatedQuery) => {
+export const getSingleTests = async (params: Partial<TAdminTestQuery>) => {
   return server.get<INBTServerResp<INBTPaginatedData<TAdminTestItemBase>>>(
     SUPER_ADMIN.SINGLE_TEST,
     {
@@ -40,6 +40,11 @@ export const getSingleTests = async (params: TGeneralPaginatedQuery) => {
     }
   );
 };
+
+export const getTestTemplates = async (params?: { testId?: string }) =>
+  server.get<INBTServerResp<TAdminTestTemplateResp>>(SUPER_ADMIN.TEST_TEMPLATES, {
+    params
+  });
 
 // post requests
 export const postAdduser = async (payload: TAdminAdduserSchema) =>
@@ -50,6 +55,9 @@ export const postAddSingleTest = async (payload: TAdminSingleTestSchema) =>
 
 export const postAddPackageTest = async (payload: TAdminPackageTestSchema) =>
   server.post<INBTServerResp<string>>(SUPER_ADMIN.CREATE_PACKAGE_TEST, payload);
+
+export const postTestTemplate = async (payload: TAdminTestTemplatePayload) =>
+  server.post<INBTServerResp<string>>(SUPER_ADMIN.TEST_TEMPLATES, payload);
 
 export const postCreateHeroLanding = async (payload: TAdminCreateHeroSchema) =>
   server.post(SUPER_ADMIN.CREATE_LANDING, payload);
@@ -134,3 +142,6 @@ export const delTestimonial = async (id: string) =>
 
 export const delPartner = async (id: string) =>
   server.delete(SUPER_ADMIN.CONTENT_PARTNERS.concat('/:id').replace(':id', id));
+
+export const delTestTemplate = async (testId: string) =>
+  server.delete(SUPER_ADMIN.TEST_TEMPLATE_ID.replace(':testId', testId));
