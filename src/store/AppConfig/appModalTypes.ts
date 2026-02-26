@@ -14,6 +14,7 @@ export enum AppModals {
   ADMIN_ADD_USER = 'ADMIN_ADD_USER',
   ADMIN_SINGLE_TEST = 'ADMIN_SINGLE_TEST',
   ADMIN_PACKAGE_TEST = 'ADMIN_PACKAGE_TEST',
+  ADMIN_TEST_TEMPLATE = 'ADMIN_TEST_TEMPLATE',
   ADMIN_DELETE_USER = 'ADMIN_DELETE_USER',
   ADMIN_SUSPEND_USER = 'ADMIN_SUSPEND_USER',
   ADMIN_UNSUSPEND_USER = 'ADMIN_UNSUSPEND_USER',
@@ -27,7 +28,8 @@ export enum AppModals {
   DEL_TESTIMONIAL_MODAL = 'DEL_TESTIMONIAL_MODAL',
   CREATE_PARTNER_MODAL = 'CREATE_PARTNER_MODAL',
   CREATE_DOCTOR_FEE_MODAL = 'CREATE_DOCTOR_FEE_MODAL',
-  DEL_DOCTOR_FEE_MODAL = 'DEL_DOCTOR_FEE_MODAL'
+  DEL_DOCTOR_FEE_MODAL = 'DEL_DOCTOR_FEE_MODAL',
+  DEL_TEST_TEMPLATE_MODAL = 'DEL_TEST_TEMPLATE_MODAL'
 }
 
 export type TAppModalsAction =
@@ -49,11 +51,14 @@ export type TAppModalsAction =
       name:
         | AppModals.RESULT_UPLOAD_MODAL
         | AppModals.ADMIN_SINGLE_TEST
-        | AppModals.ADMIN_PACKAGE_TEST;
+        | AppModals.ADMIN_PACKAGE_TEST
+        | AppModals.ADMIN_TEST_TEMPLATE;
     } & (
       | {
           open: true;
           testId: string;
+          mode?: 'create' | 'edit';
+          originalTestId?: string;
         }
       | { open?: false }
     ))
@@ -84,7 +89,8 @@ export type TAppModalsAction =
         | AppModals.UPDATE_APPOINTMENT
         | AppModals.ADMIN_DELETE_USER
         | AppModals.ADMIN_SUSPEND_USER
-        | AppModals.ADMIN_UNSUSPEND_USER;
+        | AppModals.ADMIN_UNSUSPEND_USER
+        | AppModals.DEL_TEST_TEMPLATE_MODAL;
     } & (
       | {
           open: true;

@@ -13,18 +13,27 @@ import TestCard from './TestCard';
 import { useEffect, useState } from 'react';
 import { pagination } from '@/constants/data';
 import Pagination from '@/atoms/pagination';
+import InputSearch from '@/atoms/fields/InputSearch';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const SingleTests = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [testStatus, setTestStatus] = useState('ACTIVE');
+  const [searchInput, setSearchInput] = useState('');
+  const debouncedSearchInput = useDebounce(searchInput, 500);
   const [data, setData] = useState<Array<TAdminTestItemBase>>([]);
   const [dataPagination, setDataPagination] = useState<TPaginationResponse>(pagination);
   const {
     data: singleTests,
     status,
     isLoading
-  } = useFetchSingleTest({ limit, page, status: testStatus });
+  } = useFetchSingleTest({
+    limit,
+    page,
+    status: testStatus,
+    search: debouncedSearchInput || undefined
+  });
 
   useEffect(() => {
     if (!isLoading && singleTests !== undefined) {
@@ -33,6 +42,10 @@ const SingleTests = () => {
     }
   }, [isLoading, singleTests]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearchInput, testStatus]);
+
   return (
     <div className="flex h-dvh w-full flex-col space-y-4 overflow-y-scroll py-8">
       {status === 'pending' &&
@@ -40,10 +53,16 @@ const SingleTests = () => {
           .fill(1)
           .map((_, id) => <Skeleton key={id} className="h-96 w-full" />)}
 
-      {status === 'success' && (
-        <Select value={testStatus} onValueChange={setTestStatus}>
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <InputSearch
+          placeholder="Search tests..."
+          className="w-full sm:max-w-md"
+          onSearch={setSearchInput}
+          disabled={status === 'pending'}
+        />
+        <Select value={testStatus} onValueChange={setTestStatus} disabled={status === 'pending'}>
           <SelectTrigger className="w-fit rounded-lg" aria-label="Select a value">
-            <SelectValue placeholder="Last 3 months" />
+            <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             <SelectItem value="ACTIVE" className="rounded-lg">
@@ -54,7 +73,7 @@ const SingleTests = () => {
             </SelectItem>
           </SelectContent>
         </Select>
-      )}
+      </div>
       {status === 'success' && data.map((datum) => <TestCard key={datum.id} {...{ datum }} />)}
 
       {status === 'success' && (
