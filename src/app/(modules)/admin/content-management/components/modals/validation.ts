@@ -67,6 +67,33 @@ export const AdminPackageTestSchema = z
     }
   });
 
+export const AdminTestTemplateParameterSchema = z.object({
+  name: z
+    .string({ required_error: 'Parameter name is required.' })
+    .trim()
+    .min(2, { message: 'Parameter name is required.' }),
+  measurement_unit: z
+    .string({ required_error: 'Measurement unit is required.' })
+    .trim()
+    .min(1, { message: 'Measurement unit is required.' }),
+  reference_range: z
+    .string({ required_error: 'Reference range is required.' })
+    .trim()
+    .min(1, { message: 'Reference range is required.' })
+});
+
+export const AdminTestTemplateSchema = z.object({
+  testId: z
+    .string({ required_error: 'Test is required.' })
+    .trim()
+    .min(1, { message: 'Test is required.' }),
+  parameters: z.array(AdminTestTemplateParameterSchema).min(1, {
+    message: 'At least one parameter is required.'
+  })
+});
+
 export type TAdminSingleTestSchema = z.infer<typeof AdminSingleTestSchema>;
 
 export type TAdminPackageTestSchema = z.infer<typeof AdminPackageTestSchema>;
+
+export type TAdminTestTemplateSchema = z.infer<typeof AdminTestTemplateSchema>;

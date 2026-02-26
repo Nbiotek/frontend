@@ -47,6 +47,21 @@ export const superAdmin = {
     };
   },
 
+  getTestTemplates() {
+    return {
+      path: SUPER_ADMIN.TEST_TEMPLATES,
+      keys: () => [SUPER_ADMIN.TEST_TEMPLATES] as const
+    };
+  },
+
+  getTestTemplateById(testId: string) {
+    return {
+      path: SUPER_ADMIN.TEST_TEMPLATES,
+      keys: () => [SUPER_ADMIN.TEST_TEMPLATES, testId] as const,
+      params: { testId }
+    };
+  },
+
   getTestResultChart(query: TChartQuery) {
     return {
       path: SUPER_ADMIN.RESULT_CHART,
