@@ -88,7 +88,8 @@ export const LAB_TECH = {
   ARCHIVED_RESULTS: '/lab-technicians/archived-test-results',
   HISTORY_QC: '/lab-technicians/quality-control-history',
   UPDATE_TEST_STATUS: '/lab-technicians/test-requests/:id/status',
-  UPADTE_AVAILABILITY: '/lab-technicians/update-availability'
+  UPADTE_AVAILABILITY: '/lab-technicians/update-availability',
+  TEST_TEMPLATES: '/test-templates'
 } as const;
 
 export const LAB_COORD = {
@@ -141,6 +142,7 @@ export const SUPER_ADMIN = {
   STATS: '/super-admin/dashboard/stats',
   USERS: '/super-admin/users',
   ADD_USER: '/super-admin/add-user',
+  PATIENTS: '/users/patient/all',
   SINGLE_TEST: '/tests/all-tests',
   PACKAGE_TEST: '/admin/package-tests',
   SINGLE_PACKAGE_TEST: '/tests/single-package-tests/:id',

@@ -167,3 +167,24 @@ type TAvailabiltyData = {
   status: string;
   lastUpdate: string;
 };
+
+type TTestTemplateParameter = {
+  id: string;
+  templateId: string;
+  name: string;
+  measurementUnit: string;
+  referenceRange: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TTestTemplateItem = {
+  id: string;
+  testId: string;
+  testName: string;
+  createdAt: string;
+  updatedAt: string;
+  parameters: TTestTemplateParameter[];
+};
+
+type TTestTemplatesResp = TTestTemplateItem[];
