@@ -7,7 +7,7 @@ import Status from '@/atoms/Buttons/Status';
 export const columns: ColumnDef<TAdminPatientItem>[] = [
   {
     id: 'serialNo',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Serial No" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Patient ID" />,
     cell: ({ row }) => {
       return <div className="font-medium">{row.original.patientSerialNo}</div>;
     },
