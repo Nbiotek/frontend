@@ -37,7 +37,8 @@ import { de } from 'date-fns/locale';
 import { TAdminCreatePartnerSchema } from '@/app/(modules)/admin/content-management/partners/validation';
 
 export enum EnumAdminQueryType {
-  USERS = 'USERS'
+  USERS = 'USERS',
+  PATIENTS = 'PATIENTS'
 }
 
 const INIT_IS_LOADING = {
@@ -60,8 +61,9 @@ export type TAdminHeroCarousel = {
 class AdminStore {
   rootStore: RootStore;
   defaultquery = { limit: 10, page: 1 };
-  queries: Record<EnumAdminQueryType, Partial<TGeneralPaginatedQuery>> = {
-    [EnumAdminQueryType.USERS]: { ...this.defaultquery }
+  queries: Record<EnumAdminQueryType, Partial<TGeneralPaginatedQuery | TAdminPatientQuery>> = {
+    [EnumAdminQueryType.USERS]: { ...this.defaultquery },
+    [EnumAdminQueryType.PATIENTS]: { ...this.defaultquery }
   };
   isLoading = { ...INIT_IS_LOADING };
   errors = initializer(this.isLoading, '');
@@ -98,7 +100,7 @@ class AdminStore {
   }
 
   applyQuery(
-    _query: Partial<TGeneralPaginatedQuery>,
+    _query: Partial<TGeneralPaginatedQuery | TAdminPatientQuery>,
     dataType: EnumAdminQueryType = EnumAdminQueryType.USERS
   ) {
     this.queries[dataType] = { ...this.queries[dataType], ..._query };

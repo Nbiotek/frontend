@@ -367,6 +367,12 @@ class Routes {
     'Super Admin user management',
     [EnumRole.SUPER_ADMIN]
   );
+  SUPER_ADMIN_PATIENT_MANAGEMENT = new Route(
+    '/admin/patient-management',
+    'Patients',
+    'Super Admin patient management',
+    [EnumRole.SUPER_ADMIN]
+  );
   SUPER_ADMIN_CONTENT_MANAGEMENT = new Route(
     '/admin/content-management',
     'Content',

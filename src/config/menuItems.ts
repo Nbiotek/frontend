@@ -232,6 +232,11 @@ export const menuConfig: Record<string, MenuItem[]> = {
       icon: User2Icon
     },
     {
+      title: ROUTES.SUPER_ADMIN_PATIENT_MANAGEMENT.title,
+      url: ROUTES.SUPER_ADMIN_PATIENT_MANAGEMENT.path,
+      icon: UsersIcon
+    },
+    {
       title: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.title,
       url: ROUTES.SUPER_ADMIN_CONTENT_MANAGEMENT.path,
       icon: FolderPenIcon

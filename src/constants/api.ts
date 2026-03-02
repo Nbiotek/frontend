@@ -141,6 +141,7 @@ export const SUPER_ADMIN = {
   STATS: '/super-admin/dashboard/stats',
   USERS: '/super-admin/users',
   ADD_USER: '/super-admin/add-user',
+  PATIENTS: '/users/patient/all',
   SINGLE_TEST: '/tests/all-tests',
   PACKAGE_TEST: '/admin/package-tests',
   SINGLE_PACKAGE_TEST: '/tests/single-package-tests/:id',

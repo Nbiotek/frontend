@@ -174,3 +174,40 @@ type TAdminTestQuery = TGeneralPaginatedQuery & {
   status: string;
   search?: string;
 };
+
+type TAdminPatientQuery = TGeneralPaginatedQuery & {
+  search?: string;
+  status?: string;
+};
+
+type TAdminPatientItem = {
+  id: string;
+  patientSerialNo: string;
+  email: string | null;
+  isProfileCompleted: boolean;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  profilePhoto: string;
+  createdAt: string;
+  updatedAt: string;
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  profileStatus: string;
+  role: string;
+  patientPersonal: {
+    id: string;
+    maritalStatus: string | null;
+    gender: string;
+    dateOfBirth: string;
+    weight: string | null;
+    height: string | null;
+    primaryCarePhysician: string | null;
+  } | null;
+  appointments: Array<any>;
+};
+
+type TAdminPatientsResp = {
+  patients: Array<TAdminPatientItem>;
+  pagination: TPaginationResponse;
+};
