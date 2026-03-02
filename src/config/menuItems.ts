@@ -148,6 +148,12 @@ export const menuConfig: Record<string, MenuItem[]> = {
       isNestable: true
     },
     {
+      title: ROUTES.LAB_TECH_TEST_TEMPLATES.title,
+      url: ROUTES.LAB_TECH_TEST_TEMPLATES.path,
+      icon: FileText,
+      isNestable: true
+    },
+    {
       title: ROUTES.LAB_TECH_RESULT_HISTORY.title,
       icon: Book,
       url: ROUTES.LAB_TECH_RESULT_HISTORY.path,

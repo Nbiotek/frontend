@@ -215,6 +215,12 @@ class Routes {
     'Lab Technician Tests Result',
     [EnumRole.LAB_TECHNICIAN]
   );
+  LAB_TECH_TEST_TEMPLATES = new Route(
+    '/lab-tech/test-templates',
+    'Test Templates',
+    'Lab Technician Test Templates',
+    [EnumRole.LAB_TECHNICIAN]
+  );
   LAB_TECH_SUPPORT_CONTACT = new Route(
     '/lab-tech/sh/contact',
     'Contact',
