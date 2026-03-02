@@ -43,7 +43,7 @@ const PatientsRegTable = ({ isLoading, patient }: IPatientsRegTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Serial No.</TableHead>
+            <TableHead>Patient ID.</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone number</TableHead>
