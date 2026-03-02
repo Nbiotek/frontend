@@ -215,6 +215,12 @@ class Routes {
     'Lab Technician Tests Result',
     [EnumRole.LAB_TECHNICIAN]
   );
+  LAB_TECH_TEST_TEMPLATES = new Route(
+    '/lab-tech/test-templates',
+    'Test Templates',
+    'Lab Technician Test Templates',
+    [EnumRole.LAB_TECHNICIAN]
+  );
   LAB_TECH_SUPPORT_CONTACT = new Route(
     '/lab-tech/sh/contact',
     'Contact',
@@ -365,6 +371,12 @@ class Routes {
     '/admin/user-management',
     'User',
     'Super Admin user management',
+    [EnumRole.SUPER_ADMIN]
+  );
+  SUPER_ADMIN_PATIENT_MANAGEMENT = new Route(
+    '/admin/patient-management',
+    'Patients',
+    'Super Admin patient management',
     [EnumRole.SUPER_ADMIN]
   );
   SUPER_ADMIN_CONTENT_MANAGEMENT = new Route(

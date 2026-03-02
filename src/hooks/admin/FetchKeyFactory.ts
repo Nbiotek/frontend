@@ -118,5 +118,13 @@ export const superAdmin = {
       path: SUPER_ADMIN.DOCTORS_FEES,
       keys: () => [SUPER_ADMIN.DOCTORS_FEES]
     };
+  },
+
+  getPatients(query: Partial<TAdminPatientQuery>) {
+    return {
+      path: SUPER_ADMIN.PATIENTS,
+      keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PATIENTS, query] as const,
+      params: query
+    };
   }
 };
