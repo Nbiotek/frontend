@@ -5,7 +5,7 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '@/components/ui/form';
 import { AdminTestTemplateSchema, TAdminTestTemplateSchema } from './validation';
-import { Button } from '@/components/ui/button';
+import Button from '@/atoms/Buttons';
 import { Loader, Plus, Trash2 } from 'lucide-react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { SUPER_ADMIN } from '@/constants/api';
@@ -37,7 +37,7 @@ const AdminTestTemplateModal = () => {
     reValidateMode: 'onSubmit'
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, prepend } = useFieldArray({
     control: form.control,
     name: 'parameters'
   });
@@ -78,7 +78,7 @@ const AdminTestTemplateModal = () => {
   };
 
   const handleAddParameter = () => {
-    append({ name: '', measurement_unit: '', reference_range: '' });
+    prepend({ name: '', measurement_unit: '', reference_range: '' });
   };
 
   useEffect(() => {
@@ -144,9 +144,14 @@ const AdminTestTemplateModal = () => {
                 )}
               />
 
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-medium text-neutral-700">Parameters</h4>
-                <Button type="button" variant="outline" onClick={handleAddParameter}>
+              <div className="mb-2 mt-2 flex items-center justify-between">
+                <h4 className="flex-1 text-sm font-medium  text-neutral-700">Parameters</h4>
+                <Button
+                  type="button"
+                  variant="filled"
+                  onClick={handleAddParameter}
+                  className="max-w-40"
+                >
                   <Plus size={16} /> Add parameter
                 </Button>
               </div>
@@ -161,8 +166,8 @@ const AdminTestTemplateModal = () => {
                       {fields.length > 1 && (
                         <Button
                           type="button"
-                          variant="outline"
-                          className="border-red-200 text-red-500"
+                          variant="outlined"
+                          className="max-w-40 border-red-200 text-red-500"
                           onClick={() => remove(index)}
                         >
                           <Trash2 size={14} /> Remove
@@ -203,10 +208,15 @@ const AdminTestTemplateModal = () => {
             </fieldset>
 
             <div className="flex items-center justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={handleCloseModal}>
+              <Button type="button" variant="danger" onClick={handleCloseModal}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-400" disabled={mutation.isPending}>
+              <Button
+                type="submit"
+                variant="filled"
+                className="bg-blue-400"
+                disabled={mutation.isPending}
+              >
                 {mutation.isPending && <Loader className="animate-spin" />}
                 {data ? 'Update' : 'Create'}
               </Button>
