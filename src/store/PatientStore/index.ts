@@ -166,7 +166,7 @@ class PatientStore {
     }
   }
 
-  *updatePatient(cb?: (url: string) => void) {
+  *updatePatient(cb?: (url: string) => void, userId?: string) {
     this.isLoading.regPatient = true;
     try {
       const payload: Partial<TPatientRegPayload> = {
@@ -177,7 +177,9 @@ class PatientStore {
 
       const {
         data: { message }
-      } = (yield putRegPatient(payload)) as { data: INBTServerResp<{ access_token: string }> };
+      } = (yield putRegPatient(payload, userId)) as {
+        data: INBTServerResp<{ access_token: string }>;
+      };
 
       toast.success(message);
       this.resetPatientStore();
