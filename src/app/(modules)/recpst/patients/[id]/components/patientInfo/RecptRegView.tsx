@@ -46,7 +46,7 @@ const RecptRegView = ({ patientData }: { patientData: TPatientInfoResp }) => {
   });
 
   const onSubmit: SubmitHandler<TPatientInsuranceSchema> = async (formData) => {
-    setInsuranceInfo(formData, () => updatePatient());
+    setInsuranceInfo(formData, () => updatePatient(undefined, patientData.id));
   };
 
   const switchDetails = (key: EnumPatientForm) => {

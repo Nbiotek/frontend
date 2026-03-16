@@ -43,7 +43,7 @@ export const postRegPatient = (payload: TPatientRegPayload) => {
 };
 
 // put
-export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
+export const putRegPatient = (payload: Partial<TPatientRegPayload>, userId?: string) => {
   type TPatientPersonal = {
     firstName: string;
     lastName: string;
@@ -94,7 +94,7 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
   if (payload.personal?.lastName) patientPersonal.lastName = payload.personal.lastName;
   if (payload.personal?.email) patientPersonal.email = payload.personal.email;
   if (payload.personal?.dateOfBirth)
-    patientPersonal.dateOfBirth = payload.personal.dateOfBirth.toDateString();
+    patientPersonal.dateOfBirth = payload.personal.dateOfBirth.toISOString();
   if (payload.personal?.gender) patientPersonal.gender = payload.personal.gender;
   if (payload.personal?.height) patientPersonal.height = Number(payload.personal.height);
   if (payload.personal?.weight) patientPersonal.weight = Number(payload.personal.weight);
@@ -143,7 +143,11 @@ export const putRegPatient = (payload: Partial<TPatientRegPayload>) => {
     Object.entries(finalPayload).filter(([_, value]) => value !== undefined)
   );
 
-  return server.put<INBTServerResp<string>>(AUTH.UPDATE_PATIENT_PROFILE, cleanPayload);
+  return server.put<INBTServerResp<string>>(
+    AUTH.UPDATE_PATIENT_PROFILE,
+    cleanPayload,
+    userId ? { params: { userId } } : undefined
+  );
 };
 
 // get
