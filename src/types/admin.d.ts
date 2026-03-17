@@ -133,6 +133,28 @@ type TAdminTestimonial = {
   updatedAt: string;
 };
 
+type TAdminTestimonialLandingItem = {
+  id: string;
+  description: string;
+  author: {
+    fullName: string;
+    role: string;
+    profilePhoto?: string;
+  };
+  rating: number;
+  status: string;
+  media: Array<{
+    file_url: string;
+    mime_type: string;
+    bucket: string;
+    uuid: string;
+  }>;
+};
+
+type TAdminTestimonialLandingResp = {
+  carousel: Array<TAdminTestimonialLandingItem>;
+};
+
 type TAdminTestimonialResp = {
   testimonials: Array<TAdminTestimonial>;
   pagination: TPaginationResponse;
@@ -154,6 +176,20 @@ type TAdminPartnerItem = {
 type TAdminPartnerResp = {
   partners: Array<TAdminPartnerItem>;
   pagination: TPaginationResponse;
+};
+
+type TAdminPartnerLandingItem = {
+  id: string;
+  media: Array<{
+    file_url: string;
+    mime_type: string;
+    bucket: string;
+    uuid: string;
+  }>;
+};
+
+type TAdminPartnerLandingResp = {
+  carousel: Array<TAdminPartnerLandingItem>;
 };
 
 type TAdminDoctorFeeItem = {

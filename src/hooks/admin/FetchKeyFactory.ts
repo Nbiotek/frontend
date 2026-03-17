@@ -99,6 +99,13 @@ export const superAdmin = {
     };
   },
 
+  getTestimonialsLanding() {
+    return {
+      path: SUPER_ADMIN.TESTIMONIALS_LANDING,
+      keys: () => [SUPER_ADMIN.TESTIMONIALS_LANDING]
+    };
+  },
+
   getTestimonialId(id: string) {
     return {
       path: SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id),
@@ -110,6 +117,13 @@ export const superAdmin = {
     return {
       path: SUPER_ADMIN.CONTENT_PARTNERS,
       keys: () => [SUPER_ADMIN.CONTENT_PARTNERS]
+    };
+  },
+
+  getPartnersLanding() {
+    return {
+      path: SUPER_ADMIN.CONTENT_PARTNERS_LANDING,
+      keys: () => [SUPER_ADMIN.CONTENT_PARTNERS_LANDING]
     };
   },
 

@@ -164,8 +164,10 @@ export const SUPER_ADMIN = {
   CREATE_LANDING: '/super-admin/content-hero-sections',
   SINGLE_LANDING: '/super-admin/content-hero-sections/:id',
   TESTIMONIALS: '/super-admin/content-testimonials',
+  TESTIMONIALS_LANDING: '/super-admin/content-testimonials/landing',
   SINGLE_TESTIMONIAL: '/super-admin/content-testimonials/:id',
   CONTENT_PARTNERS: '/super-admin/content-partners',
+  CONTENT_PARTNERS_LANDING: '/super-admin/content-partners/landing',
   DOCTORS_FEES: '/super-admin/features',
   UPDATE_DOCTOR_FEE: '/super-admin/features/:id'
 };

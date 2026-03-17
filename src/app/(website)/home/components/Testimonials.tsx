@@ -1,66 +1,21 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-const testimonials = [
-  {
-    id: 1,
-    quote:
-      'NBIOTEK LABS has transformed how I receive healthcare. The telehealth service allowed me to consult with a specialist without traveling, and my test results were delivered promptly with clear explanations. Outstanding service!',
-    name: 'Adaeze Okonkwo',
-    role: 'Patient',
-    avatar: '/avatar.jpg',
-    rating: 5
-  },
-  {
-    id: 2,
-    quote:
-      'As a physician, I rely on accurate diagnostics to make informed decisions. NBIOTEK LABS consistently delivers precise results with fast turnaround times. Their commitment to excellence is evident in every interaction.',
-    name: 'Dr. Chukwuemeka Nwosu',
-    role: 'Doctor',
-    avatar: '/avatar.jpg',
-    rating: 5
-  },
-  {
-    id: 3,
-    quote:
-      'The R&D facilities at NBIOTEK are world-class. As a researcher, I appreciate their state-of-the-art equipment and supportive environment. They are truly advancing medical science in Nigeria.',
-    name: 'Prof. Amina Bello',
-    role: 'Researcher',
-    avatar: '/avatar.jpg',
-    rating: 5
-  },
-  {
-    id: 4,
-    quote:
-      'From booking my test online to receiving results through their digital platform, everything was seamless. The staff was compassionate and professional. I highly recommend NBIOTEK LABS to anyone seeking quality healthcare.',
-    name: 'Oluwaseun Adeleke',
-    role: 'Patient',
-    avatar: '/avatar.jpg',
-    rating: 5
-  },
-  {
-    id: 5,
-    quote:
-      'NBIOTEK LABS understands that patient care comes first. Their modern technology combined with a personal touch makes them stand out. They have set a new standard for diagnostic services in Nigeria.',
-    name: 'Dr. Funmilayo Ibrahim',
-    role: 'Doctor',
-    avatar: '/avatar.jpg',
-    rating: 5
-  },
-  {
-    id: 6,
-    quote:
-      'I was impressed by the accuracy and reliability of my test results. The team at NBIOTEK took time to explain everything, making me feel confident about my health decisions. Truly patient-centered care.',
-    name: 'Chidinma Okoro',
-    role: 'Patient',
-    avatar: '/avatar.jpg',
-    rating: 5
-  }
-];
+import { useFetchTestimonialsLanding } from '@/hooks/admin/useFetchTestimonialsLanding';
 
 const TestimonialSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsToShow, setCardsToShow] = useState(3);
+  const { data, isLoading } = useFetchTestimonialsLanding();
+  const testimonials = data?.carousel ?? [];
+  const visibleCount = Math.min(cardsToShow, testimonials.length || 1);
+
+  useEffect(() => {
+    if (currentIndex >= testimonials.length) {
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, testimonials.length]);
 
   // Responsive handling - update cards to show based on screen size
   useEffect(() => {
@@ -82,16 +37,17 @@ const TestimonialSlider = () => {
   }, []);
 
   // Calculate visible indices based on cards to show
-  const visibleIndices = Array.from(
-    { length: cardsToShow },
-    (_, i) => (currentIndex + i) % testimonials.length
-  );
+  const visibleIndices = testimonials.length
+    ? Array.from({ length: visibleCount }, (_, i) => (currentIndex + i) % testimonials.length)
+    : [];
 
   const handlePrev = () => {
+    if (testimonials.length <= 1) return;
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
   };
 
   const handleNext = () => {
+    if (testimonials.length <= 1) return;
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
   };
 
@@ -128,6 +84,7 @@ const TestimonialSlider = () => {
               onClick={handlePrev}
               className="rounded-full border border-neutral-300 p-1.5 transition hover:bg-green-400 hover:text-white sm:p-2"
               aria-label="Previous testimonial"
+              disabled={testimonials.length <= 1}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,6 +105,7 @@ const TestimonialSlider = () => {
               onClick={handleNext}
               className="rounded-full border border-neutral-300 p-1.5 transition hover:bg-green-400 hover:text-white sm:p-2"
               aria-label="Next testimonial"
+              disabled={testimonials.length <= 1}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -168,49 +126,93 @@ const TestimonialSlider = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {/* {visibleIndices.map((index) => {
-            const testimonial = testimonials[index];
-            return (
+          {isLoading ? (
+            Array.from({ length: cardsToShow }).map((_, idx) => (
               <div
-                key={testimonial.id}
-                className="rounded-lg bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:p-5 md:p-6"
+                key={`testimonial-skeleton-${idx}`}
+                className="rounded-lg bg-white p-4 shadow-sm sm:p-5 md:p-6"
               >
-                <div className="mb-3 sm:mb-4">
-                  <svg
-                    className="h-6 w-6 text-green-400/30 sm:h-7 sm:w-7 md:h-8 md:w-8"
-                    fill="currentColor"
-                    viewBox="0 0 32 32"
-                    aria-hidden="true"
-                  >
-                    <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                  </svg>
+                <div className="mb-3 h-4 w-10 rounded bg-neutral-200 sm:mb-4" />
+                <div className="space-y-2">
+                  <div className="h-3 w-full rounded bg-neutral-200" />
+                  <div className="h-3 w-5/6 rounded bg-neutral-200" />
+                  <div className="h-3 w-2/3 rounded bg-neutral-200" />
                 </div>
-                <p className="text-gray-600 mb-4 text-sm sm:mb-5 sm:text-base md:mb-6">
-                  {testimonial.quote}
-                </p>
-                <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="mt-4 flex items-center justify-between">
                   <div className="flex items-center">
-                    <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full sm:mr-3 sm:h-10 sm:w-10">
-                      <Image
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        width={40}
-                        height={40}
-                        className="object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="text-gray-900 text-sm font-medium sm:text-base">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-gray-500 text-xs sm:text-sm">{testimonial.role}</p>
+                    <div className="mr-2 h-8 w-8 rounded-full bg-neutral-200 sm:mr-3 sm:h-10 sm:w-10" />
+                    <div className="space-y-2">
+                      <div className="h-3 w-24 rounded bg-neutral-200" />
+                      <div className="h-3 w-16 rounded bg-neutral-200" />
                     </div>
                   </div>
-                  <div className="flex">{renderStars(testimonial.rating)}</div>
+                  <div className="h-3 w-20 rounded bg-neutral-200" />
                 </div>
               </div>
-            );
-          })} */}
+            ))
+          ) : testimonials.length === 0 ? (
+            <div className="col-span-full rounded-lg bg-white p-6 text-center text-sm text-neutral-600 shadow-sm">
+              No testimonials available yet.
+            </div>
+          ) : (
+            visibleIndices.map((index, slotIndex) => {
+              const testimonial = testimonials[index];
+              const avatarSrc =
+                testimonial.media?.[0]?.file_url || testimonial.author?.profilePhoto || '';
+              return (
+                <div
+                  key={`${testimonial.id}-${slotIndex}`}
+                  className="rounded-lg bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:p-5 md:p-6"
+                >
+                  <div className="mb-3 sm:mb-4">
+                    <svg
+                      className="h-6 w-6 text-green-400/30 sm:h-7 sm:w-7 md:h-8 md:w-8"
+                      fill="currentColor"
+                      viewBox="0 0 32 32"
+                      aria-hidden="true"
+                    >
+                      <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+                    </svg>
+                  </div>
+                  <p className="text-gray-600 mb-4 text-sm sm:mb-5 sm:text-base md:mb-6">
+                    {testimonial.description}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center">
+                      <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full bg-neutral-200 sm:mr-3 sm:h-10 sm:w-10">
+                        {avatarSrc ? (
+                          <Image
+                            src={avatarSrc}
+                            alt={testimonial.author.fullName}
+                            width={40}
+                            height={40}
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-neutral-600">
+                            {testimonial.author.fullName
+                              .split(' ')
+                              .map((part) => part[0])
+                              .join('')
+                              .slice(0, 2)}
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <h4 className="text-gray-900 text-sm font-medium sm:text-base">
+                          {testimonial.author.fullName}
+                        </h4>
+                        <p className="text-gray-500 text-xs sm:text-sm">
+                          {testimonial.author.role}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex">{renderStars(testimonial.rating || 0)}</div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
 
         <div className="mt-4 flex justify-center space-x-1 sm:mt-6 md:hidden">

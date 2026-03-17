@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: getHostnameFromUrl(env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL || ''),
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: getHostnameFromUrl(env.S3_PUB_LAB_ACCESS_URL || ''),
+        pathname: '/**'
       }
     ]
   }

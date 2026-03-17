@@ -67,7 +67,31 @@ export const postCreateTestimonial = async (payload: TAdminTestimonialSchema) =>
 };
 
 export const postCreatePartner = async (payload: TAdminCreatePartnerSchema) => {
-  server.post(SUPER_ADMIN.CONTENT_PARTNERS, payload);
+  const status = payload.status?.toUpperCase();
+  const normalizedMedia = payload.media.map((item) => {
+    const file = item.file as {
+      file_url?: string;
+      file?: string;
+      mime_type?: string;
+      bucket?: string;
+      uuid?: string;
+    };
+    if (!file) return item;
+
+    const fileUrl = file.file_url ?? file.file;
+    if (!fileUrl || !file.bucket || !file.mime_type || !file.uuid) return item;
+
+    return {
+      file: {
+        bucket: file.bucket,
+        file: fileUrl,
+        mime_type: file.mime_type,
+        uuid: file.uuid
+      }
+    };
+  });
+
+  server.post(SUPER_ADMIN.CONTENT_PARTNERS, { ...payload, status, media: normalizedMedia });
 };
 
 export const postCreateDoctorFee = async (payload: { feature: string; value: string }) =>

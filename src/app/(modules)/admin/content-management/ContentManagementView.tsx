@@ -33,7 +33,7 @@ const ContentManagementView = () => {
                 Testimonials
               </Link>
             </TabsTrigger>
-            <TabsTrigger disabled value={EnumAdminContentMgt.PARTNERS}>
+            <TabsTrigger value={EnumAdminContentMgt.PARTNERS}>
               <Link href={`?tab=${EnumAdminContentMgt.PARTNERS}`} shallow prefetch>
                 Partners
               </Link>
