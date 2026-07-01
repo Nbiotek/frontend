@@ -26,7 +26,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader, Upload } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ECOMMERCE } from '@/constants/api';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AppModals } from '@/store/AppConfig/appModalTypes';
 import FilePreview from '@/components/common/FileUpload/FilePreview';
 import { TRemoteFile } from '@/app/(modules)/lab-tech/tests/components/validation';
@@ -57,31 +57,70 @@ const CreateProductModal = () => {
     reValidateMode: 'onSubmit'
   });
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'imageFiles'
   });
 
   const imageFiles = useWatch({ control: form.control, name: 'imageFiles' });
 
-  // Called by FilePreview once S3 upload completes — replaces File with the remote file object
-  const handleUpdate = (index: number, remoteFile: TRemoteFile) => {
-    update(index, { file: remoteFile });
-  };
+  // ── Stable refs so handleUpdate/handleRemove never change reference ─────────
+  // FilePreview's useEffect lists `update` and `remove` as deps. If their
+  // references change after an upload, the effect re-runs and triggers a
+  // second upload. Using refs keeps those references rock-solid.
+  const fieldsRef = useRef(fields);
+  useLayoutEffect(() => {
+    fieldsRef.current = fields;
+  }, [fields]);
 
-  const handleRemove = (idx: number) => {
-    remove(idx);
-  };
+  const removeRef = useRef(remove);
+  useLayoutEffect(() => {
+    removeRef.current = remove;
+  }, [remove]);
 
-  // Receives raw File[] from the file picker modal, appends them to the field array
+  // Upload results keyed by stable field ID (not index, which shifts on removal)
+  const uploadedRef = useRef<Record<string, TRemoteFile>>({});
+  const [uploadedMap, setUploadedMap] = useState<Record<string, TRemoteFile>>({});
+
+  // Called by FilePreview when S3 upload completes.
+  // We do NOT call useFieldArray.update() here — that would change the `file`
+  // prop and cause FilePreview's useEffect to re-run (infinite re-upload).
+  const handleUpdate = useCallback((index: number, remoteFile: TRemoteFile) => {
+    const id = fieldsRef.current[index]?.id;
+    if (!id) return;
+    uploadedRef.current[id] = remoteFile;
+    setUploadedMap({ ...uploadedRef.current });
+  }, []);
+
+  const handleRemove = useCallback((idx: number) => {
+    const id = fieldsRef.current[idx]?.id;
+    if (id) {
+      delete uploadedRef.current[id];
+      setUploadedMap({ ...uploadedRef.current });
+    }
+    removeRef.current(idx);
+  }, []);
+
+  // Auto-populate uploadedMap for remote files already in the form (edit mode)
+  useEffect(() => {
+    let changed = false;
+    fields.forEach(({ id }, idx) => {
+      const fileVal = imageFiles?.[idx]?.file;
+      if (fileVal && !(fileVal instanceof File) && !uploadedRef.current[id]) {
+        uploadedRef.current[id] = fileVal as TRemoteFile;
+        changed = true;
+      }
+    });
+    if (changed) setUploadedMap({ ...uploadedRef.current });
+  }, [fields, imageFiles]);
+
+  // Block submit while any field still lacks an uploaded remote file
+  const hasUnprocessedImages = fields.some(({ id }) => !uploadedMap[id]);
+
   const handlerFn = (_files: File[]) => {
     append(_files.map((file) => ({ file })));
     toggleModals({ name: AppModals.FILE_UPLOAD_MODAL, open: false });
   };
-
-  // Block submit while any file is still a raw File (upload in progress)
-  const hasUnprocessedImages =
-    Array.isArray(imageFiles) && imageFiles.some((item) => item?.file instanceof File);
 
   const invalidateProducts = () =>
     queryClient.invalidateQueries({
@@ -121,12 +160,8 @@ const CreateProductModal = () => {
   const isLoading = createMutation.isPending || updateMutation.isPending;
 
   const onSubmit: SubmitHandler<TCreateProductSchema> = (formData) => {
-    // Extract the URL string from each completed TRemoteFile
-    const imageUrls = (formData.imageFiles ?? [])
-      .map((item) => {
-        const remote = item.file as TRemoteFile;
-        return remote?.file ?? null;
-      })
+    const imageUrls = fields
+      .map(({ id }) => uploadedMap[id]?.file)
       .filter((url): url is string => Boolean(url));
 
     const payload = {
@@ -147,6 +182,8 @@ const CreateProductModal = () => {
 
   const handleCloseModal = () => {
     form.reset();
+    uploadedRef.current = {};
+    setUploadedMap({});
     toggleModals();
   };
 
@@ -173,6 +210,8 @@ const CreateProductModal = () => {
         imageFiles: []
       });
     }
+    uploadedRef.current = {};
+    setUploadedMap({});
   }, [isEditMode, productModal, form]);
 
   return (
@@ -301,17 +340,21 @@ const CreateProductModal = () => {
 
               {fields.length > 0 && (
                 <div className="mt-2 flex w-full flex-wrap gap-3">
-                  {fields.map(({ id }, idx) => (
-                    <FilePreview
-                      key={id}
-                      file={imageFiles?.[idx]?.file as any}
-                      id={id}
-                      idx={idx}
-                      bucket="cloudinary"
-                      remove={handleRemove}
-                      update={handleUpdate}
-                    />
-                  ))}
+                  {fields.map(({ id }, idx) => {
+                    const fileValue = imageFiles?.[idx]?.file;
+                    if (fileValue == null) return null;
+                    return (
+                      <FilePreview
+                        key={id}
+                        file={fileValue as any}
+                        id={id}
+                        idx={idx}
+                        bucket="cloudinary"
+                        remove={handleRemove}
+                        update={handleUpdate}
+                      />
+                    );
+                  })}
                 </div>
               )}
             </div>

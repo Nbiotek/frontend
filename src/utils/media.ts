@@ -20,8 +20,10 @@ export async function computeSHA256(file: File) {
 
 // Fixes malformed R2 URLs where the slash between domain and key was omitted
 // e.g. "https://pub-xxx.r2.devfilename" → "https://pub-xxx.r2.dev/filename"
+// Blob/data URLs are returned as-is — prepending https:// would make them invalid.
 export function normalizeFileUrl(url: string): string {
   if (!url) return '';
+  if (url.startsWith('blob:') || url.startsWith('data:')) return url;
   const withProtocol = url.startsWith('http') ? url : `https://${url}`;
   return withProtocol.replace(/(r2\.dev)(?!\/)/, '$1/');
 }
