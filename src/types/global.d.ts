@@ -39,7 +39,7 @@ type TPaginationResponse = {
 };
 type TOption = { value: string; label: string; disable?: boolean };
 
-type TGeneralPaginatedQuery = { page: number; limit: number };
+type TGeneralPaginatedQuery = { page: number; limit: number; status?: string };
 
 type TProfileInfo = {
   id: number;
@@ -68,6 +68,7 @@ interface IQueryHookResponse<T> {
   isLoading: boolean;
   error: unknown;
   status: 'error' | 'success' | 'pending';
+  refetch?: () => void;
 }
 
 interface IMedia {

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { normalizeFileUrl } from '@/utils/media';
 import { Text } from '@/lib/utils/Text';
 import { Button } from '@/components/ui/button';
 import { useStore } from '@/store';
@@ -46,7 +47,7 @@ const HeroCarousel = ({ carousel }: IHeroCarouselProps) => {
       </div>
       <figure className="aspect-landscape w-full">
         <Image
-          src={media[0].file_url}
+          src={normalizeFileUrl(media[0].file_url)}
           priority
           quality={100}
           fill

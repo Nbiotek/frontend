@@ -67,11 +67,59 @@ export const postCreateTestimonial = async (payload: TAdminTestimonialSchema) =>
 };
 
 export const postCreatePartner = async (payload: TAdminCreatePartnerSchema) => {
-  server.post(SUPER_ADMIN.CONTENT_PARTNERS, payload);
+  const status = payload.status?.toUpperCase();
+  const normalizedMedia = payload.media.map((item) => {
+    const file = item.file as {
+      file_url?: string;
+      file?: string;
+      mime_type?: string;
+      bucket?: string;
+      uuid?: string;
+    };
+    if (!file) return item;
+
+    const fileUrl = file.file_url ?? file.file;
+    if (!fileUrl || !file.bucket || !file.mime_type || !file.uuid) return item;
+
+    return {
+      file: {
+        bucket: file.bucket,
+        file: fileUrl,
+        mime_type: file.mime_type,
+        uuid: file.uuid
+      }
+    };
+  });
+
+  server.post(SUPER_ADMIN.CONTENT_PARTNERS, { ...payload, status, media: normalizedMedia });
 };
 
 export const postCreateDoctorFee = async (payload: { feature: string; value: string }) =>
   server.post(SUPER_ADMIN.DOCTORS_FEES, payload);
+
+export const postCreateBlogCategory = async (payload: { title: string; status: string }) =>
+  server.post(SUPER_ADMIN.BLOG_CATEGORIES, payload);
+
+export const postCreateBlog = async (payload: {
+  title: string;
+  body: string;
+  categoryId: string;
+  categoryName?: string;
+  featureImageUrl?: string | null;
+  isFeatured: boolean;
+  status: string;
+  reads?: number;
+}) => server.post(SUPER_ADMIN.BLOGS, payload);
+
+export const postCreateBiohub = async (payload: {
+  title: string;
+  body: string;
+  categoryId: string;
+  categoryName?: string;
+  featureImageUrl?: string | null;
+  isFeatured: boolean;
+  status: string;
+}) => server.post(SUPER_ADMIN.BIOHUB, payload);
 
 // put requests
 export const putUpdateSingleTest = async ({
@@ -110,6 +158,38 @@ export const putUpdateDoctorFee = async (
   payload: { feature?: string; value?: string }
 ) => server.put(SUPER_ADMIN.UPDATE_DOCTOR_FEE.replace(':id', id), payload);
 
+export const putUpdateBlogCategory = async (
+  id: string,
+  payload: { title?: string; status?: string }
+) => server.put(SUPER_ADMIN.BLOG_CATEGORY_ID.replace(':id', id), payload);
+
+export const putUpdateBlog = async (
+  id: string,
+  payload: {
+    title?: string;
+    body?: string;
+    categoryId?: string;
+    categoryName?: string;
+    featureImageUrl?: string | null;
+    isFeatured?: boolean;
+    status?: string;
+    reads?: number;
+  }
+) => server.put(SUPER_ADMIN.BLOG_ID.replace(':id', id), payload);
+
+export const putUpdateBiohub = async (
+  id: string,
+  payload: {
+    title?: string;
+    body?: string;
+    categoryId?: string;
+    categoryName?: string;
+    featureImageUrl?: string | null;
+    isFeatured?: boolean;
+    status?: string;
+  }
+) => server.put(SUPER_ADMIN.BIOHUB_ID.replace(':id', id), payload);
+
 export const suspendUser = async (id: string) =>
   server.put(SUPER_ADMIN.SUSPEND_USER.replace(':id', id));
 
@@ -145,3 +225,11 @@ export const delPartner = async (id: string) =>
 
 export const delTestTemplate = async (testId: string) =>
   server.delete(SUPER_ADMIN.TEST_TEMPLATE_ID.replace(':testId', testId));
+
+export const delBlogCategory = async (id: string) =>
+  server.delete(SUPER_ADMIN.BLOG_CATEGORY_ID.replace(':id', id));
+
+export const delBlog = async (id: string) => server.delete(SUPER_ADMIN.BLOG_ID.replace(':id', id));
+
+export const delBiohub = async (id: string) =>
+  server.delete(SUPER_ADMIN.BIOHUB_ID.replace(':id', id));

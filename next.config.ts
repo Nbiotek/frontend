@@ -26,8 +26,30 @@ const nextConfig: NextConfig = {
         pathname: '**'
       },
       {
+        protocol: 'http',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        port: '',
+        pathname: '**'
+      },
+      {
         protocol: 'https',
         hostname: getHostnameFromUrl(env.NEXT_PUBLIC_S3_PUB_LAB_ACCESS_URL || ''),
+        pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: getHostnameFromUrl(env.S3_PUB_LAB_ACCESS_URL || ''),
+        pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
         pathname: '/**'
       }
     ]

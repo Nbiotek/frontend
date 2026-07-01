@@ -113,6 +113,7 @@ export enum EnumNotificationType {
 
 export enum EnumAdminContentMgt {
   BLOG = 'blog',
+  BIOHUB = 'biohub',
   TESTS = 'tests',
   PRODUCTS = 'products',
   HERO = 'hero',

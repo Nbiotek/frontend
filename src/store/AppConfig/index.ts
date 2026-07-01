@@ -81,6 +81,21 @@ class AppConfigStore {
     value: ''
   };
 
+  productModal = {
+    id: '',
+    product: undefined as TProductItem | undefined
+  };
+
+  orderModal = {
+    id: '',
+    order: undefined as TOrderItem | undefined
+  };
+
+  categoryModal = {
+    id: '',
+    category: undefined as TProductCategoryItem | undefined
+  };
+
   constructor(_rootStore: RootStore) {
     makeObservable(this, {
       isOpen: observable,
@@ -102,6 +117,9 @@ class AppConfigStore {
       fileModalUpload: observable,
       partnerModal: observable,
       doctorFeeModal: observable,
+      productModal: observable,
+      orderModal: observable,
+      categoryModal: observable,
 
       addFiles: action.bound,
       removeFiles: action.bound,
@@ -332,6 +350,34 @@ class AppConfigStore {
           this.doctorFeeModal.id = modal.id;
         }
         break;
+
+      case AppModals.ADMIN_CREATE_PRODUCT:
+        if (modal.open) {
+          this.productModal.id = modal.id;
+          this.productModal.product = modal.product;
+        } else {
+          this.productModal = { id: '', product: undefined };
+        }
+        break;
+
+      case AppModals.ADMIN_VIEW_ORDER:
+        if (modal.open) {
+          this.orderModal.id = modal.id;
+          this.orderModal.order = modal.order;
+        } else {
+          this.orderModal = { id: '', order: undefined };
+        }
+        break;
+
+      case AppModals.ADMIN_CREATE_CATEGORY:
+        if (modal.open) {
+          this.categoryModal.id = modal.id;
+          this.categoryModal.category = modal.category;
+        } else {
+          this.categoryModal = { id: '', category: undefined };
+        }
+        break;
+
       default:
         this.isOpen = { ...INIT_IS_OPEN };
         break;

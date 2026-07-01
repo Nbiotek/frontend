@@ -5,6 +5,7 @@ import FieldSet from '@/atoms/fields/FieldSet';
 import { Paragraph } from '@/atoms/typographys';
 import { IMAGE_FILE_TYPES } from '@/constants';
 import { dateTimeUTC } from '@/utils/date';
+import { normalizeFileUrl } from '@/utils/media';
 import { format } from 'date-fns';
 import VideoPlayer from './VideoPlayer';
 import EmptyState from '../EmptyState';
@@ -203,7 +204,7 @@ const TestDetailsInfo = ({ data }: ITestDetailsInfoProps) => {
                       )}
                       {IMAGE_FILE_TYPES.includes(media.mime_type) ? (
                         <Image
-                          src={media.file_url}
+                          src={normalizeFileUrl(media.file_url)}
                           alt="preview"
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

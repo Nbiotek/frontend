@@ -1,4 +1,4 @@
-import { SUPER_ADMIN } from '@/constants/api';
+import { SUPER_ADMIN, ECOMMERCE } from '@/constants/api';
 import { get } from 'lodash';
 
 export const superAdmin = {
@@ -99,6 +99,13 @@ export const superAdmin = {
     };
   },
 
+  getTestimonialsLanding() {
+    return {
+      path: SUPER_ADMIN.TESTIMONIALS_LANDING,
+      keys: () => [SUPER_ADMIN.TESTIMONIALS_LANDING]
+    };
+  },
+
   getTestimonialId(id: string) {
     return {
       path: SUPER_ADMIN.SINGLE_TESTIMONIAL.replace(':id', id),
@@ -113,10 +120,55 @@ export const superAdmin = {
     };
   },
 
+  getPartnersLanding() {
+    return {
+      path: SUPER_ADMIN.CONTENT_PARTNERS_LANDING,
+      keys: () => [SUPER_ADMIN.CONTENT_PARTNERS_LANDING]
+    };
+  },
+
   getDoctorsFees() {
     return {
       path: SUPER_ADMIN.DOCTORS_FEES,
       keys: () => [SUPER_ADMIN.DOCTORS_FEES]
+    };
+  },
+
+  getBlogCategories(query?: Partial<TGeneralPaginatedQuery>) {
+    return {
+      path: SUPER_ADMIN.BLOG_CATEGORIES,
+      keys: () => [SUPER_ADMIN.BLOG_CATEGORIES, query] as const,
+      params: query
+    };
+  },
+
+  getBlogs(query?: Partial<TGeneralPaginatedQuery>) {
+    return {
+      path: SUPER_ADMIN.BLOGS,
+      keys: () => [SUPER_ADMIN.BLOGS, query] as const,
+      params: query
+    };
+  },
+
+  getBlogById(id: string) {
+    return {
+      path: SUPER_ADMIN.BLOG_ID.replace(':id', id),
+      keys: () => [SUPER_ADMIN.BLOG_ID, id] as const
+    };
+  },
+
+  getBiohubs(query?: Partial<TGeneralPaginatedQuery>) {
+    return {
+      path: SUPER_ADMIN.BIOHUB,
+      keys: () => [SUPER_ADMIN.BIOHUB, query] as const,
+      params: query
+    };
+  },
+
+  getBiohubById(id: string) {
+    return {
+      path: SUPER_ADMIN.BIOHUB_ID.replace(':id', id),
+      keys: () => [SUPER_ADMIN.BIOHUB_ID, id] as const
     };
   },
 
@@ -125,6 +177,56 @@ export const superAdmin = {
       path: SUPER_ADMIN.PATIENTS,
       keys: () => [SUPER_ADMIN.STATS, SUPER_ADMIN.PATIENTS, query] as const,
       params: query
+    };
+  },
+
+  getProductById(id: string) {
+    return {
+      path: ECOMMERCE.PRODUCT_ID.replace(':id', id),
+      keys: () => [ECOMMERCE.PRODUCT_ID, id] as const
+    };
+  },
+
+  getProducts(params?: {
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'ASC' | 'DESC';
+    page?: number;
+    limit?: number;
+    categoryId?: string;
+  }) {
+    return {
+      path: ECOMMERCE.PRODUCTS,
+      keys: () => [ECOMMERCE.PRODUCTS, params] as const,
+      params
+    };
+  },
+
+  getOrders() {
+    return {
+      path: ECOMMERCE.ORDERS,
+      keys: () => [ECOMMERCE.ORDERS] as const
+    };
+  },
+
+  getAdminAllOrders() {
+    return {
+      path: ECOMMERCE.ORDERS_ADMIN,
+      keys: () => [ECOMMERCE.ORDERS_ADMIN] as const
+    };
+  },
+
+  getCart() {
+    return {
+      path: ECOMMERCE.CART,
+      keys: () => [ECOMMERCE.CART] as const
+    };
+  },
+
+  getCategories() {
+    return {
+      path: ECOMMERCE.CATEGORIES,
+      keys: () => [ECOMMERCE.CATEGORIES] as const
     };
   }
 };

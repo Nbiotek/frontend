@@ -102,6 +102,15 @@ const ModalsMap = {
   ),
   [AppModals.DEL_TEST_TEMPLATE_MODAL]: dynamic(
     () => import('@/app/(modules)/admin/content-management/components/modals/DelTestTemplateModal')
+  ),
+  [AppModals.ADMIN_CREATE_PRODUCT]: dynamic(
+    () => import('@/app/(modules)/admin/ecommerce/components/modal/CreateProductModal')
+  ),
+  [AppModals.ADMIN_VIEW_ORDER]: dynamic(
+    () => import('@/app/(modules)/admin/ecommerce/components/modal/ViewOrderModal')
+  ),
+  [AppModals.ADMIN_CREATE_CATEGORY]: dynamic(
+    () => import('@/app/(modules)/admin/ecommerce/components/modal/CreateCategoryModal')
   )
 };
 

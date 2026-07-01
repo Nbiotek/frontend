@@ -13,7 +13,7 @@ import ProgressBar from '@/components/common/Progress';
 import { Toast } from '@/atoms/Toast';
 import VideoPlayer from '@/components/common/VideoPlayer';
 import { GoX } from 'react-icons/go';
-import { computeSHA256 } from '@/utils/media';
+import { computeSHA256, normalizeFileUrl } from '@/utils/media';
 import { deleteFromBucket, getSignedURL } from './actions';
 import axios from 'axios';
 import { env } from '@/env';
@@ -201,7 +201,7 @@ const FilePreview = forwardRef<HTMLDivElement, IFilePreviewProps>(
         />
         {preview && IMAGE_FILE_TYPES.includes(preview.mime_type) ? (
           <Image
-            src={preview?.file ?? null}
+            src={normalizeFileUrl(preview?.file ?? '')}
             alt="preview"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

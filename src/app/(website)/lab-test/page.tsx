@@ -1,7 +1,12 @@
+import { Suspense } from 'react';
 import LabTestView from './LabtestView';
 
 const LabTests = () => {
-  return <LabTestView />;
+  return (
+    <Suspense>
+      <LabTestView />
+    </Suspense>
+  );
 };
 
 export default LabTests;
