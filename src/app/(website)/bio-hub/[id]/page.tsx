@@ -1,13 +1,14 @@
 'use client';
+
 import { use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Clock, ChevronLeft, Eye } from 'lucide-react';
-import { useFetchBlogById } from '@/hooks/admin/useFetchBlogById';
+import { useFetchBiohubById } from '@/hooks/admin/useFetchBiohubById';
 
-const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const BioHubDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
-  const { data, isLoading } = useFetchBlogById(id);
+  const { data, isLoading } = useFetchBiohubById(id);
 
   const getReadTime = (text: string) => {
     const words = text.trim().split(/\s+/).filter(Boolean).length;
@@ -30,7 +31,7 @@ const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> 
       <div className="bg-slate-50 min-h-screen">
         <div className="mx-auto max-w-5xl px-4 py-16">
           <div className="border-emerald-200 text-gray-600 rounded-xl border border-dashed bg-white px-6 py-10 text-center">
-            Loading article...
+            Loading BioHub entry...
           </div>
         </div>
       </div>
@@ -41,15 +42,15 @@ const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> 
     return (
       <div className="bg-slate-50 min-h-screen">
         <div className="mx-auto max-w-5xl px-4 py-16 text-center">
-          <h1 className="text-gray-900 mb-3 text-3xl font-bold">Article not found</h1>
+          <h1 className="text-gray-900 mb-3 text-3xl font-bold">BioHub entry not found</h1>
           <p className="text-gray-600 mb-8">
-            The article you are looking for is unavailable or has been removed.
+            The BioHub update you are looking for is unavailable or has been removed.
           </p>
           <Link
-            href="/whats-new"
+            href="/bio-hub"
             className="hover:bg-emerald-700 bg-emerald-600 inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold text-white shadow-lg transition-all"
           >
-            Back to all articles
+            Back to BioHub
           </Link>
         </div>
       </div>
@@ -60,7 +61,7 @@ const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> 
     <div className="bg-slate-50 min-h-screen">
       <div className="relative h-80 lg:h-[420px]">
         <Image
-          src={data.featureImageUrl || '/blog.png'}
+          src={data.featureImageUrl || '/biohub-featured.png'}
           alt={data.title}
           fill
           className="object-cover"
@@ -94,11 +95,11 @@ const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> 
 
       <div className="mx-auto max-w-5xl px-4 py-12">
         <Link
-          href="/whats-new"
+          href="/bio-hub"
           className="text-emerald-700 hover:text-emerald-900 mb-8 inline-flex items-center font-medium"
         >
           <ChevronLeft size={16} className="mr-1" />
-          Back to all articles
+          Back to BioHub
         </Link>
 
         <div className="rounded-2xl bg-white p-6 shadow-sm md:p-10">
@@ -117,4 +118,4 @@ const SimplifiedBlogDetailPage = ({ params }: { params: Promise<{ id: string }> 
   );
 };
 
-export default SimplifiedBlogDetailPage;
+export default BioHubDetailPage;

@@ -1,7 +1,12 @@
+import { Suspense } from 'react';
 import ContentManagementView from './ContentManagementView';
 
 const ContentManagementViewPage = () => {
-  return <ContentManagementView />;
+  return (
+    <Suspense>
+      <ContentManagementView />
+    </Suspense>
+  );
 };
 
 export default ContentManagementViewPage;

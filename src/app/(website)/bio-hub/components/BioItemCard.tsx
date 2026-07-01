@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 interface BioHubItemProps {
   item: {
-    id: number;
+    id: string;
     title: string;
     image: string;
     description: string;
@@ -34,7 +34,7 @@ export const BioHubCard = ({ item }: BioHubItemProps) => {
 
       <div className="flex flex-1 flex-col space-y-2 p-4 sm:p-3 md:space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-blue-800 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium">
+          <span className="text-emerald-800 bg-emerald-100 rounded-full px-2 py-0.5 text-xs font-medium">
             {item.category}
           </span>
         </div>
@@ -42,7 +42,7 @@ export const BioHubCard = ({ item }: BioHubItemProps) => {
         <p className="text-gray-700 text-sm sm:text-base">{item.description}</p>
         <Link
           href={item.url}
-          className="ml-auto flex items-center text-sm italic text-blue-400 hover:underline"
+          className="text-emerald-700 hover:text-emerald-900 ml-auto flex items-center text-sm italic hover:underline"
         >
           <span>Read more</span>
           <ArrowRight className="ml-1 h-4 w-4" />

@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Search, ExternalLink, Info } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 interface FeaturedBioHubItemProps {
   item: {
-    id: number;
+    id: string;
     title: string;
     image: string;
     description: string;
@@ -21,12 +18,9 @@ export const FeaturedBioHubItem = ({ item }: FeaturedBioHubItemProps) => {
   return (
     <div className="rounded-lg border bg-white p-6 shadow-md">
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-blue-800 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium">
+        <span className="text-emerald-800 bg-emerald-100 rounded-full px-3 py-1 text-xs font-medium">
           {item.category}
         </span>
-        <Link href={item.url} className="text-blue-500 text-sm hover:underline">
-          View Source <ExternalLink className="ml-1 inline h-3 w-3" />
-        </Link>
       </div>
 
       <h2 className="text-gray-900 mb-4 text-xl font-bold sm:text-2xl">{item.title}</h2>
@@ -49,7 +43,7 @@ export const FeaturedBioHubItem = ({ item }: FeaturedBioHubItemProps) => {
 
       <Link
         href={item.url}
-        className="hover:bg-blue-500 inline-flex items-center rounded-lg bg-blue-400 px-4 py-2 text-white transition-colors"
+        className="hover:bg-emerald-700 bg-emerald-600 inline-flex items-center rounded-lg px-4 py-2 text-white transition-colors"
       >
         Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
       </Link>

@@ -8,6 +8,8 @@ import { useSearchParams } from 'next/navigation';
 import Testimonials from './testimonials';
 import Partner from './partners';
 import DoctorsFee from './doctors-fee';
+import Blog from './components/Blog';
+import BioHub from '@/app/(modules)/admin/content-management/components/BioHub';
 
 const ContentManagementView = () => {
   const params = useSearchParams();
@@ -33,6 +35,16 @@ const ContentManagementView = () => {
                 Testimonials
               </Link>
             </TabsTrigger>
+            <TabsTrigger value={EnumAdminContentMgt.BLOG}>
+              <Link href={`?tab=${EnumAdminContentMgt.BLOG}`} shallow prefetch>
+                Blog
+              </Link>
+            </TabsTrigger>
+            <TabsTrigger value={EnumAdminContentMgt.BIOHUB}>
+              <Link href={`?tab=${EnumAdminContentMgt.BIOHUB}`} shallow prefetch>
+                Biohub
+              </Link>
+            </TabsTrigger>
             <TabsTrigger value={EnumAdminContentMgt.PARTNERS}>
               <Link href={`?tab=${EnumAdminContentMgt.PARTNERS}`} shallow prefetch>
                 Partners
@@ -49,6 +61,12 @@ const ContentManagementView = () => {
         <div className="w-full rounded-lg bg-white p-2">
           <TabsContent className="w-full" value={EnumAdminContentMgt.TESTS}>
             <TestContents />
+          </TabsContent>
+          <TabsContent className="w-full" value={EnumAdminContentMgt.BLOG}>
+            <Blog />
+          </TabsContent>
+          <TabsContent className="w-full" value={EnumAdminContentMgt.BIOHUB}>
+            <BioHub />
           </TabsContent>
           <TabsContent className="w-full" value={EnumAdminContentMgt.HERO}>
             <Hero />
