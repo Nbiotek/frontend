@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ROUTES from '@/constants/routes';
 import { useFetchHero } from '@/hooks/admin/useFetchHero';
+import { normalizeFileUrl } from '@/utils/media';
 
 const analytics = [
   {
@@ -34,7 +35,7 @@ const Hero = () => {
   const slides =
     heroData?.carousel?.map((item) => ({
       id: item.id,
-      src: item.media?.[0]?.file_url || '',
+      src: normalizeFileUrl(item.media?.[0]?.file_url || ''),
       title: item.title,
       description: item.description,
       buttonText: item.linkTitle,

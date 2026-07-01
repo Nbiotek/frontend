@@ -29,7 +29,10 @@ export enum AppModals {
   CREATE_PARTNER_MODAL = 'CREATE_PARTNER_MODAL',
   CREATE_DOCTOR_FEE_MODAL = 'CREATE_DOCTOR_FEE_MODAL',
   DEL_DOCTOR_FEE_MODAL = 'DEL_DOCTOR_FEE_MODAL',
-  DEL_TEST_TEMPLATE_MODAL = 'DEL_TEST_TEMPLATE_MODAL'
+  DEL_TEST_TEMPLATE_MODAL = 'DEL_TEST_TEMPLATE_MODAL',
+  ADMIN_CREATE_PRODUCT = 'ADMIN_CREATE_PRODUCT',
+  ADMIN_VIEW_ORDER = 'ADMIN_VIEW_ORDER',
+  ADMIN_CREATE_CATEGORY = 'ADMIN_CREATE_CATEGORY'
 }
 
 export type TAppModalsAction =
@@ -126,4 +129,13 @@ export type TAppModalsAction =
     } & ({ open: true; id: string; media?: Array<IMediaResp>; status?: string } | { open?: false }))
   | ({
       name: AppModals.CREATE_DOCTOR_FEE_MODAL | AppModals.DEL_DOCTOR_FEE_MODAL;
-    } & ({ open: true; id: string; feature?: string; value?: string } | { open?: false }));
+    } & ({ open: true; id: string; feature?: string; value?: string } | { open?: false }))
+  | ({
+      name: AppModals.ADMIN_CREATE_PRODUCT;
+    } & ({ open: true; id: string; product?: TProductItem } | { open?: false }))
+  | ({
+      name: AppModals.ADMIN_VIEW_ORDER;
+    } & ({ open: true; id: string; order?: TOrderItem } | { open?: false }))
+  | ({
+      name: AppModals.ADMIN_CREATE_CATEGORY;
+    } & ({ open: true; id: string; category?: TProductCategoryItem } | { open?: false }));

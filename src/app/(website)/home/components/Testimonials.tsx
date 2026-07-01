@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useFetchTestimonialsLanding } from '@/hooks/admin/useFetchTestimonialsLanding';
+import { normalizeFileUrl } from '@/utils/media';
 
 const TestimonialSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -157,8 +158,9 @@ const TestimonialSlider = () => {
           ) : (
             visibleIndices.map((index, slotIndex) => {
               const testimonial = testimonials[index];
-              const avatarSrc =
-                testimonial.media?.[0]?.file_url || testimonial.author?.profilePhoto || '';
+              const avatarSrc = normalizeFileUrl(
+                testimonial.media?.[0]?.file_url || testimonial.author?.profilePhoto || ''
+              );
               return (
                 <div
                   key={`${testimonial.id}-${slotIndex}`}

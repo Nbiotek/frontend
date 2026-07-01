@@ -8,18 +8,14 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { BoxIcon } from 'lucide-react';
 import { useFetchPartnersLanding } from '@/hooks/admin/useFetchPartnersLanding';
+import { normalizeFileUrl } from '@/utils/media';
 
 const PartnerSection: React.FC = () => {
   const { data, isLoading } = useFetchPartnersLanding();
-  const normalizeRemoteUrl = (url: string) => {
-    if (!url) return '';
-    const withProtocol = url.startsWith('http') ? url : `https://${url}`;
-    return withProtocol.replace(/(r2\.dev)(?!\/)/, '$1/');
-  };
   const partnerLogos =
     data?.carousel?.map((item) => ({
       id: item.id,
-      src: normalizeRemoteUrl(item.media?.[0]?.file_url || ''),
+      src: normalizeFileUrl(item.media?.[0]?.file_url || ''),
       alt: 'Partner logo',
       width: 140
     })) ?? [];

@@ -169,7 +169,13 @@ export const SUPER_ADMIN = {
   CONTENT_PARTNERS: '/super-admin/content-partners',
   CONTENT_PARTNERS_LANDING: '/super-admin/content-partners/landing',
   DOCTORS_FEES: '/super-admin/features',
-  UPDATE_DOCTOR_FEE: '/super-admin/features/:id'
+  UPDATE_DOCTOR_FEE: '/super-admin/features/:id',
+  BLOG_CATEGORIES: '/super-admin/blog-categories',
+  BLOG_CATEGORY_ID: '/super-admin/blog-categories/:id',
+  BLOGS: '/super-admin/blogs',
+  BLOG_ID: '/super-admin/blogs/:id',
+  BIOHUB: '/super-admin/biohub',
+  BIOHUB_ID: '/super-admin/biohub/:id'
 };
 
 export const UPLOADS = {
@@ -210,3 +216,16 @@ export const NOTIFICATIONS = {
 export const FILE_MANAGER = {
   UPDATE_VISIBILITY: '/file-manager/update-visibility/:uuid'
 };
+
+export const ECOMMERCE = {
+  PRODUCTS: '/products',
+  PRODUCT_ID: '/products/:id',
+  CART: '/cart',
+  CART_ADD: '/cart/add',
+  CART_UPDATE: '/cart/update/:productId',
+  ORDERS: '/orders',
+  ORDERS_ADMIN: '/orders/admin',
+  ORDER_STATUS: '/orders/:id/status',
+  CATEGORIES: '/categories',
+  CATEGORY_ID: '/categories/:id'
+} as const;

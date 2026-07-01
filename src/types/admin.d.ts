@@ -206,6 +206,59 @@ type TAdminDoctorsFeeResp = {
   pagination: TPaginationResponse;
 };
 
+type TAdminBlogCategoryItem = {
+  id: string;
+  title: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+};
+
+type TAdminBlogCategoryResp = {
+  blogCategories: Array<TAdminBlogCategoryItem>;
+  pagination: TPaginationResponse;
+};
+
+type TAdminBlogItem = {
+  id: string;
+  title: string;
+  body: string;
+  categoryName: string;
+  reads: number;
+  featureImageUrl: string | null;
+  isFeatured: boolean;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+};
+
+type TAdminBlogResp = {
+  blogs: Array<TAdminBlogItem>;
+  pagination: TPaginationResponse;
+};
+
+type TAdminBiohubItem = {
+  id: string;
+  title: string;
+  body: string;
+  categoryName: string;
+  reads: number;
+  featureImageUrl: string | null;
+  isFeatured: boolean;
+  status: string;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+};
+
+type TAdminBiohubResp = {
+  biohubs: Array<TAdminBiohubItem>;
+  pagination: TPaginationResponse;
+};
+
 type TAdminTestQuery = TGeneralPaginatedQuery & {
   status: string;
   search?: string;
@@ -246,4 +299,81 @@ type TAdminPatientItem = {
 type TAdminPatientsResp = {
   patients: Array<TAdminPatientItem>;
   pagination: TPaginationResponse;
+};
+
+// ─── Ecommerce ───────────────────────────────────────────────────────────────
+
+type TProductCategory = {
+  id: string;
+  name: string;
+};
+
+type TProductCategoryItem = {
+  id: string;
+  name: string;
+  description: string;
+  image: string | null;
+  createdAt: string;
+};
+
+type TProductItem = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  status: 'ACTIVE' | 'INACTIVE';
+  images: string[] | null;
+  category: TProductCategory | null;
+  categoryId: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TCartLineItem = {
+  productId: string;
+  quantity: number;
+  price: number;
+  name: string;
+  images?: string[] | null;
+  stock?: number;
+};
+
+type TCart = {
+  items: TCartLineItem[];
+  total?: number;
+};
+
+type TOrderStatus = 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+
+type TOrderLineItem = {
+  productId: string;
+  quantity: number;
+  price: number;
+  name: string;
+  category?: { id: string; name: string } | null;
+  image?: string | null;
+};
+
+type TOrderItem = {
+  id: string;
+  totalAmount: number;
+  status: TOrderStatus;
+  items: TOrderLineItem[];
+  shippingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    phone?: string;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+  user?: { id: string; email: string; firstName?: string; lastName?: string } | null;
+};
+
+type TCreateOrderResp = {
+  order_id: string;
+  paymentLink: string;
+  totalAmount: number;
 };
